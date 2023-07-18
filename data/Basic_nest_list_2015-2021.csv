@@ -1,0 +1,873 @@
+ID;nest_name;municipaliy;location;coordX;coordY;tree_species;latitude;longitude;eu_dem_v11;swissALTI;nest_height_m;official_zip;official_municipality;official_locality;official_canton;official_country
+1;Liebistorf_Allmend;Liebistorf;Allmend;581257;196165;Psyl;46.916319;7.192582;532.97;526.66;NA;3213;Liebistorf;Allmend;Fribourg;Switzerland
+2;Gurmels_Kleinbösingen;Gurmels;Kleinbösingen;581995;193919;Psyl;46.896136;7.20236;544.42;547.75;26.2;3213;Kleinbösingen;Wyerholz;Fribourg;Switzerland
+3;Bösingen_Noflenau;Bösingen;Noflenau;586620;193502;Fsyl;46.892495;7.263064;542.13;526.19;NA;3184;Wünnewil;Farneraholz;Fribourg;Switzerland
+4;Ueberstorf_Lenglod;Ueberstorf;Lenglod;592659;192076;Pabi;46.879763;7.34233;656.95;630.04;32.4;3182;Ueberstorf;Mühleholz;Fribourg;Switzerland
+5;Ueberstorf_Niedermettlen;Ueberstorf;Niedermettlen;590987;191299;Fsyl;46.872753;7.320411;656.46;647.16;20.1;3182;Ueberstorf;Würi;Fribourg;Switzerland
+6;Ueberstorf_Banholz 15;Ueberstorf;Banholz 15;589192;190747;Fsyl;46.86776;7.296879;648.56;650.59;30.0;3182;Ueberstorf;Banholz;Fribourg;Switzerland
+7;Ueberstorf_Ledeu beech;Ueberstorf;Ledeu beech;589378;189787;Fsyl;46.859128;7.299341;659.40;661.87;22.8;3182;Ueberstorf;Studweid;Fribourg;Switzerland
+8;Schmitten_Bunziwil 15;Schmitten;Bunziwil 15;586724;189394;Fsyl;46.855545;7.264549;621.94;624.95;19.9;3185;Schmitten (FR);Maiächerli;Fribourg;Switzerland
+9;Schmitten_Rütihubel;Schmitten;Rütihubel;583054;189081;Fsyl;46.852645;7.216437;686.89;682.08;NA;3186;Düdingen;Farnera;Fribourg;Switzerland
+10;Ueberstorf_Summerau edge;Ueberstorf;Summerau edge;591732;189075;Pabi;46.852757;7.330224;769.77;764.91;30.5;3182;Ueberstorf;Summerau;Fribourg;Switzerland
+11;Ueberstorf_Mischlere;Ueberstorf;Mischlere;589486;189061;Pabi;46.852599;7.300774;711.53;690.57;31.5;3182;Ueberstorf;Hofmatt;Fribourg;Switzerland
+12;Ueberstorf_Summerau center;Ueberstorf;Summerau center;591732;189033;Pabi;46.852379;7.330223;782.97;766.58;20.2;3182;Ueberstorf;Summerau;Fribourg;Switzerland
+13;Schmitten_Ettelberg;Schmitten;Ettelberg;586793;188826;Fsyl;46.850437;7.26547;688.33;674.06;25.0;3185;Schmitten (FR);Bunziwilholz;Fribourg;Switzerland
+14;Heitenried_Breitenried;Heitenried;Breitenried;588604;188634;Fsyl;46.848743;7.28922;683.58;686.71;NA;1714;Heitenried;Jungholz;Fribourg;Switzerland
+15;Schmitten_Lanthenholz;Schmitten;Lanthenholz;585189;188073;Fsyl;46.843629;7.244464;692.39;690.99;NA;3185;Schmitten (FR);Lanthenholz;Fribourg;Switzerland
+16;Lossy_Lossy;Lossy;Lossy;574750;187650;Pabi;46.839509;7.107635;666.91;658.18;32.3;1782;La Corbaz;Botsalet;Fribourg;Switzerland
+17;St. Antoni_Menzishus;St. Antoni;Menzishus;587110;187089;Aalb;46.834818;7.269676;695.25;687.34;NA;1713;St. Antoni;Äbnetholz;Fribourg;Switzerland
+18;Düdingen_Horia edge;Düdingen;Horia edge;582364;187070;Pabi;46.834538;7.207468;638.83;643.15;24.0;3186;Düdingen;Horia;Fribourg;Switzerland
+19;Düdingen_Horia center;Düdingen;Horia center;582337;187012;Pabi;46.834015;7.207116;642.23;646.84;28.3;3186;Düdingen;Horia;Fribourg;Switzerland
+20;Düdingen_St. Wolfgangholz spruce;Düdingen;St. Wolfgangholz spruce;580402;186992;Aalb;46.833781;7.181754;633.26;622.31;NA;3186;Düdingen;St. Wolfgang;Fribourg;Switzerland
+21;Tafers_Angstorfwäldli;Tafers;Angstorfwäldli;583301;186762;Qrob;46.831792;7.219761;672.33;668.57;NA;3186;Düdingen;Angstorfwäldli;Fribourg;Switzerland
+22;St. Antoni_Lehwil pinus;St. Antoni;Lehwil pinus;587989;186757;Psyl;46.831848;7.281207;703.20;710.79;24.8;1714;Heitenried;Buechhölzli;Fribourg;Switzerland
+23;St. Antoni_Lehwil beech;St. Antoni;Lehwil beech;587965;186555;Fsyl;46.830031;7.280897;707.17;699.52;19.3;1713;St. Antoni;Horiemoos;Fribourg;Switzerland
+24;St. Antoni_Lehwil picea;St. Antoni;Lehwil picea;588002;186516;Pabi;46.829681;7.281383;706.13;699.90;23.3;1713;St. Antoni;Horiemoos;Fribourg;Switzerland
+25;Düdingen_Kastels beech;Düdingen;Kastels beech;579982;185979;Fsyl;46.824656;7.176294;650.10;642.84;NA;3186;Düdingen;Graben;Fribourg;Switzerland
+26;Düdingen_Kastels prunus;Düdingen;Kastels prunus;579984;185935;Prunus;46.824261;7.176322;650.92;648.73;NA;3186;Düdingen;Graben;Fribourg;Switzerland
+27;Heitenried_Winterlingen;Heitenried;Winterlingen;588820;185816;Pabi;46.823398;7.292122;746.74;746.08;NA;1714;Heitenried;Schwelibach;Fribourg;Switzerland
+28;St. Antoni_Bächlisbrunnen;St. Antoni;Bächlisbrunnen;586810;185330;Pabi;46.81899;7.265795;785.98;785.90;NA;1713;St. Antoni;Cheerholz;Fribourg;Switzerland
+29;Tafers_Chly Maggenberg;Tafers;Chly Maggenberg;582416;184672;Apseu;46.812968;7.208242;678.84;673.82;NA;1712;Tafers;Maggenbergholz;Fribourg;Switzerland
+30;St. Antoni_ Sellenried;St. Antoni; Sellenried;586494;184624;Pabi;46.812632;7.261675;764.34;764.17;NA;1713;St. Antoni;Sellenried;Fribourg;Switzerland
+31;St. Antoni_Obermonten;St. Antoni;Obermonten;587600;184173;Prunus;46.808597;7.276179;812.11;807.68;NA;1713;St. Antoni;Beckenried;Fribourg;Switzerland
+32;Alterswil_Seliholz;Alterswil;Seliholz;585685;184255;Pabi;46.809296;7.251087;767.14;762.10;30.2;1713;St. Antoni;Seeliholz;Fribourg;Switzerland
+33;Alterswil_Beniwil;Alterswil;Beniwil;586321;183364;Aalb;46.801295;7.259446;767.59;760.47;28.3;1715;Alterswil FR;Chuemattholz;Fribourg;Switzerland
+34;Alterswil_Tolgli;Alterswil;Tolgli;585608;183226;Aalb;46.800038;7.250111;754.96;749.23;NA;1715;Alterswil FR;Tolglihölzli;Fribourg;Switzerland
+35;Alterswil_Ober Geriwil;Alterswil;Ober Geriwil;587348;183062;Pabi;46.798599;7.272908;827.30;824.39;NA;1715;Alterswil FR;Neuenacherholz;Fribourg;Switzerland
+36;Alterswil_Weiermattenmoos;Alterswil;Weiermattenmoos;588198;182575;Pabi;46.794234;7.284055;799.02;804.19;24.4;1715;Alterswil FR;Afterholz;Fribourg;Switzerland
+37;Alterswil_Wolgiswil_S;Alterswil;Wolgiswil_S;584683;182539;Fsyl;46.793838;7.238017;734.47;734.28;22.8;1715;Alterswil FR;Dälhölzli;Fribourg;Switzerland
+38;Alterswil_Äschlenberg;Alterswil;Äschlenberg;586514;181872;Fsyl;46.787878;7.262019;754.70;759.35;27.3;1717;St. Ursen;Buechwald;Fribourg;Switzerland
+39;Alterswil_Chleholz larch;Alterswil;Chleholz larch;588630;181570;Ldec;46.785201;7.289738;885.70;881.02;NA;1715;Alterswil FR;Chleeholz;Fribourg;Switzerland
+40;St. Ursen_Plentsch;St. Ursen;Plentsch;582840;180900;Fsyl;46.779049;7.21394;734.86;734.65;30.2;1717;St. Ursen;Schwand;Fribourg;Switzerland
+41;Alterswil_Baletswil;Alterswil;Baletswil;585205;180870;Pabi;46.778836;7.244908;788.77;774.81;NA;1717;St. Ursen;Baletswil;Fribourg;Switzerland
+42;St. Ursen_Röschiwil;St. Ursen;Röschiwil;583180;180462;Fsyl;46.775118;7.218408;768.92;773.45;NA;1717;St. Ursen;Feista;Fribourg;Switzerland
+43;Tentlingen_Vieille Rossmatta;Tentlingen;Vieille Rossmatta;580430;179657;Pabi;46.767801;7.182436;706.65;697.46;NA;1723;Pierrafortscha;Bois du Freitz;Fribourg;Switzerland
+44;Brünisried_Holzgasse;Brünisried;Holzgasse;587622;179510;Aalb;46.766652;7.276594;870.35;878.02;23.8;1719;Brünisried;Holzgasse;Fribourg;Switzerland
+45;Zumholz_Brand street;Zumholz;Brand street;588695;178660;Pabi;46.759025;7.290662;828.62;813.22;NA;1719;Zumholz;Riedgarten;Fribourg;Switzerland
+46;St. Sylvester_Unterbuech;St. Sylvester;Unterbuech;581926;178048;Fsyl;46.75337;7.202085;745.02;746.88;NA;1736;St. Silvester;Plännige;Fribourg;Switzerland
+47;Giffers_Moosmatta;Giffers;Moosmatta;584655;177743;Fsyl;46.750695;7.237812;857.56;850.20;NA;1735;Giffers;Eichholz;Fribourg;Switzerland
+48;St. Sylvester_Tschüpru;St. Sylvester;Tschüpru;582925;177483;Fsyl;46.748314;7.215181;773.43;768.11;NA;1736;St. Silvester;Ebnet;Fribourg;Switzerland
+49;Vuippens_Vuippens;Vuippens;Vuippens;572397;167289;Pabi;46.656261;7.078021;699.89;694.11;26.5;1633;Vuippens;Grand Clos;Fribourg;Switzerland
+50;Echarlens_Stande_de_tir;Echarlens;Stande_de_tir;573290;165690;Fsyl;46.641914;7.08978;728.58;725.82;NA;1646;Echarlens;Les Beys;Fribourg;Switzerland
+51;Bas-Intyamon_Grandvillard;Bas-Intyamon;Grandvillard;573760;155095;Pabi;46.546625;7.096524;759.09;752.59;18.6;1666;Grandvillard;Baladsa;Fribourg;Switzerland
+52;Haute-Intyamon_Lessoc;Haute-Intyamon;Lessoc;570240;150645;Pabi;46.506448;7.050919;781.77;804.91;18.2;1669;Albeuve;L'Urquier;Fribourg;Switzerland
+53;Englisberg_Lower;Englisberg;Lower;602945;194799;Fexc;46.904292;7.477286;651.29;632.54;NA;3122;Kehrsatz;Chilchacherholz;Bern;Switzerland
+54;Englisberg_Upper;Englisberg;Upper;602952;194781;Fexc;46.90413;7.477378;651.29;638.25;NA;3122;Kehrsatz;Chilchacherholz;Bern;Switzerland
+55;Niedermuhlern_Schür pinus;Niedermuhlern;Schür pinus;601957;190745;Psyl;46.867829;7.464301;868.29;862.92;NA;3087;Niedermuhlern;Tannhubel;Bern;Switzerland
+56;Gerzensee_Rüti;Gerzensee;Rüti;608298;188943;Fsyl;46.851571;7.547437;685.38;675.30;NA;3115;Gerzensee;Rütti;Bern;Switzerland
+57;Gerzensee_Lake;Gerzensee;Lake;608425;186529;Bpen;46.829855;7.549058;605.18;602.41;NA;3116;Kirchdorf (BE);Gerzensee;Bern;Switzerland
+58;Buchholterberg_Badhaus;Buchholterberg;Badhaus;619326;185645;Aalb;46.821677;7.691894;954.09;956.72;NA;3615;Heimenschwand;Buechmatt;Bern;Switzerland
+59;Kirchdorf_Tree nursery;Kirchdorf;Tree nursery;608353;184352;Pabi;46.810273;7.548074;605.90;595.37;NA;3116;Noflen BE;Hofure;Bern;Switzerland
+60;Steffisburg_Siechenboden lower;Steffisburg;Siechenboden lower;613519;181508;Pabi;46.784606;7.615674;641.01;633.26;NA;3612;Steffisburg;Moos;Bern;Switzerland
+61;Steffisburg_Siechenboden upper;Steffisburg;Siechenboden upper;613522;181496;Pabi;46.784498;7.615713;637.15;633.64;NA;3612;Steffisburg;Moos;Bern;Switzerland
+62;Horrenbach-Buchen_Rüttegg;Horrenbach-Buchen;Rüttegg;624961;181408;Pabi;46.783376;7.765507;998.22;984.05;NA;3619;Eriz;Rüttegg;Bern;Switzerland
+63;Uetendorf_Eichberg;Uetendorf;Eichberg;609525;181312;Fexc;46.782911;7.563367;582.81;573.98;NA;3661;Uetendorf;Leen;Bern;Switzerland
+64;Kalchstätten_Herrenmatt;Kalchstätten;Herrenmatt;589434;179254;Pabi;46.764381;7.300321;816.70;816.78;17.3;3158;Guggisberg;Senseflüh-Katzenstieg;Bern;Switzerland
+65;Frutigen_Frutigen;Frutigen;Frutigen;615369;158568;Pabi;46.57821;7.639136;836.27;835.88;NA;3714;Frutigen;Loufersallmi;Bern;Switzerland
+66;Grolley_S;Grolley;S;571441;186089;Qrob;46.825333;7.064356;654.25;644.89;NA;1772;Grolley;A la Palaz;Fribourg;Switzerland
+67;Léchelles_Léchelles;Léchelles;Léchelles;569065;186175;Aalb;46.826002;7.033212;639.54;617.29;33.3;1773;Léchelles;Bois de la Faye;Fribourg;Switzerland
+68;Ponthaux_Ponthaux;Ponthaux;Ponthaux;569978;184096;Qrob;46.807341;7.045314;678.98;672.65;20.5;1772;Ponthaux;Les Coires;Fribourg;Switzerland
+70;Corserey_North_Corserey;Corserey;North_Corserey;565140;180825;Fsyl;46.777681;6.982183;655.04;650.83;28.3;1747;Corserey;La Scie-au-Crot;Fribourg;Switzerland
+71;Corserey_Les Vuettes;Corserey;Les Vuettes;566117;179715;Pabi;46.767747;6.995057;680.27;673.39;22.4;1747;Corserey;Le Monnat;Fribourg;Switzerland
+72;Onnens_Onnens;Onnens;Onnens;569320;181110;Pabi;46.780451;7.036895;713.22;708.67;26.3;1756;Onnens FR;En Salley;Fribourg;Switzerland
+73;Bösingen_Waldheim;Bösingen;Waldheim;586207;193475;Qrob;46.892244;7.257646;562.99;566.65;NA;3178;Bösingen;Lasenberg;Fribourg;Switzerland
+74;Wünnewil_Staffels;Wünnewil;Staffels;586953;192560;Pabi;46.884028;7.267461;559.83;564.65;NA;3184;Wünnewil;Limholz;Fribourg;Switzerland
+75;Alterswil_Galteren;Alterswil;Galteren;583920;183320;Pabi;46.800845;7.227996;687.20;683.55;NA;1712;Tafers;Im Grabe;Fribourg;Switzerland
+76;St. Ursen_Hattenberg;St. Ursen;Hattenberg;581076;183637;Pabi;46.803621;7.190728;651.38;665.15;NA;1717;St. Ursen;Hattenbergrain;Fribourg;Switzerland
+77;Pierrafortscha_Bois de morvin;Pierrafortscha;Bois de morvin;581319;181230;Aalb;46.781976;7.19401;775.74;770.60;NA;1723;Pierrafortscha;Bois de Morvin;Fribourg;Switzerland
+78;Oberschrot_Tolenhubel;Oberschrot;Tolenhubel;586942;176256;Fexc;46.737368;7.267785;874.58;881.59;NA;1716;Oberschrot;Tolenhubel;Fribourg;Switzerland
+79;Sangernboden_Rainwald;Sangernboden;Rainwald;592522;174006;Aalb;46.717215;7.340831;1067.96;1034.90;28.0;1738;Sangernboden;Rainwald;Bern;Switzerland
+80;Guggisberg_Hirschmatt;Guggisberg;Hirschmatt;591116;178545;Fsyl;46.758028;7.322353;961.20;940.28;20.7;3158;Guggisberg;Grubershaus;Bern;Switzerland
+81;Guggisberg_Steinachere;Guggisberg;Steinachere;591055;178915;Pabi;46.761355;7.321547;1024.17;1022.58;NA;3158;Guggisberg;Steinackern;Bern;Switzerland
+82;Guggisberg_Brannele Tilia;Guggisberg;Brannele Tilia;591329;179550;Tpla;46.767071;7.325122;1085.18;1099.46;NA;3158;Guggisberg;Brandelen;Bern;Switzerland
+83;Schwarzenburg_Herrenholz;Schwarzenburg;Herrenholz;593553;183680;Pabi;46.804247;7.354178;868.83;862.93;30.0;3157;Milken;Herrenholz;Bern;Switzerland
+84;Mamishaus_Hausmattweid beech;Mamishaus;Hausmattweid beech;594329;184276;Fsyl;46.809616;7.364336;862.56;857.55;NA;3152;Mamishaus;Duntelenhölzli;Bern;Switzerland
+85;Mamishaus_Dunti;Mamishaus;Dunti;594752;184222;Pabi;46.809134;7.369879;847.18;846.93;NA;3152;Mamishaus;Muttberghölzli;Bern;Switzerland
+86;Mamishaus_Rümlisberg;Mamishaus;Rümlisberg;594915;183702;Pabi;46.804457;7.37202;864.69;866.79;NA;3152;Mamishaus;Hubelholz;Bern;Switzerland
+87;Wahlern_Gänsemoos;Wahlern;Gänsemoos;593354;187115;Aalb;46.835144;7.35152;838.06;834.78;NA;3148;Lanzenhäusern;Hohliebeholz;Bern;Switzerland
+88;Wahlern_Althaus;Wahlern;Althaus;593147;186886;Aalb;46.833082;7.348811;853.61;844.82;28.7;3150;Schwarzenburg;Hohliebeholz;Bern;Switzerland
+89;Mittelhäusern_Hubel;Mittelhäusern;Hubel;595100;191635;Pabi;46.875819;7.374357;713.58;710.00;31.5;3147;Mittelhäusern;Bützewald;Bern;Switzerland
+90;Guggisberg_Willmesacher;Guggisberg;Willmesacher;591057;179629;Aalb;46.767778;7.32156;1053.11;1044.57;26.7;3158;Guggisberg;Willemannsacker;Bern;Switzerland
+91;Tafers_Rohrholz;Tafers;Rohrholz;584761;185344;Pabi;46.819071;7.238945;712.12;712.95;NA;1712;Tafers;Gruebenacherholz;Fribourg;Switzerland
+92;Düdingen_Unter St. Wolfgangholz beech;Düdingen;Unter St. Wolfgangholz beech;580110;187010;Fsyl;46.833934;7.177926;618.55;616.18;NA;3186;Düdingen;Weidli;Fribourg;Switzerland
+93;Tentlingen_Lottenacher;Tentlingen;Lottenacher;581674;180696;Fsyl;46.777183;7.19868;727.29;713.18;NA;1723;Pierrafortscha;Eichenholz;Fribourg;Switzerland
+94;Düdingen_Cholberehölzli;Düdingen;Cholberehölzli;582610;190395;Psyl;46.864454;7.210565;611.46;606.63;30.0;3186;Düdingen;Cholberehölzli;Fribourg;Switzerland
+95;Oberschrot_Bärfeli;Oberschrot;Bärfeli;586350;176612;Fexc;46.740558;7.260029;944.87;935.08;NA;1716;Oberschrot;Grundberg;Fribourg;Switzerland
+96;Tentlingen_Bärg;Tentlingen;Bärg;581431;180359;Fsyl;46.774145;7.195512;725.71;723.91;23.7;1723;Pierrafortscha;Côte des Foyards;Fribourg;Switzerland
+97;Wünnewil_Nussbaumen;Wünnewil;Nussbaumen;587800;192900;NA;46.887103;7.278564;581.65;574.07;NA;3184;Wünnewil;Grabeholz;Fribourg;Switzerland
+98;Alterswil_Chleholz picea;Alterswil;Chleholz picea;588572;181583;Pabi;46.785317;7.288978;881.32;868.36;28.1;1715;Alterswil FR;Chleeholz;Fribourg;Switzerland
+99;Schmitten_Betlehemholz;Schmitten;Betlehemholz;584280;189560;Pabi;46.856984;7.232496;674.23;663.45;NA;3185;Schmitten (FR);Bethlehemholz;Fribourg;Switzerland
+100;Oberschrot_Sali_15;Oberschrot;Sali_15;586920;176570;Qrob;46.740192;7.267488;911.93;922.75;NA;1716;Oberschrot;Lengisried;Fribourg;Switzerland
+101;Brünisried_Weidli;Brünisried;Weidli;587140;179220;Ldec;46.764034;7.270292;877.74;878.01;NA;1719;Brünisried;Tägelholz;Fribourg;Switzerland
+102;Plaffeien_Mülleren;Plaffeien;Mülleren;589400;175890;Pabi;46.73412;7.299954;843.87;837.13;NA;3158;Guggisberg;Müllern;Bern;Switzerland
+103;Tafers_Brunnenbergrain;Tafers;Brunnenbergrain;583720;184480;Aalb;46.811275;7.225335;749.58;720.60;NA;1712;Tafers;Oberholz;Fribourg;Switzerland
+104;Bourguillon_Tannholz;Bourguillon;Tannholz;581350;183230;Fsyl;46.799968;7.194334;707.58;697.07;NA;1717;St. Ursen;Tannholz;Fribourg;Switzerland
+105;Schmitten_Lanthenholz old;Schmitten;Lanthenholz old;585600;187400;Aalb;46.837585;7.249874;716.30;700.15;NA;3185;Schmitten (FR);Wylerholz;Fribourg;Switzerland
+106;Wünnewil_Staffels S;Wünnewil;Staffels S;586409;191944;Psyl;46.878476;7.260342;627.77;625.80;23.3;3184;Wünnewil;Brugeraholz;Fribourg;Switzerland
+107;Erlenbach_football;Erlenbach;football;609508;167622;Fsyl;46.659764;7.562862;678.03;675.26;NA;3762;Erlenbach im Simmental;Ouallmi;Bern;Switzerland
+108;Sangernboden_Spittelwald;Sangernboden;Spittelwald;592381;173539;Aalb;46.713012;7.338995;1004.76;1012.88;NA;1716;Schwarzsee;Spittelwald;Fribourg;Switzerland
+109;Brünisried_Berghölzli;Brünisried;Berghölzli;588140;177820;Pabi;46.751459;7.283419;948.18;938.96;NA;1719;Brünisried;Berghölzli;Fribourg;Switzerland
+110;Villarsel_Nesslera;Villarsel;Nesslera;580815;178950;Pabi;46.761453;7.187506;668.41;670.12;NA;1724;Le Mouret;Bois de la Rotzetta;Fribourg;Switzerland
+111;Fribourg_Ste Croix;Fribourg;Ste Croix;578417;183068;Fsyl;46.798422;7.155922;613.44;612.23;NA;1700;Fribourg;Bois de Pérolles;Fribourg;Switzerland
+112;Schwarzenburg_Waldgasse;Schwarzenburg;Waldgasse;591532;183996;Aalb;46.807067;7.327696;853.48;856.17;22.1;3150;Schwarzenburg;Lismerenhölzli;Bern;Switzerland
+113;Schmitten_Betlehem;Schmitten;Betlehem;583910;188937;Qrob;46.851371;7.227666;658.36;653.10;23.1;3185;Schmitten (FR);Gibel;Fribourg;Switzerland
+114;Wünnewil_Golf;Wünnewil;Golf;589215;191651;Pabi;46.875892;7.297159;593.09;576.15;NA;3184;Wünnewil;Golfplatz;Fribourg;Switzerland
+115;Agriswil_Chriegsmatt;Agriswil;Chriegsmatt;582540;200547;Fsyl;46.955771;7.209256;478.15;472.36;NA;3216;Agriswil;Tannholz;Fribourg;Switzerland
+116;Alterswil_Seliholz tree row;Alterswil;Seliholz tree row;586044.6;184275.8;Qrob;46.809491;7.255797;702.22;703.78;19.4;1713;St. Antoni;Seeligrabe;Fribourg;Switzerland
+117;Alterswil_Baletswil lower;Alterswil;Baletswil lower;585220;181015;Pabi;46.780141;7.2451;780.76;767.46;NA;1717;St. Ursen;Baletswil;Fribourg;Switzerland
+118;Villarsel_Commanderie;Villarsel;Commanderie;580084;179050;Fsyl;46.762331;7.177933;710.89;702.34;NA;1723;Villarsel-sur-Marly;Bois de Corbaroche;Fribourg;Switzerland
+119;Bösingen_Noflenau picea;Bösingen;Noflenau picea;586668;193503;Pabi;46.892505;7.263694;540.36;535.04;27.3;3184;Wünnewil;Farneraholz;Fribourg;Switzerland
+120;Alterswil_Rüti;Alterswil;Rüti;586765;180575;Pabi;46.776216;7.265344;819.90;816.33;32.7;1718;Rechthalten;Steinbrunnenholz;Fribourg;Switzerland
+121;St. Sylvester_Unterbuech N;St. Sylvester;Unterbuech N;581909;178224;Fsyl;46.754953;7.201855;730.34;730.48;25.1;1736;St. Silvester;Buechflüe;Fribourg;Switzerland
+122;Alterswil_Wolperswil;Alterswil;Wolperswil;585520;181264;Pabi;46.782387;7.249021;762.93;737.02;29.2;1717;St. Ursen;Lehbüel;Fribourg;Switzerland
+123;Brünisried_Obere Weier;Brünisried;Obere Weier;587809;177814;Pabi;46.751399;7.279087;908.63;895.36;NA;1719;Brünisried;Allmet;Fribourg;Switzerland
+124;Plaffeien_Hohliebi;Plaffeien;Hohliebi;588104;175386;Pabi;46.729564;7.283012;909.59;906.84;18.0;1716;Plaffeien;Holiebiweg;Fribourg;Switzerland
+125;Schmitten_Ober Zirkels;Schmitten;Ober Zirkels;587199;189537;Qrob;46.85684;7.270774;623.76;631.91;16.1;3185;Schmitten (FR);Ober Zirkels;Fribourg;Switzerland
+126;Giffers_Moosmatta beech;Giffers;Moosmatta beech;584080.4;177913.2;Fsyl;46.752213;7.230286;852.71;846.99;19.9;1735;Giffers;Giffersholz;Fribourg;Switzerland
+127;Düdingen_St.Wolgangholz S;Düdingen;St.Wolgangholz S;580210;186700;Pabi;46.831149;7.17925;652.24;649.99;NA;3186;Düdingen;Balliswil;Fribourg;Switzerland
+128;St. Ursen_Tasberg;St. Ursen;Tasberg;581810;182520;Fsyl;46.793594;7.200388;692.27;674.62;27.2;1717;St. Ursen;Tasberg;Fribourg;Switzerland
+129;Granges-Paccots_Foire;Granges-Paccots;Foire;578280;186450;Psyl;46.828839;7.153966;550.14;567.61;NA;1763;Granges-Paccot;Agy;Fribourg;Switzerland
+130;Märstetten_Neuburg;Märstetten;Neuburg;724563;273439;Fsyl;47.599805;9.095033;482.07;485.00;NA;8561;Ottoberg;Buechhölzli;Thurgau;Switzerland
+131;Flamatt_Zehnthus;Flamatt;Zehnthus;588332;192941;Fexc;46.887481;7.285543;604.45;601.12;NA;3184;Wünnewil;Zehnthus;Fribourg;Switzerland
+132;Cordast_Fineta;Cordast;Fineta;577865;190629;Fsyl;46.866417;7.148324;663.42;652.12;25.8;1792;Cordast;Haspa-Wald;Fribourg;Switzerland
+133;Flamatt_Vorschalta;Flamatt;Vorschalta;592618;193032;Pabi;46.888362;7.341776;587.85;595.49;24.5;3182;Ueberstorf;Vorschalta;Fribourg;Switzerland
+134;Ueberstorf_Hundsflueh;Ueberstorf;Hundsflueh;593211;191967;Fsyl;46.878788;7.349573;655.69;651.50;27.2;3182;Ueberstorf;Hundsflue;Fribourg;Switzerland
+135;Ueberstorf_Cholholz;Ueberstorf;Cholholz;593323;191642;Fsyl;46.875866;7.351047;615.81;612.17;22.5;3182;Ueberstorf;Cholholz;Fribourg;Switzerland
+136;Ueberstorf_Ufem Burst;Ueberstorf;Ufem Burst;593066;191008;Fsyl;46.87016;7.347686;725.05;704.07;27.8;3182;Ueberstorf;Toggeliholz;Fribourg;Switzerland
+137;Albligen_Walismatt;Albligen;Walismatt;590820;188163;Pabi;46.844541;7.318284;719.06;710.52;28.2;3183;Albligen;Änetmooswald;Bern;Switzerland
+138;Ueberstorf_Ledeu spruce;Ueberstorf;Ledeu spruce;589330;189783;Pabi;46.859091;7.298712;655.01;658.23;36.0;3182;Ueberstorf;Studweid;Fribourg;Switzerland
+139;Schmitten_Bunziwil S;Schmitten;Bunziwil S;586679;189477;Pabi;46.85629;7.263957;608.47;607.00;27.8;3185;Schmitten (FR);Maiächerli;Fribourg;Switzerland
+140;Ependes_Ependes;Ependes;Ependes;577915;178675;Pabi;46.758889;7.149559;705.36;696.79;29.5;1731;Ependes FR;Bois du Riau;Fribourg;Switzerland
+141;Villarsel_N;Villarsel;N;579835;179199;Fsyl;46.763663;7.174667;705.94;705.65;NA;1723;Villarsel-sur-Marly;Bois de la Tailla;Fribourg;Switzerland
+142;Ackenmatt_Mühle;Ackenmatt;Mühle;593917;188972;Aalb;46.851854;7.358875;715.71;702.57;NA;3148;Lanzenhäusern;Studengraben;Bern;Switzerland
+143;Kriessbaumen_Pfadflüeh;Kriessbaumen;Pfadflüeh;592482;181395;Aalb;46.783682;7.340185;966.85;936.23;NA;3159;Riedstätt;Pfadflüh;Bern;Switzerland
+144;Milken_Pt. 961;Milken;Pt. 961;594060;182671;Aalb;46.795176;7.360833;962.78;956.84;NA;3157;Milken;Schluchtholz;Bern;Switzerland
+145;Schmitten_Ettelberg power line;Schmitten;Ettelberg power line;586938;188930;Fsyl;46.851375;7.267369;659.66;664.03;26.5;3185;Schmitten (FR);Bunziwilholz;Fribourg;Switzerland
+146;Niedermuhlern_Schür center;Niedermuhlern;Schür center;602072;190883;Pabi;46.86907;7.465811;870.46;865.30;NA;3087;Niedermuhlern;Tann;Bern;Switzerland
+147;Tentlingen_Vieille Rossmatta N;Tentlingen;Vieille Rossmatta N;580071;179604;Fsyl;46.767314;7.177739;700.30;693.65;19.2;1723;Marly;Route des Pralettes;Fribourg;Switzerland
+148;Plasselb_Allmet;Plasselb;Allmet;586000;175370;Pabi;46.729379;7.255487;895.36;892.62;27.7;1737;Plasselb;Allmet;Fribourg;Switzerland
+149;Bösingen_Gertholz;Bösingen;Gertholz;585397;193310;Psyl;46.890742;7.247022;577.90;572.81;23.5;3178;Bösingen;Bergholz;Fribourg;Switzerland
+150;St. Antoni_Lampertshalten;St. Antoni;Lampertshalten;586300;185235;Psyl;46.818125;7.259115;751.28;755.04;25.5;1713;St. Antoni;Schrickholz;Fribourg;Switzerland
+151;Heitenried_Schürgraben;Heitenried;Schürgraben;588215;188450;Psyl;46.847081;7.284125;708.15;697.48;23.0;1714;Heitenried;Hubelholz;Fribourg;Switzerland
+152;Düdingen_Balliswil;Düdingen;Balliswil;579760;186056;Fsyl;46.825342;7.173381;627.45;619.90;30.0;3186;Düdingen;Graben;Fribourg;Switzerland
+153;Neuenegg_Brüggli;Neuenegg;Brüggli;589661;194473;Psyl;46.901284;7.302945;597.38;589.07;NA;3176;Neuenegg;Schatterain;Bern;Switzerland
+154;Schmitten_Fillistorf;Schmitten;Fillistorf;584517;189957;Fsyl;46.860561;7.23559;637.86;627.76;35.0;3185;Schmitten (FR);Herrenmatte;Fribourg;Switzerland
+155;St. Antoni_Steinberg;St. Antoni;Steinberg;587790;185102;Fsyl;46.816957;7.278643;878.56;863.91;NA;1713;St. Antoni;Hubelholz;Fribourg;Switzerland
+156;Ueberstorf_Oberholzwald;Ueberstorf;Oberholzwald;592551;189636;Pstr;46.857813;7.340953;789.95;776.75;20.2;3182;Ueberstorf;Oberholzwald;Fribourg;Switzerland
+157;Lanzenhäusern_Finel;Lanzenhäusern;Finel;593111;188860;Aalb;46.850839;7.348309;717.78;705.21;30.0;3148;Lanzenhäusern;Höhlenholz;Bern;Switzerland
+158;Rechthalten_Moosholz;Rechthalten;Moosholz;585370;178731;Ldec;46.759599;7.247138;891.96;888.69;30.0;1718;Rechthalten;Moosholz;Fribourg;Switzerland
+159;Düdingen_Meierisli;Düdingen;Meierisli;579893;188085;Pabi;46.843598;7.175034;585.64;581.03;21.1;3186;Düdingen;Oberchiemi;Fribourg;Switzerland
+160;Guggisberg_Underbalm;Guggisberg;Underbalm;592560;178512;Pabi;46.757749;7.341254;1020.46;1038.63;22.2;3156;Riffenmatt;Buchwald;Bern;Switzerland
+161;Liebistorf_Längeberg;Liebistorf;Längeberg;581003;195605;Psyl;46.911275;7.189271;574.08;571.42;NA;3213;Liebistorf;Galmwald;Fribourg;Switzerland
+162;Kalchstätten_Chlyni Heid;Kalchstätten;Chlyni Heid;589830;180968;Aalb;46.779805;7.305466;930.86;933.59;NA;3159;Riedstätt;Hundschüpfen;Bern;Switzerland
+163;Riedstätt_Mittlisried;Riedstätt;Mittlisried;590969;180890;Aalb;46.77912;7.320382;1014.40;1005.37;27.2;3159;Riedstätt;Bützerenwald;Bern;Switzerland
+164;Milken_Milkeholz;Milken;Milkeholz;593587;182566;Aalb;46.794227;7.354639;919.33;899.26;38.0;3157;Milken;Milkenholz;Bern;Switzerland
+165;Milken_Halten;Milken;Halten;594310;182071;Aalb;46.789782;7.364115;909.36;913.15;22.0;3157;Milken;Enggewilweid;Bern;Switzerland
+166;Zumholz_Brand edge;Zumholz;Brand edge;588653;178642;Pabi;46.758863;7.290112;835.07;829.89;21.8;1719;Zumholz;Riedgarten;Fribourg;Switzerland
+167;Bundtels_Galmisberg;Bundtels;Galmisberg;583070;190072;Fsyl;46.86156;7.21661;646.22;649.30;NA;3186;Düdingen;Steinler;Fribourg;Switzerland
+168;Bösingen_Fendringen;Bösingen;Fendringen;584446;192251;Psyl;46.881195;7.23458;604.22;614.48;22.6;3178;Bösingen;Spitzholz;Fribourg;Switzerland
+169;Litzistorf_Ulmus;Litzistorf;Ulmus;583759;191620;Umin;46.875502;7.22559;575.21;571.59;NA;3178;Bösingen;Bächlimatte;Fribourg;Switzerland
+170;Tafers_Rohr;Tafers;Rohr;584678;185800;Aalb;46.823171;7.237842;726.57;719.48;27.8;1712;Tafers;Vorders Rohrholz;Fribourg;Switzerland
+171;Riffenmatt_Büel;Riffenmatt;Büel;593910;181054;Aalb;46.780629;7.358892;1112.67;1106.88;NA;3153;Rüschegg Gambach;Büelholz;Bern;Switzerland
+172;Zollhaus_Martisgräbli;Zollhaus;Martisgräbli;589739;174641;Pabi;46.72289;7.304418;963.37;961.52;22.5;1738;Sangernboden;Heineli;Bern;Switzerland
+173;Brünisried_Brügi;Brünisried;Brügi;586952;179585;Populus sp;46.767314;7.267821;853.81;848.89;15.1;1719;Brünisried;Hohlmatta;Fribourg;Switzerland
+174;Alterswil_Punt;Alterswil;Punt;588089;182091;Qrob;46.789878;7.28264;786.70;783.37;NA;1715;Alterswil FR;Eichmatta;Fribourg;Switzerland
+175;Ueberstorf_Banholz center;Ueberstorf;Banholz center;589224;190538;Fsyl;46.865881;7.297304;685.63;674.01;27.8;3184;Wünnewil;Bannholz;Fribourg;Switzerland
+176;Schwarzenburg_Chilchermatt;Schwarzenburg;Chilchermatt;593527;184249;Pabi;46.809366;7.353829;867.16;872.80;22.0;3150;Schwarzenburg;Stiersacker;Bern;Switzerland
+177;St. Antoni_Guglenberg;St. Antoni;Guglenberg;586511;184529;Pabi;46.811778;7.261901;778.92;777.23;23.5;1713;St. Antoni;Schrickholz;Fribourg;Switzerland
+178;Onnens_16;Onnens;16;569315;181110;Pabi;46.780451;7.036829;713.22;709.06;23.9;1756;Onnens FR;En Salley;Fribourg;Switzerland
+179;Ependes_Ependes W;Ependes;Ependes W;577871;178676;Pabi;46.758896;7.148983;705.97;695.89;NA;1731;Ependes FR;Bois du Riau;Fribourg;Switzerland
+180;Villarsel_very N;Villarsel;very N;579792;179272;Fsyl;46.764319;7.174101;680.20;700.38;25.3;1723;Villarsel-sur-Marly;Bois de la Tailla;Fribourg;Switzerland
+181;Brünisried_Haltli;Brünisried;Haltli;587730;178200;Fexc;46.75487;7.278043;906.62;899.89;19.4;1719;Brünisried;Halta;Fribourg;Switzerland
+182;Oberschrot_Sali;Oberschrot;Sali;586967;176678;Pabi;46.741165;7.2681;931.01;915.23;20.7;1716;Oberschrot;Sahli;Fribourg;Switzerland
+183;Riffenmatt_Schlüchtli;Riffenmatt;Schlüchtli;593879;179705;Fsyl;46.768494;7.358502;1037.56;1021.68;NA;;;Schluechtli;Bern;Switzerland
+184;St. Antoni_Balbertsmatt;St. Antoni;Balbertsmatt;589210;184017;Pabi;46.807222;7.297275;780.46;778.19;25.2;1714;Heitenried;Balbertsmatt;Fribourg;Switzerland
+185;Kalchstätten_Lade;Kalchstätten;Lade;590034.3;181222.6;Aalb;46.782099;7.308136;901.75;907.12;NA;3159;Riedstätt;Ladenflüh;Bern;Switzerland
+186;St. Ursen_Röschiwil N;St. Ursen;Röschiwil N;583177;180517;Fsyl;46.775613;7.218367;771.17;766.49;17.7;1717;St. Ursen;Röschiwilholz;Fribourg;Switzerland
+187;St. Sylvester_Flüeli;St. Sylvester;Flüeli;584038;176599;Fsyl;46.74039;7.229777;833.89;828.10;26.7;1736;St. Silvester;Tscherlawald;Fribourg;Switzerland
+188;Plasselb_March;Plasselb;March;585099;176541;Fsyl;46.739893;7.243662;919.79;900.02;NA;1737;Plasselb;Obere March;Fribourg;Switzerland
+189;Noréaz_Noréaz_16;Noréaz;Noréaz_16;568390;184770;Fsyl;46.81333;7.024463;614.33;602.13;NA;1757;Noréaz;Les Chaudeires;Fribourg;Switzerland
+190;Corserey_Vuettes fraxinus;Corserey;Vuettes fraxinus;566169;179694;Fexc;46.767561;6.995739;682.53;676.28;NA;1747;Corserey;Le Monnat;Fribourg;Switzerland
+191;Niedermuhlern_Schür picea;Niedermuhlern;Schür picea;602049;190880;Pabi;46.869043;7.465509;871.22;863.73;25.3;3087;Niedermuhlern;Tann;Bern;Switzerland
+192;St. Ursen_Neumatt;St. Ursen;Neumatt;582796;183337;Aalb;46.80097;7.213272;665.34;650.92;25.8;1717;St. Ursen;Neumattholz;Fribourg;Switzerland
+193;Bourguillon_Gottéron;Bourguillon;Gottéron;580915;183510;Fsyl;46.802474;7.188624;672.86;649.24;14.4;1717;St. Ursen;Hattenbergrain;Fribourg;Switzerland
+194;Alterswil_Seliholz edge;Alterswil;Seliholz edge;585747;184251;Pabi;46.809261;7.251899;755.65;756.66;22.1;1713;St. Antoni;Seeliholz;Fribourg;Switzerland
+195;Kalchstätten_Birche;Kalchstätten;Birche;589482;180607;Pabi;46.776552;7.300918;880.25;868.57;27.8;3159;Riedstätt;Rosenhalten;Bern;Switzerland
+196;Flamatt_Türrisgraben;Flamatt;Türrisgraben;590255;192205;Fsyl;46.880892;7.31079;606.38;611.56;21.8;3182;Ueberstorf;Riedhalden;Fribourg;Switzerland
+197;Ueberstorf_Guldifeld;Ueberstorf;Guldifeld;591067;191720;Pabi;46.876541;7.321452;666.12;659.26;29.3;3182;Ueberstorf;Bergli;Fribourg;Switzerland
+198;St. Antoni_Menzishus top;St. Antoni;Menzishus top;587160.5;186994;Aalb;46.833964;7.27034;715.02;713.97;31.2;1713;St. Antoni;Äbnetholz;Fribourg;Switzerland
+199;Corserey_N larix;Corserey;N larix;565080;180719;Ldec;46.776724;6.981405;651.92;645.53;NA;1747;Corserey;La Scie-au-Crot;Fribourg;Switzerland
+200;Alterswil_Äschlenberg 16;Alterswil;Äschlenberg 16;586582;181570;Pabi;46.785162;7.262918;752.54;758.52;20.8;1717;St. Ursen;Allmendmatt;Fribourg;Switzerland
+201;Alterswil_Wolgiswil spruce;Alterswil;Wolgiswil spruce;584612;182522;Aalb;46.793683;7.237088;735.55;719.53;30.2;1715;Alterswil FR;Dälhölzli;Fribourg;Switzerland
+202;Bulle_Clos aux Cerfs;Bulle;Clos aux Cerfs;571885;160595;Pabi;46.596024;7.071742;713.21;713.41;22.1;1635;La Tour-de-Trême;Clos aux Cerfs;Fribourg;Switzerland
+203;Bulle_La Perause;Bulle;La Perause;568834;161335;Ldec;46.602545;7.031878;863.25;863.10;18.9;1635;La Tour-de-Trême;L'Oubèquetta;Fribourg;Switzerland
+204;Bulle_Mollenchins;Bulle;Mollenchins;567160;161480;Aalb;46.603769;7.010019;916.99;908.87;24.2;1630;Bulle;Chemin des Citards;Fribourg;Switzerland
+205;Düdingen_Tiefmoos;Düdingen;Tiefmoos;579205;187765;Psyl;46.840698;7.166029;582.35;581.99;29.2;3186;Düdingen;Chiemi;Fribourg;Switzerland
+206;Düdingen_Unter St. Wolfgangholz;Düdingen;Unter St. Wolfgangholz;580210;186695;Pabi;46.831104;7.17925;652.24;649.77;22.4;3186;Düdingen;Balliswil;Fribourg;Switzerland
+207;Giffers_Obertswil;Giffers;Obertswil;583333;179999;Pabi;46.770957;7.220428;768.64;766.82;33.0;1734;Tentlingen;Röschiwilholz;Fribourg;Switzerland
+208;Guggisberg_Brannele;Guggisberg;Brannele;590906;179380;Aalb;46.765536;7.319588;1067.97;1067.78;35.3;3158;Guggisberg;Hattenmattholz;Bern;Switzerland
+209;Heitenried_Hinter Schönfels;Heitenried;Hinter Schönfels;590839;186753;Pabi;46.831858;7.318562;793.06;787.14;25.9;1714;Heitenried;Lengacher;Fribourg;Switzerland
+210;Kalchstätten_Kalchstätten;Kalchstätten;Kalchstätten;590500;180506;Pabi;46.775659;7.314249;998.97;996.41;24.0;3158;Guggisberg;Hollerbühl;Bern;Switzerland
+211;Mamishaus_Hausmattweid spruce;Mamishaus;Hausmattweid spruce;594277;184323;Pabi;46.810038;7.363654;864.06;863.56;NA;3152;Mamishaus;Schwandersbifang;Bern;Switzerland
+212;Riffenmatt_Dorfmatte;Riffenmatt;Dorfmatte;592304;181466;Aalb;46.784318;7.337853;977.92;945.53;31.5;3158;Guggisberg;Pfadwald;Bern;Switzerland
+213;Sales_Pra Barlatey;Sales;Pra Barlatey;562990;164040;Pabi;46.626578;6.955389;828.14;825.25;24.6;1625;Sâles (Gruyère);Pra Barlatey;Fribourg;Switzerland
+214;Schwarzenburg_Zälg;Schwarzenburg;Zälg;593766;184695;Aalb;46.81338;7.356954;854.20;856.04;22.4;3152;Mamishaus;Zälg;Bern;Switzerland
+215;St. Antoni_Bächlisbrunnen 16;St. Antoni;Bächlisbrunnen 16;586856;185352;Aalb;46.819188;7.266397;784.73;783.49;25.5;1713;St. Antoni;Cheerholz;Fribourg;Switzerland
+216;St. Antoni_Ufem Berg;St. Antoni;Ufem Berg;587080;186814;Aalb;46.832344;7.26929;708.53;713.26;21.9;1713;St. Antoni;Hintertsriedholz;Fribourg;Switzerland
+217;Tafers_Brunnenberg;Tafers;Brunnenberg;584868;184591;Aalb;46.8123;7.240372;750.16;734.86;31.0;1712;Tafers;Brunnenbergholz;Fribourg;Switzerland
+218;Tentlingen_ Vieille Rossmatta power line;Tentlingen; Vieille Rossmatta power line;580350;179554;Pabi;46.766872;7.181394;703.07;701.14;27.2;1723;Pierrafortscha;Bois du Freitz;Fribourg;Switzerland
+219;Ueberstorf_Summerau new nest;Ueberstrof;Summerau new nest;591659;188967;Pabi;46.851785;7.329269;792.96;778.69;29.1;3182;Ueberstorf;Summerau;Fribourg;Switzerland
+220;Villarsel_new nest;Villarsel;new nest;579969;179078;Pabi;46.762579;7.176427;714.30;702.03;31.4;1723;Villarsel-sur-Marly;Bois de Corbaroche;Fribourg;Switzerland
+221;Chavannes-sous-Orsonnens_La Pâle;Chavannes-sous-Orsonnens;La Pâle;565870;174665;Pabi;46.722308;6.992201;659.77;650.95;19.3;1694;Chavannes-sous-Orsonnens;Perrala;Fribourg;Switzerland
+222;Wünnewil_Mülital;Wünnewil;Mülital;587207;190349;Aalb;46.864145;7.270856;636.46;636.40;19.0;3184;Wünnewil;Sageholz;Fribourg;Switzerland
+223;Alterswil_Rüti 16;Alterswil;Rüti 16;586763;180573;Pabi;46.776198;7.265317;819.90;816.90;29.2;1718;Rechthalten;Steinbrunnenholz;Fribourg;Switzerland
+224;Sangernboden_underi Burg;Sangernboden;underi Burg;593624;173811;Aalb;46.715472;7.355247;1112.61;1128.77;31.3;1738;Sangernboden;Mittlere Burg;Bern;Switzerland
+225;St. Ursen_Stöckholz;St. Ursen;Stöckholz;583790;181685;Aalb;46.786134;7.226351;772.15;764.36;27.7;1717;St. Ursen;Stöckholz;Fribourg;Switzerland
+226;Le Mouret_Essert;Le Mouret;Essert;578254.8;176687.1;Fsyl;46.741018;7.154101;785.30;782.94;30.0;1724;Essert FR;Crapotaire;Fribourg;Switzerland
+227;Farvagny_Fôret de Montbau;Farvagny;Fôret de Montbau;570890;173950;Aalb;46.716115;7.057909;805.91;801.11;20.1;1696;Vuisternens-en-Ogoz;La Verna;Fribourg;Switzerland
+228;Treyvaux_Kiesgrube;Treyvaux;Kiesgrube;575854;175245;Fsyl;46.727963;7.122764;740.16;741.37;20.5;1733;Treyvaux;La Grande-Planche;Fribourg;Switzerland
+229;Ueberstorf_Banholz edge;Ueberstorf;Banholz edge;589154;190765;Fsyl;46.867922;7.29638;651.98;649.60;32.0;3182;Ueberstorf;Banholz;Fribourg;Switzerland
+230;Altavilla_N;Altavilla;N;577748;198086;Pabi;46.93349;7.146423;535.68;525.14;27.2;3280;Murten;Gulteholz;Fribourg;Switzerland
+231;Schmitten Bunziwil Fraxinus;Schmitten;Bunziwil Fraxinus;586658;189375;Fexc;46.855372;7.263684;632.69;643.66;20.8;3185;Schmitten (FR);Maiächerli;Fribourg;Switzerland
+232;St.Sylvester_Unterbbuech NEW;St.Sylvester;Unterbbuech NEW;581949;178210;Fsyl;46.754828;7.20238;716.58;715.35;25.5;1736;St. Silvester;Buechflüe;Fribourg;Switzerland
+237;Riedstätt_Eigen;Riedstätt;Eigen;591444.3;182391.9;Aalb;46.792637;7.326577;895.09;865.60;NA;3150;Schwarzenburg;Lischbühl;Bern;Switzerland
+238;Bösingen_Grenchen;Bösingen;Grenchen;585751.2;193142.5;Fsyl;46.889244;7.251675;576.84;571.98;NA;3178;Bösingen;Gertholz;Fribourg;Switzerland
+239;Schwarzenburg_Schönentannen;Schwarzenburg;Schönentannen;594154.6;185827.4;Aalb;46.82357;7.36203;765.60;759.69;NA;3152;Mamishaus;Brünnackerrain;Bern;Switzerland
+240;Plaffeien_Hohliebi_17;Plaffeien;Hohliebi_17;588400.4;174758.3;Aalb;46.723923;7.286905;950.85;950.95;24.7;1716;Plaffeien;Riedli;Fribourg;Switzerland
+241;Wünnewil_Staffels_17;Wünnewil;Staffels_Staffels;586957.4;192653.1;Pabi;46.884866;7.267515;546.20;548.31;27.9;3184;Wünnewil;Limholz;Fribourg;Switzerland
+242;Kalchstätten_Kirchhalten;Kalchstätten;Kirchhalten;590926.3;180161;Pabi;46.772562;7.319837;1090.25;1077.13;NA;3158;Guggisberg;Brandwald;Bern;Switzerland
+243;Guggisberg_Laubbachgraben;Guggisberg;Laubbachgraben;590629.5;177951.6;Pabi;46.752684;7.315997;869.53;861.32;NA;3158;Guggisberg;Breitenried;Bern;Switzerland
+245;Kalchstätten_Herrenmatt_17;Kalchstätten;Herrenmatt_17;589483.9;179249.8;Qrob;46.764344;7.300974;841.73;840.41;18.4;3158;Guggisberg;Senseflüh-Katzenstieg;Bern;Switzerland
+246;Guggisberg_Muelere;Guggisberg;Muelere;591554.7;179709.4;Fexc;46.768509;7.328073;1088.94;1084.16;NA;3158;Guggisberg;Allmend;Bern;Switzerland
+247;Bösingen_Frieseneit;Bösingen;Frieseneit;584884.8;191135.8;Qrob;46.871174;7.240374;623.97;620.90;NA;3178;Bösingen;Leeracher;Fribourg;Switzerland
+248;Düdingen_Tiefmoos_17;Düdingen;Tiefmoos_17;579201.7;187780.6;Fsyl;46.840838;7.165985;580.20;578.59;NA;3186;Düdingen;Chiemi;Fribourg;Switzerland
+249;Ueberstorf_Mischlere_beech;Ueberstorf;Mischlere_beech;589604.5;189021.1;Fsyl;46.852243;7.302329;714.33;709.19;NA;3182;Ueberstorf;Hofmatt;Fribourg;Switzerland
+250;Ueberstorf_Wolfgraben;Ueberstorf;Wolfgraben;590067.8;191662.8;Qrob;46.876012;7.308345;611.99;602.35;NA;3182;Ueberstorf;Brugacher;Fribourg;Switzerland
+251;St. Ursen_Neumatt_17;St. Ursen;Neumatt_17;582807;183357.3;Aalb;46.801153;7.213414;662.29;656.56;26.5;1717;St. Ursen;Neumattholz;Fribourg;Switzerland
+252;Riedstätt_Mittlisried_17;Riedstätt;Mittlisried_17;591027.4;180918.2;Aalb;46.779375;7.321146;1017.23;998.82;NA;3159;Riedstätt;Bützerenwald;Bern;Switzerland
+253;Rechthalten_Moosholz_17;Rechthalten;Moosholz_17;585328.1;178717;Pabi;46.759473;7.246589;886.28;881.38;NA;1718;Rechthalten;Moosholz;Fribourg;Switzerland
+254;Liebistorf_Allmend_17;Liebistorf;Allmend_17;581226.1;196160.9;Psyl;46.916282;7.192177;532.96;525.68;NA;3213;Liebistorf;Allmend;Fribourg;Switzerland
+255;Schmitten_Fillistorf_17;Schmitten;Fillistorf_17;584517.1;189916.2;Fsyl;46.860195;7.235592;642.73;634.79;NA;3185;Schmitten (FR);Herrenmatte;Fribourg;Switzerland
+256;Le Mouret_Zenauva;Le Mouret;Zenauva;580227.3;175974.5;Fexc;46.73467;7.179942;782.72;788.07;NA;1724;Zénauva;Le Béfig;Fribourg;Switzerland
+257;St. Sylvester_Tschüpru_17;St. Sylvester;Tschüpru_17;583070.3;177364.5;Qrob;46.747252;7.217086;786.38;780.22;NA;1736;St. Silvester;Ebnet;Fribourg;Switzerland
+258;Düdingen_Balliswil_lower;Düdingen ;Balliswil Lower;579728;186051.2;Fsyl;46.825299;7.172961;613.32;609.52;22.0;3186;Düdingen;Graben;Fribourg;Switzerland
+259;Cordast_Bulliardholz;Cordast;Bulliardholz;578586.4;191853.7;Pabi;46.877457;7.157726;643.88;644.99;NA;1792;Cordast;Bulliardholz;Fribourg;Switzerland
+260;Kleingurmels_Under Gruenenburg;Kleingurmels;Under Gruenenburg;581680.5;192831.7;Psyl;46.886348;7.198276;552.78;548.91;25.0;3213;Kleinbösingen;Undergrueneburg;Fribourg;Switzerland
+261;Wünnewil_Golf_17;Wünnewil;Golf_17;589065.5;191545.9;Pabi;46.874945;7.2952;601.83;585.38;NA;3184;Wünnewil;Rainholz;Fribourg;Switzerland
+262;Wünnewil_Zehnthus_17;Wünnewil;Zehnthus_17;588395.8;193106.1;Fexc;46.888968;7.286375;576.35;578.61;21.0;3184;Wünnewil;Moosacher;Fribourg;Switzerland
+263;Marly_Bois_des_Rittes;Marly;Bois des Rittes;578761.8;181522.5;Fsyl;46.784532;7.16051;546.76;581.74;NA;1723;Marly;Aux Rittes;Fribourg;Switzerland
+264;Marly_Le_Claru;Marly;Le Claru;579440.6;181429.8;Qrob;46.783718;7.169403;680.47;680.69;NA;1723;Pierrafortscha;Pré de la Grange;Fribourg;Switzerland
+265;Ueberstorf_Cholholz_17;Ueberstorf;Cholholz_17;593102.3;191432.6;Fsyl;46.873981;7.348155;679.71;672.30;18.9;3182;Ueberstorf;Zielholz;Fribourg;Switzerland
+266;Düdingen_Räsch;Düdingen;Räsch;578964.6;187415.1;Qrob;46.837544;7.162894;582.50;581.08;NA;3186;Düdingen;Chiemi;Fribourg;Switzerland
+267;Schwarzenburg_Zälg_17;Schwarzenburg;Zälg_17;593684.2;184612.3;Aalb;46.812636;7.355883;845.18;857.25;22.4;3152;Mamishaus;Weid;Bern;Switzerland
+268;Bourguillon_Bürglenholz;Bourguillon;Bürglenholz;580679.7;183374.1;Aalb;46.801245;7.185548;674.34;677.28;NA;1717;St. Ursen;Galterengraben;Fribourg;Switzerland
+269;Pierrafortscha_Brünisberg;Pierrafortscha;Brünisberg;580874.3;182505.9;Qrob;46.793441;7.188133;714.30;723.42;NA;1717;St. Ursen;Schlossmatta;Fribourg;Switzerland
+270;Marly_Les_Fontanettes;Marly;Les_Fontanettes;578545.4;179809.4;Fsyl;46.769114;7.157756;702.67;674.97;27.8;1723;Marly;Bois de l'Eglise;Fribourg;Switzerland
+271;Villarsel_Nesslerabach;Villarsel;Nesslerabach;581001.8;178746.5;Pabi;46.759628;7.18996;687.13;691.70;NA;1724;Le Mouret;Bois de la Rotzetta;Fribourg;Switzerland
+272;Rechthalten_Saga;Rechthalten;Saga;586019.8;178924.3;Pabi;46.761352;7.255637;905.57;889.85;27.3;1718;Rechthalten;Sandgrueba;Fribourg;Switzerland
+273;Alterswil_Weiermattenmoos_17;Alterswil;Weiermattenmoos_17;588277.5;182572.5;Pabi;46.794213;7.285095;804.94;806.47;23.8;1715;Alterswil FR;Afterholz;Fribourg;Switzerland
+274;Schwarzenburg_Kehr;Schwarzenburg;Kehr;594040.2;185225.8;Fsyl;46.818158;7.36054;832.26;834.96;NA;3152;Mamishaus;Siechenhölzli;Bern;Switzerland
+275;Heitenried_Hinter Schönfels_17;Heitenried;Hinter Schönfels_17;590836.1;186726.3;Pabi;46.831619;7.318524;795.94;786.76;27.5;1714;Heitenried;Lengholz;Fribourg;Switzerland
+276;Tafers_Brunnenberg_farm;Tafers;Brunnenberg_farm;585145.7;184763.6;Aalb;46.81386;7.244004;730.12;725.36;NA;1712;Tafers;Lengibitzaholz;Fribourg;Switzerland
+277;St. Antoni_Bächlisbrunnen_17;St. Antoni;Bächlisbrunnen_17;586854.3;185477.8;Pabi;46.82032;7.266371;751.65;750.82;22.3;1713;St. Antoni;Tschiepengut;Fribourg;Switzerland
+278;Alterswil_Tolgli_17;Alterswil;Tolgli_17;585580.9;183205.2;Aalb;46.799851;7.249756;752.75;749.95;NA;1715;Alterswil FR;Tolglihölzli;Fribourg;Switzerland
+279;Alterswil_Punt_17;Alterswil;Punt_17;587984.9;181969.7;Fexc;46.788786;7.281279;785.31;780.27;NA;1715;Alterswil FR;Ligeta;Fribourg;Switzerland
+280;Brünisried_Grabersland;Brünisried;Grabersland;587563.7;178678.4;Qrob;46.759171;7.275853;921.13;917.97;NA;1719;Brünisried;Bornera;Fribourg;Switzerland
+281;Heitenried_Schinelhus;Heitenried;Schinelhus;589588.9;184969.4;Pabi;46.815796;7.302217;795.85;790.02;21.6;1714;Heitenried;Vogelsangholz;Fribourg;Switzerland
+282;Giffers_Moosmatta_17;Giffers;Moosmatta_17;584064.8;177935.8;Psyl;46.752416;7.230081;856.17;848.03;NA;1735;Giffers;Giffersholz;Fribourg;Switzerland
+283;Fribourg_Grandfey;Fribourg;Grandfey;579462.3;185845.8;Fsyl;46.823443;7.169488;578.54;582.51;NA;1763;Granges-Paccot;Bois de Grandfey;Fribourg;Switzerland
+284;St. Sylvester_Matta;St. Sylvester;Matta;582903.1;177489.2;Fsyl;46.74837;7.214894;770.85;764.23;NA;1736;St. Silvester;Ebnet;Fribourg;Switzerland
+285;Tentlingen_Vieille_Rossmatta_17;Tentlingen;Vieille_Rossmatta_17;579977.6;179634.2;Fsyl;46.767583;7.176515;678.53;677.53;22.8;1723;Marly;Route des Pralettes;Fribourg;Switzerland
+286;Flamatt_Eichholz;Flamatt;Eichholz;592715.4;194791.2;Pabi;46.904188;7.343026;627.67;626.15;NA;3174;Thörishaus;Trooslewald;Bern;Switzerland
+287;Milken_Kriesbaumen;Milken;Kriesbaumen;592908.2;181313.4;Aalb;46.782953;7.345768;970.00;942.11;33.3;3157;Milken;Pfadflüh;Bern;Switzerland
+288;Riffenmatt_Chrache;Riffenmatt;Chrache;593481.2;181045.7;Aalb;46.78055;7.353275;1067.08;1052.22;NA;3156;Riffenmatt;Bärenholz;Bern;Switzerland
+289;Fillistorf_Friseneithubel;Fillistorf;Friseneithubel;584021.9;190408.8;Fexc;46.864614;7.229081;624.79;627.32;21.3;3185;Schmitten (FR);Tannlihubel;Fribourg;Switzerland
+290;Düdingen_Galmis;Düdingen;Galmis;582524.5;189829.2;Qrob;46.859363;7.209465;623.66;624.77;NA;3186;Düdingen;Warpel;Fribourg;Switzerland
+291;Rüschegg_Gambach;Rüschegg;Gambach;594791.6;180671.3;Fsyl;46.777195;7.370438;968.34;960.24;NA;3153;Rüschegg Gambach;Gräbli;Bern;Switzerland
+292;Riffenmatt_Schluechtli_17;Riffenmatt;Schluechtli_17;593813.7;180009.9;Qrob;46.771236;7.357643;1054.00;1052.11;NA;3156;Riffenmatt;Büelschürli;Bern;Switzerland
+293;Ueberstorf_Niedermettlen_17;Ueberstorf;Niedermettlen_17;591369.8;190884.5;Fsyl;46.86903;7.325439;682.39;672.06;NA;3182;Ueberstorf;Birchweid;Fribourg;Switzerland
+294;Ueberstorf_Hundsflueh_17;Ueberstorf;Hundsflueh_17;593176.1;191998.8;Fsyl;46.879074;7.349114;651.90;654.55;19.9;3182;Ueberstorf;Hundsflue;Fribourg;Switzerland
+295;Zumholz_Brand_17;Zumholz;Brand_17;588550.9;178640.1;Pabi;46.758844;7.288776;837.65;826.85;25.4;1719;Zumholz;Riedgarten;Fribourg;Switzerland
+296;Ueberstorf_Oberholzwald_17;Ueberstorf;Oberholzwald_17;592594.5;189607.5;Fsyl;46.857557;7.341524;781.50;765.68;29.7;3182;Ueberstorf;Oberholzwald;Fribourg;Switzerland
+297;Lanzenhäusern_Buttnigen;Lanzenhäusern;Buttnigen;594987.7;187527.9;Aalb;46.838874;7.372929;728.57;729.76;NA;3148;Lanzenhäusern;Buchhubelrain;Bern;Switzerland
+298;Schmitten_Lanthen_oak;Schmitten;Lanthen_oak;585996.4;188429.7;Qrob;46.846856;7.255037;645.79;636.28;NA;3185;Schmitten (FR);Horrmattli;Fribourg;Switzerland
+299;Schmitten_Bunziwil_beehive;Schmitten;Bunziwil_beehive;586632.9;189345.3;Fsyl;46.855105;7.263355;634.96;639.87;20.5;3185;Schmitten (FR);Bunziwil;Fribourg;Switzerland
+300;Schmitten_Bunziwil_corner;Schmitten;Bunziwil_corner;586764.3;189318.3;Pabi;46.854865;7.26508;635.13;631.82;NA;3185;Schmitten (FR);Bunziwil;Fribourg;Switzerland
+301;Schwarzenburg_Chilchermatt_17;Schwarzenburg;Chilchermatt_17;593550.6;184314.4;Aalb;46.809955;7.354137;851.82;837.82;NA;3150;Schwarzenburg;Stiersackerhölzli;Bern;Switzerland
+302;Mamishaus_Dunti_17;Mamishaus;Dunti_17;594788.7;184238.9;Aalb;46.809286;7.370359;839.67;846.47;26.1;3152;Mamishaus;Muttberghölzli;Bern;Switzerland
+303;Flamatt_Sensebrücke;Flamatt;Sensebrücke;588982.6;193419.2;Fsyl;46.891794;7.294067;570.98;554.19;NA;3184;Wünnewil;Buecheholz;Fribourg;Switzerland
+304;Ueberstorf_Mischlere_17;Ueberstorf;Mischlere_17;589599.6;189064.5;Fsyl;46.852632;7.302263;709.33;691.23;25.9;3182;Ueberstorf;Hofmatt;Fribourg;Switzerland
+305;Ueberstorf_Ledeu_17;Ueberstorf;Ledeu_17;589303.6;189826.7;Fsyl;46.859484;7.298364;648.40;638.72;NA;3182;Ueberstorf;Studweid;Fribourg;Switzerland
+306;Heitenried_Lengmoos;Heitenried;Lengmoos;589262.3;187344.4;Pabi;46.837154;7.297882;734.45;729.78;NA;1714;Heitenried;Schällmet;Fribourg;Switzerland
+307;Bösingen_Waldheim_N;Bösingen;Waldheim_N;586238.7;193650.3;Fsyl;46.893822;7.258056;523.54;519.95;NA;3178;Bösingen;Neumatte;Fribourg;Switzerland
+308;Alterswil_Aeschlenberg_17;Alterswil;Äschlenberg_17;586447.2;182047.8;Fsyl;46.789458;7.261139;743.07;748.41;NA;1717;St. Ursen;Buechwald;Fribourg;Switzerland
+309;Düdingen_Chiemiwald;Düdingen;Chiemiwald;579398.4;187650.9;Psyl;46.839678;7.168569;589.57;581.86;26.0;3186;Düdingen;Chiemiwald;Fribourg;Switzerland
+310;Schmitten_Hohi Zelg;Schmitten;Hohi Zelg;584193.9;186913.6;Fsyl;46.833177;7.231459;671.55;679.53;18.3;3185;Schmitten (FR);Hohe Zelg;Fribourg;Switzerland
+311;Mamishaus_Rümlisberg_17;Mamishaus;Rümlisberg_17;594843.6;183687.9;Aalb;46.80433;7.371085;867.04;869.77;NA;3152;Mamishaus;Hubelholz;Bern;Switzerland
+312;Mamishaus_Lehn;Mamishaus;Lehn;595455.3;184076.6;Pabi;46.807831;7.379093;799.81;793.53;18.2;3152;Mamishaus;Lehn;Bern;Switzerland
+313;Schmitten_Lanthenholz_17;Schmitten;Lanthenholz_17;585494.9;187987.2;Aalb;46.842865;7.248477;709.55;691.13;28.0;3185;Schmitten (FR);Lanthenholz;Fribourg;Switzerland
+314;Rüschegg_Bärenwart;Rüschegg;Bärenwart;595771.2;181565.7;Fsyl;46.785247;7.383256;877.79;871.47;NA;3153;Rüschegg Gambach;Chräjere;Bern;Switzerland
+315;Riggisberg_Oberi Holzweid;Riggisberg;Oberi Holzweid;600023.1;184707.4;Fexc;46.813521;7.438938;777.27;780.41;NA;3132;Riggisberg;Stutz;Bern;Switzerland
+316;Heitenried_Tannenholz;Heitenried;Tannenholz;588414.6;186507.1;Pabi;46.829609;7.286791;705.43;698.27;33.5;1714;Heitenried;Tannholz;Fribourg;Switzerland
+317;Fribourg_Ste.Croix_17;Fribourg;Ste. Croix_17;578470.4;183055.9;Fsyl;46.798315;7.156622;600.46;604.88;NA;1700;Fribourg;Bois de Pérolles;Fribourg;Switzerland
+318;Heitenried_Tannenholz_W;Heitenried;Tannenholz_W;588208.6;186348.6;Fsyl;46.828179;7.284095;727.61;720.39;21.6;1714;Heitenried;Tannholz;Fribourg;Switzerland
+319;Bösingen_Gertholz_17;Bösingen;Gertholz_17;585491.4;193372.6;Fsyl;46.891308;7.248259;563.84;555.75;NA;3178;Bösingen;Bergholz;Fribourg;Switzerland
+320;Flamatt_Zehnthus_E;Flamatt;Zehnthus_E;588515.3;193091.1;Fexc;46.888835;7.287944;588.87;593.23;NA;3184;Wünnewil;Moosacher;Fribourg;Switzerland
+321;Guggisberg_Willmesacher_17;Guggisberg;Willmesacher_17;590966.4;179815.8;Aalb;46.769458;7.32037;989.82;977.56;35.6;3158;Guggisberg;Schillisried;Bern;Switzerland
+322;Flamatt_railroad;Flamatt;railroad;590507.3;193009.1;Fsyl;46.888129;7.314082;593.75;583.09;NA;3175;Flamatt;Bahnhofstrasse;Fribourg;Switzerland
+323;Schwarzenburg_Chilchermatt_S;Schwarzenburg;Chilchermatt_S;593487.2;184224.9;Aalb;46.809149;7.353307;874.08;872.12;NA;3150;Schwarzenburg;Stiersackerhölzli;Bern;Switzerland
+324;St. Antoni_Stockera;St. Antoni;Stockera;587446.9;183859.7;Pabi;46.805777;7.274181;845.45;837.20;NA;1715;Alterswil FR;Grossholz;Fribourg;Switzerland
+325;Kalchstätten_Chlyni Heid_17;Kalchstätten;Chlyni Heid_17;589860;181016.8;Aalb;46.780245;7.305857;929.29;933.85;20.3;3159;Riedstätt;Hundschüpfen;Bern;Switzerland
+326;Guggisberg_Underbalm_17;Guggisberg;Underbalm_17;592791.8;177760;Aalb;46.750988;7.3443;1054.69;1035.85;32.5;3156;Riffenmatt;Allmendwald;Bern;Switzerland
+327;Mamishaus_Hausmattweid_17;Mamishaus;Hausmattweid_17;594269.6;184302.6;Pabi;46.809855;7.363557;865.53;867.43;28.1;3152;Mamishaus;Duntelenhölzli;Bern;Switzerland
+328;Mamishaus_Hintermutten;Mamishaus;Hintermutten;594575.7;184371.4;Aalb;46.810477;7.367567;831.12;828.88;27.9;3152;Mamishaus;Hostatt;Bern;Switzerland
+329;Lanzenhäusern_Finel_17;Lanzenhäusern;Finel_17;593100.6;188815.6;Aalb;46.85044;7.348173;721.60;722.21;NA;3148;Lanzenhäusern;Höhlenholz;Bern;Switzerland
+330;Elisried_Höhi;Elisried;Höhi;595835.1;185607.8;Fsyl;46.821608;7.384056;841.70;855.06;15.7;3152;Mamishaus;Halden;Bern;Switzerland
+331;Le Mouret_Praroman;Le Mouret;Praroman;581002.4;177910.7;Pabi;46.75211;7.190002;730.88;722.65;NA;1724;Le Mouret;Bois à Moutzo;Fribourg;Switzerland
+332;St. Antoni_Menzishus_W;St. Antoni;Menzishus_W;586444.9;187012.2;Pabi;46.834114;7.260961;670.72;658.77;23.2;1713;St. Antoni;Graben;Fribourg;Switzerland
+333;Alterswil_Chleholz_17;Alterswil;Chleholz_17;588387.2;181453.4;Pabi;46.784148;7.286561;877.10;870.67;NA;1715;Alterswil FR;Chleeholz;Fribourg;Switzerland
+334;St. Sylvester_Chrachen;St. Sylvester;Chrachen;584465.5;176105;Pabi;46.735957;7.235387;816.73;807.29;27.1;1736;St. Silvester;Muelers;Fribourg;Switzerland
+335;Rechthalten_Sonnenberg;Rechthalten;Sonnenberg;583874.5;178840.4;Pabi;46.760549;7.227558;863.49;847.15;25.8;1718;Rechthalten;Farnerawald;Fribourg;Switzerland
+336;Alterswil_Baletswil_treeline;Alterswil;Baletswil_treeline;585023.3;181177.7;Fexc;46.781601;7.242519;790.84;793.30;16.6;1717;St. Ursen;Leimacher;Fribourg;Switzerland
+337;Wünnewil_Nussbaumen_17;Wünnewil;Nussbaumen_17;587379.2;193118.9;Fsyl;46.889065;7.273036;554.97;552.27;NA;3184;Wünnewil;Nussbaumenholz;Fribourg;Switzerland
+338;Giffers_Poplera;Giffers;Poplera;582029.9;178789.6;Fsyl;46.760044;7.203415;706.47;707.49;16.1;1735;Giffers;Stützli;Fribourg;Switzerland
+339;Villarsel_Nesslerabach_17;Villarsel;Nesslerabach_17;580971.1;178743.2;Fsyl;46.759598;7.189557;698.45;704.51;29.6;1724;Le Mouret;Bois de la Rotzetta;Fribourg;Switzerland
+340;Praroman_Chechin;Praroman;Chechin;580977.1;178411.8;Fsyl;46.756617;7.18965;697.51;685.11;25.0;1724;Le Mouret;Bois de la Rotzetta;Fribourg;Switzerland
+341;St. Sylvester_Gomma;St. Sylvester;Gomma;581860.2;177670.4;Pabi;46.749972;7.201238;775.00;780.20;22.4;1736;St. Silvester;Gomma;Fribourg;Switzerland
+342;Le Mouret_Montrévaz;Le Mouret;Montévraz;580146.7;175426.3;Fsyl;46.729736;7.178911;829.22;838.49;27.2;1724;Montévraz;La Perrausa;Fribourg;Switzerland
+343;Schmitten_Lanthen_spruce;Schmitten;Lanthen_spruce;586166.3;188469.7;Pabi;46.847219;7.257264;638.87;632.65;25.2;3185;Schmitten (FR);Hofegerta;Fribourg;Switzerland
+344;Heitenried_Winterlingen_17;Heitenried;Winterlingen_17;588657.1;185930.5;Pabi;46.824426;7.289984;751.24;750.11;23.6;1714;Heitenried;Winterlingen;Fribourg;Switzerland
+345;St. Antoni_Menzihus_E;St. Antoni;Menzishus_E;587415.3;187003.2;Aalb;46.834053;7.273679;718.81;717.45;NA;1713;St. Antoni;Äbnetholz;Fribourg;Switzerland
+346;Schwarzsee_Röhrli;Schwarzsee;Röhrli;589129.8;170340.9;Pabi;46.684199;7.296551;1024.42;1023.90;NA;1716;Schwarzsee;Schwarzseestrasse;Fribourg;Switzerland
+347;Düdingen_St. Wolfgangholz_17;Düdingen;Unter St. Wolfgangholz_17;580552.3;186826.7;Pabi;46.832299;7.18373;634.75;632.39;32.5;3186;Düdingen;St. Wolfgang;Fribourg;Switzerland
+348;Milken_Milkeholz_17;Milken;Milkeholz_17;593427.6;182639.9;Aalb;46.794891;7.35255;888.86;870.46;36.0;3157;Milken;Milkenholz;Bern;Switzerland
+349;Brünisried_Brüggla;Brünisried;Brüggla;587603.6;179914.5;Pabi;46.770291;7.276341;834.88;829.72;14.0;1715;Alterswil FR;Selgisberg;Fribourg;Switzerland
+350;Tafers_Brunnenbergrain_17;Tafers;Brunnenbergrain_17;583523.3;184516.1;Aalb;46.811595;7.222755;729.24;717.67;30.0;1712;Tafers;Oberholz;Fribourg;Switzerland
+351;Boltigen_Steiniwald;Boltigen;Steiniwald;595598.4;163845.6;Pabi;46.625845;7.381166;918.50;884.35;NA;3766;Boltigen;Steiniwald;Bern;Switzerland
+352;Pierrafortscha_Bois de Morvin_17;Pierrafortscha;Bois de Morvin_17;581140.5;181290.3;Pabi;46.782515;7.191669;771.37;764.02;NA;1723;Pierrafortscha;Bois de Morvin;Fribourg;Switzerland
+353;Guggisberg_Flöschachere;Guggisberg;Flöschachere;590542;179207.9;Aalb;46.763983;7.314826;994.43;978.03;31.7;3158;Guggisberg;Hattenmattholz;Bern;Switzerland
+354;Schwarzenburg_Gäu;Schwarzenburg;Gäu;591806.8;183143;Pabi;46.799398;7.331311;873.65;874.42;26.2;3150;Schwarzenburg;Büblerenhölzli;Bern;Switzerland
+355;Schwarzenburg_Eigen_17;Schwarzenburg;Eigen_17;591399;182522.1;Aalb;46.793808;7.325982;923.12;891.50;NA;3150;Schwarzenburg;Lischbühl;Bern;Switzerland
+356;Schwarzenburg_Chilchermatt_W;Schwarzenburg;Chilchermatt_W;593342.3;184354.8;Aalb;46.810315;7.351407;820.77;835.94;NA;3150;Schwarzenburg;Stiersackerhölzli;Bern;Switzerland
+357;Plaffeien_Jostrüti;Plaffeien;Jostrüti;588561.3;175070;Pabi;46.72673;7.289001;910.58;909.20;NA;1716;Plaffeien;Riedli;Fribourg;Switzerland
+358;Oberschrot_Allmetsried;Oberschrot;Allmetsried;587252.2;175568.6;Pabi;46.731191;7.271863;929.90;930.63;NA;1716;Oberschrot;Oberschrotwald;Fribourg;Switzerland
+359;Zumholz_treeline;Zumholz;treeline;588375.6;178006;Pabi;46.753137;7.286497;896.41;896.49;NA;1719;Zumholz;Riedgarten;Fribourg;Switzerland
+360;Brünisried_Grabersland_17;Brünisried;Grabersland_17;587605.7;178454.1;Fsyl;46.757154;7.276409;897.65;878.98;NA;1719;Brünisried;Seitehölzli;Fribourg;Switzerland
+361;Alterswil_Wolgiswil_17;Alterswil;Wolgiswil_17;584542.4;182479.7;Pabi;46.793302;7.236177;725.18;720.52;NA;1715;Alterswil FR;Dälhölzli;Fribourg;Switzerland
+362;St. Antoni_Steinberg_17;St. Antoni;Steinberg_17;588069.6;185190.6;Pabi;46.81776;7.282303;824.84;814.46;35.3;1713;St. Antoni;Hubelholz;Fribourg;Switzerland
+363;Bösingen_Frieseneit_pinus;Bösingen;Frieseneit_pinus;584881.8;191332.1;Psyl;46.87294;7.240327;636.89;633.68;NA;3178;Bösingen;Bodenholz;Fribourg;Switzerland
+364;St. Sylvester_Goleta;St. Sylvester;Goleta;582098.7;177868.5;Fsyl;46.75176;7.204352;741.78;742.33;NA;1736;St. Silvester;Goleta;Fribourg;Switzerland
+365;Cordast_Grand_bois;Cordast;Grand-Bois;578665.7;190479.6;Pabi;46.865099;7.158832;641.21;623.78;29.6;1783;Barberêche;Bois Dessous;Fribourg;Switzerland
+366;Wünnewil_Mühle;Wünnewil;Mühle;588565.2;191432.1;Qrob;46.873913;7.288641;588.41;578.13;NA;3184;Wünnewil;Bluemisberg;Fribourg;Switzerland
+367;Guggisberg_Brannele_17;Guggisberg;Brannele_17;590979.5;179389.4;Aalb;46.765622;7.320549;1084.16;1071.71;33.0;3158;Guggisberg;Hattenmattholz;Bern;Switzerland
+368;Aeckenmatt_Mühle_17;Aeckenmatt;Mühle_17;594069.4;189193.8;Aalb;46.853851;7.36087;678.53;673.87;32.0;3148;Lanzenhäusern;Fuhrmattholz;Bern;Switzerland
+369;Bösingen_Risau;Bösingen;Risau;583058.2;194633.2;Psyl;46.902589;7.216284;532.62;524.07;29.0;3179;Kriechenwil;Bollholz;Bern;Switzerland
+370;Bösingen_Riederberg;Bösingen;Riederberg;583406.9;192091.6;Qrob;46.879736;7.220954;553.63;555.42;NA;3178;Bösingen;Riederberg;Fribourg;Switzerland
+371;Rechthalten_Nümatt;Rechthalten;Nümatt;583890.3;179447.1;Qrob;46.766007;7.227743;807.88;812.27;NA;1718;Rechthalten;Nümatt;Fribourg;Switzerland
+372;Villarsel_17;Villarsel;17;579828.1;179226.6;Pabi;46.763912;7.174575;700.74;694.34;34.0;1723;Villarsel-sur-Marly;Bois de la Tailla;Fribourg;Switzerland
+373;Plaffeien_Jostrüti_17;Plaffeien;Jostrüti_17;588545.9;175173.7;Pabi;46.727662;7.288797;898.47;885.00;NA;1716;Plaffeien;Riedli;Fribourg;Switzerland
+374;Rechthalten_Moosholz_W;Rechthalten;Moosholz_W;585342.3;178594.2;Pabi;46.758368;7.246779;906.50;903.68;25.7;1718;Rechthalten;Moosholz;Fribourg;Switzerland
+375;Bösingen_Bollholz;Bösingen;Bollholz;583256.4;194761.9;Pmen;46.903752;7.218881;532.83;527.90;NA;3179;Kriechenwil;Bollholz;Bern;Switzerland
+376;Marly_Les_Fontanettes_17;Marly;Les_Fontanettes_17;578602.1;179909.3;Pabi;46.770015;7.158494;654.48;648.48;38.0;1723;Marly;Vers Biolley;Fribourg;Switzerland
+377;Le Mouret_Le Grâbo;Le Mouret;Le Grabo;580735.1;177561.2;Qrob;46.748958;7.186519;732.90;734.20;14.7;1724;Le Mouret;Le Moulin-du-Grâbo;Fribourg;Switzerland
+378;Rüschegg_Gambach_W;Rüschegg;Gambach_W;594737.4;180717.1;Fsyl;46.777606;7.369728;982.29;964.81;NA;3153;Rüschegg Gambach;Gräbli;Bern;Switzerland
+379;Tentlingen_Vieille Rossmatta_buzz;Tentlingen;Vieille Rossmatta_buzz;580043.4;179596;Fsyl;46.767241;7.177377;692.98;690.34;NA;1723;Marly;Route des Pralettes;Fribourg;Switzerland
+380;Alterswil_Kütt;Alterswil;Kütt;587228.7;181200;Pabi;46.781848;7.271397;753.26;746.78;NA;1715;Alterswil FR;Sagenacher;Fribourg;Switzerland
+381;Bourguillon_Gottéron_18;Bourguillon;Gottéron_18;579910.5;183462.8;Fsyl;46.802021;7.175467;636.10;648.87;NA;1722;Bourguillon;Chemin de la Fenettaz;Fribourg;Switzerland
+382;Bundtels_Galmisberg_18;Bundtels;Galmisberg_18;583329.7;190191.3;Fsyl;46.86264;7.220011;649.80;626.58;NA;3186;Düdingen;Galmisberg;Fribourg;Switzerland
+383;Tentlingen_Bärg_18;Tentlingen;Bärg_18;581438.4;180424.1;Fsyl;46.774731;7.195605;720.58;720.32;21.8;1723;Pierrafortscha;Côte des Foyards;Fribourg;Switzerland
+384;Plaffeien_Vorsessli;Plaffeien;Vorsessli;589333.3;175153.9;Pabi;46.727497;7.299099;860.51;840.31;NA;1738;Sangernboden;Weidli;Bern;Switzerland
+385;Brünisried_Brüggla_18;Brünisried;Brüggla_18;587655.9;180033.7;Fexc;46.771364;7.277023;812.56;810.92;NA;1715;Alterswil FR;Brüggla;Fribourg;Switzerland
+386;Gurmels_Kleinbösingen_18;Gurmels;Kleinbösingen_18;582134.4;193175.3;Pabi;46.889451;7.204217;519.29;519.06;NA;3213;Kleinbösingen;Ribacherrain;Fribourg;Switzerland
+387;Düdingen_Räsch_18;Düdingen;Räsch_18;578636.6;186859.7;Fsyl;46.832537;7.15862;567.63;557.59;NA;3186;Düdingen;Bachmatte;Fribourg;Switzerland
+388;Alterswil_Seliholz_18;Alterswil;Seliholz_18;585726.2;184338.8;Pabi;46.810052;7.251623;732.96;734.61;NA;1713;St. Antoni;Zum Holz;Fribourg;Switzerland
+389;Flamatt_Sensebrücke_18;Flamatt;Sensebrücke_18;589012.4;193388.7;Fsyl;46.891521;7.294459;581.26;567.63;NA;3184;Wünnewil;Buecheholz;Fribourg;Switzerland
+390;St. Antoni_Ufem Berg_18;St. Antoni;Ufem Berg_18;586941.5;186786.6;Pabi;46.832095;7.267476;702.07;696.50;NA;1713;St. Antoni;Hintertsriedholz;Fribourg;Switzerland
+391;Ependes_Ependes_18;Ependes;Ependes_18;577804.6;178778.8;Pabi;46.759819;7.148109;701.71;678.15;NA;1731;Ependes FR;Bois du Riau;Fribourg;Switzerland
+392;Bösingen_Waldheim_18;Bösingen;Waldheim_18;585940.5;193507.8;Fsyl;46.892534;7.254148;560.42;561.16;22.1;3178;Bösingen;Cholrain;Fribourg;Switzerland
+393;Ueberstorf_Hundsflueh_18;Ueberstorf;Hundsflueh_18;593120.2;192131.1;Pabi;46.880264;7.348379;645.74;631.56;NA;3182;Ueberstorf;Brugera;Fribourg;Switzerland
+394;Aeckenmatt_Mühle_18;Aeckenmatt;Mühle_18;594070.5;189147.3;Aalb;46.853433;7.360884;691.39;680.82;NA;3148;Lanzenhäusern;Fuhrmattholz;Bern;Switzerland
+395;Aeckenmatt_Mühle_Burlingen;Aeckenmatt;Mühle_Burlingen;593909;188979.5;Aalb;46.851922;7.35877;700.42;699.85;NA;3148;Lanzenhäusern;Studengraben;Bern;Switzerland
+396;Schwarzenburg_Herrenholz_18;Schwarzenburg;Herrenholz_18;593519.3;183715.8;Aalb;46.80457;7.353735;853.99;843.76;NA;3157;Milken;Herrenholz;Bern;Switzerland
+397;St. Antoni_Bächlisbrunnen_18;St. Antoni;Bächlisbrunnen_18;587040.4;184970.3;Fsyl;46.815759;7.268823;810.34;802.45;NA;1713;St. Antoni;Flüeacherholz;Fribourg;Switzerland
+398;Kleingurmels_Under Gruenenburg_18;Kleingurmels;Under Gruenenburg_18;581801.5;192946.4;Pabi;46.887383;7.199859;547.07;531.02;NA;3213;Kleinbösingen;Gammacherrain;Fribourg;Switzerland
+399;Bösingen_Risau_18;Bösingen;Risau_18;582762.8;194591.2;Psyl;46.902204;7.212409;521.15;524.03;29.0;3179;Kriechenwil;Tannholz;Bern;Switzerland
+400;Heitenried_Schinelhus_18;Heitenried;Schinelhus_18;589521.5;185490.2;Fsyl;46.820479;7.301322;778.00;770.19;24.3;1714;Heitenried;Chrume;Fribourg;Switzerland
+401;Alterswil_Rüti_18;Alterswil;Rüti_18;586895.3;180575.4;Pabi;46.776222;7.267049;811.51;800.25;NA;1718;Rechthalten;Steinbrunnenholz;Fribourg;Switzerland
+402;St. Ursen_Röschiwil_18;St. Ursen;Röschiwil_18;583211.2;180495.5;Fsyl;46.77542;7.218814;773.90;772.27;20.8;1717;St. Ursen;Feista;Fribourg;Switzerland
+403;Le Mouret_Le Grâbo_18;Le Mouret;Le Grabo_18;580396.2;177467.6;Qrob;46.748106;7.182088;740.47;738.82;15.4;1724;Le Mouret;Intre-Chè;Fribourg;Switzerland
+404;Alterswil_Chäla;Alterswil;Chäla;589386.6;181902.6;Aalb;46.788206;7.299637;890.00;878.07;NA;1715;Alterswil FR;Bodenholz;Fribourg;Switzerland
+405;Bourguillon_Hattenberg_18;Bourguillon;Hattenberg_18;580999;183618.5;Fsyl;46.803454;7.18972;638.63;673.54;17.0;1717;St. Ursen;Hattenbergrain;Fribourg;Switzerland
+406;Alterswil_Geriwil;Alterswil;Geriwil;586521.5;182325.6;Fexc;46.791959;7.262104;735.84;727.27;NA;1715;Alterswil FR;Ausbruchmatta;Fribourg;Switzerland
+407;Ueberstorf_Oberholzwald_18;Ueberstorf;Oberholzwald_18;592574.8;189591.6;Fsyl;46.857414;7.341266;783.31;761.87;20.2;3182;Ueberstorf;Tannacher;Fribourg;Switzerland
+408;Le Mouret_Montévraz_18;Le Mouret;Montévraz_18;580191.5;175219.4;Pabi;46.727876;7.179506;861.75;852.53;25.2;1724;Montévraz;Au village (Montévraz);Fribourg;Switzerland
+409;Villarsel_Nesslerabach_18;Villarsel;Nesslerabach_18;580959.1;178668.5;Fsyl;46.758925;7.189404;706.90;709.31;NA;1724;Le Mouret;Bois de la Rotzetta;Fribourg;Switzerland
+410;Rechthalten_Entemoos;Rechthalten;Entemoos;585889.2;179278;Bpen;46.764531;7.253917;879.89;874.31;14.7;1718;Rechthalten;Löhlimoos;Fribourg;Switzerland
+411;Düdingen_Horia_18;Düdingen;Horia_18;582360.4;186792.8;Qrob;46.832044;7.207431;647.06;645.46;NA;3186;Düdingen;Mariahilf;Fribourg;Switzerland
+412;Schmitten_Ettelberg_18;Schmitten;Ettelberg_18;586782.3;188791.5;Fsyl;46.850126;7.265331;692.28;686.05;18.4;3185;Schmitten (FR);Bunziwilholz;Fribourg;Switzerland
+413;Wahlern_Gänsemoos_18;Wahlern;Gänsemoos_18;593278.6;187098.8;Aalb;46.834999;7.350531;855.38;843.41;31.5;3150;Schwarzenburg;Hohliebeholz;Bern;Switzerland
+414;Giffers_Buntschumüli;Giffers;Buntschumüli;582957.6;180282.3;Fsyl;46.773497;7.215503;749.49;760.17;12.3;1734;Tentlingen;Moos;Fribourg;Switzerland
+415;Guggisberg_Multernboden;Guggisberg;Multernboden;590768.1;179495.1;Aalb;46.76657;7.31778;970.50;972.48;29.2;3158;Guggisberg;Hublen;Bern;Switzerland
+416;St. Sylvester_Hangeried;St. Sylvester;Hangeried;582784.5;178016;Pabi;46.753105;7.213321;763.81;764.95;NA;1736;St. Silvester;Tschüpru;Fribourg;Switzerland
+417;Heitenried_Winterlingen_18;Heitenried;Winterlingen_18;588793.5;185878.9;Fsyl;46.823964;7.291773;748.50;746.34;NA;1714;Heitenried;Brämeriedholz;Fribourg;Switzerland
+418;St. Sylvester_Matta_18;St. Sylvester;Matta_18;582848;177527.8;Pabi;46.748715;7.214171;766.70;752.62;NA;1736;St. Silvester;Tschüprubächli;Fribourg;Switzerland
+419;Tentlingen_Vieille Rossmatta_18;Tentlingen;Vieille Rossmatta_18;580035.5;179505.7;Fsyl;46.766429;7.177279;689.24;685.73;NA;1723;Marly;Route des Pralettes;Fribourg;Switzerland
+420;Alterswil_Galteren_E;Alterswil;Galteren_E;584026.1;183333.5;Qrob;46.800969;7.229385;696.43;688.44;17.7;1712;Tafers;Im Grabe;Fribourg;Switzerland
+421;Schmitten_Lanthen_18;Schmitten;Lanthen_18;586087.7;188445.5;Pabi;46.847;7.256234;642.34;630.01;NA;3185;Schmitten (FR);Hofegerta;Fribourg;Switzerland
+422;Oberschrot_Sali_18;Oberschrot;Sali_18;586849;176531.2;Qrob;46.739843;7.26656;918.09;924.52;16.4;1716;Oberschrot;Lengisried;Fribourg;Switzerland
+423;St. Antoni_Holzacher;St. Antoni;Holzacher;586222.3;186362.9;Aalb;46.828269;7.258062;699.40;703.72;NA;1713;St. Antoni;Burgbüelhölzli;Fribourg;Switzerland
+424;Lentigny_Bouleire;Lentigny;Bouleire;567890.1;178855.3;Pabi;46.760102;7.018329;735.65;727.75;NA;1745;Lentigny;Les Bouleires;Fribourg;Switzerland
+425;St. Ursen_Christlisberg;St. Ursen;Christlisberg;582010.1;181935.7;Fsyl;46.788344;7.203032;682.43;672.08;NA;1717;St. Ursen;Kapellenmatta;Fribourg;Switzerland
+426;Praroman_Chechin_18;Praroman;Chechin_18;580919.8;178306.3;Fsyl;46.755666;7.188904;717.68;720.68;NA;1724;Le Mouret;Tsetsin;Fribourg;Switzerland
+427;Brünisried_Brüggla_oak;Brünisried;Brüggla_oak;587562.5;179827.7;Qrob;46.769509;7.275806;843.69;843.39;NA;1715;Alterswil FR;Holzgassa;Fribourg;Switzerland
+428;Tafers_Angstorfwäldli_18;Tafers;Angstorfwäldli_18;583365.5;186678.5;Pabi;46.831043;7.220609;673.85;665.71;NA;3186;Düdingen;Angstorfwäldli;Fribourg;Switzerland
+429;St. Antoni_Moos;St. Antoni;Moos;586893;184196;Qrob;46.808791;7.266915;797.86;789.21;26.2;1713;St. Antoni;Guglenberg;Fribourg;Switzerland
+430;Treyvaux_Traumatta;Treyvaux;Traumatta;576471.4;173233.9;Pabi;46.709894;7.130944;941.90;939.69;20.7;1634;La Roche FR;La Combert;Fribourg;Switzerland
+431;Kleingurmels_Under Gruenenburg_spruce;Kleingurmels;Under Gruenenburg_spruce;581742.5;192744.4;Pabi;46.885564;7.199092;524.18;502.71;NA;3213;Kleinbösingen;Gammacherrain;Fribourg;Switzerland
+432;Bösingen_Gertholz_18;Bösingen;Gertholz_18;585739.2;193462.7;Fsyl;46.892124;7.251508;560.83;562.65;22.4;3178;Bösingen;Schlundholz;Fribourg;Switzerland
+433;Bösingen_Noflenau_18;Bösingen;Noflenau_18;586711.3;193192.2;Fsyl;46.889711;7.264271;555.14;551.43;NA;3184;Wünnewil;Farneraholz;Fribourg;Switzerland
+434;Villarsel_18;Villarsel;18;579426.5;179521.8;Fsyl;46.766555;7.169305;680.62;678.52;NA;1723;Villarsel-sur-Marly;Bois des Noutes;Fribourg;Switzerland
+435;St. Sylvester_Flue;St. Sylvester;Flue;584794.7;175763.4;Pabi;46.732892;7.239706;845.04;832.21;NA;1736;St. Silvester;Muelers;Fribourg;Switzerland
+436;Schmitten_Fillistorf_18;Schmitten;Fillistorf_18;584549.4;189949.6;Fexc;46.860496;7.236015;638.39;630.49;NA;3185;Schmitten (FR);Herrenmatte;Fribourg;Switzerland
+437;Brünisried_Schürlimatta;Brünisried;Schürlimatta;587230.8;177900.5;Acer;46.752167;7.271517;971.32;952.64;17.7;1719;Brünisried;Menzisberg;Fribourg;Switzerland
+438;Tafers_Rohr_18;Tafers;Rohr_18;584638.5;185669.4;Psyl;46.821996;7.237329;718.38;707.42;NA;1712;Tafers;Vorders Rohrholz;Fribourg;Switzerland
+439;Barberêche_Manoir;Barberêche;Manoir;579008.1;189864.6;Fsyl;46.859579;7.16335;572.82;560.39;NA;1783;Barberêche;Bois des Goulets;Fribourg;Switzerland
+440;Gurmels_Kleinbösingen_N;Gurmels;Kleinbösingen_N;582431.2;194401.5;Psyl;46.900489;7.208064;540.14;523.96;NA;3213;Kleinbösingen;Wannera;Fribourg;Switzerland
+441;St. Ursen_Chürscheli;St. Ursen;Chürscheli;584656.5;181175.7;Fsyl;46.781574;7.237715;778.46;777.30;27.1;1717;St. Ursen;Birchholz;Fribourg;Switzerland
+442;Oberschrot_Bärfeli_18;Oberschrot;Bärfeli_18;586343.4;176596.1;Qrob;46.740416;7.259943;944.87;933.83;NA;1716;Oberschrot;Grundberg;Fribourg;Switzerland
+443;Ueberstorf_Ufem Burst_18;Ueberstorf;Ufem Burst_18;592653.7;190702.4;Qrob;46.867407;7.342282;727.09;710.36;NA;3182;Ueberstorf;Zubacker;Fribourg;Switzerland
+444;Alterswil_Halta;Alterswil;Halta;586670.7;181145.6;Pabi;46.781347;7.264092;767.96;766.42;NA;1717;St. Ursen;Haltaholz;Fribourg;Switzerland
+445;Rechthalten_Moosholz_18;Rechthalten;Moosholz_18;585402.2;178751.5;Pabi;46.759785;7.247558;883.15;889.12;NA;1718;Rechthalten;Moosholz;Fribourg;Switzerland
+446;Ursy_Au Cuard;Ursy;Au Cuard;552604.2;163994.2;Qrob;46.625509;6.819787;660.73;655.05;NA;1673;Rue;Au Cuard;Fribourg;Switzerland
+447;Schwarzenburg_Bachtelen;Schwarzenburg;Bachtelen;591172.8;183653.3;Aalb;46.80398;7.322997;860.01;854.37;NA;3150;Schwarzenburg;Langenwil;Bern;Switzerland
+448;Elisried_Höhi_18;Elisried;Höhi_18;596319.7;186005;Aalb;46.825183;7.390404;807.07;792.64;31.1;3152;Mamishaus;Kohlgruben;Bern;Switzerland
+449;Düdingen_Chiemiwald_18;Düdingen;Chiemiwald_18;579311.5;187829;Psyl;46.841278;7.167421;587.20;580.08;NA;3186;Düdingen;Chiemiwald;Fribourg;Switzerland
+450;Wünnewil_Mülital_18;Wünnewil;Mülital_18;586750.3;190291.2;Psyl;46.863616;7.264867;640.52;633.28;NA;3184;Wünnewil;Rainacker;Fribourg;Switzerland
+451;St. Ursen_Neumatt_18;St. Ursen;Neumatt_18;582700.8;183247.1;Qrob;46.800159;7.212028;662.75;647.87;26.4;1717;St. Ursen;Neumattholz;Fribourg;Switzerland
+452;Plaffeien_Hohliebi_18;Pfaffeien;Hohliebi_18;588413.3;174391.8;Aalb;46.720626;7.287082;1019.84;1016.59;27.2;1716;Plaffeien;Gemeindewald;Fribourg;Switzerland
+453;Heitenried_Berghölzli;Heitenried;Berghölzli;588619.3;185350.2;Fsyl;46.819206;7.289502;782.69;779.74;20.2;1713;St. Antoni;Berghölzli;Fribourg;Switzerland
+454;Wünnewil_Zehnthus_18;Wünnewil;Zehnthus_18;588373.5;193126.1;Qrob;46.889147;7.286083;569.84;567.30;NA;3184;Wünnewil;Moosacher;Fribourg;Switzerland
+455;Schwarzenburg_Waldgasse_18;Schwarzenburg;Waldgasse_18;591585.4;184018.3;Aalb;46.807269;7.328395;855.82;859.50;25.3;3150;Schwarzenburg;Lismerenhölzli;Bern;Switzerland
+456;Bösingen_Frieseneit_18;Bösingen;Frieseneit_18;584463.2;190948.4;Qrob;46.869478;7.23485;602.76;597.06;NA;3185;Schmitten FR;Fuchsenlochwald;Fribourg;Switzerland
+457;Schalunen_Ischlag;Schalunen;Ischlag;605917;217963;Aalb;47.112635;7.516591;509.05;491.48;NA;3317;Limpach;Ischlag;Bern;Switzerland
+458;Schwarzenburg_Chilchermatt_18;Schwarzenburg;Chilchermatt_18;593569.5;184288.5;Aalb;46.809721;7.354386;848.65;847.75;28.2;3150;Schwarzenburg;Stiersackerhölzli;Bern;Switzerland
+459;Marly_Les_Fontanettes_18;Marly;Les_Fontanettes_18;578658.4;179809;Fsyl;46.769114;7.159236;693.52;674.21;NA;1723;Marly;Bois de l'Eglise;Fribourg;Switzerland
+460;Mamishaus_Hintermutten_18;Mamishaus;Hintermutten_18;594598.8;184323.6;Pabi;46.810047;7.36787;832.97;824.77;NA;3152;Mamishaus;Hostatt;Bern;Switzerland
+461;Huttwil_Kaltenegg;Huttwil;Kaltenegg;627601.5;216989.5;Aalb;47.103331;7.802238;749.50;742.44;NA;4938;Rohrbachgraben;Kohlhölzli;Bern;Switzerland
+462;Schmitten_Fillistorf_spruce;Schmitten;Fillistorf_spruce;584400.2;189883.8;Pabi;46.859901;7.23406;645.04;635.94;NA;3185;Schmitten (FR);Bethlehemholz;Fribourg;Switzerland
+463;Alterswil_Seliholz_W;Alterswil;Seliholz_W;585494.3;184222.7;Aalb;46.809002;7.24859;780.53;771.71;NA;1713;St. Antoni;Seeliholz;Fribourg;Switzerland
+464;Rechthalten_Sonnenberg_18;Rechthalten;Sonnenberg:_18;583741.7;178849.3;Qrob;46.760626;7.22582;821.53;825.31;19.8;1735;Giffers;Welisried;Fribourg;Switzerland
+465;Alterswil_Aeschlenberg_18;Alterswil;Aeschlenberg_18;586652.4;181892.3;Fexc;46.788064;7.26383;729.22;722.11;22.8;1717;St. Ursen;Brunnenmatta;Fribourg;Switzerland
+466;Kalchstätten_Herrenmatt_18;Kalchstätten;Herrenmatt_18;589492.8;179234;Qrob;46.764202;7.30109;829.87;838.05;NA;3158;Guggisberg;Halten;Bern;Switzerland
+467;Mamishaus_Dunti_18;Mamishaus;Dunti_18;594739.3;184243.8;Pabi;46.80933;7.369712;842.79;839.79;28.3;3152;Mamishaus;Muttberghölzli;Bern;Switzerland
+468;Rüschegg_Gambach_18;Rüschegg;Gambach_18;594093.4;180473.7;Apseu;46.775411;7.361299;1076.61;1050.50;14.7;3153;Rüschegg Gambach;Büelhaltli;Bern;Switzerland
+469;Alterswil_Wolgiswil_18;Alterswil;Wolgiswil_18;584098.5;182306.1;Pabi;46.791729;7.230369;702.47;699.34;NA;1712;Tafers;Wolgiswil;Fribourg;Switzerland
+470;Tafers_Brunnenberg_E;Tafers;Brunnenberg_E;585300.2;184910.3;Aalb;46.815183;7.246024;724.42;722.09;NA;1712;Tafers;Lengibitzaholz;Fribourg;Switzerland
+471;France_Jujurieux;France;Jujurieux;442363.2;101413.1;Pnigra;46.045806;5.402018;325.31;NA;NA;F01640;Jujurieux F;Bois de la Mouille;Ain;France
+472;Schwarzsee_Burstera;Schwarzsee;Burstera;588450.3;169549.4;NA;46.677067;7.28769;1092.91;1082.74;NA;1716;Schwarzsee;Burstera;Fribourg;Switzerland
+473;Zumholz_Brand_18;Zumholz;Brand_18;588204.4;178450.9;Fsyl;46.757137;7.284245;868.13;859.56;NA;1719;Brünisried;Riedgarten;Fribourg;Switzerland
+476;Wahlern_Althaus_18;Wahlern;Althaus_18;593128;186890.5;Aalb;46.833123;7.348561;853.93;843.75;31.5;3150;Schwarzenburg;Hohliebeholz;Bern;Switzerland
+477;Brünisried_Obere Weier_18;Brünisried;Obere Weier_18;587802.4;177772.7;Pabi;46.751028;7.279001;914.90;902.01;29.6;1719;Brünisried;Allmet;Fribourg;Switzerland
+478;Kalchstätten_Birche_18;Kalchstätten;Birche_18;589705.5;180741.4;Aalb;46.777765;7.30384;899.99;898.64;31.8;3159;Riedstätt;Birchenholz;Bern;Switzerland
+479;Mamishaus_Rümlisberg_18;Mamishaus;Rümlisberg_18;594799;183613.7;Pabi;46.803662;7.370501;890.72;886.20;NA;3152;Mamishaus;Hubelholz;Bern;Switzerland
+480;Alterswil_Mediwil;Alterswil;Mediwil;585638.6;182137;Pabi;46.790244;7.250545;722.44;729.38;20.8;1717;St. Ursen;Stegmattholz;Fribourg;Switzerland
+481;Alterswil_Chleholz_18;Alterswil;Chleholz_18;588523.8;181701.1;Pabi;46.786379;7.288344;852.64;842.51;NA;1715;Alterswil FR;Chleeholz;Fribourg;Switzerland
+482;Ueberstorf_Summerau_18;Uebestorf;Summerau_18;591753.6;189045.9;Aalb;46.852496;7.330507;773.28;760.21;NA;3182;Ueberstorf;Summerau;Fribourg;Switzerland
+483;Treyvaux_Kiesgrube_18;Treyvaux;kiesgrube_18;575573.1;175162.2;Psyl;46.727208;7.119093;737.73;736.24;NA;1733;Treyvaux;Les Conches;Fribourg;Switzerland
+484;Mamishaus_Abiholz;Mamishaus;Abiholz;596258.5;184446.8;Aalb;46.811166;7.389614;782.12;768.44;NA;3152;Mamishaus;Aebiholz;Bern;Switzerland
+485;Bösingen_Riederberg_18;Bösingen;Riederberg_18;582961.6;192415.1;Psyl;46.882635;7.2151;579.07;566.26;29.8;3178;Bösingen;Oberes Mülibergholz;Fribourg;Switzerland
+486;Wallenbuch_Schachewald;Wallenbuch;Schachewald;584111.6;197503;Fsyl;46.92843;7.230009;508.49;504.17;NA;3206;Gammen;Schachewald;Bern;Switzerland
+487;Chavannes-sous-Orsonnens;Chavannes-sous-Orsonnens;;566350.7;175630.5;Pabi;46.731018;6.998417;667.14;665.88;NA;1694;Chavannes-sous-Orsonnens;Pra du Craux;Fribourg;Switzerland
+488;Avry_Nonan;Avry;Nonan;573000.7;181990.3;NA;46.78853;7.085038;661.42;653.72;NA;1753;Matran;Pré du Château;Fribourg;Switzerland
+489;Milken_Milkeholz_18;Milken;Milkeholz_18;593641.9;182610.5;Aalb;46.794628;7.355358;912.13;889.25;NA;3157;Milken;Milkenholz;Bern;Switzerland
+490;Uebestorf_Guldifeld_18;Uebestorf;Guldifeld_18;591513.4;191939.9;Fsyl;46.878525;7.327303;707.39;700.35;NA;3182;Ueberstorf;Farnera;Fribourg;Switzerland
+491;Uebestorf_lenglod_18;Uebestorf;Lenglod_18;592446;192181.4;Pabi;46.880709;7.339534;673.87;663.96;NA;3182;Ueberstorf;Buchholz;Fribourg;Switzerland
+492;Lentigny_Le Genevrey;Lentigny;Le Genevrey;567862.1;177975.9;NA;46.75219;7.018024;727.80;730.55;29.3;1741;Cottens FR;En Genevrex;Fribourg;Switzerland
+493;Riggisberg_Oberi Holzweid_18;Riggisberg;Oberi Holzweid_18;599879.9;184739.6;Fexc;46.813812;7.437061;781.12;786.40;NA;3132;Riggisberg;Grüni;Bern;Switzerland
+494;Rossens_Le Chaney;Rossens;Le Chaney;573507.4;175487;Aalb;46.730051;7.092052;717.31;707.57;NA;1728;Rossens FR;Le Chaney;Fribourg;Switzerland
+495;Corpataux_Le Rodzin;Corpataux;Le Rodzin;572312.8;176920.7;Aalb;46.742899;7.076337;728.62;724.07;NA;1727;Magnedens;L'Essert des Chênes;Fribourg;Switzerland
+496;Farvagny_Boussevent;Farvagny;Boussevent;572187.8;176057.7;Fsyl;46.735131;7.074754;710.00;704.13;NA;1726;Farvagny-le-Petit;Au Foty;Fribourg;Switzerland
+497;Düudingen_Schüracher;Düdingen;Schüracher;581959.3;189523.8;Pstr;46.8566;7.202065;616.08;618.45;27.8;3186;Düdingen;Chlempaholz;Fribourg;Switzerland
+498;Alterswil_Spitteholz;Alterswil;Spitteholz;585596.3;183561.4;Aalb;46.803056;7.249946;791.11;787.70;NA;1715;Alterswil FR;Spittelholz;Fribourg;Switzerland
+499;Villarcel_Commanderie_18;Villarcel;Commanderie_18;580103.1;179086.7;Pabi;46.762662;7.178182;696.11;697.98;26.8;1723;Villarsel-sur-Marly;Bois de Corbaroche;Fribourg;Switzerland
+500;Treyvaux_Le Moulin_18;Treyvaux;Le_Moulin_18;575687.7;175351.5;NA;46.728915;7.120582;726.88;725.78;NA;1733;Treyvaux;Montilly;Fribourg;Switzerland
+501;Autigny_Chénens;Autigny;Chénens;566350.7;175638.8;Pabi;46.731092;6.998416;664.95;662.83;30.5;1694;Chavannes-sous-Orsonnens;Pra du Craux;Fribourg;Switzerland
+502;Fribourg_St. Theodule;Fribourg;St. Theodule;577484.5;187060.2;Pmen;46.834302;7.14351;558.77;593.78;NA;1782;Cormagens;Bois de Saint-Théodule;Fribourg;Switzerland
+503;St. Ursen_Burgstelle;St. Ursen;Burgstelle;581943.5;182418.8;Fsyl;46.792688;7.20214;672.23;679.01;NA;1717;St. Ursen;Ober Tasberg;Fribourg;Switzerland
+504;Oberschrot_Neuhaus;Oberschrot;Neuhaus;585972.2;176936.8;Fexc;46.743473;7.255075;978.02;974.18;NA;1737;Plasselb;Neuhaus;Fribourg;Switzerland
+505;Oberschrot_Fendersch;Oberschrot;Fendersch;587245.8;176855.7;Fsyl;46.742769;7.271743;928.95;913.71;NA;1716;Oberschrot;Ried;Fribourg;Switzerland
+506;Ueberstorf_Guldifeld_19;Ueberstorf;Guldifeld_19;591601;192118.9;Fsyl;46.880137;7.32845;698.44;687.29;NA;3182;Ueberstorf;Kriegackerholz;Fribourg;Switzerland
+507;Albligen_Wallismatt_19;Albligen;Wallismatt_19;591044;188242.9;Pabi;46.845264;7.321219;698.12;699.16;NA;3183;Albligen;Änetmooswald;Bern;Switzerland
+508;Lanzenhäusern_Finel_19;Lanzenhäusern;Finel_19;593071;188803.9;Aalb;46.850335;7.347785;717.54;719.73;24.7;3148;Lanzenhäusern;Finelholz;Bern;Switzerland
+509;Tentlingen_Bärg_19;Tentlingen;Bärg_19;581456;180274.9;Fsyl;46.77339;7.195843;728.57;719.87;NA;1734;Tentlingen;Buechwald;Fribourg;Switzerland
+510;Schwarzenburg_Herrenholz_19;Schwarzenburg;Herrenholz_19;593489;183713.9;Aalb;46.804553;7.353339;854.93;840.03;NA;3157;Milken;Herrenholz;Bern;Switzerland
+511;Heitenried_Heizenried;Heitenried;Heizenried;590368;185123.9;Aalb;46.817198;7.312423;747.43;734.23;NA;1714;Heitenried;Henzenried;Fribourg;Switzerland
+512;Rechthalten_Weissenstein;Rechthalten;Weissenstein;585788;179935.9;Pabi;46.770447;7.252571;909.30;917.72;NA;1718;Rechthalten;Tanneried;Fribourg;Switzerland
+513;Brunisried_ruef_Guet;Brunisried;Ruef Guet;587285;179734.9;Pabi;46.76867;7.272176;843.73;839.23;NA;1715;Alterswil FR;Grabe;Fribourg;Switzerland
+514;St.Antoni_Weissenbach;St.Antoni;Weissenbach;585895;184847.9;Aalb;46.814635;7.25382;692.76;684.92;NA;1713;St. Antoni;Chüeriedholz;Fribourg;Switzerland
+515;Bösingen_Gertholz_19;Bösingen;Gertholz_19;585487;193486.9;Fsyl;46.892336;7.248198;551.57;551.51;NA;3178;Bösingen;Bergholz;Fribourg;Switzerland
+516;Kleinbösingen_Müllerholz;Kleinbösingen;Müllerholz;581493;193519.9;Qrob;46.892533;7.195788;586.77;566.37;NA;3213;Kleinbösingen;Kirchweg;Fribourg;Switzerland
+517;Düdingen_Garmiswil;Düdingen;Garmiswil;579712;187642.9;Aalb;46.839616;7.172681;595.24;586.91;NA;3186;Düdingen;Unterer Wald;Fribourg;Switzerland
+518;Le_Mouret_Zenauva_19;Le Mouret;Zenauva_19;580231;175935.9;Fexc;46.734323;7.179993;783.87;790.10;12.2;1724;Montévraz;Ruisseau de Zénauva;Fribourg;Switzerland
+519;Alterswil_Chleholz_19;Alterswil;Chleholz_19;588677;181694.9;Pabi;46.786326;7.290351;875.03;859.09;NA;1715;Alterswil FR;Chleeholz;Fribourg;Switzerland
+520;Aeckenmatt_Mühle_19;Aeckenmatt;Mühle_19;594057;189191.9;Fsyl;46.853834;7.360708;674.04;675.09;29.5;3148;Lanzenhäusern;Fuhrmattholz;Bern;Switzerland
+521;Wünnewil_Mülital_19;Wünnewil;Mülital_19;586803;190302.9;Aalb;46.863723;7.265559;640.54;634.67;NA;3184;Wünnewil;Grossholz;Fribourg;Switzerland
+522;Ependes_ependes_19;Ependes;ependes_19;577937.1;178699.7;Pabi;46.759113;7.149846;704.29;693.46;NA;1731;Ependes FR;Bois du Riau;Fribourg;Switzerland
+524;Praroman_Chechin_19;Praroman;Chechin_19;580917;178348.9;Fsyl;46.756049;7.188867;714.00;719.12;NA;1724;Le Mouret;Tsetsin;Fribourg;Switzerland
+525;Heitenried_Breitenried_19;Heitenried;Breitenried_19;588450;188905.9;Aalb;46.851187;7.287194;669.95;646.28;NA;1714;Heitenried;Breitenried;Fribourg;Switzerland
+526;Villarsel_La_Rotztetta;Villarsel;La Rotztetta;580864;178902.9;Fsyl;46.761031;7.18815;673.26;691.31;NA;1724;Le Mouret;Bois de la Rotzetta;Fribourg;Switzerland
+527;Mamishus_Rumlisberg_19;Mamishaus;Rumlisberg_19;594796;183720.9;Pabi;46.804627;7.370461;851.44;854.32;NA;3152;Mamishaus;Hubelholz;Bern;Switzerland
+528;Schmitten_Bunziwil_19;Schmitten;Bunziwil_19;586666;189444.9;Pabi;46.856002;7.263787;617.79;618.18;NA;3185;Schmitten (FR);Maiächerli;Fribourg;Switzerland
+529;Kleingurmels_Under Gruenenburg_19;Kleingurmels;Under Gruenenburg_19;581794;192939.9;Fsyl;46.887325;7.199761;547.07;534.06;NA;3213;Kleinbösingen;Gammacherrain;Fribourg;Switzerland
+530;Le Mouret_Le Grabô_19;Le Mouret;Le Grabô_19;580790;177419.9;Pabi;46.747689;7.187244;728.69;726.90;NA;1724;Le Mouret;Ruisseau de la Nesslera;Fribourg;Switzerland
+531;Brünisried_Ruef Guet_19;Brünisried;Ruef Guet_19;587117;179745.9;Qrob;46.768765;7.269976;840.03;825.52;23.5;1718;Rechthalten;Tromoos;Fribourg;Switzerland
+532;Alterswil_Wolperswil_19;Alterswil;Wolperswil_19;585628;181638.9;Pabi;46.785763;7.250423;740.81;720.59;NA;1717;St. Ursen;Wolperwil;Fribourg;Switzerland
+533;Ueberstorf_Niedermettlen_19;Ueberstorf;Niedermettlen_19;591230;190442.9;Fsyl;46.865056;7.323615;746.71;732.99;33.5;3182;Ueberstorf;Birchholz;Fribourg;Switzerland
+534;St. Antoni_Holzacher_19;St. Antoni;Holzacher_19;586297;186536.9;Aalb;46.829836;7.259036;702.67;704.86;24.3;1713;St. Antoni;Menzishusholz;Fribourg;Switzerland
+535;Rüeggisberg_Hinterfultigen;Rüeggisberg;Hinterfultigen;598103;187605.9;Aalb;46.839592;7.413767;820.61;815.28;NA;3089;Hinterfultigen;Im Falkenacker;Bern;Switzerland
+537;Schmitten_Lanthen_19;Schmitten;Lanthen_19;586043;188460.9;Fexc;46.847138;7.255648;644.43;630.54;28.7;3185;Schmitten (FR);Hofegerta;Fribourg;Switzerland
+538;Kalchstätten_Herrenmatt_19;Kalchstätten;Herrenmatt_19;589759;178682.9;Pabi;46.759249;7.304588;812.57;817.90;NA;3158;Guggisberg;Rain;Bern;Switzerland
+539;St. Ursen_Stöckholz_19;St. Ursen;Stöckholz_19;583905;181760.9;Aalb;46.786821;7.227855;770.02;752.10;30.0;1717;St. Ursen;Stöckholz;Fribourg;Switzerland
+540;St. Ursen_Röschiwil_19;St. Ursen;Röschiwil_19;583156;180451.9;Fsyl;46.775027;7.218094;764.49;761.68;20.4;1717;St. Ursen;Röschiwilholz;Fribourg;Switzerland
+541;Schwarzenburg_Herrenholz_N;Schwarzenburg;Herrenholz_N;593599;183747.9;Aalb;46.80486;7.35478;845.83;831.66;30.0;3157;Milken;Herrenholz;Bern;Switzerland
+542;St.Antoni_Stockera_19;St.Antoni;Stockera_19;587244;183858.9;Aalb;46.805766;7.271523;828.42;821.31;27.5;1713;St. Antoni;Grossholz;Fribourg;Switzerland
+543;Rüschegg_Hirschhorn;Rüschegg;Hirschhorn;595518;180475.9;Pabi;46.775443;7.379952;888.61;891.82;23.3;3153;Rüschegg Gambach;Hubelweid;Bern;Switzerland
+544;Alterswil_Wengliswil;Alterswil;Wengliswil;588129;181180.9;Aalb;46.781693;7.283187;858.98;867.30;NA;1715;Alterswil FR;Chleeholz;Fribourg;Switzerland
+545;Oberschrot_Sali_19;Oberschrot;Sali_19;586925;176560.9;Pabi;46.740111;7.267554;911.93;916.59;18.0;1716;Oberschrot;Sahli;Fribourg;Switzerland
+546;Tafers_Rohr_19;Tafers;Rohr_19;584687;185766.9;Aalb;46.822875;7.237961;728.31;722.28;NA;1712;Tafers;Vorders Rohrholz;Fribourg;Switzerland
+547;Bourgillon_Côte du Gotterón;Bourgillon;Côte du Gotterón;580188;183428.9;Fsyl;46.801724;7.179104;652.46;659.24;NA;1722;Bourguillon;Chemin de la Fenettaz;Fribourg;Switzerland
+548;Mamishaus_Hausmatteweid_19;Mamishaus;Hausmatteweid_19;594289;184283.9;Fsyl;46.809687;7.363812;865.20;864.87;NA;3152;Mamishaus;Duntelenhölzli;Bern;Switzerland
+549;Schwarzenburg_Chilchermatt_19;Schwarzenburg;Chilchermatt_19;593516;184247.9;Pabi;46.809356;7.353685;868.71;872.69;NA;3150;Schwarzenburg;Stiersackerhölzli;Bern;Switzerland
+550;Heitenried_Schinelhus_19;Heitenried;Schinelhus_19;589377;185445.9;Pabi;46.820079;7.29943;781.47;767.83;NA;1714;Heitenried;Holzacher;Fribourg;Switzerland
+551;Rechthalten_Entemoos_19;Rechthalten;Entemoos_19;585940;179294.9;Bpen;46.764685;7.254581;878.82;874.80;NA;1718;Rechthalten;Löhlimoos;Fribourg;Switzerland
+552;Barberêche_Manoir_19;Barberêche;Manoir_19;579066;189496.9;Populus sp;46.856273;7.164127;553.00;553.05;NA;1783;Barberêche;Le Château;Fribourg;Switzerland
+553;Schwarzenburg_Chilchermatt_beech;Schwarzenburg;Chilchermatt_beech;593482;184348.9;Fsyl;46.810265;7.353238;838.85;833.83;NA;3150;Schwarzenburg;Stiersackerhölzli;Bern;Switzerland
+554;Zumholz_Rainweid;Zumholz;Rainweid;589952;178612.9;Qrob;46.758623;7.307116;868.41;876.37;NA;3158;Guggisberg;Thürli;Bern;Switzerland
+555;La Roche_ Les Rontes;La Roche; Les Rontes;576614;172176.9;Pabi;46.700392;7.132863;802.30;779.41;24.5;1634;La Roche FR;Le Fallenbach;Fribourg;Switzerland
+556;Gurmels_Kleinbösingen_19;Gurmels;Kleinbösingen_19;582360;194297.9;Pabi;46.899555;7.207135;531.86;519.35;30.5;3213;Kleinbösingen;Wannera;Fribourg;Switzerland
+557;Flamatt_Zenthus_19;Flamatt;Zenthus_19;588516;193091.9;Pabi;46.888843;7.287953;588.87;593.51;25.6;3184;Wünnewil;Moosacher;Fribourg;Switzerland
+558;Alterswil_Wolgiswil_19;Alterswil;Wolgiswil_19;584028;182249.9;Fsyl;46.791223;7.229448;701.53;690.64;23.0;1715;Alterswil FR;Ober Grabe;Fribourg;Switzerland
+559;St. Antoni_Bachmattholz;St. Antoni;Bachmattholz;589622.8;184073.3;Pabi;46.807736;7.302681;787.29;784.54;NA;1714;Heitenried;Bachmattholz;Fribourg;Switzerland
+572;Germany_Henschenberg;Germany;Henschenberg;624833.4;283224.9;Aalb;47.699167;7.769444;613.58;NA;19.9;DE79692;Kleines Wiesental;NA;Baden-Württemberg;Germany
+574;Thonon-les-Baines_Reyvroz;Thonon-les-Baines;Reyvroz;533342.3;131436.1;Pabi;46.331;6.573;660.12;NA;NA;F74200;Reyvroz;NA;Haute-Savoie;France
+575;Ambroney_Malafan;Ambroney;Malafan;440008.2;97153.1;Qrob;46.006944;5.373056;312.68;NA;NA;F1500;Ambroney;NA;Ain;France
+576;Düdingen_Horia_19;Düdingen;Horia_19;582345;186917.9;Psyl;46.83317;7.207225;652.91;653.21;17.9;3186;Düdingen;Horia;Fribourg;Switzerland
+577;Tentlingen_Villarsel_19;Tentlingen;Villarsel_19;579435;179498.9;Pabi;46.76635;7.169418;684.23;679.60;31.5;1723;Villarsel-sur-Marly;Bois des Noutes;Fribourg;Switzerland
+578;Schwarzenburg_Herrenholz_W;Schwarzenburg;Herrenholz_W;593245;183585.9;Aalb;46.803399;7.350144;870.01;859.80;NA;3157;Milken;Herrenholz;Bern;Switzerland
+579;Plaffaien_Holiebi_19;Plaffaien;Holiebi_19;588525;174217.9;Aalb;46.719065;7.288549;1064.3;1056.56;NA;1716;Plaffeien;Gemeindewald;Fribourg;Switzerland
+580;Lentigny_Pré de Lovens;Lentigny;Pré de Lovens;568031;178814.9;Qrob;46.759746;7.020177;734.28;726.90;NA;1745;Lentigny;Les Bouleires;Fribourg;Switzerland
+581;Tafers_Tützenberg;Tafers;Tützenberg;584869;186293.9;Psyl;46.827619;7.240328;735.76;738.27;23.4;3185;Schmitten (FR);Jutzacher;Fribourg;Switzerland
+582;St.Antoni_Bächlisbrunnen_19;St.Antoni;Bächlisbrunnen_19;587128;185421.9;Aalb;46.819823;7.269959;778.65;778.99;NA;1713;St. Antoni;Hubelholz;Fribourg;Switzerland
+583;Zumholz_Graben;Zumholz;Graben;588818;178523.9;Pabi;46.757804;7.292275;827.40;811.12;NA;1719;Zumholz;Allmend;Fribourg;Switzerland
+584;Uebestorf_Chürschi;Uebestorf;Chürschi;589714.1;188829.4;Pabi;46.85052;7.303771;728.05;731.49;NA;1714;Heitenried;Grossholz;Fribourg;Switzerland
+585;Brunisried_Wuhrsmatta;Brunisried;Wuhrsmatta;587677;177959.9;Fsyl;46.75271;7.277356;902.72;890.61;NA;1719;Brünisried;Wuhrsmatta;Fribourg;Switzerland
+586;Brunisried_Haltli_19;Brunisried;Haltli_19;587624;178275.9;Aalb;46.755552;7.276654;923.83;920.09;NA;1719;Brünisried;Menzisberg-Rain;Fribourg;Switzerland
+587;Düdingen_Unter St.Wolfgangholz_19;Düdingen;Unter St.Wolfgangholz_19;580134;186834.9;Fsyl;46.832361;7.178248;638.82;638.40;27.9;3186;Düdingen;Balliswil;Fribourg;Switzerland
+588;Tafers_Brunnenbergrain_19;Tafers;Brunnenbergrain_19;583610;184475.9;Aalb;46.811236;7.223893;746.50;737.34;37.0;1712;Tafers;Oberholz;Fribourg;Switzerland
+589;Rechthalten_Bergli;Rechthalten;Bergli;585446;180125.9;Aalb;46.772149;7.248088;891.91;888.81;31.0;1718;Rechthalten;Tannacher;Fribourg;Switzerland
+590;Alblingen_Harriswald;Alblingen;Harriswald;591603;187990.9;Pabi;46.843004;7.328552;718.84;707.74;NA;3183;Albligen;Harriswald;Bern;Switzerland
+591;Villarsel_Villars-sur-Marly;Villarsel;Villars-sur-Marly;580779;180545.9;Pabi;46.775808;7.186968;743.44;741.44;NA;1723;Pierrafortscha;Route de Villars-sur-Marly;Fribourg;Switzerland
+592;St.Antoni_Lehwil_19;St.Antoni;Lehwil_19;587797;186426.9;Pabi;46.828876;7.278699;720.75;706.96;NA;1713;St. Antoni;Horiemoos;Fribourg;Switzerland
+593;Estavannes_Fossards;Estavannes;Fossards;573668;156106.9;Fexc;46.555725;7.095267;724.09;719.64;NA;1666;Grandvillard;L'Enfer;Fribourg;Switzerland
+594;Düdingen_Lustorfholz;Düdingen;Lustorfholz;583460;188470.9;Fsyl;46.847169;7.221783;669.85;661.67;NA;3186;Düdingen;Lustorfholz;Fribourg;Switzerland
+595;Alterswil_Grabach;Alterswil;Grabach;587296;180693.9;Fexc;46.777297;7.272293;766.13;759.10;NA;1715;Alterswil FR;Grabach;Fribourg;Switzerland
+596;Massonens_La Sapala;Massonens;La Sapala;563706;172290.9;Fsyl;46.700838;6.964084;715.13;715.06;NA;1680;Berlens;Les Rimblatsons;Fribourg;Switzerland
+597;Niederwil_Fuchsloch;Niederwil;Fuchsloch;732021;254544.9;Fexc;47.42846;9.188572;596.65;587.89;NA;9203;Niederwil SG;Glattburg;St. Gallen;Switzerland
+598;Ueberstorf_Summerau_19;Ueberstorf;Summerau_19;591639;188977.9;Pabi;46.851883;7.329006;791.71;779.40;29.9;3182;Ueberstorf;Summerau;Fribourg;Switzerland
+599;Ueberstorf_Guldifeld_Oak;Ueberstorf;Guldifeld_Oak;590998;191721.9;Qrob;46.876558;7.320547;654.49;649.64;18.9;3182;Ueberstorf;Bergli;Fribourg;Switzerland
+600;St.Sylvester_Matta_19;St.Sylvester;Matta_19;582933;177502.9;Fsyl;46.748494;7.215285;773.63;766.77;NA;1736;St. Silvester;Tschüpru;Fribourg;Switzerland
+601;Guggisberg_Wilmesacher_N;Guggisberg;Wilmesacher_N;591082;179709.9;Aalb;46.768507;7.321885;1026.35;1038.99;23.7;3158;Guggisberg;Willemannsacker;Bern;Switzerland
+602;Austria_Unterlochen;Austria;Unterlochen;1023284.5;345792.8;Aalb;48.12417;13.12806;451.90;NA;NA;AT5231;Schalchen;NA;Oberösterreich;Austria
+603;Cheiry_Coumin;Cheiry;Coumin;555633.7;178889;Qrob;46.7597;6.8579;542.70;545.26;22.0;1529;Cheiry;Clos du Four;Fribourg;Switzerland
+606;Tafers_Angstorfwäldli_19;Tafers;Angstorfwäldli;583294.8;186629.7;Psyl;46.830602;7.219685;685.45;671.80;NA;3186;Düdingen;Angstorfwäldli;Fribourg;Switzerland
+607;Alterswil_Hinterhalta;Alterswil;Hinterhalta;585634.3;181215.2;Pabi;46.781952;7.250519;767.82;760.53;NA;1717;St. Ursen;Lehbüel;Fribourg;Switzerland
+608;Düdingen_Allenlüften;Düdingen;Allenlüften;580279.7;190407.5;Fsyl;46.864502;7.180002;535.07;541.42;NA;3186;Düdingen;Bonn;Fribourg;Switzerland
+609;Schwarzenburg_Katzenstyg;Schwarzenburg;Katzenstyg;591233.6;186069.9;Aalb;46.825719;7.323746;725.00;733.46;NA;3150;Schwarzenburg;Katzenstygrain;Bern;Switzerland
+610;St.Antoni Lehwil_20;St.Antoni;Lehwil;587839.5;186449.5;Qrob;46.82908;7.279255;718.27;707.49;NA;1713;St. Antoni;Horiemoos;Fribourg;Switzerland
+611;Mamishaus_Dunti_20;Mamishaus;Dunti;594771.9;184226.4;Pabi;46.809173;7.370139;842.44;847.68;NA;3152;Mamishaus;Muttberghölzli;Bern;Switzerland
+612;Alterswil_Stöck;Alterswil;Stöck;585578.8;180935.8;Pabi;46.779437;7.2498;782.33;772.58;NA;1717;St. Ursen;Stöck;Fribourg;Switzerland
+613;Ferpicloz_L'Epine;Ferpicloz;L'epine;578487;177686.1;Fsyl;46.750013;7.157092;775.28;773.03;NA;1731;Ependes FR;L'Epine;Fribourg;Switzerland
+614;Düdingen_Breitrain;Düdingen;Breitrain;577752.8;188140.7;Qrob;46.84403;7.146973;541.67;553.70;NA;3186;Düdingen;Wittenbach;Fribourg;Switzerland
+615;Schmitten_Betlehem_20;Schmitten;Betlehem;583893.1;188957.2;Fsyl;46.851553;7.227443;658.36;644.46;NA;3185;Schmitten (FR);Gibel;Fribourg;Switzerland
+616;Barbarêche _La Fenetta;Barberêche;La Fenetta;578481.3;189190.7;Psyl;46.8535;7.156474;548.55;549.92;23.2;1783;Barberêche;La Goletta;Fribourg;Switzerland
+617;Giffers_Obertswil_20;Giffers;Obertswil;583347.4;179970.5;Pabi;46.770702;7.220617;771.15;770.50;NA;1734;Tentlingen;Röschiwilholz;Fribourg;Switzerland
+618;Alterswil_Weiermattenmoos_20;Alterswil;Weiermattenmoos;588120.6;182562.6;Pabi;46.794121;7.283041;802.64;798.00;26.9;1715;Alterswil FR;Afterholz;Fribourg;Switzerland
+619;Schwarzenburg_Schönenboden;Schwarzenburg;Schönenboden;593238.7;183450.4;Aalb;46.80218;7.350064;883.67;859.99;NA;3157;Milken;Herrenholz;Bern;Switzerland
+620;Milken_Flüematte;Milken;Flüematte;592860.3;181015.8;Pabi;46.780276;7.345145;1044.37;1034.48;21.4;3158;Guggisberg;Schweighäusern;Bern;Switzerland
+621;Zollhaus_Chnöwis;Zollhaus;Chnöwis;589797.9;173485.1;Pabi;46.712493;7.305213;1039.06;1030.69;25.1;1716;Schwarzsee;Schwand;Fribourg;Switzerland
+622;Bonnefontaine_La Lisera;Bonnefontaine;La Lisera;581391.5;176180.2;Aalb;46.736554;7.195165;800.52;797.54;NA;1724;Bonnefontaine;La Lisera;Fribourg;Switzerland
+623;Heitenried_Lettiswil;Heitenried;Lettiswil;589210.6;185500.7;Pabi;46.820569;7.297248;769.94;776.47;22;1714;Heitenried;Holzacher;Fribourg;Switzerland
+624;Schmitten_Bunziwil_20;Schmitten;Bunziwil;586690.7;189407.2;Fsyl;46.855664;7.264112;628.04;636.56;21.1;3185;Schmitten (FR);Maiächerli;Fribourg;Switzerland
+625;Bösingen_Riederberg_20;Bösingen;Riederberg;583045.6;192268;Pabi;46.881314;7.216208;569.05;562.05;NA;3178;Bösingen;Oberes Mülibergholz;Fribourg;Switzerland
+626;Düdingen_Schüracher_20;Düdingen;Schüracher;582165.9;189612.2;Fsyl;46.857401;7.204771;634.08;625.25;22.7;3186;Düdingen;Chlempaholz;Fribourg;Switzerland
+627;Düdingen_Fuchsenacher;Düdingen;Fuchsenacher;579926.8;189746.6;Fsyl;46.858546;7.175404;570.72;554.02;NA;3186;Düdingen;Lärist;Fribourg;Switzerland
+628;Guggisberg_Steinachere_20;Guggisberg;Steinachere;591046.2;178977.7;Pabi;46.761919;7.32143;1031.40;1030.55;NA;3158;Guggisberg;Flöschackern;Bern;Switzerland
+629;Le Mouret_Le Grabot_20;Le Mouret;Le Grabot;580520.8;177506.1;Qrob;46.748456;7.183717;732.91;732.92;12.4;1724;Le Mouret;Grâbo;Fribourg;Switzerland
+630;St. Sylvester_Goleta_20;St. Sylvester;Goleta;582019.5;177913.3;Fsyl;46.752161;7.203313;744.20;734.03;32.6;1736;St. Silvester;Plännige;Fribourg;Switzerland
+631;Brunisried_Berghölzli_20;Brünisried;Berghölzli;588300.4;177815.5;Pabi;46.751422;7.285518;935.01;934.15;NA;1719;Zumholz;Berghölzli;Fribourg;Switzerland
+632;Zollhaus_Nussbaumerli;Zollhaus;Nussbaumerli;589794.5;172300.2;Pabi;46.701835;7.305196;957.72;954.29;NA;1716;Schwarzsee;Nussbaumerli;Fribourg;Switzerland
+633;Heitenried_Schürgraben_20;Heitenried;Schürgraben;588257.5;188564.5;Psyl;46.848113;7.284678;694.78;701.91;NA;1714;Heitenried;Hubelholz;Fribourg;Switzerland
+634;Bösingen_Grenchen_20;Bösingen;Grenchen;585488.4;193022.5;Qrob;46.888159;7.248231;574.56;580.47;NA;3178;Bösingen;Gertholz;Fribourg;Switzerland
+635;Bösingen_Risau_20;Bösingen;Risau;582778.1;194591.8;Psyl;46.90221;7.212609;520.30;523.19;28.2;3179;Kriechenwil;Tannholz;Bern;Switzerland
+636;Wahlern_Althaus_20;Wahlern;Althaus;593227.7;186997.3;Aalb;46.834084;7.349866;853.41;841.84;NA;3150;Schwarzenburg;Hohliebeholz;Bern;Switzerland
+637;Tafers_Wierli;Tafers;Wierli;584787.3;186055;Aalb;46.825468;7.239265;722.13;713.32;27.0;1712;Tafers;Vorders Rohrholz;Fribourg;Switzerland
+638;Lanzenhäusern_Buttnigen_20;Lanzenhäusern;Buttnigen;594927.3;187582.7;Aalb;46.839367;7.372138;732.27;719.99;NA;3148;Lanzenhäusern;Buchhubelrain;Bern;Switzerland
+639;Wahlern_Neuhaus;Wahlern;Neuhaus;592973.1;187265.2;Pabi;46.836492;7.346525;825.94;816.64;38.3;3148;Lanzenhäusern;Winterhaldenholz;Bern;Switzerland
+640;St. Ursen_Stockhölz_20;St. Ursen;Stockhölz;583912.4;181756;Aalb;46.786777;7.227952;770.02;754.23;NA;1717;St. Ursen;Stöckholz;Fribourg;Switzerland
+641;Rechthalten_Weissenstein_20;Brünisried;Weissenstein;585777.6;179929.4;Pabi;46.770389;7.252435;907.18;918.23;NA;1718;Rechthalten;Tanneried;Fribourg;Switzerland
+642;Brunisried_Wilersguet;Brunisried;Wilersguet;588618.1;179994;Aalb;46.771024;7.289621;849.38;854.43;NA;1715;Alterswil FR;Flue;Fribourg;Switzerland
+643;Guggisberg_Underbalm_20;Guggisberg;Underbalm;592775.1;177653.2;Aalb;46.750026;7.344083;1077.60;1062.79;NA;3156;Riffenmatt;Allmendwald;Bern;Switzerland
+644;Heitenried_Magdalenaholz;Heitenried;Magdalenaholz;589554.5;186828.3;Fsyl;46.832517;7.301724;753.97;752.32;NA;1714;Heitenried;Stockeraholz;Fribourg;Switzerland
+645;Cordast_Buillardholz_20;Cordast;Buillardholz;578982;192106;Psyl;46.87974;7.162905;639.54;634.96;23.1;3212;Gurmels;Hagacher;Fribourg;Switzerland
+646;Bösingen_Riederbergholz;Bösingen;Riederbergholz;584172.1;192783.4;Fsyl;46.885978;7.230968;600.74;599.01;26.8;3178;Bösingen;Riederbergholz;Fribourg;Switzerland
+647;Mamishaus_Tännlenen;Mamishaus;Tännlenen;595375.4;184812;Pabi;46.814446;7.378039;799.24;796.73;NA;3152;Mamishaus;Tännlenenhölzli;Bern;Switzerland
+648;Tafers_Brunnenberg_20;Tafers;Brunnenberg;584776.5;184488.2;Aalb;46.811374;7.239176;768.36;768.17;24.0;1712;Tafers;Brunnenbergholz;Fribourg;Switzerland
+649;St.Ursen_Schwandholz;St.Ursen;Schwandholz;583007.3;181771.1;Aalb;46.786889;7.216098;719.93;718.84;27.1;1717;St. Ursen;Schwandholz;Fribourg;Switzerland
+650;Plaffeien_Jostrüti_20;Plaffeien;Jostrüti;588543.4;175080;Pabi;46.72682;7.288767;907.78;905.76;28.1;1716;Plaffeien;Riedli;Fribourg;Switzerland
+651;Kalchstätten_Kirchhalten_20;Kalchstätten;Kirchhalten;590822.6;180173.4;Pabi;46.772672;7.318479;1077.08;1086.73;18.8;3158;Guggisberg;Brandwald;Bern;Switzerland
+652;Wahlern_Gänsemoos_20;Wahlern;Gänsemoos;593260.5;187129.3;Aalb;46.835273;7.350294;848.73;841.89;NA;3148;Lanzenhäusern;Hohliebeholz;Bern;Switzerland
+653;Kalchstätten_Herrenmatt_20;Kalchstätten;Herrenmatt;589734.8;178748.2;Pabi;46.759836;7.30427;809.75;805.46;NA;3158;Guggisberg;Rain;Bern;Switzerland
+654;Gurmels_Kleinbösingen_20;Gurmels;Kleinbösingen;582104.5;193137.8;Qrob;46.889113;7.203827;527.58;524.36;22.6;3213;Kleinbösingen;Houllerain;Fribourg;Switzerland
+655;Heitenried_Schindelhus_20;Heitenried;Schindelhus;589813.1;184914.3;Fexc;46.815304;7.305156;765.96;746.44;24.7;1714;Heitenried;Pfänigrainholz;Fribourg;Switzerland
+656;Alterswil_Baletswil_20;Alterswil;Baletswil;584991;181240.4;Qrob;46.782164;7.242094;789.66;791.50;14.0;1717;St. Ursen;Leimacher;Fribourg;Switzerland
+657;Alterswil_Aeschlenberg_20;Alterswil;Aeschlenberg;586476.7;181990.4;Fsyl;46.788943;7.261527;747.47;750.72;26.9;1717;St. Ursen;Buechwald;Fribourg;Switzerland
+658;Plasselb_Unter Tschüplere;Plasselb;Unter Tschüplere;586753.3;175755.2;Pabi;46.73286;7.265331;910.55;898.41;NA;1716;Oberschrot;Under Tschüplere;Fribourg;Switzerland
+659;Düdingen_Looholz;Düdingen;Looholz;581266.6;186492.4;Psyl;46.829312;7.193107;683.10;676.26;NA;3186;Düdingen;Looholz;Fribourg;Switzerland
+660;Bösingen_Gertholz_20;Bösingen;Gertholz;585726.3;193174.4;Qrob;46.88953;7.251347;574.94;563.91;24.2;3178;Bösingen;Dälacher;Fribourg;Switzerland
+661;Flamatt_Chruezacher;Flamatt;Chruezacher;589400.5;193340.8;Fsyl;46.891096;7.299552;556.47;561.66;28.3;3184;Wünnewil;Brueggholz;Fribourg;Switzerland
+662;Thorishaus_Oberried;Thorishaus;Oberried;594242.9;193288;Aalb;46.890681;7.363092;679.68;674.66;NA;3174;Thörishaus;Graferiedhölzli;Bern;Switzerland
+663;Thörishaus_Winterhölzli;Thörishaus;Winterhölzli;593613.2;193623.4;Pabi;46.893692;7.354825;622.36;622.46;NA;3174;Thörishaus;Winterhölzli;Bern;Switzerland
+664;Neuenegg_Forstmatt;Neuenegg;Forstmatt;589472.3;194623.3;Fsyl;46.902634;7.300465;572.00;572.90;NA;3176;Neuenegg;Forstmatt;Bern;Switzerland
+665;Wünnewil_Nussbaumen_20;Wünnewil;Nussbaumen;587683.1;193104.9;Fsyl;46.888945;7.277024;542.97;529.66;NA;3184;Wünnewil;Nussbaumenholz;Fribourg;Switzerland
+666;Wünnewil_Zenthus_20;Wünnewil;Zenthus;588108.2;193044.2;Fsyl;46.888406;7.282603;577.79;574.96;27.0;3184;Wünnewil;Bagewilholz;Fribourg;Switzerland
+667;Kriesbaumen_äbnit;Kriesbaumen;Äbnit;592880.2;182133;Aalb;46.790325;7.345388;972.79;989.04;NA;3159;Riedstätt;Sattel;Bern;Switzerland
+668;Tentlingen_Villarsel_20;Tentlingen;Villarsel;579545.8;179476.4;Pmen;46.766151;7.170869;692.16;679.69;NA;1723;Marly;Les Noutes;Fribourg;Switzerland
+669;Bonnefontaine_Rüdigrabe;Bonnefontaine;Rüdigrabe;582390.5;176821;Pabi;46.742346;7.208211;799.62;793.94;23.2;1736;St. Silvester;Rüedigrabe;Fribourg;Switzerland
+670;Freisenheit_Graben;Freisenheit;Graben;585293.4;190316;Qrob;46.863809;7.24576;612.39;613.73;NA;3185;Schmitten (FR);Rain;Fribourg;Switzerland
+671;Uebestorf_Niedermettlen_20;Uebestorf;Niedermettlen;591409.8;190828.6;Fsyl;46.868528;7.325965;689.40;689.68;27.2;3182;Ueberstorf;Birchweid;Fribourg;Switzerland
+672;Düdingen_Unter St. Wolfgangholz_20;Düdingen;Unter St. Wolfgangholz;580328.9;187030.7;Fsyl;46.834128;7.180794;630.83;617.89;27.8;3186;Düdingen;St. Wolfgang;Fribourg;Switzerland
+673;La Roche_Les Rontes_20;La Roche;Les Rontes;576571.5;172067.6;Pabi;46.699407;7.132312;777.30;762.82;NA;1634;La Roche FR;Le Steckel;Fribourg;Switzerland
+674;Uebestorf_Bode;Uebestorf;Bode;593309.8;189555.9;Ldec;46.857101;7.350905;667.91;656.34;NA;3182;Ueberstorf;Flühwald;Fribourg;Switzerland
+675;Milken_Weizacker;Milken;Weizacker;596255.8;183102.5;Aalb;46.799074;7.389589;807.57;799.87;NA;3152;Mamishaus;Widengraben;Bern;Switzerland
+676;Ursy_Au Cuard_20;Ursy;Au Cuard;552601.2;163980.4;Qrob;46.625385;6.81975;660.73;656.00;NA;1673;Rue;Au Cuard;Fribourg;Switzerland
+677;Marly_Bois_des_Rittes_20;Marly;Bois;578900.6;181527.3;Fsyl;46.784579;7.162328;642.05;626.48;31.0;1723;Pierrafortscha;Le Claru;Fribourg;Switzerland
+678;Düdingen_Ottisberg;Düdingen;Ottisberg;579547.1;189304.1;Qrob;46.854554;7.170444;563.20;544.95;30.2;3186;Düdingen;Saanerain;Fribourg;Switzerland
+679;Kleingurmels_Chateaux;Kleingurmels;Chateaux;579949;191157.9;Qrob;46.871241;7.175633;557.60;556.00;NA;1783;Barberêche;Pré du Château;Fribourg;Switzerland
+680;Barbareche_Bois de Chasse;Barberêche;Bois De Chasse;577362.3;189100.8;Ldec;46.852654;7.141807;623.37;615.42;NA;1783;Barberêche;Bois de la Chasse;Fribourg;Switzerland
+681;Kleingurmels_Gros Bruel;Kleingurmels;Gros Bruel;580663.9;191537.9;Fsyl;46.874681;7.184992;541.20;548.44;NA;1783;Barberêche;Gros Bruel;Fribourg;Switzerland
+682;Ueberstorf_Ufem_Burst_20;Ueberstorf;Ufem;592631.9;190686.1;Pstr;46.86726;7.341996;726.69;710.47;NA;3182;Ueberstorf;Zubacker;Fribourg;Switzerland
+683;St. Sylvester_Metzgera;St. Sylvester;Metzgera;583748.1;177255.5;Fsyl;46.746289;7.22596;816.29;783.94;29.6;1736;St. Silvester;Tscherlawald;Fribourg;Switzerland
+684;Elisried_Fuhren;Elisried;Fuhren;594547.1;185887.5;Aalb;46.824114;7.367174;794.01;770.66;NA;3152;Mamishaus;Unterholz;Bern;Switzerland
+685;Scwarzenburg_Chilchermatt_20;Schwarzenburg;Chilchermatt;593434.6;184379.6;Aalb;46.81054;7.352617;822.82;823.34;NA;3150;Schwarzenburg;Stiersackerhölzli;Bern;Switzerland
+686;Milken_Trombyfang;Milken;Trombyfang;592817.8;182649.6;Aalb;46.794971;7.344563;887.55;870.04;31.6;3159;Riedstätt;Tannenhölzli;Bern;Switzerland
+687;Heitenried_Oberwinterlingen;Heitenried;Oberwinterlingen;588327.8;185491;Qrob;46.820467;7.285679;780.37;780.53;18.1;1713;St. Antoni;Oberwinterlingen;Fribourg;Switzerland
+688;Guggisberg_Laubbachgraben_20;Guggisberg;Laubbachgraben;590687.5;177956.6;Pabi;46.75273;7.316756;874.31;868.06;NA;3158;Guggisberg;Breitenried;Bern;Switzerland
+689;Uebestorf_Mischlere_20;Uebestorf;Mischlere;589525.1;189084.1;Pabi;46.852808;7.301286;694.04;682.79;NA;3182;Ueberstorf;Hofmatt;Fribourg;Switzerland
+690;Uebestorf_Hargart;Uebestorf;Hargart;591428.4;189638.9;Qrob;46.857826;7.326231;783.84;788.95;NA;3183;Albligen;Hargart;Bern;Switzerland
+691;Guggisberg_gummeli;Guggisberg;Gummeli;591150.6;179154.6;Fsyl;46.763513;7.322794;1051.15;1038.02;17.0;3158;Guggisberg;Bodenacker;Bern;Switzerland
+692;St. Antoni_Weissenbach_20;St. Antoni;Weissenbach;585507.3;185054.2;Pabi;46.816482;7.248732;721.96;703.16;34.9;1713;St. Antoni;Waldholz;Fribourg;Switzerland
+693;Ependes_Ependes_20;Ependes;Ependes;577877.1;178692.6;Pabi;46.759046;7.149062;705.97;693.31;30.9;1731;Ependes FR;Bois du Riau;Fribourg;Switzerland
+694;Uebestorf_Mischlere_W;Uebestorf;Mischlere;589393.7;189038.9;Pabi;46.852399;7.299564;716.09;699.20;NA;3182;Ueberstorf;Hofmatt;Fribourg;Switzerland
+695;St. Antoni_Dürrenboden;St. Antoni;Dürrenboden;589532.4;184302;Apseu;46.809791;7.301493;759.30;763.74;NA;1714;Heitenried;Dürrenboden;Fribourg;Switzerland
+696;Cordast_Petit Vivy;Cordast;Petit Vivy;579802.2;190812.3;Fsyl;46.868128;7.173722;541.10;553.02;NA;1783;Barberêche;Graben;Fribourg;Switzerland
+697;Zumholz_Brand_20;Zumholz;Brand;588594.5;178894.3;Fexc;46.761131;7.28934;845.94;846.20;NA;1719;Zumholz;Brand;Fribourg;Switzerland
+698;Niederwil_Fuchsloch_20;Niederwil;Fuchsloch;732248.7;254708.6;Apseu;47.429885;9.191637;605.57;598.69;24.3;9203;Niederwil SG;Glattburg;St. Gallen;Switzerland
+699;Stein am Rhein_Kaltenbach;Stein am Rhein;Kaltenbach;704152.7;279079.3;Pabi;47.654081;8.825009;480.38;472.80;NA;8259;Etzwilen;Sängiraa;Thurgau;Switzerland
+701;Alterswil_Wolgiswil_20;Alterswil;Wolgiswil_20;584628.5;182458.5;Psyl;46.793113;7.237305;737.40;730.62;NA;1715;Alterswil FR;Dälhölzli;Fribourg;Switzerland
+702;Rueggisberg_Hinterfultigen_20;Rueggisberg;Hinterfultigen;598031.4;187639.2;Aalb;46.839891;7.412827;811.87;781.79;29.9;3089;Hinterfultigen;In der Kühweid;Bern;Switzerland
+703;Rueggisberg_Schwanden;Rueggisberg;Schwanden;597583.5;184645.7;Qrob;46.812962;7.406973;841.50;843.65;NA;3155;Helgisried-Rohrbach;Schwanden;Bern;Switzerland
+704;Rechthalten_Gäu;Rechthalten;Gäu;586347.7;179190.9;Aalb;46.763758;7.259922;920.11;920.44;NA;1718;Rechthalten;Gäu;Fribourg;Switzerland
+705;Schwarzenburg_Chilchermatt Galtern;Schwarzenburg;Chilchermatt Galtern;593485.2;184160.9;Pabi;46.808573;7.353283;873.04;875.99;NA;3150;Schwarzenburg;Stiersackerhölzli;Bern;Switzerland
+706;Schwarzenburg_Waldgasse_20;Schwarzenburg;Waldgasse;591610.4;184084;Aalb;46.80786;7.328722;844.77;845.54;36.8;3150;Schwarzenburg;Lismerenhölzli;Bern;Switzerland
+707;Bösingen_Risau new;Bösingen;Risau;582947.1;194494.4;Fsyl;46.901338;7.214831;507.41;495.42;NA;3179;Kriechenwil;Bollholz;Bern;Switzerland
+708;Uebestorf_Summerau_20;Uebestorf;Summerau;591669.3;188884.3;Psyl;46.851041;7.329405;768.23;762.08;NA;3183;Albligen;Summerauhöltli;Bern;Switzerland
+709;Uebestorf_Guldifeld_20;Uebestorf;Guldifeld;590963.5;191690.5;Qrob;46.876274;7.320094;657.15;648.40;19.2;3182;Ueberstorf;Bergli;Fribourg;Switzerland
+710;Alterswil_Wolperswil_20;Alterswil;Wolperswil;585590.4;181610.6;Pabi;46.785507;7.24993;740.15;730.01;NA;1717;St. Ursen;Wolperwil;Fribourg;Switzerland
+711;Alterswil_Wengliswil_20;Alterswil;Wengliswil;588085;181229.9;Qrob;46.782132;7.282609;842.13;847.15;NA;1715;Alterswil FR;Chleeholz;Fribourg;Switzerland
+712;Massonens_Neirigue;Massonens;Neirigue;562733.4;170318;Fsyl;46.683037;6.951527;776.22;762.86;NA;1686;La Neirigue;Le Viaugeou;Fribourg;Switzerland
+713;Meikirch_Weissenstein;Meikirch;Weissenstein;595528.3;205868.7;Pabi;47.003857;7.379832;630.12;626.93;NA;3045;Meikirch;Obers Eichhölzli;Bern;Switzerland
+714;Schmitten_Lehm;Schmitten;Lehm;586341.7;189246.2;Pabi;46.854208;7.259541;651.56;635.36;NA;3185;Schmitten (FR);Lehm;Fribourg;Switzerland
+715;Czech_Republic;Czech;Republic;1261923.1;513384;Fexc;49.42152;16.573282;357.69;NA;NA;CZ67921;Boritov CZ;NA;NA;Czech Republic
+716;Düdingen_Brugeraholz;Düdingen;Brugeraholz;582279.1;188632.1;Psyl;46.848588;7.206294;702.75;675.95;NA;3186;Düdingen;Brugeraholz;Fribourg;Switzerland
+717;Alterswil_Rüti_20;Alterswil;Rüti;586837.2;180566.6;Pabi;46.776142;7.266289;818.33;802.56;35.1;1718;Rechthalten;Steinbrunnenholz;Fribourg;Switzerland
+718;Bourguillon_Gottéron_20;Bourguillon;Gottéron;579857.4;183443.6;Tpla;46.801847;7.174773;635.49;655.87;NA;1722;Bourguillon;Chemin de la Fenettaz;Fribourg;Switzerland
+719;Huttwil_Bühl;Huttwil;Bühl;630165;216097.5;Aalb;47.095196;7.835949;739.10;740.46;24.6;4953;Schwarzenbach (Huttwil);Gummechnubel;Bern;Switzerland
+720;Le Mouret_Sur la Fin;Le Mouret;Sur La Fin;580592.9;176812.8;Qrob;46.742222;7.18469;756.88;754.65;NA;1724;Le Mouret;La Waebera;Fribourg;Switzerland
+721;Neuenegg_Freiburghaus;Neuenegg;Freiburghaus;587877.6;194312;Fsyl;46.899806;7.279544;557.92;558.74;NA;3176;Neuenegg;Ischlag;Bern;Switzerland
+722;Riedstätt_Mittlisried_20;Riedstätt;Mittlisried;590925.7;180845.2;Aalb;46.778717;7.319816;1020.21;1005.57;26.6;3159;Riedstätt;Bützerenwald;Bern;Switzerland
+723;France_Jujurieux_20;France;Jujurieux;441861;101115.3;Catl (Cedrus atlantica);46.043011;5.395632;296.81;NA;NA;F01640;Jujurieux F;Senèche;Ain;France
+724;Alterswil_Mediwil_20;Alterswil;Mediwil;585634.8;182145.8;Pabi;46.790322;7.250495;722.44;727.91;NA;1717;St. Ursen;Stegmattholz;Fribourg;Switzerland
+725;Thörishaus_Grabe;Thörishaus;Grabe;594963.5;192903.4;Aalb;46.887227;7.372552;676.93;655.24;NA;3145;Niederscherli;Bifitwald;Bern;Switzerland
+726;St. Antoni_Menzishus_20;St. Antoni;Menzishus;586481.1;187107.5;Pabi;46.834973;7.261432;662.73;656.18;NA;1713;St. Antoni;Tuftmattli;Fribourg;Switzerland
+727;Uebestorf_Chürschi_20;Uebestorf;Chürschi;589587.8;188671.8;Aalb;46.8491;7.302118;769.40;755.84;NA;1714;Heitenried;Grossholz;Fribourg;Switzerland
+728;Marly_Copy;Marly;Copy;577917.3;179793.5;Fsyl;46.768951;7.149534;654.13;651.42;NA;1723;Marly;Bois de Vuisserens;Fribourg;Switzerland
+729;Marly_Les_Fontanettes_20;Marly;Copy;578503.5;179938.3;Fsyl;46.770273;7.157203;658.80;654.58;NA;1723;Marly;Vers Biolley;Fribourg;Switzerland
+730;Thörishaus_Risele;Thörishaus;Risele;594051.5;192998.2;Aalb;46.888073;7.360584;633.85;622.08;NA;3174;Thörishaus;Graferiedhölzli;Bern;Switzerland
+731;Ueberstorf_Salzmatt;Ueberstorf;Salzmatt;591352.2;188663.6;Pabi;46.849052;7.325251;724.97;717.63;NA;3183;Albligen;Götschmesriedrain;Bern;Switzerland
+732;Ueberstorf_Breiteli;Ueberstorf;Breiteli;589733.2;190270.9;Fsyl;46.863487;7.303988;657.32;665.19;NA;3182;Ueberstorf;Chrüzhubel;Fribourg;Switzerland
+733;Alterswil_Zumholz;Alterswil;Zumholz;585989.8;183766.9;Aalb;46.804912;7.255095;758.14;745.72;NA;1715;Alterswil FR;Spittelholz;Fribourg;Switzerland
+734;Düdingen_Obere_stwolfgangholz;Düdingen;Obere_stwolfgangholz;580752.4;186286.7;Psyl;46.827447;7.186376;677.44;672.06;NA;3186;Düdingen;St. Wolfgang;Fribourg;Switzerland
+735;Ueberstorf_lenglod_21;Ueberstorf;lenglod_21;592455.2;192169.6;Fsyl;46.880603;7.339654;671.07;664.07;NA;3182;Ueberstorf;Buchholz;Fribourg;Switzerland
+736;Schmitten_Ettelberg_21;Schmitten;Ettelberg_21;586799;188827.2;Fsyl;46.850448;7.265549;688.33;675.43;NA;3185;Schmitten (FR);Bunziwilholz;Fribourg;Switzerland
+737;Ueberstorf_Oberholzwald_21;Ueberstorf;Oberholzwald_21;592686.9;189635.6;Fsyl;46.857811;7.342735;779.54;755.99;NA;3182;Ueberstorf;Oberholzwald;Fribourg;Switzerland
+738;Ueberstorf_Rüti;Ueberstorf;Rüti;591229.3;188774.4;Qrob;46.850047;7.323638;731.66;733.43;NA;3183;Albligen;Riedere;Bern;Switzerland
+739;Tafers_Brunnenbergrain_21;Tafers;Brunnenbergrain_21;583646.1;184481.5;Aalb;46.811287;7.224366;755.17;734.07;NA;1712;Tafers;Oberholz;Fribourg;Switzerland
+740;Mamishaus_Vordermutten;Mamishaus;Vordermutten;595299.8;184028.2;Qrob;46.807395;7.377057;804.81;800.38;NA;3152;Mamishaus;Aspen;Bern;Switzerland
+741;Alterswil_Breita;Alterswil;Breita;585474;182740.5;Fsyl;46.795668;7.248371;745.63;744.27;NA;1715;Alterswil FR;Beniwil;Fribourg;Switzerland
+742;Wunnewil_Golf_21;Wunnewil;Golf_21;589159.8;191616.9;Fsyl;46.875585;7.296435;594.04;581.65;NA;3184;Wünnewil;Golfplatz;Fribourg;Switzerland
+743;Pensier_La_Gravière;Pensier;La_Gravière;577220.8;188634.5;Fsyl;46.848455;7.139974;583.67;575.90;25.9;1783;Barberêche;Bois de la Crausa;Fribourg;Switzerland
+744;Alterswil_Schwenihubel;Alterswil;Schwenihubel;589567.5;183528.5;Qrob;46.802834;7.30197;832.41;844.60;NA;1714;Heitenried;Schweni;Fribourg;Switzerland
+745;Heitenried_Schindelhus_21;Heitenried;Schindelhus_21;589797.9;184887.4;Pabi;46.815061;7.304958;767.52;751.54;22.8;1714;Heitenried;Pfänigrainholz;Fribourg;Switzerland
+746;Bösingen_gertholz_21;Bösingen;gertholz_21;585433.9;193336.2;Psyl;46.890979;7.247506;579.50;570.06;26.2;3178;Bösingen;Bergholz;Fribourg;Switzerland
+747;Schwarzenburg_Stöcken_21;Schwarzenburg;Stöcken_21;592950.8;183198.1;Aalb;46.799907;7.346296;845.98;831.98;32.8;3150;Schwarzenburg;Herrenholz;Bern;Switzerland
+748;Schwarzenburg_Herrenholz_21;Schwarzenburg;Herrenholz_21;593369;183626.9;Aalb;46.803769;7.351768;869.72;873.70;NA;3157;Milken;Herrenholz;Bern;Switzerland
+749;Milken_Weizacker_21;Milken;Weizacker_21;596106.1;183169.1;Aalb;46.799673;7.387628;799.12;797.04;NA;3152;Mamishaus;Widengraben;Bern;Switzerland
+750;Le_Mouret_Le Grâbo_21;Le;Mouret_Le Grâbo_21;580406.1;177472.3;Fexc;46.748149;7.182217;740.47;736.77;18.3;1724;Le Mouret;Intre-Chè;Fribourg;Switzerland
+751;St.Antoni_Schrick;St.Antoni;Schrick;586110;185505.3;Fsyl;46.820553;7.256616;695.19;700.09;NA;1713;St. Antoni;Riedholz;Fribourg;Switzerland
+752;Ueberstorf_Guldifeld_21;Ueberstorf;Guldifeld_21;591674.1;192037.9;Fsyl;46.879408;7.32941;704.55;704.98;NA;3182;Ueberstorf;Grossacker;Fribourg;Switzerland
+753;Ueberstorf_Hangried;Ueberstorf;Hangried;593273.9;191216.5;Fsyl;46.872039;7.350408;662.38;648.68;NA;3182;Ueberstorf;Hangried;Fribourg;Switzerland
+754;Aeckenmatt_Mühle_21;Aeckenmatt;Mühle_21;594105.7;189077.1;Aalb;46.852801;7.361348;707.00;699.38;NA;3148;Lanzenhäusern;Fuhrmattholz;Bern;Switzerland
+755;St.Sylvester_Unterbuech_21;St.Sylvester;Unterbuech_21;581939.2;178150.7;Fsyl;46.754295;7.202254;723.13;721.03;NA;1736;St. Silvester;Buechflüe;Fribourg;Switzerland
+756;Neuenegg_Chropfhölzli;Neuenegg;Chropfhölzli;588217.6;193568.9;Fsyl;46.893128;7.284025;558.47;546.90;NA;3176;Neuenegg;Chropfhölzli;Bern;Switzerland
+757;Bösingen_Grenchen_21;Bösingen;Grenchen_21;585641.4;193149.9;Aalb;46.889308;7.250234;568.74;563.84;26.9;3178;Bösingen;Gertholz;Fribourg;Switzerland
+758;Ueberstorf_Bahnholz_21;Ueberstorf;Bahnholz_21;589212.7;190640.4;Fsyl;46.866803;7.297153;666.54;662.18;NA;3184;Wünnewil;Bannholz;Fribourg;Switzerland
+759;Düdingen_Fuchsenacher_21;Düdingen;Fuchsenacher_21;579601.9;189484.3;Fsyl;46.856176;7.171155;544.24;564.15;NA;3186;Düdingen;Saanerain;Fribourg;Switzerland
+760;Ueberstorf_Ledeu_21;Ueberstorf;Ledeu_21;589484.3;189786.3;Qrob;46.859124;7.300734;667.43;668.49;NA;3182;Ueberstorf;Studweid;Fribourg;Switzerland
+761;Tafers_Angstorfwaldli_21;Tafers;Angstorfwaldli_21;583291.4;186698.1;Fsyl;46.831217;7.219636;684.18;671.76;NA;3186;Düdingen;Angstorfwäldli;Fribourg;Switzerland
+762;St.Ursen_Schwandholz_21;St.Ursen;Schwandholz_21;583183.9;181606.4;Fsyl;46.785412;7.218417;737.32;725.01;NA;1717;St. Ursen;Schwandholz;Fribourg;Switzerland
+763;St.Antoni_Schafersrain;St.Antoni;Schafersrain;585853.4;185910.7;Aalb;46.824194;7.253241;701.12;680.13;NA;1713;St. Antoni;Rohrholz;Fribourg;Switzerland
+764;Mamishaus_Rümlisberg_21;Mamishaus;Rümlisberg_21;594882.9;183767.7;Fsyl;46.805048;7.371599;847.87;839.61;25.2;3152;Mamishaus;Hubelholz;Bern;Switzerland
+765;Schwarzenburg_Zälg_21;Schwarzenburg;Zälg_21;593690.2;184655.7;Pabi;46.813026;7.355961;845.33;836.41;NA;3152;Mamishaus;Chilchermatt;Bern;Switzerland
+766;St.Ursen_Röschiwil_21;St.Ursen;Röschiwil_21;583196.4;180424.1;Fsyl;46.774778;7.218623;767.66;765.84;NA;1717;St. Ursen;Röschiwilholz;Fribourg;Switzerland
+767;Brünisried_Unterweid;Brünisried;Unterweid;587479.6;178927.2;Pabi;46.761408;7.274746;905.53;910.86;NA;1719;Brünisried;Rüdeweid-Holz;Fribourg;Switzerland
+768;Alterswil_Puntmatta;Alterswil;Puntmatta;588122;182127.3;Qrob;46.790205;7.283071;787.23;783.85;NA;1715;Alterswil FR;Eichmatta;Fribourg;Switzerland
+769;Düdingen_Galmisberg_21;Düdingen;Galmisberg_21;583341.7;190227.4;Fsyl;46.862965;7.220167;636.44;616.00;NA;3186;Düdingen;Galmisberg;Fribourg;Switzerland
+770;Guggisberg_Näckenweid;Guggisberg;Näckenweid;590170.2;179785;Fsyl;46.769169;7.309946;951.27;941.75;NA;3158;Guggisberg;Hältetliweid;Bern;Switzerland
+771;Guggisberg_Hältetlimatten;Guggisberg;Hältetlimatten;590184;179372.7;Fsyl;46.76546;7.310136;852.58;844.58;NA;3158;Guggisberg;Vorder Multerenboden;Bern;Switzerland
+772;St.Sylvester_Spittelvorchis;St.Sylvester;Spittelvorchis;585090.3;175217.5;Aalb;46.727987;7.24359;855.19;855.05;NA;1737;Plasselb;Spittelvorschis;Fribourg;Switzerland
+773;Guggisberg_Hostetten;Guggisberg;Hostetten;590517.9;178877.4;Qrob;46.76101;7.314517;1004.76;1029.36;NA;3158;Guggisberg;Hostetten;Bern;Switzerland
+774;Guggisberg_Moos;Guggisberg;Moos;590075.2;178358.2;Fsyl;46.756333;7.308733;824.63;810.97;NA;3158;Guggisberg;Moos;Bern;Switzerland
+775;Guggisberg_Gummenweid;Guggisberg;Gummenweid;591311.2;178608.5;Pabi;46.758602;7.324907;942.89;937.23;NA;3158;Guggisberg;Grubershaus;Bern;Switzerland
+776;Rüschegg_Gräbli;Rüschegg;Gräbli;594572.4;180771.8;Aalb;46.778097;7.367567;1045.66;1037.71;NA;3153;Rüschegg Gambach;Suttershusweid;Bern;Switzerland
+777;Rueggisberg_Chüeweidli;Rueggisberg;Chüeweidli;597098.7;185030.4;Aalb;46.81642;7.400619;763.02;741.77;35.2;3155;Helgisried-Rohrbach;Schwandenwald;Bern;Switzerland
+778;Schwarzenburg_Milkenstrasse;Schwarzenburg;Milkenstrasse;593361.4;184979.8;Pabi;46.815938;7.351648;834.62;839.30;NA;3150;Schwarzenburg;Flüeli;Bern;Switzerland
+779;Heitenried_Sodbach;Heitenried;Sodbach;590753;186195.1;Pabi;46.826839;7.317446;712.70;693.27;NA;1714;Heitenried;Vorder Schönfels;Fribourg;Switzerland
+780;Flamatt_Flamatt_10;Flamatt;Flamatt_10;591304.4;192881.5;Qrob;46.886992;7.324543;604.01;583.89;27.2;3182;Ueberstorf;Grossriedwald;Fribourg;Switzerland
+781;Milken_Rothen;Milken;Rothen;596289;183549.5;Aalb;46.803095;7.390021;796.57;783.75;NA;3152;Mamishaus;Unteres Rothenholz;Bern;Switzerland
+782;Schmitten_Ferneraholz;Schmitten;Ferneraholz;583675.9;189563.8;Fsyl;46.857005;7.224573;651.33;644.00;NA;3186;Düdingen;Farneraholz;Fribourg;Switzerland
+783;St.Ursen_Burgstelle_21;St.Ursen;Burgstelle_21;581783.2;182487.3;Fsyl;46.7933;7.200038;697.09;687.21;NA;1717;St. Ursen;Mülimatt;Fribourg;Switzerland
+784;Alterswil_Fulbächli;Alterswil;Fulbächli;587782;181860.6;Qrob;46.7878;7.278625;782.32;774.46;NA;1715;Alterswil FR;Zielgrabe;Fribourg;Switzerland
+785;Marly_la_Grangette;Marly;la_Grangette;576788.1;180395.4;Fsyl;46.774326;7.13472;625.11;622.70;NA;1723;Marly;A Prinfou;Fribourg;Switzerland
+786;Marly_au_Port;Marly;au_Port;576502.6;180485.6;Qrob;46.775128;7.130978;614.20;615.35;NA;1723;Marly;A Prinfou;Fribourg;Switzerland
+787;Marly_Montdrion;Marly;Montdrion;578753.2;179239.4;Fsyl;46.763993;7.160504;720.05;715.55;NA;1731;Ependes FR;La Tailla;Fribourg;Switzerland
+788;Marly_Vieille_Grange;Marly;Vieille_Grange;579627;178249.4;Qrob;46.755116;7.171986;763.07;768.85;NA;1724;Le Mouret;Grangeneuve;Fribourg;Switzerland
+789;Barbarêche_la_Chasse;Barbarêche;la_Chasse;578077;189440.9;Fsyl;46.855737;7.151161;638.24;633.91;NA;1783;Barberêche;La Chasse;Fribourg;Switzerland
+790;Bösingen_Friesenheit_21;Bösingen;Friesenheit_21;584780.3;191190.1;Psyl;46.87166;7.239001;630.37;626.60;NA;3178;Bösingen;Bodenholz;Fribourg;Switzerland
+791;Wallenbuch_Schachewald/21;Wallenbuch;Schachewald/21;584167.2;197299.4;Fsyl;46.926599;7.230745;503.94;492.97;NA;3206;Gammen;Schachewald;Bern;Switzerland
+792;Massonens_Neirigue_21;Massonens;Neirigue_21;562746.5;170321.1;Fexc;46.683066;6.951698;771.11;757.45;22.7;1686;La Neirigue;La Planchetta;Fribourg;Switzerland
+793;Werthenstein_Schwändi;Werthenstein;Schwändi;651166.5;211007.6;Aalb;47.048127;8.111985;579.29;586.62;32.2;6106;Werthenstein;Rütmattwald;Luzern;Switzerland
+794;Bonnefontaine_La_Préru;Bonnefontaine;La_Préru;582045.5;175722.8;Aalb;46.732458;7.20374;886.80;915.88;24.5;1724;Bonnefontaine;Le Poyet;Fribourg;Switzerland
+795;Tafers_Chlimattholz;Tafers;Chlimattholz;582892.9;184090;Fsyl;46.807747;7.214512;665.24;670.67;NA;1712;Tafers;Chlimattholz;Fribourg;Switzerland
+796;Brünisried_Weidli_21;Brünisried;Weidli_21;587909.3;179267.8;Psyl;46.76448;7.28036;874.65;868.41;NA;1719;Brünisried;Brünisried-Holz;Fribourg;Switzerland
+797;St.Sylvester_Flüeli_21;St.Sylvester;Flüeli;584043;176554.7;Fsyl;46.739992;7.229843;834.75;840.65;NA;1736;St. Silvester;Tscherlawald;Fribourg;Switzerland
+798;Kleingurmels_UnderGruenenburg_21;Kleingurmels;UnderGruenenburg_21;581760.6;192909.2;Fsyl;46.887047;7.199324;547.26;534.64;33;3213;Kleinbösingen;Gammacherrain;Fribourg;Switzerland
+799;Gurmels_Kleinbösingen_21;Gurmels;Kleinbösingen_21;582123.7;193173;Pabi;46.88943;7.204077;525.40;521.33;NA;3213;Kleinbösingen;Ribacherrain;Fribourg;Switzerland
+800;St.Antoni_Menzishustop_21;St.Antoni;Menzishustop_21;587101.2;186979.2;Aalb;46.833831;7.269564;707.75;702.99;NA;1713;St. Antoni;Äbnetholz;Fribourg;Switzerland
+801;Aeckenmatt_Mühle_Burlingen_21;Aeckenmatt;Mühle_Burlingen_21;593854.7;188988.5;Fsyl;46.852003;7.358058;695.15;687.44;NA;3148;Lanzenhäusern;Studengraben;Bern;Switzerland
+802;Fribourg_Chli_Schönberg;Fribourg;Chli_Schönberg;580749.6;183637.7;Fsyl;46.803619;7.186451;634.33;628.63;NA;1700;Fribourg;Galterngraben;Fribourg;Switzerland
+803;SteinamRhein_Kaltenbach_21;SteinamRhein;Kaltenbach_21;703916.8;279202.8;Psyl;47.65523;8.821898;466.38;467.02;NA;8259;Etzwilen;Sängiraa;Thurgau;Switzerland
+804;Niederwil_Fuchsloch_21;Niederwil;Fuchsloch_21;732272.3;254458;Pabi;47.427628;9.191876;606.68;609.37;NA;9203;Niederwil SG;Glattburg;St. Gallen;Switzerland
+805;StUrsen_Stöckholz_21;StUrsen;Stöckholz_21;583721.3;181730.5;Aalb;46.786543;7.22545;756.90;742.77;NA;1717;St. Ursen;Stöckholz;Fribourg;Switzerland
+806;Thörishaus_Sensematt;Thörishaus;Sensematt;593673.1;193001.5;Fexc;46.888099;7.35562;568.29;569.52;NA;3174;Thörishaus;Graferied;Bern;Switzerland
+807;Heitenried_Winterlingen_21;Heitenried;Winterlingen_21;588805.4;185878.3;Fsyl;46.823959;7.291928;748.50;736.91;24.9;1714;Heitenried;Brämeriedholz;Fribourg;Switzerland
+808;St.Antoni_Steinberg_21;St.Antoni;Steinberg_21;588093.8;184974;Pabi;46.815812;7.282626;858.31;850.40;NA;1713;St. Antoni;Hubelholz;Fribourg;Switzerland
+809;Zollhaus_OberstiSite;Zollhaus;OberstiSite;590529.1;174638.8;Aalb;46.722882;7.314752;1116.55;1126.84;25.1;1738;Sangernboden;Eggli;Bern;Switzerland
+810;Lachen_UnterBawald;Lachen;UnterBawald;709162.4;225436.5;Fsyl;47.170878;8.878575;544.09;524.96;NA;8854;Galgenen;Unter Bawald;Schwyz;Switzerland
+811;Schmitten_Ochsenried;Schmitten;Ochsenried;585183.2;189524.7;Qrob;46.856688;7.24434;663.87;661.76;NA;3185;Schmitten (FR);Waldmeisterweg;Fribourg;Switzerland
+812;Cordast_ChampDessus;Cordast;ChampDessus;579378.9;190412.6;Fsyl;46.86452;7.168188;568.24;561.09;NA;1783;Barberêche;Champ Dessus;Fribourg;Switzerland
+813;Treyvaux_LesEntos;Treyvaux;LesEntos;575652.9;173793;Fsyl;46.714895;7.12021;825.09;824.60;NA;1649;Pont-la-Ville;Le Peniclet;Fribourg;Switzerland
+814;Treyvaux_Kiesgrube_21;Treyvaux;Kiesgrube_21;575624.1;175089.9;Fsyl;46.726559;7.119764;738.10;733.00;NA;1733;Treyvaux;Les Conches;Fribourg;Switzerland
+815;Plaffeien_Jöstruti_21;Plaffeien;Jöstruti_21;588658.2;175349.6;Pabi;46.729247;7.290263;880.28;862.79;20.8;1716;Plaffeien;Gumliweg;Fribourg;Switzerland
+816;Plasselb_Eichholz;Plasselb;Eichholz;584447.8;177127.5;Pabi;46.745154;7.235121;815.66;805.62;NA;1735;Giffers;Eichholz;Fribourg;Switzerland
+817;Flamatt_Schore;Flamatt;Schore;592139.3;193916.8;Fexc;46.896316;7.335479;636.59;608.62;NA;3174;Thörishaus;Ufem Schore;Bern;Switzerland
+818;Alterswil_Rüti_21;Alterswil;Rüti_21;586773.9;180601.2;Fsyl;46.776452;7.265459;814.88;804.36;31.4;1718;Rechthalten;Steinbrunnenholz;Fribourg;Switzerland
+819;Schmitten_Gummen;Schmitten;Gummen;585617.9;190559.9;Fexc;46.86601;7.250007;619.13;620.56;10.2;3185;Schmitten (FR);Hinterer Rain;Fribourg;Switzerland
+821;Villardgiroud_LeRosey;Villardgiroud;LeRosey;566400.4;172227.8;Qrob;46.700412;6.999317;803.75;796.66;NA;1694;Villargiroud;Pra de la Villa;Fribourg;Switzerland
+822;Bonnefontaine_Montécu;Bonnefontaine;Montécu;581181.9;176681.2;Fexc;46.741055;7.192402;778.48;782.18;NA;1724;Bonnefontaine;Montsibolo;Fribourg;Switzerland
+823;St.Antoni_Moos_21;St.Antoni;Moos_21;586608.5;183893.4;Aalb;46.806064;7.263196;792.31;770.43;35.3;1713;St. Antoni;Brüggeraholz;Fribourg;Switzerland
+824;Alterswil_Wolperswil_21;Alterswil;Wolperswil_21;585608;181631;Pabi;46.785691;7.250161;740.67;732.00;NA;1717;St. Ursen;Wolperwil;Fribourg;Switzerland
+825;Gümmenen_Riedacher;Gümmenen;Riedacher;584260.5;200059.4;Aalb;46.951429;7.231874;543.55;535.68;24.5;3206;Rizenbach;Faver;Bern;Switzerland
+826;Hergiswilb.Willisau_Honigschwand;Hergiswilb.Willisau;Honigschwand;637784.7;216719.8;Aalb;47.100403;7.936362;743.80;759.93;NA;6130;Willisau;Ober Honigschwand;Luzern;Switzerland
+827;Heitenried_Tannenholz_21;Heitenried;Tannenholz_21;588244.6;186430.9;Aalb;46.82892;7.284565;719.21;712.66;NA;1714;Heitenried;Tannholz;Fribourg;Switzerland
+828;RöthenbachimEmmental_Alpwald;RöthenbachimEmmental;Alpwald;620640.2;192053.7;Aalb;46.879285;7.709405;997.48;990.59;NA;3538;Röthenbach im Emmental;Meieried;Bern;Switzerland
+829;Thörishaus_ImRumpf;Thörishaus;ImRumpf;593461;194591.2;Aalb;46.902396;7.352814;658.14;649.06;NA;3174;Thörishaus;Im Rumpf;Bern;Switzerland
+830;Flamatt_Seiseacher;Flamatt;Seiseacher;588726.5;193424;Populus sp;46.891833;7.290707;550.59;537.01;21.7;3184;Wünnewil;Seisematta;Fribourg;Switzerland
+831;Vauderens_LesFornys;Vauderens;LesFornys;554472.4;163796.8;Fexc;46.623864;6.844199;710.68;702.09;NA;1675;Vauderens;Les Fornys;Fribourg;Switzerland
+832;Alterswil_Wolgiswil_21;Alterswil;Wolgiswil_21;584068.5;182273;Pabi;46.791431;7.229977;702.15;693.96;30.5;1712;Tafers;Ober Grabe;Fribourg;Switzerland
+833;Lanzenhäusern_Holzmatten;Lanzenhäusern;Holzmatten;595482.5;188279.2;Aalb;46.845636;7.379408;821.23;803.51;27.9;3148;Lanzenhäusern;Holzmattholz;Bern;Switzerland
+834;Elisried_Fuhren_21;Elisried;Fuhren_21;594566.1;185879.4;Aalb;46.824041;7.367423;795.53;775.75;NA;3152;Mamishaus;Unterholz;Bern;Switzerland
+835;Zumholz_Reinweid_21;Zumholz;Reinweid_21;589975.4;178668.7;Pabi;46.759124;7.307421;873.12;894.47;NA;3158;Guggisberg;Gummacker;Bern;Switzerland
+836;Alterswil_Püntli;Alterswil;Püntli;588168.4;181626.2;Qrob;46.785699;7.283691;832.77;836.20;NA;1715;Alterswil FR;Püntli;Fribourg;Switzerland
+838;Kalchstätten_Sandflüe;Kalchstätten;Sandflüe;589411.2;180207.9;Pabi;46.772962;7.299999;894.42;896.35;NA;3158;Guggisberg;Moosholz;Bern;Switzerland
+839;Mümliswil_hübel;Mümliswil;hübel;620120.3;244480.4;Fsyl;47.350869;7.704911;659.94;652.15;NA;4717;Mümliswil;Stolten;Solothurn;Switzerland
+840;Huttwil_Kaltenegg_21;Huttwil;Kaltenegg_21;627596.4;216990.6;Aalb;47.103342;7.802171;749.50;743.74;NA;4938;Rohrbachgraben;Kohlhölzli;Bern;Switzerland
+841;Treyvaux_Péniclé;Treyvaux;Péniclé;575745.8;174141.9;Aalb;46.718036;7.121407;829.34;815.15;NA;1733;Treyvaux;Péniclé;Fribourg;Switzerland
+842;Rüeggisberg_Hinterfultigen_21;Rüeggisberg;Hinterfultigen_21;598033;188093.8;Aalb;46.843981;7.412847;777.48;766.25;NA;3089;Hinterfultigen;Gersternwald;Bern;Switzerland
+843;Laupen_Rüplisried;Laupen;Rüplisried;585614.6;197740.5;Fsyl;46.930601;7.249737;560.28;564.37;NA;3205;Gümmenen;Flüelisberg;Bern;Switzerland
+844;LaRoche_LesRontes_21;LaRoche;LesRontes_21;576586.1;172064.3;Pabi;46.699378;7.132503;777.30;754.31;28.4;1634;La Roche FR;Le Steckel;Fribourg;Switzerland
+845;Rechthalten_Schlossweid;Rechthalten;Schlossweid;586320.3;178187.2;Pabi;46.754728;7.259593;962.91;952.44;26;1718;Rechthalten;Schlossweid;Fribourg;Switzerland
+846;Milken_Pt961_21;Milken;Pt961_21;594027.3;182706.4;Aalb;46.795494;7.360403;960.71;948.62;NA;3157;Milken;Schluchtholz;Bern;Switzerland
+847;Vuisternens-devant-Romont;Vuisternens;devant-Romont;561296.2;166873.5;Fexc;46.651971;6.933034;783.62;780.98;NA;1687;Vuisternens-devant-Romont;Les Nillettes;Fribourg;Switzerland
+848;Riedstätt_Mösi;Riedstätt;Mösi;591420.1;181390.7;Fsyl;46.78363;7.326279;969.41;976.36;NA;3159;Riedstätt;Grosser-Farnacker;Bern;Switzerland
+849;Schwarzenburg_Langenwilscheuer;Schwarzenburg;Langenwilscheuer;590431.6;183903.3;Aalb;46.806218;7.313281;818.05;826.44;NA;3150;Schwarzenburg;Spitzeren;Bern;Switzerland
+850;Chatel-st-denis_Camping;Chatel-st-denis;Camping;559961;153007.8;Pabi;46.527165;6.916799;892.27;896.55;NA;1618;Châtel-Saint-Denis;Entre deux Crêts;Fribourg;Switzerland
+851;Mamishaus_Rümlisberg_21_S;Mamishaus;Rümlisberg_21_S;594777.3;183594.6;Pabi;46.80349;7.370217;882.84;883.53;25.2;3152;Mamishaus;Hubelholz;Bern;Switzerland
+852;Delemont_Courrendlin;Delemont;Courrendlin;594838.2;242515.9;Qrob;47.333484;7.370333;452.84;446.72;22;2830;Courrendlin;Devant Golat;Jura;Switzerland
+853;Huttwil_Bühl_21;Huttwil;Bühl_21;630219.8;216110.2;Aalb;47.095308;7.836672;753.25;756.88;NA;4953;Schwarzenbach (Huttwil);Gummechnubel;Bern;Switzerland
+854;Mamishaus_Henzischwand;Mamishaus;Henzischwand;595560.4;184369.3;Fexc;46.810465;7.380469;792.90;785.40;19.5;3152;Mamishaus;Henzischwand;Bern;Switzerland
+855;Bösingen_Riederbergmoos;Bösingen;Riederbergmoos;583823.3;192023.1;Qrob;46.87913;7.226418;586.92;581.60;NA;3178;Bösingen;Räckerholterhölzli;Fribourg;Switzerland
+856;Gurmels_Kleinbösingen_N_21;Gurmels;Kleinbösingen_N_21;582466.5;194411.6;Psyl;46.900581;7.208528;542.34;517.98;30.2;3213;Kleinbösingen;Wannera;Fribourg;Switzerland
+857;Lanzenhäsern_Gschneithölzli;Lanzenhäsern;Gschneithölzli;594634.8;187927.1;Pabi;46.842462;7.368299;794.44;788.59;NA;3148;Lanzenhäusern;Gschneithölzli;Bern;Switzerland
+858;Hinterfultigen_Niederhäusern;Hinterfultigen;Niederhäusern;596848.2;187494.1;Fexc;46.838581;7.397318;831.21;836.11;NA;3089;Hinterfultigen;In der Wydern;Bern;Switzerland
+859;Kalchstätten_Flühli;Kalchstätten;Flühli;590790.6;180778.2;Pabi;46.778113;7.318048;1015.96;1023.34;NA;3159;Riedstätt;Bützerenwald;Bern;Switzerland
+860;Ueberstorf_Oberholzwald_2_21;Ueberstorf;Oberholzwald_2_21;592662.5;189611.6;Fsyl;46.857596;7.342415;779.54;759.08;23.2;3182;Ueberstorf;Oberholzwald;Fribourg;Switzerland
+861;Milken_Guuggenberg;Milken;Guuggenberg;593766.4;181466.4;Aalb;46.784338;7.357003;1060.10;1046.56;34.6;3156;Riffenmatt;Moosholz;Bern;Switzerland
+862;Tafers_Brunnenbergholz;Tafers;Brunnenbergholz;584415.7;184397.5;Aalb;46.81055;7.234452;738.37;732.04;NA;1712;Tafers;Brunnenbergholz;Fribourg;Switzerland
+863;Milken_Weizacker_S;Milken;Weizacker_S;596128.7;183108.3;Aalb;46.799125;7.387925;806.39;806.57;NA;3152;Mamishaus;Widengraben;Bern;Switzerland
+865;France_Mayrand;France;Mayrand;254670.8;41663;Fsyl;45.439273;3.024235;1123.08;NA;NA;F63420;Roche-Charles-la-Mayrand;Le Roqcuet;Auvergne;France
+866;Czech_Republic_21;Czech;Republic_21;1197230.3;473767.6;Psyl;49.131849;15.630621;618.50;NA;NA;CZ58864;Jihlava;Krasonice;Vysočina;Czech Republic
+867;Bösingen_Lischera;Bösingen;Lischera;582761.8;192919.7;Asyl;46.887168;7.212460;524.66;525.50;NA;3178;Bösingen;Lischera-Ischlag;Fribourg;Switzerland
+;F18-01;Bösingen;Riedeberg;582914;192405;NA;46.882542;7.214476;585.05;567.72;NA;3178;Bösingen;Oberes Mülibergholz;Fribourg;Switzerland
+;G17-01;Düdingen;Schiffenen;580929;191632;NA;46.875535;7.188466;534.46;535.89;NA;3186;Düdingen;Schiffenen;Fribourg;Switzerland
+;G20-01;Wünnewil;Dietisberg;587806;190749;NA;46.867755;7.2787;620.49;617.01;NA;3184;Wünnewil;Dietisberg;Fribourg;Switzerland
+;H16-01;Düdingen;Albervil;578208;188531;NA;46.847557;7.152922;545.82;553.79;NA;3186;Düdingen;Staad;Fribourg;Switzerland
+;H20-03;Schmitten;Breitenried;588452;188444;NA;46.847032;7.287232;720.52;705.41;NA;1714;Heitenried;Jungholz;Fribourg;Switzerland
+;H21-02;Uberstorf;Oberholz;591820;189992;NA;46.861007;7.33136;768.28;772.88;NA;3182;Ueberstorf;Im Walter;Fribourg;Switzerland
+;I17-02;Düdingen;Unter St. Wolfgangholz;580498;186850;NA;46.832507;7.183018;640.04;632.28;NA;3186;Düdingen;St. Wolfgang;Fribourg;Switzerland
+;I19-03;Sant Antoni;Catholic church;586197;185361;NA;46.819256;7.257761;711.47;712.89;NA;1713;St. Antoni;Sigristenhubel;Fribourg;Switzerland
+;I19-04;Sant Antoni;Protestant church;586684;185429;NA;46.819878;7.26414;759.24;757.44;NA;1713;St. Antoni;Cheerstrasse;Fribourg;Switzerland
+;I19-05;Heitenried;Äbnet;587191;187165;NA;46.835504;7.270735;689.47;677.68;NA;1713;St. Antoni;Äbnetholz;Fribourg;Switzerland
+;I19-06;Heitenried;Äbnet;587267;187204;NA;46.835856;7.27173;682.85;681.21;NA;1713;St. Antoni;Äbnetholz;Fribourg;Switzerland
+;I19-07;Sant Antoni;Sant Antoni;586669;185311;NA;46.818816;7.263947;777.20;778.35;NA;1713;St. Antoni;Cheerholz;Fribourg;Switzerland
+;I21-01;Heitenried;Hinter Schönfels;590820;186670;NA;46.831112;7.318314;793.82;778.65;NA;1714;Heitenried;Lengholz;Fribourg;Switzerland
+;J18-02;Tafers;Galteren;583615;183395;NA;46.801513;7.223997;676.84;660.64;NA;1712;Tafers;Allmend;Fribourg;Switzerland
+;J18-04;Tafers;Tafers;583538;184469;NA;46.811172;7.22295;740.22;732.36;NA;1712;Tafers;Oberholz;Fribourg;Switzerland
+;J20-01;Sant Antoni;Obermonten;587678;184397;NA;46.810614;7.277194;810.60;808.86;NA;1713;St. Antoni;Obermonten;Fribourg;Switzerland
+;J20-03;Schachenholz;Alterswil;587860;183094;NA;46.798896;7.279613;827.76;815.94;NA;1715;Alterswil FR;Schacheholz;Fribourg;Switzerland
+;K16-01;Fribourg;Marly;578874;181497;NA;46.784305;7.161981;643.08;634.86;NA;1723;Marly;Aux Rittes;Fribourg;Switzerland
+;K18-02;St. Ursen;Warla;584304;180484;NA;46.775344;7.233123;808.18;805.47;NA;1717;St. Ursen;Warla;Fribourg;Switzerland
+;K19-02;St. Ursen;Mediwil;585650;182150;NA;46.790361;7.250694;726.46;726.14;NA;1717;St. Ursen;Stegmattholz;Fribourg;Switzerland
+;K19-05;Rechthalten;Goma;585706;180386;NA;46.774494;7.251483;834.02;835.31;NA;1718;Rechthalten;Hereschür;Fribourg;Switzerland
+;L17-03;St. Silvester;Buech;581905;177800;NA;46.751139;7.201819;772.91;773.05;NA;1736;St. Silvester;Gomma;Fribourg;Switzerland
+;L18-02;Giffers;Flachsnera;583860;178320;NA;46.755867;7.227387;826.05;818.58;NA;1735;Giffers;Saga;Fribourg;Switzerland
+;L19-02;Rechthalten;Rüteli;586295;179187;NA;46.763721;7.259231;912.25;912.27;NA;1718;Rechthalten;Rüteli;Fribourg;Switzerland
+;L19-03;Brünisried;Buecha;587183;177541;NA;46.748932;7.270902;1007.64;1008.08;NA;1719;Brünisried;Buecha;Fribourg;Switzerland
+;L19-04;Oberschrot;Oberholz;586691;177561;NA;46.749103;7.264462;1053.59;1038.76;NA;1716;Oberschrot;Oberholz;Fribourg;Switzerland
+;L20-03;Brünisried;Berg N;588117;178253;NA;46.755354;7.283106;876.03;878.12;NA;1719;Zumholz;Riedgarten;Fribourg;Switzerland
+;L20-05;Brünisried;Grabersland;587518;178726;NA;46.759598;7.275253;933.16;921.93;NA;1719;Brünisried;Rüdeweid-Holz;Fribourg;Switzerland
+;L20-06;Brünisried;Berg;588084;177902;NA;46.752197;7.282684;927.73;928.05;NA;1719;Brünisried;Allmet;Fribourg;Switzerland
+;L20-08;Brünisried;Halta;587685;178284;NA;46.755625;7.277451;909.43;901.98;NA;1719;Brünisried;Menzisberg-Rain;Fribourg;Switzerland
+;M17-01;Bonnefontaine;Rte de Bonnefontaine;581462;177003;NA;46.743958;7.196054;739.04;736.47;NA;1724;Bonnefontaine;Plan Pra;Fribourg;Switzerland
+;M17-02;Bonnefontaine;Le Préru;582390;175943;NA;46.734448;7.208238;846.75;830.75;NA;1724;Bonnefontaine;La Bruggera;Fribourg;Switzerland
+;M18-01;St. Silvester;Oberi Matta;584335;175555;NA;46.731006;7.233699;899.25;890.65;NA;1736;St. Silvester;Riederewäli;Fribourg;Switzerland
+;M19-03;Oberschrot;Sahli;587003;176653;NA;46.740941;7.268571;924.44;913.87;NA;1716;Oberschrot;Chrummenacher;Fribourg;Switzerland

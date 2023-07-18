@@ -30,7 +30,7 @@ setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding")
 
 ###### LOADING DATA -----------------------------------------------------------------
 
-load("Feeding_analysis.RData")
+load("output/Feeding_analysis.RData")
 
 #define different coordinate systems
 CH_LV95_coords = "+init=epsg:2056"
@@ -356,47 +356,15 @@ dim(PRED$predictions)
 dim(PRED_GRID)
 
 
-
-#### BASIC STATISTICS OF PREDICTIONS
-dim(PRED_GRID %>% filter(FEEDER_observed==1  & n>10))
-dim(PRED_GRID %>% filter(FEEDER_observed==1 & FEEDER_predicted>0.5))
-dim(PRED_GRID %>% filter(FEEDER_observed==1 & n>10 & FEEDER_predicted>mean(PRED_GRID$FEEDER_observed)))/dim(PRED_GRID %>% filter(FEEDER_observed==1  & n>10))
 hist(PRED_GRID$FEEDER_predicted)
-mean(PRED_GRID$FEEDER_observed)
 
 
 ########## CREATE OUTPUT GRID WITH PREDICTED FEEDING LOCATIONS ########################
 
-OUTgrid<-countgrid %>% select(-FEEDER) %>%
+OUTgrid<-countgrid %>%
   mutate(gridid=seq_along(n)) %>%
   left_join(PRED_GRID, by=c("gridid","n","N_ind","N_feed_points","N_feed_ind","prop_feed","prop_pts")) %>%
   filter(!is.na(FEEDER_predicted))
-
-
-
-##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-########## VALIDATE PREDICTIONS WITH SURVEY DATA FROM EVA CEREGHETTI  #############
-##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-## read in survey data from Eva Cereghetti
-## Q1 is the question whether they feed or not
-setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding")
-feed_surveys<-fread("data/survey.final.csv") %>% #filter(Q1=="Ja") %>%
-  mutate(FEEDER_surveyed=ifelse(Q1=="Ja",1,0)) %>%
-  select(nr,coord_x,coord_y,square,random,area,building.type,FEEDER_surveyed) %>%
-  st_as_sf(coords = c("coord_x", "coord_y"), crs=21781) %>%
-  st_transform(crs = 3035) 
-
-validat <- st_intersection(OUTgrid, feed_surveys)
-AUC_TEST<-auc(roc(data=validat,response=FEEDER_surveyed,predictor=FEEDER_predicted))
-
-### summarise the predicted sites
-validat<-validat %>% filter(FEEDER_surveyed==1)
-hist(validat$FEEDER_predicted)
-mean(validat$FEEDER_predicted)
-length(validat[validat$FEEDER_predicted>0.5,])/dim(validat)[1]
-
-
-
 
 
 
@@ -436,22 +404,6 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5
   ) %>%
   
-  addCircleMarkers(
-    data=plot_feeders,
-    radius = 3,
-    stroke = TRUE, color = ~feed.pal(Type), weight = 1,
-    fillColor = ~feed.pal(Type), fillOpacity = 0.2
-  ) %>%
-  
-  addCircleMarkers(
-    data=validat %>%
-      st_transform(4326),
-    radius = 5,
-    stroke = TRUE, color = "red", weight = 1,
-    fillColor = "red", fillOpacity = 0.5
-  ) %>%
-  
-
   addLegend(     # legend for predicted prob of feeding
     position = "topleft",
     pal = pred.pal,
@@ -474,9 +426,9 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
 m2
 
 
-htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding/output/Potential_feeding_grids.html")
-mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding/output/Potential_feeding_grids.html")
-st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas.kml",append=FALSE)
+htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding/output/Potential_feeding_grids_CH.html")
+mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding/output/Potential_feeding_grids_CH.html")
+st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas_CH.kml",append=FALSE)
 
 
 
