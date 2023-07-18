@@ -1,0 +1,134 @@
+---
+title: "Identifying Red Kite feeding sites from tracking data"
+author: "Steffen Oppel"
+output: html_document
+description: progress on using GPS tracking data to identify anthropogenic feeding areas
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE,warning=FALSE,error=FALSE,message=FALSE)
+library(data.table)
+library(tidyverse)
+library(ggplot2)
+```
+
+# Background
+
+The Red Kite is a widespread raptor in Switzerland that benefits from anthropogenic food supplementation. To better understand the spatial extent of anthropogenic food provisioning we are using the tracking data of Red Kites to identify places where the tracked behaviour of kites is consistent with the recorded behaviour of tracked kites at known anthropogenic feeding sites. This work is based on the MSc thesis of Nathalie Heiniger (2020). 
+
+
+# Data preparation
+
+
+The data we have available are red kite tracking data from 2016 - 2022, which we first filter to the extent of Switzerland to remove locations during migration and in winter, resulting in `r dim(track_sf)[1]` GPS locations. The tracking locations are converted into tracks and metrics such as step length, speed, and turning angle are calculated for each step (between two subsequent GPS locations) to extract information on the behaviour of the bird, as presence at a feeding site would typically involve slow speeds, short step lengths and high turning angles. The tracking data are then spatially intersected with land cover data, specifically to remove locations in forests (where birds nest, but where anthropogenic feeding is unlikely), and select locations near human settlements. All locations within `r dim(forest)[1]` forest fragments are removed, and only locations within 50 m of `r dim(buildings)[1]` buildings larger than 65 sqm are retained. In addition, the location of `r dim(plot_feeders)[1]` anthropogenic feeding stations are known, and GPS locations within 50 m of these feeding stations are used to train a model to detect feeding stations. As a result of the various steps, we have a total of `r dim(DATA)[1]` GPS locations and `r table(DATA$FEEDER)[2]` of these locations near a known anthropogenic feeding station (including temporal overlap for all experimental feeding stations for which the time of food provisioning was available).
+
+# Approach to analysis
+
+Anthropogenic feeding stations attract Red Kites regularly, and there will therefore be data patterns at multiple hierarchical levels that could indicate the presence of an anthropogenic feeding site. At the individual level, locations with low speed, high turning angles, and high and consistent revisitation rates over the whole season should be indicative of a feeding place. However, such locations may occur in many places and be indicative of both natural and artificial foraging areas. Thus, the accumulation of several individuals in one place over the season is an additional criterion to consider.
+
+We therefore proceed in two steps, in the first step we use the filtered tracking data in a random forest model to predict whether locations occurred within a known anthropogenic feeding area or not. This model will rely on 19 variables and be tuned for high sensitivity, given that the knowledge of anthropogenic feeding areas is not exhaustive, and birds may behave similarly in areas without anthropogenic feeding.
+
+The locations predicted to be near anthropogenic feeding stations by this model are then aggregated in 500 m grid cells to summarise visitation patterns at the population level. We calculate the number and proportion of predicted 'feeding' locations over the total number of GPS locations in a grid cell, and also calculate the number and proportion of predicted 'feeding' individuals over the total number of individuals occurring in each grid cell. This summary information is then used in a second random forest model, which uses the number and proportion of locations per grid cell to predict whether an anthropogenic feeding station was present in that grid cell. This model is based on `r dim(PRED_GRID)[1]` grid cells with sufficient data (at least 10 Red Kite GPS locations), of which `r dim(PRED_GRID[PRED_GRID$FEEDER==1,])[1]` contained anthropogenic feeding stations.
+
+# Preliminary results
+
+The hourly tracking data were randomly split into `r dim(DATA_TRAIN)[1]` locations for training the first random forest model, and `r dim(DATA_TEST)[1]` locations for validation, and the sensitivities reported here are on test data not used to train the model.
+
+The random forest model classified `r testmat$table[2,2]` of `r sum(testmat$table[2,1:2])` known presences at anthropogenic feeding stations correctly (`r round(testmat$byClass[3]*100,1)` %), but also predicted that `r testmat$table[1,2]` of `r sum(testmat$table[1,1:2])` other GPS locations (but not within 50 m of a known feeding station) were consistent with criteria that could indicate that Red Kites were feeding there. The variables that contributed the most to classifying GPS locations as near a feeding station are shown in this graph: 
+
+
+``` {r impplot, echo=FALSE,warning=FALSE,error=FALSE,message=FALSE, fig.width=10,fig.height=6,fig.cap="Relative variable importance to predict anthropogenic feeding sites"}
+  impplot<-IMP[10:1,] %>%
+    dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels)) %>%
+    ggplot2::ggplot(ggplot2::aes(x=variable, y=rel.imp)) +
+    ggplot2::geom_bar(stat='identity', fill='lightblue') +
+    ggplot2::coord_flip()+
+    ggplot2::ylab("Variable importance (%)") +
+    ggplot2::xlab("Explanatory variable") +
+    ggplot2::scale_y_continuous(limits=c(-5,105), breaks=seq(0,100,20), labels=seq(0,100,20))+
+    ggplot2::annotate("text",x=2,y=80,label=paste("Accuracy = ",round(testmat$byClass[3],3)),size=8) +
+    ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
+                   axis.text.x=ggplot2::element_text(size=18, color="black"),
+                   axis.text.y=ggplot2::element_text(size=16, color="black"), 
+                   axis.title=ggplot2::element_text(size=20), 
+                   panel.grid.major = ggplot2::element_blank(), 
+                   panel.grid.minor = ggplot2::element_blank(), 
+                   panel.border = ggplot2::element_blank())
+  print(impplot)
+```
+
+There were `r dim(OUT_sp)[1]` locations of `r length(unique(OUT$year_id))` bird-seasons predicted by the random forest algorithm to be consistent with foraging at anthropogenic feeding stations. These locations were then pooled by year (it was somehow not possible to do it by bird-season), and 50% utilisation distributions were calculated from these locations, resulting in  `r dim(st_cast(KDE_sf, "POLYGON"))[1]` polygons where a high concentration of predicted 'anthropogenic feeding locations' occurred. These polygons were then filtered to identify those  `r dim(feed_site_polygons)[1]` polygons where >3 years of core ranges overlapped in the same place. 
+
+Of those multi-year feeding places, `r dim(feed_site_polygons[feed_site_polygons$dist_feeder>0.500,])[1]` were more than 500 m away from known anthropogenic feeding stations and may therefore constitute new, unknown places of anthropogenic food supplementation. These are shown as red polygons on the following map. Note that several of the counted polygons are close to each other and may constitute a single feeding site.
+
+
+```{r leafletmap, echo=FALSE,warning=FALSE,error=FALSE,message=FALSE, fig.width=10,fig.height=8,fig.cap="Map of existing (green dots) and predicted anthropogenic feeding sites in Switzerland (so far only in study area)."}
+m <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+    htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
+                           position: 'bottomright' }).addTo(this)}"
+    ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
+    addProviderTiles("Esri.WorldImagery", group = "Satellite",
+                     options = providerTileOptions(opacity = 0.6, attribution = F)) %>%
+    addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F)) %>%  
+    addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
+    
+    # addCircleMarkers(
+    #   data=plot_OUT,
+    #   radius = 2,
+    #   stroke = TRUE, color = "black", weight = 0.5,
+    #   fillColor = "grey75", fillOpacity = 0.5,
+    #   popup = ~ paste0("year ID: ", plot_OUT$year_id, "<br>", plot_OUT$timestamp)
+    # ) %>%
+
+    addCircleMarkers(
+      data=plot_feeders,
+      radius = 10,
+      stroke = TRUE, color = "blue", weight = 1,
+      fillColor = "green", fillOpacity = 0.8
+    ) %>%
+    
+    addPolygons(
+      data=KDE_sf,
+      stroke = TRUE, color = ~year.pal(id), weight = 1,
+      fillColor = ~year.pal(id), fillOpacity = 0.3
+    ) %>%
+    
+    addPolygons(
+      data=feed_site_polygons,
+      stroke = TRUE, color = "red", weight = 1,
+      fillColor = ifelse(feed_site_polygons$dist_feeder<0.500,"goldenrod","red"), fillOpacity = 0.5
+    ) %>%
+
+    addLegend(     # legend for date (viridis scale)
+      position = "topleft",
+      pal = year.pal,
+      values = KDE_sf$id,
+      opacity = 1,
+      title = "Year"
+    ) %>%
+    
+    # addLegend(     # legend for date (viridis scale)
+    #   position = "topleft",
+    #   pal = pal,
+    #   values = feed_site_sf$N_YEAR,
+    #   opacity = 1,
+    #   title = "N of years"
+    # ) %>%
+    
+    
+    
+    addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
+  
+m
+
+```
+
+# Next steps
+
+So far the analysis has been restricted to the intensive study area, because data on buildings and forests were available from there. By including remote sensing data from across Switzerland the random forest model could be expanded across the country.
+
+Before we do that it would be useful to get an assessment of the predicted locations by people who know the study area very well to assess what proportion of the predicted 'likely anthropogenic feeding sites' are in fact congregations of very different origin, e.g. nests, or industrial waste disposal sites etc.
+
+IF the prediction of anthropogenic feeding sites is somewhat accurat and reliable, then we could quantify the proportion of daytime that Red Kites spend within a 200 m radius of these sites, and relate that to breeding success, survival, or dispersal distance for recruiters?
+
+
