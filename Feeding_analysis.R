@@ -21,7 +21,7 @@ sf_use_s2(FALSE)
 library(pROC)
 
 ## set root folder for project
-setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding")
+setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
 
 ### TO DO :
 ## create subset of known feeding locations for training the model and retain some for testing (from similar point intensity locations)
@@ -404,7 +404,7 @@ OUTgrid<-countgrid %>% select(-FEEDER) %>%
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ## read in survey data from Eva Cereghetti
 ## Q1 is the question whether they feed or not
-setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding")
+setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
 feed_surveys<-fread("data/survey.final.csv") %>% #filter(Q1=="Ja") %>%
   mutate(FEEDER_surveyed=ifelse(Q1=="Ja",1,0)) %>%
   select(nr,coord_x,coord_y,square,random,area,building.type,FEEDER_surveyed) %>%
@@ -429,14 +429,42 @@ length(validat[validat$FEEDER_predicted>0.5,])/dim(validat)[1]
 ## survey provided with addresses only
 ## Jerome Guelat provided R script to convert addresses to coordinates
 source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
+library(stringi)
+library(rvest)
+lines <- read_html("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/data/FeedersFionaPelle.csv") %>% 
+  html_nodes(".Address") %>% 
+  html_text()
 
-## Q1 is the question whether they feed or not
-setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding")
-feed_surveys<-fread("data/survey.final.csv") %>% #filter(Q1=="Ja") %>%
-  mutate(FEEDER_surveyed=ifelse(Q1=="Ja",1,0)) %>%
-  select(nr,coord_x,coord_y,square,random,area,building.type,FEEDER_surveyed) %>%
+> grep("Maßnahmen", lines, value = TRUE)[1]
+
+lines <- stri_read_lines("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/data/FeedersFionaPelle.csv", encoding = NULL)
+
+## Feeding is the question whether they feed or not
+setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
+feed_surveys2<-fread("data/FeedersFionaPelle.csv") %>% 
+  mutate(FEEDER_surveyed=ifelse(Feeding=="Yes",1,0)) %>%
+  filter(FEEDER_surveyed==1)
+
+## generate coordinates from addresses
+feed_surveys2_locs<-swissgeocode(address=as.character(feed_surveys2$Address), nresults=3)
+
+
+
+
+
+
+ %>%
   st_as_sf(coords = c("coord_x", "coord_y"), crs=21781) %>%
   st_transform(crs = 3035) 
+
+
+
+
+
+
+
+
+
 
 validat <- st_intersection(OUTgrid, feed_surveys)
 AUC_TEST<-auc(roc(data=validat,response=FEEDER_surveyed,predictor=FEEDER_predicted))
