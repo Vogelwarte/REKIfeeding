@@ -1,0 +1,477 @@
+ID,house,TransmGSM,Plot,Arrival_date,Country,Overlap,Study_area,Feeding,Type,Time_year,Frequency,Type_food,Quantity,RK_observed,Other_species,Address,Comments
+1,1,16329F1C,Control,2/07/2019,SwitzerlandDE,X,Outside,No,,,,,,,,Widenstrasse 10,
+2,1,16329F1C,Control,2/07/2019,SwitzerlandDE,X,Outside,No,,,,,,,,Widenstrasse 8,
+3,2,16329F1C,Control,2/07/2019,SwitzerlandDE,X,Outside,No,,,,,,,,"Oberrickenstrasse 22, 8727 Walde",
+4,3,16329F1C,Control,2/07/2019,SwitzerlandDE,X,Outside,No,,,,,,,,Sonnenbergstrasse 69,
+5,3,16329F1C,Control,2/07/2019,SwitzerlandDE,X,Outside,No,,,,,,,,Sonnenbergstrasse 65,
+6,4,16329F1C,Control,2/07/2019,SwitzerlandDE,X,Outside,No,,,,,,,,Vorder Schönberg 96,
+8,1,16329F1C,Settlement,19/03/2020,SwitzerlandFR,SWIK33 (S); WSIK40 (C),Outside,No,,,,,,,,"21 le revers, La Roche",Very rural: agriculture fields
+13,3,16329F1C,Settlement,19/03/2020,SwitzerlandFR,SWIK33 (S); WSIK40 (C),Outside,No,,,,,,,,"63 La freschera, La Roche",Scary woman
+14,#3 SWIK33 (S),16329F1C,Settlement,19/03/2020,SwitzerlandFR,SWIK33 (S); WSIK40 (C),Outside,No,,,,,,,,"31 route de la Pra, Pont-la Ville",Very rural: agriculture fields
+15,4,16329F1C,Settlement,19/03/2020,SwitzerlandFR,SWIK33 (S),Outside,No,,,,,,,,"28 Fayaulaz, La Roche",
+16,1,BD319F1C,Control,22/03/2020,SwitzerlandFR,WSIK68 (C),Outside,No,,,,,,,,"35 Chemin des Eperleires, Villariaz",
+17,#2 WSIK68 (C),BD319F1C,Control,22/03/2020,SwitzerlandFR,WSIK68 (C),Outside,No,,,,,,,,"2 route de villaraboud, Vuisternens-devant-Romont",
+19,3,BD319F1C,Control,22/03/2020,SwitzerlandFR,WSIK68 (C),Outside,No,,,,,,,,"41 Route de Bulle, Vuisternens-devant-Romont",RK nest in front of house
+20,#2 WSIK68 (C),BD319F1C,Control,22/03/2020,SwitzerlandFR,WSIK68 (C),Outside,No,,,,,,,,"Impasse de la condémine, Vuisternens-devant-Romont (4 houses)",
+22,4,BD319F1C,Control,22/03/2020,SwitzerlandFR,X,Outside,No,,,,,,,,"13 Chemin de Mouna, Vuisternens-devant-Romont","Joseph Dorthe, 42 Chemin des Eperleires,Villariaz: 026 655 11 18, observes them a lot, has put nestbox for falcons, maybe can give infos"
+23,4,BD319F1C,Control,22/03/2020,SwitzerlandFR,X,Outside,No,,,,,,,,"42 Chemin des Eperleires, Villariaz",
+24,1,BD319F1C,Settlement,12/03/2021,SwitzerlandFR,SWIK12 (S),Outside,No,,,,,,,,"11 En Printanna, Rue",
+25,#4 SWIK12 (S),BD319F1C,Settlement,13/03/2021,SwitzerlandFR,SWIK12 (S),Outside,No,,,,,,,,"4 route du charrotton, Rue",
+26,2,BD319F1C,Settlement,15/03/2021,SwitzerlandFR,KISA25 (C),Outside,No,,,,,,,,"20 Chemin du Jura, Vauderens",
+27,3,BD319F1C,Settlement,12/03/2021,SwitzerlandFR,KISA25 (C),Outside,No,,,,,,,,"26 Route de l'Union, Rue",
+28,#1 KISA25 (C) ,BD319F1C,Settlement,12/03/2021,SwitzerlandFR,KISA25 (C),Outside,No,,,,,,,,"4 Route de Vauderens, Blessens",
+29,#2 KISA25 (C),BD319F1C,Settlement,12/03/2021,SwitzerlandFR,KISA25 (C),Outside,No,,,,,,,,"22 Les planches, Blessens","Compost, chicken explotation in front, sometimes killed by goshawk, maybe RK take the leftovers"
+30,#4 KISA25 (C),BD319F1C,Settlement,12/03/2021,SwitzerlandFR,KISA25 (C),Outside,No,,,,,,,,"30 Chemin du clos, Mossel",
+32,1,KISA23,Control,12/05/2020,SwitzerlandFR,X,Outside,No,,,,,,,,"70 Chemin de la croix, Vuamarens",
+33,1,KISA23,Control,12/05/2020,SwitzerlandFR,X,Outside,No,,,,,,,,"67 Chemin de la croix, Vuamarens",
+34,2,KISA23,Control,12/05/2020,SwitzerlandFR,X,Outside,No,,,,,,,,"30 Chemin des Rochettes, Morlens",Gave once butcher waste but that's it so not considered a feeding site
+35,2,KISA23,Control,12/05/2020,SwitzerlandFR,X,Outside,No,,,,,,,,"7 Chemin des Rochettes, Morlens",
+37,3,KISA23,Control,12/05/2020,SwitzerlandFR,X,Outside,No,,,,,,,,"155 Route de Moudon, Vuamarens",
+39,4,KISA23,Control,12/05/2020,SwitzerlandFR,X,Outside,No,,,,,,,,"93 Route du Saugey, Esmonts",
+40,4,KISA23,Control,12/05/2020,SwitzerlandFR,X,Outside,No,,,,,,,,"House in front 93 Route du Saugey, Esmonts",
+41,1,KISA23,Settlement,9/03/2021,SwitzerlandDE,X,Inside,No,,,,,,,,"Richterwil 127, Bösingen",
+42,1,KISA23,Settlement,9/03/2021,SwitzerlandDE,X,Inside,No,,,,,,,,"Richterwil 814, Bösingen",Shit pile has sometimes placenta on it
+43,2,KISA23,Settlement,9/03/2021,SwitzerlandDE,X,Inside,No,,,,,,,,"Uttewil 177, Bösingen",They think the presence of the kites is due to the mild climat and that they thus start working in the fields already in February
+44,2,KISA23,Settlement,9/03/2021,SwitzerlandDE,X,Inside,No,,,,,,,,"Uttewil 172, Bösingen",
+45,3,KISA23,Settlement,9/03/2021,SwitzerlandDE,X,Inside,No,,,,,,,,"Filistorf 2, Schmitten",
+46,3,KISA23,Settlement,9/03/2021,SwitzerlandDE,X,Inside,No,,,,,,,,"Filistorf 10, Schmitten",
+47,4,KISA23,Settlement,9/03/2021,SwitzerlandDE,X,Inside,No,,,,,,,,"Friesenheid 820, Schmitten",
+48,4,KISA23,Settlement,9/03/2021,SwitzerlandDE,X,Inside,No,,,,,,,,"Friesenheid 166, Schmitten",
+49,1,KISA25,Control,8/03/2019,SwitzerlandFR,BD319F1C (S),Outside,No,,,,,,,,"4 Route de Vauderens, Blessens",
+50,#3 BD319F1C (S),KISA25,Control,8/03/2019,SwitzerlandFR,BD319F1C (S),Outside,No,,,,,,,,"26 Route de l'Union, Rue",
+51,#4 SWIK12 (S),KISA25,Control,8/03/2019,SwitzerlandFR,BD319F1C (S); SWIK12 (S),Outside,No,,,,,,,,"4 route du charrotton, Rue",
+52,2,KISA25,Control,8/03/2019,SwitzerlandFR,BD319F1C (S),Outside,No,,,,,,,,"22 Les planches, Blessens","Compost, chicken explotation in front, sometimes killed by goshawk, maybe RK take the leftovers"
+53,#2 BD319F1C (S),KISA25,Control,8/03/2019,SwitzerlandFR,BD319F1C (S),Outside,No,,,,,,,,"20 Chemin du Jura, Vauderens",
+54,3,KISA25,Control,8/03/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"30 Route d'Arlens, Blessens",
+56,4,KISA25,Control,8/03/2019,SwitzerlandFR,BD319F1C (S),Outside,No,,,,,,,,"30 Chemin du clos, Mossel",
+57,1,KISA25,Settlement,23/03/2021,SwitzerlandDE,SWIK23 (S),Inside,No,,,,,,,,"Tromoos 1, St. Ursen",
+58,#4 SWIK23 (S),KISA25,Settlement,23/03/2021,SwitzerlandDE,SWIK23 (S),Inside,No,,,,,,,,"Rotkruz 121, 1718 Rechthalten",
+63,4,KISA25,Settlement,23/03/2021,SwitzerlandDE,X,Inside,No,,,,,,,,"Dorfmatta 4, 1719 Brünisried",
+64,4,KISA25,Settlement,23/03/2021,SwitzerlandDE,X,Inside,No,,,,,,,,"Dorfmatta 15, 1719 Brünisried","Neighbour gives: Oberlandstrasse 28, Brünisried, call (german speaking person): 0793038749 => doesn't answer"
+65,1,KIWS14,Control,1/05/2018,SwitzerlandDE,KIWS59 (S),Inside,No,,,,,,,,"Auriedweg 32, Kleinbösingen",
+66,#1 KIWS59 (S) ,KIWS14,Control,1/05/2018,SwitzerlandDE,KIWS59 (S),Inside,No,,,,,,,,"Im Holz 34, Kleinbösingen","Shit pile, only crows"
+67,2,KIWS14,Control,1/05/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Riesenaustrasse 20, 3179 Kriechenwil","Said that Riesenaustrasse 30, 3179 Kriechenwil gives, call (german speaking person): 0317477265 => doesn't answer"
+68,3,KIWS14,Control,1/05/2018,SwitzerlandDE,KIWS59 (S),Inside,No,,,,,,,,"Breitestrasse 51, Kleinbösingen","Compst, only crows"
+69,#2 KIWS59 (S) ,KIWS14,Control,1/05/2018,SwitzerlandDE,KIWS59 (S),Inside,No,,,,,,,,"Lindeweg 1, Kleinbösingen","Compost heap, only crows"
+70,#3 KIWS59 (S) ,KIWS14,Control,1/05/2018,SwitzerlandDE,KIWS59 (S),Inside,No,,,,,,,,"Längerstrasse 95, 3213 Kleinbösingen","Compost, only crows"
+71,#4 KIWS59 (S) ,KIWS14,Control,1/05/2018,SwitzerlandDE,KIWS59 (S),Inside,No,,,,,,,,"Grueneburg 51, Kleinbösingen",
+74,#1 SWIK84 (S),KIWS14,Settlement,1/03/2020,SwitzerlandFR,SWIK84 (S),Inside,No,,,,,,,,"2 Coppet, Cordast",
+75,#1 SWIK84 (S),KIWS14,Settlement,1/03/2020,SwitzerlandFR,SWIK84 (S),Inside,No,,,,,,,,"Fineta, Cordast",
+76,2,KIWS14,Settlement,1/03/2020,SwitzerlandFR,KIWS48 (S),Inside,No,,,,,,,,"3 Grand-Vivy, Barberêche",Sweet woman
+77,#1 KIWS48 (S),KIWS14,Settlement,1/03/2020,SwitzerlandFR,SWIK84 (S); KIWS48 (S),Inside,No,,,,,,,,"11 Petit-Vivy, Barberêche",
+78,#3 SWIK84 (S),KIWS14,Settlement,1/03/2020,SwitzerlandFR,SWIK84 (S); KIWS48 (S),Inside,No,,,,,,,,"10 Vers l'Eglise, Barberêche",
+85,2,KIWS23,Control,25/03/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Steinackerureg 4,, 1712 Tafers",
+86,2,KIWS23,Control,25/03/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Rohr 18, 1712 Tafers","Several houses putting compost at this farm, only crows and foxes observed"
+88,3,KIWS23,Control,25/03/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Juchholzstrasse , &712 Tafers",
+89,4,KIWS23,Control,25/03/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Stockera 41, 1712 Tafers",
+91,1,KIWS23,Settlement,24/02/2021,SwitzerlandFR,X,Outside,No,,,,,,,,"151 Route de la Gérine, Marly","Biogaz station not far, call: +41 26 402 10 20, seen RK flying above"
+93,1,KIWS23,Settlement,24/02/2021,SwitzerlandFR,X,Outside,No,,,,,,,,"201 Route de la Gérine, Marly",
+94,2,KIWS23,Settlement,24/02/2021,SwitzerlandFR,X,Inside,No,,,,,,,,"7 Rue des Mouettes, Marly",
+97,3,KIWS23,Settlement,24/02/2021,SwitzerlandFR,X,Outside,No,,,,,,,,"1 Route du Pâquier, Marly",
+98,4,KIWS23,Settlement,24/02/2021,SwitzerlandFR,X,Inside,No,,,,,,,,"10 Chemin de Vuisserens, Marly",
+99,4,KIWS23,Settlement,24/02/2021,SwitzerlandFR,X,Inside,No,,,,,,,,"90 Route de Chésalles, Marly",Neighboor farther neither
+100,1,KIWS48,Control,5/07/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Les vies Fourchies 1, 2828 Montsevellier",
+101,1,KIWS48,Control,5/07/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Le Champre 1, 2828 Montsevellier",
+102,2,KIWS48,Control,5/07/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Hof Tvegberg 44, 4229 Beinwil",
+103,2,KIWS48,Control,5/07/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Le Greierlet 1, 2828 Montsevellier",
+104,3,KIWS48,Control,5/07/2018,SwitzerlandDE,X,Outside,No,,,,,,,,Near Mervelier 2828,
+105,3,KIWS48,Control,5/07/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Bergerie de Grandmont, 2828 Mervellier",
+106,4,KIWS48,Control,5/07/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"La neuve vie 1, 2827 Beinwil",
+107,4,KIWS48,Control,5/07/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Rotmättli 46, 2827 Beinwil",
+108,1,KIWS48,Settlement,22/02/2020,SwitzerlandFR,SWIK84 (S); KIWS14 (S),Inside,No,,,,,,,,"11 Petit-Vivy, Barberêche",
+109,#3 SWIK84 (S),KIWS48,Settlement,22/02/2020,SwitzerlandFR,SWIK84 (S); KIWS14 (S),Inside,No,,,,,,,,"10 Vers l'Eglise, Barberêche",
+114,4,KIWS48,Settlement,22/02/2020,SwitzerlandDE,X,Inside,No,,,,,,,,"Bonnstrasse 4, 3186 Düdingen",
+115,4,KIWS48,Settlement,22/02/2020,SwitzerlandDE,X,Inside,No,,,,,,,,"Bonnstrasse 41, 3186 Düdingen",
+116,1,KIWS53,Control,27/05/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"7 Petit Martel, Petit-Martel","SANDOZ Claudine, 11 Vers-Chez-Les-Brandt (just outside of centroid): 032 937 13 31: not answering (If doesn't answer: Nicolas Jeanneret, president of the commune Le Joratel: 079 240 63 45); Houses around absent or not interested in answering"
+117,2,KIWS53,Control,27/05/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"5 Le Pré Sec, Brot-Plamboz",A lot of rodents since 3 years
+118,2,KIWS53,Control,27/05/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"7 Le Pré Sec, Brot-Plamboz (Ferme)",
+120,3,KIWS53,Control,27/05/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"32 Les Petits Ponts, Brot-Plamboz",Seen RK (10) flying above compostière; SANDOZ: leftovers from the butcher for his dogs and when gets bad puts them in the forest
+122,4,KIWS53,Control,27/05/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"17 Les Petits-Ponts, Brot-Plamboz",SANDOZ: dangerous people
+123,1,KIWS53,Settlement,17/04/2020,SwitzerlandDE,WSIK81 (S),Inside,No,,,,,,,,"Wolperwil 7, 1717 St. Ursen",
+124,2,KIWS53,Settlement,17/04/2020,SwitzerlandDE,WSIK81 (S),Inside,No,,,,,,,,"Medewil 4, 1717 St. Ursen",
+125,3,KIWS53,Settlement,17/04/2020,SwitzerlandDE,WSIK81 (S); SWIK23 (S),Inside,No,,,,,,,,"Baletswil 3, 1717 St. Ursen",
+126,4,KIWS53,Settlement,17/04/2020,SwitzerlandDE,WSIK81 (S); SWIK23 (S),Inside,No,,,,,,,,"Hinterhalta 1, 1717 St. Ursen",
+127,#1 WSIK81 (S),KIWS53,Settlement,17/04/2020,SwitzerlandDE,WSIK81 (S),Inside,No,,,,,,,,"Beniwil 33, 1715 Alterswil",
+128,#2 WSIK81 (S),KIWS53,Settlement,17/04/2020,SwitzerlandDE,WSIK81 (S),Inside,No,,,,,,,,"Unterdorfstrasse 7, 1715 Alterswil",
+129,#3 WSIK81 (S),KIWS53,Settlement,17/04/2020,SwitzerlandDE,WSIK81 (S),Inside,No,,,,,,,,"Hasli 1, 1717 St. Ursen",
+130,#4 WSIK81 (S),KIWS53,Settlement,17/04/2020,SwitzerlandDE,WSIK81 (S),Inside,No,,,,,,,,"Aeschlenberg 4, 1717 St.Ursen",
+132,1,KIWS59,Control,10/06/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"20 Martel-Dernier, Les Ponts de Martel",
+133,1,KIWS59,Control,10/06/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"18 Martel-Dernier, Les Ponts de Martel","SANDOZ: do not go alone, dangerous dogs and people, even police afraid"
+135,2,KIWS59,Control,10/06/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"9 Martel-Dernier, Les Ponts de Martel",
+137,3,KIWS59,Control,10/06/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"5 Le Crêt-Pellaton, Travers",SANDOZ
+138,4,KIWS59,Control,10/06/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"1 Les Emposieux, Travers","SANDOZ , Nicolas Jeanneret"
+139,4,KIWS59,Control,10/06/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"2 Les Emposieux, Travers",
+140,1,KIWS59,Settlement,7/03/2019,SwitzerlandDE,KIWS14 (C),Inside,No,,,,,,,,"Im Holz 34, Kleinbösingen","Shit pile, only crows"
+141,#1 KIWS14 (C) ,KIWS59,Settlement,7/03/2019,SwitzerlandDE,KIWS14 (C),Inside,No,,,,,,,,"Auriedweg 32, Kleinbösingen",
+142,2,KIWS59,Settlement,7/03/2019,SwitzerlandDE,KIWS14 (C),Inside,No,,,,,,,,"Lindeweg 1, Kleinbösingen","Compost heap, only crows"
+143,3,KIWS59,Settlement,7/03/2019,SwitzerlandDE,KIWS14 (C),Inside,No,,,,,,,,"Längerstrasse 95, 3213 Kleinbösingen","Compost, only crows"
+144,#3 KIWS14 (C) ,KIWS59,Settlement,7/03/2019,SwitzerlandDE,KIWS14 (C),Inside,No,,,,,,,,"Breitestrasse 51, Kleinbösingen","Compst, only crows"
+145,4,KIWS59,Settlement,7/03/2019,SwitzerlandDE,KIWS14 (C),Inside,No,,,,,,,,"Grueneburg 51, Kleinbösingen",
+147,5,KIWS59,Settlement,7/03/2019,SwitzerlandDE,X,Inside,No,,,,,,,,Kleingurmels,
+148,1,KIWS83,Control,24/06/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Alp 114, 3533 Bowil",Dead calf and pigglings once a year and saw RK feeding on it (>1kg)
+149,1,KIWS83,Control,24/06/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Schwendimatt 107, 3533 Bowil",
+150,2,KIWS83,Control,24/06/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Schüpbach 76, 3533 Bowil",
+151,2,KIWS83,Control,24/06/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Spitzachen 203A, 3538 Röthenbach in Emmental",Fed them once
+152,3,KIWS83,Control,24/06/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Thunersberg 158, 3533 Bowil",
+153,3,KIWS83,Control,24/06/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Bergli 160, 3533 Bowil",
+154,4,KIWS83,Control,24/06/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Heimenrütti 192, 3538 Röthenbach in Emmental",
+155,4,KIWS83,Control,24/06/2018,SwitzerlandDE,X,Outside,No,,,,,,,,"Heimenrütti 228, 3538 Röthenbach in Emmental",
+156,1,KIWS83,Settlement,24/03/2019,France,X,Outside,No,,,,,,,,Reyvroz,
+157,1,KIWS83,Settlement,24/03/2019,France,X,Outside,No,,,,,,,,Reyvroz,
+158,2,KIWS83,Settlement,24/03/2019,France,X,Outside,No,,,,,,,,Reyvroz,"Compost, seen RK flying close"
+159,2,KIWS83,Settlement,24/03/2019,France,X,Outside,No,,,,,,,,Reyvroz,
+160,3,KIWS83,Settlement,24/03/2019,France,X,Outside,No,,,,,,,,Reyvroz,
+161,3,KIWS83,Settlement,24/03/2019,France,X,Outside,No,,,,,,,,Reyvroz,
+162,4,KIWS83,Settlement,24/03/2019,France,X,Outside,No,,,,,,,,Reyvroz,
+163,4,KIWS83,Settlement,24/03/2019,France,X,Outside,No,,,,,,,,Reyvroz,
+164,1,SWIK03,Control,9/05/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Krenzmatt 276, 5063 Wölflinswil",
+165,1,SWIK03,Control,9/05/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Hüntlesten 124, 5063 Wölflinswil",
+166,2,SWIK03,Control,9/05/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Ringlatt 292, 5063 Wölflinswil",
+169,3,SWIK03,Control,9/05/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Altenberg 307 (second family), 5063 Wölflinswil",
+170,4,SWIK03,Control,9/05/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Talweg 165, 5063 Wölflinswil",
+171,4,SWIK03,Control,9/05/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Oeligass 92, 5063 Wölflinswil",
+173,1,SWIK03,Settlement,21/03/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"51 route de la neirigue, La Neirigue",
+174,1,SWIK03,Settlement,21/03/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"56 route de la neirigue, La Neirigue",
+175,2,SWIK03,Settlement,21/03/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"6 impasse montaubry, Grangettes",Neither the neighbour
+176,2,SWIK03,Settlement,21/03/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"2 route de massonnens, Grangettes",
+177,3,SWIK03,Settlement,21/03/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"25 route de la neirigue, Villariaz","A lot of rodents, cyclic"
+178,4,SWIK03,Settlement,21/03/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"9 Impasse du château, Grangettes",
+180,1,SWIK12,Control,30/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"Domaine de Seyve: 12 la pallaz, Seigneux","Dog found bones in the road above, not seen RK"
+181,1,SWIK12,Control,30/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"26 la pallaz, Seigneux",
+182,1,SWIK12,Control,30/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"11 la pallaz, Seigneux",Treize canton maybe someone: 2 houses no
+183,2,SWIK12,Control,30/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"3 en copet, Seigneux",
+185,3,SWIK12,Control,30/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"6 les granges, Dompierre",A lot of meat waste in the forest but haven't seen RK
+186,3,SWIK12,Control,30/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"11 les granges, Dompierre",
+187,4,SWIK12,Control,30/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"2 route de Dompierre, Villars-Bramard",Neighbours above and next door neither
+188,1,SWIK12,Settlement,2/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"45 route des echelettes, Rue",
+189,1,SWIK12,Settlement,2/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"21 chemin de la véréna, Montet",
+191,2,SWIK12,Settlement,2/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"10 au cuard, Rue",Very environmental man that plants trees for biodiversity
+192,3,SWIK12,Settlement,2/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"En champ-collon, Rue",RK don't come close to houses
+193,3,SWIK12,Settlement,2/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"Chemin des chutes, Rue",2 houses
+194,4,SWIK12,Settlement,2/04/2018,SwitzerlandFR,BD319F1C (S); KISA25 (C),Outside,No,,,,,,,,"4 route du charrotton, Rue",
+195,#1 BD319F1C (S),SWIK12,Settlement,2/04/2018,SwitzerlandFR,BD319F1C (S),Outside,No,,,,,,,,"11 En Printanna, Rue",
+196,1,SWIK16,Control,19/07/2017,France,X,Outside,No,,,,,,,,Close to Montbuzat,
+197,1,SWIK16,Control,19/07/2017,France,X,Outside,No,,,,,,,,Close to Montbuzat,
+198,2,SWIK16,Control,19/07/2017,France,X,Outside,No,,,,,,,,Close to Montbuzat,
+199,2,SWIK16,Control,19/07/2017,France,X,Outside,No,,,,,,,,Close to Montbuzat,
+200,3,SWIK16,Control,19/07/2017,France,X,Outside,No,,,,,,,,Close to Montbuzat,Invasion of voles
+201,3,SWIK16,Control,19/07/2017,France,X,Outside,No,,,,,,,,Close to Montbuzat,
+202,4,SWIK16,Control,19/07/2017,France,X,Outside,No,,,,,,,,Montbuzat,Compost in the open
+203,4,SWIK16,Control,19/07/2017,France,X,Outside,No,,,,,,,,Montbuzat,Food scraps for the chickens in the open
+204,1,SWIK16,Settlement,14/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"13 route d'orzens, Oppens",
+206,2,SWIK16,Settlement,14/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"10 la tuilière, Oppens",
+207,2,SWIK16,Settlement,14/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"20 la tuilière, Oppens",
+208,3,SWIK16,Settlement,14/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"6 route d'oppens, Pailly",
+212,1,SWIK23,Control,26/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"37 Sur-Carro, Corpataux-Magnedens",
+213,1,SWIK23,Control,26/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"41 Sur-Carro, Corpataux-Magnedens",
+214,2,SWIK23,Control,26/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"31 Impasse Vers-Chavaille, Corpataux-Magnedens",
+215,2,SWIK23,Control,26/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"2 Vers-Chavaille, Corpataux-Magnedens",
+216,3,SWIK23,Control,26/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"51 Routes des chênes, Corpataux-Magnedens",
+217,3,SWIK23,Control,26/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"42 Routes des chênes, Corpataux-Magnedens",A lot of rodents
+218,4,SWIK23,Control,26/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"190 Route d'Illens, Rossens","Very suitable habitat: hunting forbidden, Sarine river protected area. Only house in the area; maybe piggery gives leftovers away (couldn't find it)"
+219,1,SWIK23,Settlement,28/02/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Tanneried 59, 1718 Rechthalten",
+220,2,SWIK23,Settlement,28/02/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Allelüfte 1, 1718 Rechthalten",
+221,3,SWIK23,Settlement,28/02/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Haltli 45, 1718 Rechthalten",
+222,3,SWIK23,Settlement,28/02/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Haltli 41, 1718 Rechthalten",
+223,4,SWIK23,Settlement,28/02/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Rotkruz 121, 1718 Rechthalten",
+224,#1 KISA25 (S) ,SWIK23,Settlement,28/02/2019,SwitzerlandDE,KISA25 (S),Inside,No,,,,,,,,"Tromoos 1, St. Ursen",
+226,#3 KIWS53 (S),SWIK23,Settlement,28/02/2019,SwitzerlandDE,KIWS53 (S),Inside,No,,,,,,,,"Baletswil 3, 1717 St. Ursen",
+227,#4 KIWS53 (S),SWIK23,Settlement,28/02/2019,SwitzerlandDE,KIWS53 (S),Inside,No,,,,,,,,"Hinterhalta 1, 1717 St. Ursen",
+228,1,SWIK25,Control,8/06/2016,SwitzerlandFR,SWIK33 (C),Outside,No,,,,,,,,"2 Moulin de Prassasson, Arconciel",A lot of rodents these past years; Now feeds and has seen RK but not in 2016
+230,2,SWIK25,Control,8/06/2016,SwitzerlandFR,SWIK33 (C),Outside,No,,,,,,,,"1 Au Village, Senèdes",A lot of people give food to the cats
+236,4,SWIK25,Control,8/06/2016,SwitzerlandFR,SWIK33 (C),Outside,No,,,,,,,,"45 Chemin du Marais, Treyvaux",
+237,#4 SWIK33 (C),SWIK25,Control,8/06/2016,SwitzerlandFR,SWIK33 (C),Outside,No,,,,,,,,"5 La Longeraie, Treyvaux",
+238,1,SWIK25,Settlement,4/04/2017,SwitzerlandDE,X,Inside,No,,,,,,,,"Guglenberg 2, 1713 St. Antoni",
+239,1,SWIK25,Settlement,4/04/2017,SwitzerlandDE,X,Inside,No,,,,,,,,"Guglenberg 1, 1713 St. Antoni",
+242,3,SWIK25,Settlement,4/04/2017,SwitzerlandDE,X,Inside,No,,,,,,,,"Tannmatt 86, 1713 St. Antoni",
+243,3,SWIK25,Settlement,4/04/2017,SwitzerlandDE,X,Inside,No,,,,,,,,"Obermonten 90, 1713 St. Antoni",
+244,4,SWIK25,Settlement,4/04/2017,SwitzerlandDE,X,Inside,No,,,,,,,,"Krommen 32, 1713 St. Antoni",
+246,1,SWIK31,Control,22/07/2016,SwitzerlandDE,WSIK40 (S),Inside,No,,,,,,,,"Krummenacker 209, 3159 Riedstätt",
+248,3,SWIK31,Control,22/07/2016,SwitzerlandDE,WSIK40 (S),Inside,No,,,,,,,,"Eigen 183, 3158 Guggisberg",
+250,#1 WSIK40 (S),SWIK31,Control,22/07/2016,SwitzerlandDE,WSIK40 (S),Inside,No,,,,,,,,"Nessleven 271, 3158 Guggisberg",
+251,#2 WSIK40 (S),SWIK31,Control,22/07/2016,SwitzerlandDE,WSIK40 (S),Inside,No,,,,,,,,,
+253,#4 WSIK40 (S),SWIK31,Control,22/07/2016,SwitzerlandDE,WSIK40 (S),Inside,No,,,,,,,,"Tannacker 108, 3158 Guggisberg",
+256,2,SWIK31,Settlement,16/03/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"17 chemin des planchettes, Bas-Intyamon",Another house no as well
+257,2,SWIK31,Settlement,16/03/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"5 chemin de la chapelle, Bas-Intyamon",
+258,3,SWIK31,Settlement,16/03/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"Le beveret, Bas-Intyamon",
+259,3,SWIK31,Settlement,16/03/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"Chemin des grèves, Bas-Intyamon",Bones found in the forest nearby
+260,4,SWIK31,Settlement,16/03/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"17 impasse de la cascade, Estavannens",
+262,#1 SWIK25 (C),SWIK33,Control,19/06/2016,SwitzerlandFR,SWIK25 (C),Outside,No,,,,,,,,"2 Moulin de Prassasson, Arconciel",A lot of rodents these past years; Now feeds and has seen RK but not in 2016
+264,#2 SWIK25 (C),SWIK33,Control,19/06/2016,SwitzerlandFR,SWIK25 (C),Outside,No,,,,,,,,"1 Au Village, Senèdes",A lot of people give food to the cats
+270,#4 SWIK25 (C),SWIK33,Control,19/06/2016,SwitzerlandFR,SWIK25 (C),Outside,No,,,,,,,,"45 Chemin du Marais, Treyvaux",
+271,4,SWIK33,Control,19/06/2016,SwitzerlandFR,SWIK25 (C),Outside,No,,,,,,,,"5 La Longeraie, Treyvaux",
+273,#1 16329F1C (S),SWIK33,Settlement,9/03/2018,SwitzerlandFR,16329F1C (S); WSIK40 (C),Outside,No,,,,,,,,"21 le revers, La Roche",Very rural: agriculture fields
+276,3,SWIK33,Settlement,9/03/2018,SwitzerlandFR,16329F1C (S); WSIK40 (C),Outside,No,,,,,,,,"31 route de la Pra, Pont-la Ville",Very rural: agriculture fields
+278,#3 16329F1C (S),SWIK33,Settlement,9/03/2018,SwitzerlandFR,16329F1C (S); WSIK40 (C),Outside,No,,,,,,,,"63 La freschera, La Roche",Scary woman
+279,#4 16329F1C (S),SWIK33,Settlement,9/03/2018,SwitzerlandFR,16329F1C (S),Outside,No,,,,,,,,"28 Fayaulaz, La Roche",
+280,1,SWIK35,Control,1/07/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Oberwaldmatt 1, 6123 Geiss",
+281,1,SWIK35,Control,1/07/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Oberwaldmatt 2, 6123 Geiss",
+282,2,SWIK35,Control,1/07/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Neuhof 1, 6123 Geiss",
+283,2,SWIK35,Control,1/07/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Neuhof 2, 6123 Geiss",
+284,3,SWIK35,Control,1/07/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Schlatthof 2, 6123 Geiss",
+285,3,SWIK35,Control,1/07/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Schlathoff 1, 6123 Geiss",
+286,4,SWIK35,Control,1/07/2016,SwitzerlandDE,X,Outside,No,,,,,,,,"Studenweid 1, 6123 Geiss",
+288,1,SWIK35,Settlement,28/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"51 rue du vieux pont, Bulle",Middle of city
+289,1,SWIK35,Settlement,28/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"32 rue des jordils, Bulle",Middle of city
+290,2,SWIK35,Settlement,28/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"1 chemin de la passerelle, La Tour-de-Trême",Cats finding bones
+291,2,SWIK35,Settlement,28/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"2 chemin de la passerelle, La Tour-de-Trême",RK flying low close to houses
+292,3,SWIK35,Settlement,28/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"48 chemin de la Rochetta, La Tour-de-Trême",Woman in the neighborhood feeding cats everyday
+293,3,SWIK35,Settlement,28/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"1 chemin de la Rochetta, La Tour-de-Trême",
+294,4,SWIK35,Settlement,28/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"51 route de la Forêt, La Tour-de-Trême",Before woman giving spaghettis on the bridge for animals
+295,4,SWIK35,Settlement,28/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"18 chemin du Torrent, La Tour-de-Trême",People putting their waste in the forest but never seen RK
+296,1,SWIK46,Control,23/05/2016,SwitzerlandFR,X,Outside,No,,,,,,,,"70 route de grabou, Montagny",
+301,3,SWIK46,Control,23/05/2016,SwitzerlandFR,X,Outside,No,,,,,,,,"71 Route de Payerne, Prez-vers-Noréaz","Interview 1 Le Grand-fin: no, there since 2017"
+302,4,SWIK46,Control,23/05/2016,SwitzerlandFR,X,Outside,No,,,,,,,,"70 Route des combes, Prez-vers-Noréaz",
+303,4,SWIK46,Control,23/05/2016,SwitzerlandFR,X,Outside,No,,,,,,,,"16 route du moulin, Prez-vers-Noréaz",
+307,2,SWIK46,Settlement,5/03/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"47 route du chêne, Lovens",Seen RK close to the pond
+310,3,SWIK46,Settlement,5/03/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"24 En Meinoud, Lentigny",
+311,4,SWIK46,Settlement,5/03/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"2 route des rapillettes, Cottens",
+312,1,SWIK71,Control,7/05/2017,France,X,Outside,No,,,,,,,,Sainte Marie,"Secondary houses mostly, interviewed almost every house possible in the plot"
+313,1,SWIK71,Control,7/05/2017,France,X,Outside,No,,,,,,,,Sainte Marie,
+314,2,SWIK71,Control,7/05/2017,France,X,Outside,No,,,,,,,,Close to Sainte Marie,Say that kites feed on their chicken: several times per month
+315,2,SWIK71,Control,7/05/2017,France,X,Outside,No,,,,,,,,Close to Sainte Marie,Say that kites feed on their chicken: once a week
+316,3,SWIK71,Control,7/05/2017,France,X,Outside,No,,,,,,,,Sainte Marie,Plateform to feed kites in Oradour but outside of polygon
+317,3,SWIK71,Control,7/05/2017,France,X,Outside,No,,,,,,,,Sainte Marie,
+318,4,SWIK71,Control,7/05/2017,France,X,Outside,No,,,,,,,,Close to Sainte Marie,
+319,1,SWIK71,Settlement,4/04/2018,France,X,Outside,No,,,,,,,,Jujurieux,
+320,1,SWIK71,Settlement,4/04/2018,France,X,Outside,No,,,,,,,,Jujurieux,
+321,2,SWIK71,Settlement,4/04/2018,France,X,Outside,No,,,,,,,,Jujurieux,
+322,2,SWIK71,Settlement,4/04/2018,France,X,Outside,No,,,,,,,,Jujurieux,
+323,3,SWIK71,Settlement,4/04/2018,France,X,Outside,No,,,,,,,,Jujurieux,Castle where the nest is (probably second nest with tagged bird because GPS points there)
+324,4,SWIK71,Settlement,4/04/2018,France,X,Outside,No,,,,,,,,Jujurieux,
+325,4,SWIK71,Settlement,4/04/2018,France,X,Outside,No,,,,,,,,Jujurieux,
+326,4,SWIK71,Settlement,4/04/2018,France,X,Outside,No,,,,,,,,Jujurieux,
+327,1,SWIK84,Control,25/07/2017,Germany,X,Outside,No,,,,,,,,"Schulstrasse 1, 88524 Uttenweiler",
+328,1,SWIK84,Control,25/07/2017,Germany,X,Outside,No,,,,,,,,"Am Pfarrgarten 5, 88524 Uttenweiler",
+330,2,SWIK84,Control,25/07/2017,Germany,X,Outside,No,,,,,,,,"Herligmühle 1, 88524 Uttenweiler",
+331,2,SWIK84,Control,25/07/2017,Germany,X,Outside,No,,,,,,,,"Herlighof 1, 88524 Uttenweiler",Feeding from dung from the farm
+332,3,SWIK84,Control,25/07/2017,Germany,X,Outside,No,,,,,,,,"Falkenhof 15, 88524 Uttenweiler",
+333,3,SWIK84,Control,25/07/2017,Germany,X,Outside,No,,,,,,,,"Falkenhof 1, 88524 Uttenweiler",
+334,4,SWIK84,Control,25/07/2017,Germany,X,Outside,No,,,,,,,,"Dietershanser strasse 12, 88524 Uttenweiler",
+335,4,SWIK84,Control,25/07/2017,Germany,X,Outside,No,,,,,,,,"Mäleshof 11, 88524 Uttenweiler",
+336,1,SWIK84,Settlement,29/03/2018,SwitzerlandFR,KIWS14 (S),Inside,No,,,,,,,,"2 Coppet, Cordast",
+337,1,SWIK84,Settlement,29/03/2018,SwitzerlandFR,KIWS14 (S),Inside,No,,,,,,,,"Fineta, Cordast",
+338,#1 KIWS48 (S),SWIK84,Settlement,29/03/2018,SwitzerlandFR,KIWS14 (S); KIWS48 (S),Inside,No,,,,,,,,"11 Petit-Vivy, Barberêche",
+339,3,SWIK84,Settlement,29/03/2018,SwitzerlandFR,KIWS14 (S); KIWS48 (S),Inside,No,,,,,,,,"10 Vers l'Eglise, Barberêche",
+344,1,SWIK95,Control,30/07/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Aebnit 283, 3158 Guggisberg",
+345,1,SWIK95,Control,30/07/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Aebnit 283A, 3158 Guggisberg",
+346,2,SWIK95,Control,30/07/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Schluchtli 214, 3153 Rüschegg Gambach",
+347,2,SWIK95,Control,30/07/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Scheuergut 213, 3153 Rüschegg Gambach",
+348,3,SWIK95,Control,30/07/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Bisenfeld 45, 3156 Riffenmatt",
+349,3,SWIK95,Control,30/07/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Bisenfeld 45D, 3156 Riffenmatt",
+351,4,SWIK95,Control,30/07/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Almisried 44, 3156 Riffenmatt",
+352,1,SWIK95,Settlement,16/02/2019,SwitzerlandFR,X,Inside,No,,,,,,,,"Chemin de la Colline 18, Fribourg",
+353,1,SWIK95,Settlement,16/02/2019,SwitzerlandFR,X,Inside,No,,,,,,,,"Chemin de la Colline 5, Fribourg",
+354,2,SWIK95,Settlement,16/02/2019,SwitzerlandFR,X,Inside,No,,,,,,,,"113 Kleinschönbergstrasse, Tafers",
+357,3,SWIK95,Settlement,16/02/2019,SwitzerlandFR,X,Inside,No,,,,,,,,"9 route éleonore-niquille, Bourguillon",
+358,3,SWIK95,Settlement,16/02/2019,SwitzerlandFR,X,Inside,No,,,,,,,,"11 route éleonore-niquille, Bourguillon",
+359,4,SWIK95,Settlement,16/02/2019,SwitzerlandFR,X,Inside,No,,,,,,,,"Brünisberg, Saint-Ours",
+361,1,WSIK06,Control,20/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"9 Impasse du Dontsi, Le Flon",
+362,1,WSIK06,Control,20/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"6 Impasse du Dontsi, Le Flon",
+364,2,WSIK06,Control,20/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"178 Au Partsi, Saint-Martin",
+365,3,WSIK06,Control,20/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"2 Route du Village, Besencens",
+366,3,WSIK06,Control,20/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"12 Route du Village, Besencens","6 Route du Village, Besencens, neither"
+367,4,WSIK06,Control,20/03/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"88 Route du Village, Bensencens","Vacation house, compost"
+369,1,WSIK06,Settlement,4/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,Freiburghans 287,
+370,1,WSIK06,Settlement,4/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,Freiburghans 286,
+371,2,WSIK06,Settlement,4/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Buchen 7, Wünnewil-Flamatt",
+372,2,WSIK06,Settlement,4/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Buchen 2, Wünnewil-Flamatt",
+373,3,WSIK06,Settlement,4/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Bagewil 5, Wünnewil-Flamatt",
+374,3,WSIK06,Settlement,4/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Bagewil 8, Wünnewil-Flamatt",
+376,4,WSIK06,Settlement,4/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Zenthus 1, Wünnewil-Flamatt",
+377,1,WSIK12,Control,12/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"Ferme Route du Châtelard, Villagiroud",
+378,1,WSIK12,Control,12/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"127 Route du Châtelard, Villagiroud (magnétiseur)","Has seen a accumulation of RK at a farmer, very rare, less than 1 time/month"
+379,2,WSIK12,Control,12/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"9 Route du Réservoir, Villarsiviriaux",
+380,2,WSIK12,Control,12/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"3 Route du Réservoir, Villarsiviriaux","Big accumulation of RK (up to 50), maybe gives placentas 1 or 2 a month (9 route du réservoir)"
+381,3,WSIK12,Control,12/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"20 En la Chivraz, Le Châtelard",Mole invasion 2017-2018
+385,4,WSIK12,Control,12/07/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"32 Route de Gibloux (Route du Réservoir), Villarsiviriaux","Mouret (Chalet): 	079 634 23 73; +41 26 411 22 61 (Pompes funèbres): doesn't answer"
+387,1,WSIK12,Settlement,23/03/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Wilervor Holz 36, Wilervor Holz",
+389,2,WSIK12,Settlement,23/03/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Hinter Hanybüel 80, Heitenried",
+391,3,WSIK12,Settlement,23/03/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Breita 5, 1714 Heintenried",
+392,4,WSIK12,Settlement,23/03/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Magdalenstrasse 45, 1714 Heintenried",
+393,4,WSIK12,Settlement,23/03/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Magdalenstrasse 34, 1714 Heintenried",
+394,1,WSIK25,Control,8/07/2017,Germany,X,Outside,No,,,,,,,,"Eschleweg 4, Westerheim",
+395,1,WSIK25,Control,8/07/2017,Germany,X,Outside,No,,,,,,,,"Dorfstrasse 4, Westerheim",
+396,2,WSIK25,Control,8/07/2017,Germany,X,Outside,No,,,,,,,,"Erkheimer strasse 11, Westerheim",
+397,2,WSIK25,Control,8/07/2017,Germany,X,Outside,No,,,,,,,,"Erkheimer strasse 15, Westerheim",
+398,3,WSIK25,Control,8/07/2017,Germany,X,Outside,No,,,,,,,,"Am Heiligkreuz 8, Westerheim",
+400,4,WSIK25,Control,8/07/2017,Germany,X,Outside,No,,,,,,,,"Egelbergsweg 3, 87784 Westerheim",
+401,4,WSIK25,Control,8/07/2017,Germany,X,Outside,No,,,,,,,,"Egelbergsweg 2, 87784 Westerheim",
+403,2,WSIK25,Settlement,17/03/2019,SwitzerlandFR,X,Inside,No,,,,,,,,"24 route de tinterin, Pierrafortscha",
+404,2,WSIK25,Settlement,17/03/2019,SwitzerlandFR,X,Inside,No,,,,,,,,"Chemin de Morvin, Pierrafortscha",
+405,3,WSIK25,Settlement,17/03/2019,SwitzerlandFR,X,Inside,No,,,,,,,,"91 route de pfaffenwil, Pierrafortscha",
+409,1,WSIK40,Control,1/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"198 Route du barrage, Rossens",
+410,2,WSIK40,Control,1/04/2018,SwitzerlandFR,X,Outside,No,,,,,,,,"21 La Crausa, Treyvaux",
+413,#3 SWIK33 (S),WSIK40,Control,1/04/2018,SwitzerlandFR,16329F1C (S); SWIK33 (S),Outside,No,,,,,,,,"31 route de la Pra, Pont-la Ville",Very rural: agriculture fields
+414,#1 16329F1C (S),WSIK40,Control,1/04/2018,SwitzerlandFR,16329F1C (S); SWIK33 (S),Outside,No,,,,,,,,"21 le revers, La Roche",Very rural: agriculture fields
+417,#3 16329F1C (S),WSIK40,Control,1/04/2018,SwitzerlandFR,16329F1C (S); SWIK33 (S),Outside,No,,,,,,,,"63 La freschera, La Roche",Scary woman
+418,1,WSIK40,Settlement,8/03/2020,SwitzerlandDE,SWIK31 (C),Inside,No,,,,,,,,"Nessleven 271, 3158 Guggisberg",
+419,#1 SWIK31 (C),WSIK40,Settlement,8/03/2020,SwitzerlandDE,SWIK31 (C),Inside,No,,,,,,,,"Krummenacker 209, 3159 Riedstätt",
+421,#3 SWIK31 (C),WSIK40,Settlement,8/03/2020,SwitzerlandDE,SWIK31 (C),Inside,No,,,,,,,,"Eigen 183, 3158 Guggisberg",
+423,2,WSIK40,Settlement,8/03/2020,SwitzerlandDE,SWIK31 (C),Inside,No,,,,,,,,,
+425,4,WSIK40,Settlement,8/03/2020,SwitzerlandDE,SWIK31 (C),Inside,No,,,,,,,,"Tannacker 108, 3158 Guggisberg",
+426,1,WSIK55,Control,5/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Rüttistrasse 40, 1716 Plaffeien",
+427,1,WSIK55,Control,5/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Rüttistrasse 23, 1716 Plaffeien",
+428,2,WSIK55,Control,5/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Heneti 530, 1738 Sangernboden",
+429,3,WSIK55,Control,5/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Gauheitti 114, 1716 Plaffeien",
+430,3,WSIK55,Control,5/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Kloster 108, 1716 Plaffeien",
+431,4,WSIK55,Control,5/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Zolhaus 5, 1716 Plaffeien",
+432,4,WSIK55,Control,5/04/2018,SwitzerlandDE,X,Inside,No,,,,,,,,"Siten 533, 1738 Sangernboden",
+433,1,WSIK55,Settlement,20/04/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Grottenweg 22, 1735 Griffers",
+434,1,WSIK55,Settlement,20/04/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Grottenweg 19, 1735 Griffers",
+436,2,WSIK55,Settlement,20/04/2019,SwitzerlandDE,X,Inside,No,,,,,,,,"Allmendstrasse 19, 1735 Griffers",
+437,3,WSIK55,Settlement,20/04/2019,SwitzerlandDE,WSIK68 (S),Inside,No,,,,,,,,"Muschels 2, 1736 St. Silvester",
+439,#1 WSIK68 (S),WSIK55,Settlement,20/04/2019,SwitzerlandDE,WSIK68 (S),Inside,No,,,,,,,,"Hauptstrasse 47, St. Silvester",
+440,4,WSIK55,Settlement,20/04/2019,SwitzerlandDE,WSIK68 (S),Inside,No,,,,,,,,"Metzgera 29, 1736 St. Silvester",
+441,#2 WSIK68 (S),WSIK55,Settlement,20/04/2019,SwitzerlandDE,WSIK68 (S),Inside,No,,,,,,,,"Tscherlu 35, St. Silvester",
+442,1,WSIK68,Control,23/06/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"22 route des chaffaz, Siviriez",
+443,1,WSIK68,Control,23/06/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"12 route des chaffaz, Siviriez",
+444,2,WSIK68,Control,23/06/2017,SwitzerlandFR,BD319F1C (C),Outside,No,,,,,,,,"2 route de villaraboud, Vuisternens-devant-Romont",
+445,#1 BD319F1C (C),WSIK68,Control,23/06/2017,SwitzerlandFR,BD319F1C (C),Outside,No,,,,,,,,"35 Chemin des Eperleires, Villariaz",
+446,3,WSIK68,Control,23/06/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"40 route des chaffaz, Villaraboud",
+447,3,WSIK68,Control,23/06/2017,SwitzerlandFR,X,Outside,No,,,,,,,,"6 chemin pra motta, Sommentier",
+448,4,WSIK68,Control,23/06/2017,SwitzerlandFR,BD319F1C (C),Outside,No,,,,,,,,"Impasse de la condémine, Vuisternens-devant-Romont (4 houses)",
+449,#1 BD319F1C (C),WSIK68,Control,23/06/2017,SwitzerlandFR,BD319F1C (C),Outside,No,,,,,,,,"41 Route de Bulle, Vuisternens-devant-Romont",RK nest in front of house
+450,1,WSIK68,Settlement,1/05/2019,SwitzerlandDE,WSIK55 (S),Inside,No,,,,,,,,"Hauptstrasse 47, St. Silvester",
+451,#3 WSIK55 (S),WSIK68,Settlement,1/05/2019,SwitzerlandDE,WSIK55 (S),Inside,No,,,,,,,,"Muschels 2, 1736 St. Silvester",
+453,2,WSIK68,Settlement,1/05/2019,SwitzerlandDE,WSIK55 (S),Inside,No,,,,,,,,"Tscherlu 35, St. Silvester",
+454,#4 WSIK55 (S),WSIK68,Settlement,1/05/2019,SwitzerlandDE,WSIK55 (S),Inside,No,,,,,,,,"Metzgera 29, 1736 St. Silvester",
+455,3,WSIK68,Settlement,1/05/2019,SwitzerlandFR,X,Inside,No,,,,,,,,"Route du docalet 45, Bonnefontaine",
+456,3,WSIK68,Settlement,1/05/2019,SwitzerlandFR,X,Inside,No,,,,,,,,"Route du docalet 55, Bonnefontaine",
+458,4,WSIK68,Settlement,1/05/2019,SwitzerlandFR,X,Inside,No,,,,,,,,"Route de St. Silvester 51, Bonnefontaine",
+459,1,WSIK81,Control,14/06/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"Ferme Chaintin, Val-de-Travers",
+460,1,WSIK81,Control,14/06/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"2 Champ-de-la-Pierre, Travers",
+461,2,WSIK81,Control,14/06/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"2 Les quarres, Travers",
+462,2,WSIK81,Control,14/06/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"3 Les quarres, Travers",
+463,3,WSIK81,Control,14/06/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"3 Rue Miéville, Travers",
+464,3,WSIK81,Control,14/06/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"2 Rue du temple, Travers",
+465,4,WSIK81,Control,14/06/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"1 Les Lacherelles, Travers",
+466,4,WSIK81,Control,14/06/2019,SwitzerlandFR,X,Outside,No,,,,,,,,"2 Les Lacherelles, Travers",
+467,1,WSIK81,Settlement,22/03/2021,SwitzerlandDE,KIWS53 (S),Inside,No,,,,,,,,"Beniwil 33, 1715 Alterswil",
+468,2,WSIK81,Settlement,22/03/2021,SwitzerlandDE,KIWS53 (S),Inside,No,,,,,,,,"Unterdorfstrasse 7, 1715 Alterswil",
+469,3,WSIK81,Settlement,22/03/2021,SwitzerlandDE,KIWS53 (S),Inside,No,,,,,,,,"Hasli 1, 1717 St. Ursen",
+470,4,WSIK81,Settlement,22/03/2021,SwitzerlandDE,KIWS53 (S),Inside,No,,,,,,,,"Aeschlenberg 4, 1717 St.Ursen",
+471,#1 KIWS53 (S),WSIK81,Settlement,22/03/2021,SwitzerlandDE,KIWS53 (S),Inside,No,,,,,,,,"Wolperwil 7, 1717 St. Ursen",
+472,#2 KIWS53 (S),WSIK81,Settlement,22/03/2021,SwitzerlandDE,KIWS53 (S),Inside,No,,,,,,,,"Medewil 4, 1717 St. Ursen",
+473,#3 KIWS53 (S),WSIK81,Settlement,22/03/2021,SwitzerlandDE,KIWS53 (S); SWIK23 (S),Inside,No,,,,,,,,"Baletswil 3, 1717 St. Ursen",
+474,#4 KIWS53 (S),WSIK81,Settlement,22/03/2021,SwitzerlandDE,KIWS53 (S); SWIK23 (S),Inside,No,,,,,,,,"Hinterhalta 1, 1717 St. Ursen",
+7,4,16329F1C,Control,2/07/2019,SwitzerlandDE,X,Outside,Yes,Active,Spring-Summer,Twice/month,Placenta,200-600g,Yes,,Eggweid,8 newborns in the springtime
+9,#1 SWIK33 (S),16329F1C,Settlement,19/03/2020,SwitzerlandFR,SWIK33 (S); WSIK40 (C),Outside,Yes,Active,All Year,Daily,Food leftovers,200-600g,Yes,Yes,"1 Route du Marais, Pont-La-Ville","Outside; Main feeder: 20 birds! 5 different species; Father that use to feed (atthe period when it settled), now died"
+10,2,16329F1C,Settlement,19/03/2020,SwitzerlandFR,SWIK33 (S); WSIK40 (C),Outside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"Stoutselet 20, 1634 La Roche","Compost, seen RK with tag on it"
+11,#2 SWIK33 (S),16329F1C,Settlement,19/03/2020,SwitzerlandFR,SWIK33 (S); WSIK40 (C),Outside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"10 chemin du mont, Treyvaux",Peelings mostly
+12,#4 WSIK40 (C),16329F1C,Settlement,19/03/2020,SwitzerlandFR,SWIK33 (S); WSIK40 (C),Outside,Yes,Passive,All Year,Several times/month,Food leftovers,<200g,Yes,Yes,"15 Le Vègre, La Roche","Compost & leftovers for pets; In the village before 2018, accumulation of RK (someone must have been giving)"
+18,2,BD319F1C,Control,22/03/2020,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/week,Food leftovers/meat,<200g,Yes,Yes,"7 Impasse de la Cabane, Villariaz",Says neighbour gives too (4 Impasse de la Cabane) but doesn't want to answer
+21,4,BD319F1C,Control,22/03/2020,SwitzerlandFR,X,Outside,Yes,Passive,All year,Once/month,Pet food/carcasse chicken,<200g,No,,"7 Chemin de Mouna, Vuisternens-devant-Romont",
+31,4,BD319F1C,Settlement,15/03/2021,SwitzerlandFR,X,Outside,Yes,Active,Winter,Several times/month,Meat,<200g,Yes,,"21 Chemin du Jura, Vauderens",Too recent for KISA25 (S)
+36,2,KISA23,Control,12/05/2020,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/week,Food leftovers/meat,200-600g,Yes,,"5 Chemin des Rochettes, Morlens","Funny man that didn't really want to tell me, main feeder?"
+38,3,KISA23,Control,12/05/2020,SwitzerlandFR,X,Outside,Yes,Passive,All Year,Several times/week,Food leftovers,200-600g,Yes,,"15 Chemin de la Croix, Vuarmarens","Seen RK on the manure pile in front, neighbours  put compost there"
+55,3,KISA25,Control,8/03/2019,SwitzerlandFR,X,Outside,Yes,Passive,All year,Several times/month,Food leftovers,600g-1kg,Yes,,"40 Route d'Arlens, Blessens","Use to give guts of chicken she would kill to the fauna, before the kite settled so maybe it knew the food source"
+59,2,KISA25,Settlement,23/03/2021,SwitzerlandDE,X,Inside,Yes,Passive,All year,Several times/month,Food leftovers,<200g,Yes,,"Holzgasse 11, Brünisried",
+60,2,KISA25,Settlement,23/03/2021,SwitzerlandDE,X,Inside,Yes,Active,All year,Several times/month,Food leftovers/meat,<200g,Yes,,"Holzgasse 21, Brünisried","Food leftovers on compost heap and feeding intentionnaly only in winter, surrounding farmers all feed like that"
+61,3,KISA25,Settlement,23/03/2021,SwitzerlandDE,X,Inside,Yes,Active,All year,Several times/week,Food leftovers/bones,<200g,Yes,,Rüdeweidweg 15  1719 Brünisried,"Stopped giving in 2020, maybe kite prospected there before and influenced settlement decision?"
+62,3,KISA25,Settlement,23/03/2021,SwitzerlandDE,X,Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,200-600g,No,Yes (BK),Rüdeweidweg 1  1719 Brünisried,
+72,4,KIWS14,Control,1/05/2018,SwitzerlandDE,KIWS59 (S),Inside,Yes,Active,All year,Daily,"Bones, butcher waste",>1kg,Yes,,"Mühlemattstrasse 39, 3178 Bösingen",A bucket full of meat (around 3 kg?); 30 kites flying above
+73,1,KIWS14,Settlement,1/03/2020,SwitzerlandFR,X,Inside,Yes,Passive,All year,Daily,"Bones, butcher waste",<200g,Yes,,"9 les hostes, Barberêche","For dogs: bones, butcher waste"
+79,#3 SWIK84 (S),KIWS14,Settlement,1/03/2020,SwitzerlandFR,SWIK84 (S); KIWS48 (S),Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,<200g,Yes,,"9 Chemin de la Chapelle, Barberêche",Don't give anymore because use to give in the lawn in front of their house but now there is something built there
+80,#3 SWIK84 (S),KIWS14,Settlement,1/03/2020,SwitzerlandFR,SWIK84 (S); KIWS48 (S),Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,200-600g,Yes,Yes,"10 Chemin de la Chapelle, Barberêche",Platforme; Neighbour 8 chemin de la chapelle giving as well
+81,#4 SWIK84 (S),KIWS14,Settlement,1/03/2020,SwitzerlandFR,SWIK84 (S); KIWS48 (S),Inside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"5 Allée du château, Barberêche",
+82,#3 KIWS48 (S),KIWS14,Settlement,1/03/2020,SwitzerlandDE,SWIK84 (S); KIWS48 (S),Inside,Yes,Active,All year,Several times/month,Meat/Bones,<200g,Yes,,"Ottisberg 8, 3186 Düdingen",Cat food as well (unintentionally)
+83,1,KIWS23,Control,25/03/2019,SwitzerlandDE,X,Inside,Yes,Active,All year,Twice/year,Meat,200-600g,Yes,,"Rohrmoosweg 7, 1712 Tafers",
+84,1,KIWS23,Control,25/03/2019,SwitzerlandDE,X,Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,200-600g,Yes,,"Rohrmoosweg 10, 1712 Tafers",
+87,3,KIWS23,Control,25/03/2019,SwitzerlandDE,X,Inside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,Yes,"Juch 45, 1712 Tafers",
+90,4,KIWS23,Control,25/03/2019,SwitzerlandDE,X,Inside,Yes,Active,Winter,Several times/week,Meat,200-600g,Yes,,"Seeli 23, 1712 Tafers",
+92,1,KIWS23,Settlement,24/02/2021,SwitzerlandFR,X,Outside,Yes,Passive,All year,Daily,Food leftovers,>1kg,Yes,,"Route de la Combe 40, Posieux",
+95,2,KIWS23,Settlement,24/02/2021,SwitzerlandFR,X,Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,<200g,Yes,Yes,"14 Ruote des Mouettes, Marly",
+96,3,KIWS23,Settlement,24/02/2021,SwitzerlandFR,X,Outside,Yes,Passive,All year,Several times/month,Food leftovers/bones,<200g,Yes,,"181 Route de la Gérine, Marly","Brother gives as well on a platforme sometimes: knows someone who gives Quartier Bellaire: 1 Route du Pâquier, Marly: Monique Gremaud: 0264362323"
+110,#3 SWIK84 (S),KIWS48,Settlement,22/02/2020,SwitzerlandFR,SWIK84 (S); KIWS14 (S),Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,<200g,Yes,,"9 Chemin de la Chapelle, Barberêche",Don't give anymore because use to give in the lawn in front of their house but now there is something built there
+111,#3 SWIK84 (S),KIWS48,Settlement,22/02/2020,SwitzerlandFR,SWIK84 (S); KIWS14 (S),Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,200-600g,Yes,Yes,"10 Chemin de la Chapelle, Barberêche",Platforme; Neighbour 8 chemin de la chapelle giving as well
+112,#4 SWIK84 (S),KIWS48,Settlement,22/02/2020,SwitzerlandFR,SWIK84 (S); KIWS14 (S),Inside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"5 Allée du château, Barberêche",
+113,3,KIWS48,Settlement,22/02/2020,SwitzerlandDE,SWIK84 (S); KIWS14 (S),Inside,Yes,Active,All year,Several times/month,Meat/Bones,<200g,Yes,,"Ottisberg 8, 3186 Düdingen",Cat food as well (unintentionally)
+119,3,KIWS53,Control,27/05/2018,SwitzerlandFR,X,Outside,Yes,Passive,All year,Daily,Food leftovers,>1kg,Yes,Yes (buzzard),"35 Les Petits Ponts, Brot-Plamboz",Compostière: seen common buzzard and so probably RK but doesn't know the difference
+121,4,KIWS53,Control,27/05/2018,SwitzerlandFR,X,Outside,Yes,Active,All year,Once/month,Food leftovers,200g,Yes,,"15 Les Petits-Ponts, Brot-Plamboz",30-50 raptors flying in the area sometimes; seen RK feeding several times and several at a time
+131,#5 SWIK23 (S),KIWS53,Settlement,17/04/2020,SwitzerlandDE,WSIK81 (S); SWIK23 (S),Inside,Yes,Active,All year,Several times/week,Food leftovers,<200g,Yes,,"Hereschür 38, 1718 Rechthalten",
+134,2,KIWS59,Control,10/06/2018,SwitzerlandFR,X,Outside,Yes,Passive,Spring-Summer,Several times/week,Food leftovers/bones,200-600g,Yes,,"10 Martel-Dernier, Les Ponts de Martel","Seen RK feeding several times; manure pile with compost of the neighbours, seen birds standing on it"
+136,3,KIWS59,Control,10/06/2018,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/week,Meat,<200g,Yes,Yes (BK),"Crêt-Pellaton, 2105 Travers",Seen RK but only last year
+146,#4 KIWS14 (C) ,KIWS59,Settlement,7/03/2019,SwitzerlandDE,KIWS14 (C),Inside,Yes,Active,All year,Daily,"Bones, butcher waste",>1kg,Yes,,"Mühlemattstrasse 39, 3178 Bösingen",Outside; A bucket full of meat (around 3 kg?); 30 kites flying above
+167,2,SWIK03,Control,9/05/2016,SwitzerlandDE,X,Outside,Yes,Active,All year,Several times/week,Bones,<200g,Yes,,"Hinterrain 45, 5063 Wölflinswil",
+168,3,SWIK03,Control,9/05/2016,SwitzerlandDE,X,Outside,Yes,Active,Spring-Summer,Several times/month,Placenta,200-600g,Yes,,"Altenberg 307, 5063 Wölflinswil",
+172,1,SWIK03,Settlement,21/03/2019,SwitzerlandFR,X,Outside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"47 route de la neirigue, La Neirigue","Compost, RK seen for 10 days; people (farmers) leaving carcasses in the forest, RK not seen there though"
+179,4,SWIK03,Settlement,21/03/2019,SwitzerlandFR,X,Outside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"11 Impasse du château, Grangettes",
+184,2,SWIK12,Control,30/03/2017,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/month,Meat,200-600g,Yes,Yes,"En Copet 11, 1525 Seigneux",Cat food (barf)
+190,2,SWIK12,Settlement,2/04/2018,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/month,Food leftovers,<200g,Yes,Yes,"21 au cuard, Rue",Bread and bones for the dogs (house above too); RK not seen often; woman who tagged bird with Valentijn
+205,1,SWIK16,Settlement,14/04/2018,SwitzerlandFR,X,Outside,Yes,Active,Winter,Several times/week,Food leftovers,200-600g,No,,"21 chemin de mirebert, Oppens",Mostly winter; House in front no
+209,3,SWIK16,Settlement,14/04/2018,SwitzerlandFR,X,Outside,Yes,Passive,All year,Daily,Food leftovers,200-600g,Yes,Yes,"6 route d'oppens, Pailly",Compost of several neighbours: RK there everyday
+210,3,SWIK16,Settlement,14/04/2018,SwitzerlandFR,X,Outside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,Yes,"10 rue de borgeaud, Pailly",Compost; RK flying above; no one gives in the village
+211,4,SWIK16,Settlement,14/04/2018,SwitzerlandFR,X,Outside,Yes,Passive,All year,Several times/week,Food leftovers,600g-1kg,Yes,,"22 rue du péleret, Bercher",Compost of several people near tennis club bercher
+225,5,SWIK23,Settlement,28/02/2019,SwitzerlandDE,KIWS53 (S),Inside,Yes,Active,All year,Several times/week,Food leftovers,<200g,Yes,,"Hereschür 38, 1718 Rechthalten",
+229,#1 SWIK33 (C),SWIK25,Control,8/06/2016,SwitzerlandFR,SWIK33 (C),Outside,Yes,Active,All year,Once/month,Chicken carcasse,200-600g,Yes,,"97 Route de Treyvaux, Arconciel","A lot of rodents lately, a lot of RK; Biogaz station maybe?"
+231,#2 SWIK33 (C),SWIK25,Control,8/06/2016,SwitzerlandFR,SWIK33 (C),Outside,Yes,Active,All year,Several times/week,Food leftovers,<200g,Yes,Yes,"71 Route de Ferpicloz, Senèdes","Bread, cheese"
+232,#2 SWIK33 (C),SWIK25,Control,8/06/2016,SwitzerlandFR,SWIK33 (C),Outside,Yes,Active,All year,Several times/week,Food leftovers,<200g,Yes,Yes,"71 Route de Ferpicloz, Senèdes","Last year, dissections because she is a teacher"
+233,3,SWIK25,Control,8/06/2016,SwitzerlandFR,SWIK33 (C),Outside,Yes,Active,All year,Once/month,Bones,<200g,Yes,,"31 Chemin de Vers-Saint-Pierre, Treyvaux",Compost as well
+234,#3 SWIK33 (C),SWIK25,Control,8/06/2016,SwitzerlandFR,SWIK33 (C),Outside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"9 Chemin de Frontin, Treyvaux","House in front has also a compost where they feed: 21 Route d'Arconciel, Treyvaux, call: 026 413 17 14"
+235,#3 SWIK33 (C),SWIK25,Control,8/06/2016,SwitzerlandFR,SWIK33 (C),Outside,Yes,Active,All year,Several times/month,Meat/Bones,200-600g,Yes,,"21 Route d'Arconciel, Treyvaux",20 Route d'Arconciel: 026 413 17 67 (doesn't answer)
+240,2,SWIK25,Settlement,4/04/2017,SwitzerlandDE,X,Inside,Yes,Passive,All year,Several times/week,Food leftovers/bones,<200g,Yes,,"Obermonten 85, 1713 St. Antoni","Dung, compost"
+241,2,SWIK25,Settlement,4/04/2017,SwitzerlandDE,X,Inside,Yes,Passive,All year,Several times/week,Food leftovers/bones,<200g,Yes,,"Obermonten 83, 1713 St. Antoni","Dung, compost"
+245,4,SWIK25,Settlement,4/04/2017,SwitzerlandDE,X,Inside,Yes,Active,All year,Several times/week,Food leftovers,200-600g,No,Yes (crows),"Stockera 2, 1715 Alterswil",
+247,2,SWIK31,Control,22/07/2016,SwitzerlandDE,WSIK40 (S),Inside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"Moos 219, 3159 Riedstätt",Compost
+249,4,SWIK31,Control,22/07/2016,SwitzerlandDE,WSIK40 (S),Inside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"Muhlern 78, 3158 Guggisberg",Compost
+252,#3 WSIK40 (S),SWIK31,Control,22/07/2016,SwitzerlandDE,WSIK40 (S),Inside,Yes,Active,All year,Daily,Food leftovers/meat,200-600g,Yes,,"Gehlismatt 93, 3158 Guggisberg",Outside; Compost heap but also gives meat on purppose
+254,1,SWIK31,Settlement,16/03/2019,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/week,Food leftovers,<200g,Yes,Yes (passerines),"17 route du fossard, Estavannens","Call farm, 4 route de la poya, Estavannens: 0793179626; 	026 921 10 63: doesn't answer"
+255,1,SWIK31,Settlement,16/03/2019,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/week,Food leftovers,<200g,No,Yes (crows),"Longe planche, Bas-Intyamon",
+261,4,SWIK31,Settlement,16/03/2019,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/month,Food leftovers,<200g,No,,"Impasse de la cascade, Estavannens","Found dead kite, longe planche"
+263,1,SWIK33,Control,19/06/2016,SwitzerlandFR,SWIK25 (C),Outside,Yes,Active,All year,Once/month,Chicken carcasse,200-600g,Yes,,"97 Route de Treyvaux, Arconciel","A lot of rodents lately, a lot of RK; Biogaz station maybe?"
+265,2,SWIK33,Control,19/06/2016,SwitzerlandFR,SWIK25 (C),Outside,Yes,Active,All year,Several times/week,Food leftovers,<200g,Yes,Yes,"71 Route de Ferpicloz, 1724 Senèdes","Bread, cheese"
+266,2,SWIK33,Control,19/06/2016,SwitzerlandFR,SWIK25 (C),Outside,Yes,Active,All year,Several times/week,Food leftovers,<200g,Yes,Yes,"71 Route de Ferpicloz, Senèdes","Last year, dissections because she is a teacher"
+267,#3 SWIK25 (C),SWIK33,Control,19/06/2016,SwitzerlandFR,SWIK25 (C),Outside,Yes,Active,All year,Once/month,Bones,<200g,Yes,,"31 Chemin de Vers-Saint-Pierre, Treyvaux",Compost as well
+268,3,SWIK33,Control,19/06/2016,SwitzerlandFR,SWIK25 (C),Outside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"9 Chemin de Frontin, Treyvaux","House in front has also a compost where they feed: 21 Route d'Arconciel, Treyvaux, call: 026 413 17 14"
+269,3,SWIK33,Control,19/06/2016,SwitzerlandFR,SWIK25 (C),Outside,Yes,Active,All year,Several times/month,Meat/Bones,200-600g,,,"21 Route d'Arconciel, Treyvaux",20 Route d'Arconciel: 026 413 17 67 (doesn't answer)
+272,1,SWIK33,Settlement,9/03/2018,SwitzerlandFR,WSIK40 (C),Outside,Yes,Active,All Year,Daily,Food leftovers,200-600g,Yes,Yes,"1 Route du Marais, Pont-La-Ville","Main feeder: 20 birds! 5 different species; Father that use to feed (atthe period when it settled), now died"
+274,2,SWIK33,Settlement,9/03/2018,SwitzerlandFR,16329F1C (S); WSIK40 (C),Outside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"10 chemin du mont, Treyvaux",Peelings mostly
+275,#2 16329F1C (S),SWIK33,Settlement,9/03/2018,SwitzerlandFR,16329F1C (S); WSIK40 (C),Outside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"Stoutselet, La Roche","Compost, seen RK with tag on it"
+277,#4 WSIK40 (C),SWIK33,Settlement,9/03/2018,SwitzerlandFR,16329F1C (S); WSIK40 (C),Outside,Yes,Passive,All Year,Several times/month,Food leftovers,<200g,Yes,Yes,"La Troumattaz, 1634 La Roche","Compost & leftovers for pets; In the village before 2018, accumulation of RK (someone must have been giving)"
+287,4,SWIK35,Control,1/07/2016,SwitzerlandDE,X,Outside,Yes,Passive,All year,Several times/month,Food leftovers/rodents,200-600g,Yes,,"Studenweid 2, 6123 Geiss",Compost
+297,1,SWIK46,Control,23/05/2016,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/week,Rodents,<200g,Yes,Yes,"Rte de Grabou 54, 1775 Montagny",Very nice guy that says no one else gives in the area
+298,2,SWIK46,Control,23/05/2016,SwitzerlandFR,X,Outside,Yes,Active,All year,Daily,Food leftovers,<200g,No,Yes,"51 Route du Moulin, Prez-vers-Noréaz","Giving food for feral cats: pasta, cat food, meat…"
+299,2,SWIK46,Control,23/05/2016,SwitzerlandFR,X,Outside,Yes,Active,All year,Daily,Food leftovers,<200g,No,Yes,"20 Buissons des clous, Prez-vers-Noréaz",Close to #4
+300,2,SWIK46,Control,23/05/2016,SwitzerlandFR,X,Outside,Yes,Active,Winter,Daily,Butcher waste,>1kg,Yes,Yes,"24 Buissons des clous, Prez-vers-Noréaz","Outside; 50g/week: 8 bags of 10kg per week, he and his son getting waste from different butchers"
+304,1,SWIK46,Settlement,5/03/2018,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/week,Food leftovers,<200g,No,Yes,"56 route de chaffeiru, La Brillaz",
+305,1,SWIK46,Settlement,5/03/2018,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/week,Food leftovers,<200g,Yes,,"57 route de chafeiru, La Brillaz",Several people including them bring carcasses to the pond
+306,#2 SWIK46 (C),SWIK46,Settlement,5/03/2018,SwitzerlandFR,X,Outside,Yes,Active,Winter,Daily,Butcher waste,>1kg,Yes,Yes,"24 Buissons des clous, Prez-vers-Noréaz","Outside; 50kg/week: 8 bags of 10kg per week, he and his son getting waste from different butchers"
+308,2,SWIK46,Settlement,5/03/2018,SwitzerlandFR,X,Outside,Yes,Active,All year,Daily,Food leftovers/meat,200-600g,Yes,Yes,"21 route de la perreire, Lovens",Bread a lot
+309,3,SWIK46,Settlement,5/03/2018,SwitzerlandFR,X,Outside,Yes,Active,All year,Daily,Food leftovers,200-600g,Yes,,"26 En Meinoud, Lentigny","Calling when giving chicken (RK know food source), other neighbours giving as well but might not tell"
+329,1,SWIK84,Control,25/07/2017,Germany,X,Outside,Yes,Active,All year,Several times/week,Meat,200g,Yes,Yes (BK),"Falkenhof 16, 88524 Uttenweiler",Seen up to 7 RK
+340,3,SWIK84,Settlement,29/03/2018,SwitzerlandFR,KIWS14 (S); KIWS48 (S),Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,<200g,Yes,,"9 Chemin de la Chapelle, Barberêche",Don't give anymore because use to give in the lawn in front of their house but now there is something built there
+341,3,SWIK84,Settlement,29/03/2018,SwitzerlandFR,KIWS14 (S); KIWS48 (S),Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,200-600g,Yes,Yes,"10 Chemin de la Chapelle, Barberêche",Platforme; Neighbour 8 chemin de la chapelle giving as well
+342,4,SWIK84,Settlement,29/03/2018,SwitzerlandFR,KIWS14 (S); KIWS48 (S),Inside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"5 Allée du château, Barberêche",
+343,#3 KIWS48 (S),SWIK84,Settlement,29/03/2018,SwitzerlandFR,KIWS14 (S); KIWS48 (S),Inside,Yes,Active,All year,Several times/month,Meat/Bones,<200g,Yes,,"Ottisberg 8, 3186 Düdingen",Cat food as well (unintentionally)
+350,4,SWIK95,Control,30/07/2018,SwitzerlandDE,X,Inside,Yes,Passive,All year,Several times/month,Food leftovers,<200g,Yes,,"Almisried 43, 3156 Riffenmatt","Compost heap: Frequency ""whenever leftovers are provided"""
+355,2,SWIK95,Settlement,16/02/2019,SwitzerlandFR,X,Inside,Yes,Active,All year,Several times/week,Food leftovers,<200g,Yes,Yes,"Kleinschönbergstrasse 111, 1700 Tafers",Bread as well
+356,2,SWIK95,Settlement,16/02/2019,SwitzerlandFR,X,Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,200-600g,Yes,Yes,"Kleinschönbergstrasse 104, 1700 Tafers",109 giving as well: 0263212829 (not answering)
+360,4,SWIK95,Settlement,16/02/2019,SwitzerlandFR,X,Inside,Yes,Passive,All year,Several times/month,Food leftovers,<200g,Yes,Yes (crows),"Brünisberg 4, 1717 St. Ursen",
+363,2,WSIK06,Control,20/03/2017,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/week,Food leftovers,<200g,No,Yes (fox),"30 Chemin de la Planche, Besencens",Says that probably that everyone is doing the same
+368,4,WSIK06,Control,20/03/2017,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/month,Food leftovers,<200g,Yes,Yes (fox),"126 Route du Village, Besencens","Bread, hardboiled egg; says that farmer in the area told tham that they leave placenta in the fields and seen RK feeding"
+375,4,WSIK06,Settlement,4/04/2018,SwitzerlandDE,X,Inside,Yes,Active,All year,Several times/week,Meat/Bones,200-600g,,,"Zenthus 3, Wünnewil-Flamatt",Platform at #4 but owners have changed last year (possible influence in 2018)
+382,3,WSIK12,Control,12/07/2017,SwitzerlandFR,X,Outside,Yes,Active,All year,Several times/week,Food leftovers/placenta,200-600g,Yes,,"23 Route de Planafaye, Le Châtelard-près-Romont","Oncle gives as well (capture moles and gives to the RK): 29 Route de Planafaye, Marcel Mesot: +41 26 652 10 41"
+383,3,WSIK12,Control,12/07/2017,SwitzerlandFR,X,Outside,Yes,Active,All year,Daily,Bones/rodents,600g-1kg,Yes,,"29 Route de Planafaye, Le Châtelard-près-Romont",Food leftovers (all year) and killed rodents (up to 10 per day)=> only when the grass is short: spring-summer
+384,4,WSIK12,Control,12/07/2017,SwitzerlandFR,X,Outside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"130 Route de Gibloux, Villarsiviriaux",Compost
+386,1,WSIK12,Settlement,23/03/2019,SwitzerlandDE,X,Inside,Yes,Active,Spring-Summer,Daily,Rodents,600g-1kg,Yes,,"Wiler vor Holz 54, 1714 Heitenried",They kill the mice and leave them on the field: in springtime they go every day (sometimes up to 20 mice/day) and in summer they go less often as the grass is too high; Kites are nearby when they see the ca coming
+388,2,WSIK12,Settlement,23/03/2019,SwitzerlandDE,X,Inside,Yes,Passive,All year,Once/month,Food leftovers,<200g,Yes,,"Stockera 75, Heitenried","RK seen on shit pile, what he is eating is unknown"
+390,3,WSIK12,Settlement,23/03/2019,SwitzerlandDE,X,Inside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"Breita 15, 1714 Heitenried",
+399,3,WSIK25,Control,8/07/2017,Germany,X,Outside,Yes,Active,All year,Several times/week,Meat,<200g,Yes,,"Am Stel'Wirkel 14, 87784 Westerheim",
+402,1,WSIK25,Settlement,17/03/2019,SwitzerlandFR,X,Inside,Yes,Active,All year,Several times/month,Cat preys,<200g,No,,"Chem. de Russilles 1, 1723 Marly","Another house interviewed outside of buffer, didn't feed RK but a lot of them flying low above houses"
+406,3,WSIK25,Settlement,17/03/2019,SwitzerlandFR,X,Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,<200g,Yes,Yes (crows),"47 route des préalpes, Marly",Küng Kurt; at least 6 RK flying above
+407,3,WSIK25,Settlement,17/03/2019,SwitzerlandFR,X,Inside,Yes,Active,All year,Once/month,Meat,<200g,Yes,Yes (crows),"8 route de pfaffenwil, Marly",Raw meat
+408,4,WSIK25,Settlement,17/03/2019,SwitzerlandFR,X,Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,<200g,No,Yes (crows),"53 route de Villars-sur-marly, Pierrafortscha",
+411,#2 SWIK33 (S),WSIK40,Control,1/04/2018,SwitzerlandFR,16329F1C (S); SWIK33 (S),Outside,Yes,Passive,All year,Several times/week,Peelings,<200g,Yes,,"10 chemin du mont, Treyvaux",Peelings mostly
+412,#1 SWIK33 (S),WSIK40,Control,1/04/2018,SwitzerlandFR,SWIK33 (S),Outside,Yes,Active,All Year,Daily,Food leftovers,200-600g,Yes,Yes,"1 Route du Marais, Pont-La-Ville","Main feeder: 20 birds! 5 different species; Father that use to feed (atthe period when it settled), now died"
+415,4,WSIK40,Control,1/04/2018,SwitzerlandFR,16329F1C (S); SWIK33 (S),Outside,Yes,Passive,All Year,Several times/month,Food leftovers,<200g,Yes,Yes,"11 Route du Vègre, La Roche","Compost & leftovers for pets; In the village before 2018, accumulation of RK (someone must have been giving)"
+416,#2 16329F1C (S),WSIK40,Control,1/04/2018,SwitzerlandFR,16329F1C (S); SWIK33 (S),Outside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"Stoutselet, La Roche","Compost, seen RK with tag on it"
+420,#2 SWIK31 (C),WSIK40,Settlement,8/03/2020,SwitzerlandDE,SWIK31 (C),Inside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"Moos 219, 3159 Riedstätt",Compost
+422,#4 SWIK31 (C),WSIK40,Settlement,8/03/2020,SwitzerlandDE,SWIK31 (C),Inside,Yes,Passive,All year,Several times/week,Food leftovers,<200g,Yes,,"Muhlern 78, 3158 Guggisberg",Compost
+424,3,WSIK40,Settlement,8/03/2020,SwitzerlandDE,SWIK31 (C),Inside,Yes,Active,All year,Daily,Food leftovers/meat,200-600g,Yes,,"Gehlismatt 93, 3158 Guggisberg",Compost heap but also gives meat on purppose
+435,2,WSIK55,Settlement,20/04/2019,SwitzerlandDE,X,Inside,Yes,Active,All year,Several times/week,Food leftovers/meat,<200g,Yes,Yes,"Allmendstrasse 30, 1735 Giffers",
+438,3,WSIK55,Settlement,20/04/2019,SwitzerlandDE,WSIK68 (S),Inside,Yes,Active,All year,Daily,Food leftovers/meat,200-600g,Yes,,"Grauschels 10, 1736 St. Silvester",German speaking person: 026 418 12 13
+452,#3 WSIK55 (S),WSIK68,Settlement,1/05/2019,SwitzerlandDE,WSIK55 (S),Inside,Yes,Active,All year,Daily,Food leftovers/meat,200-600g,Yes,,"Grauschels 10, 1736 St. Silvester",German speaking person: 026 418 12 13
+457,4,WSIK68,Settlement,1/05/2019,SwitzerlandFR,X,Inside,Yes,Active,All year,Several times/week,Food leftovers/bones,<200g,Yes,,"Route de St. Silvester 50, Bonnefontaine","See RK every time, more than one"
+475,#5 SWIK23 (S),WSIK81,Settlement,22/03/2021,SwitzerlandDE,KIWS53 (S); SWIK23 (S),Inside,Yes,Active,All year,Several times/week,Food leftovers,<200g,Yes,,Hereschür 38 1718 Rechthalten,Outside
+476,,,,,,,,,,,,,,,,,
