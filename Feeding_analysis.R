@@ -358,7 +358,12 @@ PRED_GRID <- PRED_GRID %>%
 dim(PRED$predictions)
 dim(PRED_GRID)
 
-AUC<-auc(roc(data=PRED_GRID,response=FEEDER_observed,predictor=FEEDER_predicted))
+ROC_train<-roc(data=PRED_GRID,response=FEEDER_observed,predictor=FEEDER_predicted)
+AUC<-auc(ROC_train)
+AUC
+THRESH<-coords(ROC_train, "best", "threshold")$threshold
+
+
 #### CREATE PLOT FOR VARIABLE IMPORTANCE
 mylevels2<-IMP2$variable[6:1]
 impplot2<-IMP2[6:1,] %>%
@@ -400,7 +405,7 @@ OUTgrid<-countgrid %>% select(-FEEDER) %>%
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-########## VALIDATE PREDICTIONS WITH SURVEY DATA FROM EVA CEREGHETTI  #############
+########## VALIDATE PREDICTIONS WITH SURVEY DATA FROM EVA CEREGHETTI AND FIONA PELLET  #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ## read in survey data from Eva Cereghetti
 ## Q1 is the question whether they feed or not
@@ -411,30 +416,14 @@ feed_surveys<-fread("data/survey.final.csv") %>% #filter(Q1=="Ja") %>%
   st_as_sf(coords = c("coord_x", "coord_y"), crs=21781) %>%
   st_transform(crs = 3035) 
 
-validat <- st_intersection(OUTgrid, feed_surveys)
-AUC_TEST<-auc(roc(data=validat,response=FEEDER_surveyed,predictor=FEEDER_predicted))
-
-### summarise the predicted sites
-validat<-validat %>% filter(FEEDER_surveyed==1)
-hist(validat$FEEDER_predicted)
-mean(validat$FEEDER_predicted)
-length(validat[validat$FEEDER_predicted>0.5,])/dim(validat)[1]
-
-
-
-
-##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-########## VALIDATE PREDICTIONS WITH INTERVIEW DATA FROM FIONA PELLE  #############
-##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-## survey provided with addresses only
+## read in survey from Fiona Pellet provided with addresses only
 ## Jerome Guelat provided R script to convert addresses to coordinates
 source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
 library(stringi)
 
 ## Feeding is the question whether they feed or not
-setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
 feed_surveys2<-read_csv("data/FeedersFionaPelle.csv", locale = locale(encoding = "UTF-8")) %>%
-#<-fread("data/FeedersFionaPelle.csv", encoding = 'UTF-8') %>% 
+  #<-fread("data/FeedersFionaPelle.csv", encoding = 'UTF-8') %>% 
   mutate(FEEDER_surveyed=ifelse(Feeding=="Yes",1,0))
 
 ## generate coordinates from addresses
@@ -444,19 +433,74 @@ feed_surv2_sf<-feed_surveys2_locs %>% rename(Address=address_origin) %>%
   left_join(feed_surveys2, by="Address",relationship ="many-to-many") %>%
   filter(!is.na(x)) %>%
   filter(!is.na(FEEDER_surveyed)) %>%
+  group_by(lon,lat) %>%
+  summarise(FEEDER_surveyed=max(FEEDER_surveyed)) %>%
   st_as_sf(coords = c("lon", "lat"), crs=4326) %>%
-  st_transform(crs = 3035) 
+  st_transform(crs = 3035) %>%
+  bind_rows(feed_surveys)
 feed_surv2_sf$FEEDER_surveyed
 
-validat2 <- st_intersection(OUTgrid, feed_surv2_sf)
-validat2$FEEDER_predicted
-AUC_TEST2<-auc(roc(data=validat2,response=FEEDER_surveyed,predictor=FEEDER_predicted))
+
+
+#validat <- st_intersection(OUTgrid, feed_surv2_sf) %>%
+validat <- st_intersection(feed_surv2_sf,OUTgrid) %>%
+  filter(!is.na(n))  ## excludes bullshit addresses outside of study area
+validat$FEEDER_surveyed
+summary(validat$FEEDER_predicted)
+
+## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
+## but you cannot fit an ROC curve if the response is only 1 and not 0
+validat<-validat %>% filter(FEEDER_surveyed==1)
+# ROC_val<-roc(data=validat,response=FEEDER_surveyed,predictor=FEEDER_predicted)
+# AUC_TEST<-auc(ROC_val)
+# coords(ROC_val, "best", "threshold")
 
 ### summarise the predicted sites
-validat2<-validat2 %>% filter(FEEDER_surveyed==1)
-hist(validat2$FEEDER_predicted)
-mean(validat2$FEEDER_predicted)
-length(validat2[validat2$FEEDER_predicted>0.5,])/dim(validat2)[1]
+hist(validat$FEEDER_predicted)
+mean(validat$FEEDER_predicted)
+length(validat[validat$FEEDER_predicted>THRESH,])/dim(validat)[1]
+
+
+
+
+# ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+# ########## VALIDATE PREDICTIONS WITH INTERVIEW DATA FROM FIONA PELLE  #############
+# ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+# ## survey provided with addresses only
+# ## Jerome Guelat provided R script to convert addresses to coordinates
+# source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
+# library(stringi)
+# 
+# ## Feeding is the question whether they feed or not
+# setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
+# feed_surveys2<-read_csv("data/FeedersFionaPelle.csv", locale = locale(encoding = "UTF-8")) %>%
+# #<-fread("data/FeedersFionaPelle.csv", encoding = 'UTF-8') %>% 
+#   mutate(FEEDER_surveyed=ifelse(Feeding=="Yes",1,0))
+# 
+# ## generate coordinates from addresses
+# feed_surveys2_locs<-swissgeocode(address=as.character(feed_surveys2$Address), nresults=3)
+# 
+# feed_surv2_sf<-feed_surveys2_locs %>% rename(Address=address_origin) %>%
+#   left_join(feed_surveys2, by="Address",relationship ="many-to-many") %>%
+#   filter(!is.na(x)) %>%
+#   filter(!is.na(FEEDER_surveyed)) %>%
+#   st_as_sf(coords = c("lon", "lat"), crs=4326) %>%
+#   st_transform(crs = 3035) 
+# feed_surv2_sf$FEEDER_surveyed
+# 
+# validat2 <- st_intersection(OUTgrid, feed_surv2_sf)
+# validat2$FEEDER_predicted
+# ROC_val<-roc(data=validat2,response=FEEDER_surveyed,predictor=FEEDER_predicted)
+# AUC_TEST2<-auc(ROC_val)
+# coords(ROC_val, "best", "threshold")
+# 
+# 
+# 
+# ### summarise the predicted sites
+# validat2<-validat2 %>% filter(FEEDER_surveyed==1)
+# hist(validat2$FEEDER_predicted)
+# mean(validat2$FEEDER_predicted)
+# length(validat2[validat2$FEEDER_predicted>0.5,])/dim(validat2)[1]
 
 
 
@@ -464,9 +508,9 @@ length(validat2[validat2$FEEDER_predicted>0.5,])/dim(validat2)[1]
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## COMBINE VALIDATION DATA  #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-VAL_DAT<-bind_rows(validat %>% select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_observed,FEEDER_predicted),
-validat2 %>% select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_observed,FEEDER_predicted)) %>%
-  mutate(Classification=ifelse(FEEDER_predicted>0.5,"correct","missed"))
+VAL_DAT<-validat %>%
+  select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_observed,FEEDER_predicted) %>%
+  mutate(Classification=ifelse(FEEDER_predicted>THRESH,"correct","missed"))
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
@@ -504,7 +548,7 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
       st_transform(4326),
     stroke = TRUE, color = ~pred.pal(FEEDER_predicted), weight = 1,
     fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5,
-    popup = ~as.character(paste("N_pts=",n,"N_ind=",N_ind,"Prop feed pts=",round(prop_feed,3), sep=" / ")),
+    popup = ~as.character(paste("N_pts=",n,"/ N_ind=",N_ind,"/ Prop feed pts=",round(prop_feed,3), sep=" ")),
     label = ~as.character(round(FEEDER_predicted,3))
   ) %>%
   
@@ -521,7 +565,7 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     radius = 5,
     stroke = TRUE, color = ~val.pal(Classification), weight = 1,
     fillColor = ~val.pal(Classification), fillOpacity = 1,
-    popup = ~as.character(paste(round(FEEDER_predicted,3),"N_ind=",N_ind,"Prop feed pts=",round(prop_feed,3), sep=" / ")),
+    popup = ~as.character(paste(round(FEEDER_predicted,3),"/ N_ind=",N_ind,"/ Prop feed pts=",round(prop_feed,3), sep=" ")),
     label = ~as.character(round(FEEDER_predicted,3))
   ) %>%
   
