@@ -365,10 +365,12 @@ hist(PROJ_GRID$FEEDER_predicted)
 
 ########## CREATE OUTPUT GRID WITH PREDICTED FEEDING LOCATIONS ########################
 
-OUTgrid<-countgrid %>%
+CHgrid<-countgrid %>%
   mutate(gridid=seq_along(n)) %>%
   left_join(PROJ_GRID, by=c("gridid","n","N_ind","N_feed_points","N_feed_ind","prop_feed","prop_pts")) %>%
   filter(!is.na(FEEDER_predicted))
+
+range(CHgrid$FEEDER_predicted)
 
 
 
@@ -381,10 +383,8 @@ OUTgrid<-countgrid %>%
 ## need to specify color palette 
 # If you want to set your own colors manually:
 pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
-pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,15))
-#year.pal <- colorFactor(topo.colors(7), KDE_sf$id)
-feed.pal <- colorFactor(c("darkgreen","lightgreen"), unique(plot_feeders$Type))
-m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+
+m4 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
   setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
   htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
                            position: 'bottomright' }).addTo(this)}"
@@ -395,14 +395,15 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
   addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
   
   addCircleMarkers(
-    data=plot_OUT,
+    data=OUT_sf %>%
+      st_transform(4326),
     radius = 2,
     stroke = TRUE, color = "black", weight = 0.5,
     fillColor = "grey75", fillOpacity = 0.5,
     popup = ~ paste0("year ID: ", plot_OUT$year_id, "<br>", plot_OUT$timestamp)
   ) %>%
   addPolygons(
-    data=OUTgrid %>%
+    data=CHgrid %>%
       st_transform(4326),
     stroke = TRUE, color = ~pred.pal(FEEDER_predicted), weight = 1,
     fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5
@@ -411,27 +412,18 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
   addLegend(     # legend for predicted prob of feeding
     position = "topleft",
     pal = pred.pal,
-    values = OUTgrid$FEEDER_predicted,
+    values = CHgrid$FEEDER_predicted,
     opacity = 1,
     title = "Predicted probability of </br>anthropogenic feeding"
   ) %>%
-  addLegend(     # legend for known feeding sites
-    position = "topleft",
-    pal = feed.pal,
-    values = plot_feeders$Type,
-    opacity = 1,
-    title = "Type of feeding station"
-  ) %>%
-  
-  
   
   addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
 
-m2
+m4
 
 
-htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding/output/Potential_feeding_grids_CH.html")
-mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding/output/Potential_feeding_grids_CH.html")
+htmltools::save_html(html = m4, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids_CH.html")
+mapview::mapshot(m4, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids_CH.html")
 st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas_CH.kml",append=FALSE)
 
 
