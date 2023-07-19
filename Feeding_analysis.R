@@ -461,6 +461,13 @@ length(validat2[validat2$FEEDER_predicted>0.5,])/dim(validat2)[1]
 
 
 
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## COMBINE VALIDATION DATA  #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+VAL_DAT<-bind_rows(validat %>% select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_observed,FEEDER_predicted),
+validat2 %>% select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_observed,FEEDER_predicted)) %>%
+  mutate(Classification=ifelse(FEEDER_predicted>0.5,"correct","missed"))
+
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## PLOT THE MAP FOR KNOWN AND OBSERVED FEEDING STATIONS   #############
@@ -474,6 +481,7 @@ pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
 pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,15))
 #year.pal <- colorFactor(topo.colors(7), KDE_sf$id)
 feed.pal <- colorFactor(c("darkgreen","lightgreen"), unique(plot_feeders$Type))
+val.pal <- colorFactor(c("green","red"), unique(VAL_DAT$Classification))
 m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
   setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
   htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
@@ -495,7 +503,9 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     data=OUTgrid %>%
       st_transform(4326),
     stroke = TRUE, color = ~pred.pal(FEEDER_predicted), weight = 1,
-    fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5
+    fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5,
+    popup = ~as.character(paste("N_pts=",n,"N_ind=",N_ind,"Prop feed pts=",round(prop_feed,3), sep=" / ")),
+    label = ~as.character(round(FEEDER_predicted,3))
   ) %>%
   
   addCircleMarkers(
@@ -506,19 +516,13 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
   ) %>%
   
   addCircleMarkers(
-    data=validat %>%
+    data=VAL_DAT %>%
       st_transform(4326),
     radius = 5,
-    stroke = TRUE, color = "red", weight = 1,
-    fillColor = "red", fillOpacity = 0.5
-  ) %>%
-  
-  addCircleMarkers(
-    data=validat2 %>%
-      st_transform(4326),
-    radius = 5,
-    stroke = TRUE, color = "red", weight = 1,
-    fillColor = "red", fillOpacity = 0.5
+    stroke = TRUE, color = ~val.pal(Classification), weight = 1,
+    fillColor = ~val.pal(Classification), fillOpacity = 1,
+    popup = ~as.character(paste(round(FEEDER_predicted,3),"N_ind=",N_ind,"Prop feed pts=",round(prop_feed,3), sep=" / ")),
+    label = ~as.character(round(FEEDER_predicted,3))
   ) %>%
   
 
@@ -535,6 +539,13 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     values = plot_feeders$Type,
     opacity = 1,
     title = "Type of feeding station"
+  ) %>%
+  addLegend(     # legend for known feeding sites
+    position = "topleft",
+    pal = val.pal,
+    values = VAL_DAT$Classification,
+    opacity = 1,
+    title = "Validation (interviews)"
   ) %>%
   
   
