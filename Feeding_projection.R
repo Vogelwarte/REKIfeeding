@@ -307,13 +307,13 @@ DATA <- DATA %>%
 ########## COUNT POINTS AND INDIVIDUALS IN GRID AND PREDICT FEEDING GRIDS   #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 
-#### FIRST COUNT N INDIVIDUALS PER GRID CELL
+#### COUNT N INDIVIDUALS PER GRID CELL
 
 for(c in 1:length(tab)){
   countgrid$N_ind[c]<-length(unique(track_sf$year_id[tab[c][[1]]]))
 }
 
-#### SECOND COUNT N INDIVIDUALS AND PREDICTED FEEDING LOCS PER GRID CELL
+#### COUNT N INDIVIDUALS AND PREDICTED FEEDING LOCS PER GRID CELL
 OUT_sf<-DATA %>%
   filter(FEEDER_predicted=="YES") %>%
   st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
@@ -343,31 +343,31 @@ hist(countgrid$prop_pts)
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 
 
-PRED_GRID<-countgrid %>% 
+PROJ_GRID<-countgrid %>% 
   mutate(gridid=seq_along(n)) %>%
   filter(n>10) %>%
   #filter(prop_feed>-1) %>% ## to exclude NaN that occur when no points occur
   st_drop_geometry()
-str(PRED_GRID)
-PRED_GRID %>% filter(is.na(prop_feed))
+str(PROJ_GRID)
+PROJ_GRID %>% filter(is.na(prop_feed))
 
 #### classification success of training data
 
-PRED<-stats::predict(RF3,data=PRED_GRID, type = "response")
-PRED_GRID <- PRED_GRID %>%
+PRED<-stats::predict(RF3,data=PROJ_GRID, type = "response")
+PROJ_GRID <- PROJ_GRID %>%
   dplyr::mutate(FEEDER_predicted=PRED$predictions[,2])
 dim(PRED$predictions)
-dim(PRED_GRID)
+dim(PROJ_GRID)
 
 
-hist(PRED_GRID$FEEDER_predicted)
+hist(PROJ_GRID$FEEDER_predicted)
 
 
 ########## CREATE OUTPUT GRID WITH PREDICTED FEEDING LOCATIONS ########################
 
 OUTgrid<-countgrid %>%
   mutate(gridid=seq_along(n)) %>%
-  left_join(PRED_GRID, by=c("gridid","n","N_ind","N_feed_points","N_feed_ind","prop_feed","prop_pts")) %>%
+  left_join(PROJ_GRID, by=c("gridid","n","N_ind","N_feed_points","N_feed_ind","prop_feed","prop_pts")) %>%
   filter(!is.na(FEEDER_predicted))
 
 
@@ -449,6 +449,6 @@ library(rmarkdown)
 # Sys.setenv(RSTUDIO_PANDOC="C:/Program Files/RStudio/bin/pandoc")
 #
 rmarkdown::render('C:\\Users\\sop\\OneDrive - Vogelwarte\\REKI\\Analysis\\Feeding\\Feeding_Analysis_report2023_v2.Rmd',
-                  output_file = "Feeding_Analysis_Progress2023.html",
+                  output_file = "Feeding_Analysis_report2023_v2.html",
                   output_dir = 'C:\\Users\\sop\\OneDrive - Vogelwarte\\REKI\\Analysis\\Feeding\\output')
 

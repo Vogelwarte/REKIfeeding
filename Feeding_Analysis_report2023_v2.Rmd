@@ -14,7 +14,7 @@ library(ggplot2)
 
 # Background
 
-The Red Kite is a widespread raptor in Switzerland that benefits from anthropogenic food supplementation. To better understand the spatial extent of anthropogenic food provisioning we are using the tracking data of Red Kites to identify places where the tracked behaviour of kites is consistent with the recorded behaviour of tracked kites at known anthropogenic feeding sites. This work is based on the MSc thesis of Nathalie Heiniger (2020). 
+The Red Kite is a widespread raptor in Switzerland that benefits from anthropogenic food supplementation. To better understand the spatial extent of anthropogenic food provisioning we are using the tracking data of Red Kites to identify places where the tracked behaviour of kites is consistent with the recorded behaviour of tracked kites at known anthropogenic feeding sites. This work is based on the MSc thesis of Nathalie Heiniger (2020), and uses data from Eva Cereghetti and Fiona Pelle for validation of predicted patterns. 
 
 
 # Data preparation
@@ -30,7 +30,13 @@ We therefore proceed in two steps, in the first step we use the filtered trackin
 
 The locations predicted to be near anthropogenic feeding stations by this model are then aggregated in 500 m grid cells to summarise visitation patterns at the population level. We calculate the number and proportion of predicted 'feeding' locations over the total number of GPS locations in a grid cell, and also calculate the number and proportion of predicted 'feeding' individuals over the total number of individuals occurring in each grid cell. This summary information is then used in a second random forest model, which uses the number and proportion of locations per grid cell to predict whether an anthropogenic feeding station was present in that grid cell. This model is based on `r dim(PRED_GRID)[1]` grid cells with sufficient data (at least 10 Red Kite GPS locations), of which `r dim(PRED_GRID[PRED_GRID$FEEDER==1,])[1]` contained anthropogenic feeding stations.
 
-# Preliminary results
+# Validation
+
+To assess whether the predictions are reliable, we draw on two interview datasets where members of the public were asked (by Eva Cereghetti and Fiona Pelle) whether they feed red kites or other scavengers. From those two theses we have `r dim(VAL_DAT)[1]` known feeding locations available that were not used for training the models, and can therefore be used for validation.
+
+We use two metrics of validation, because the 
+
+# Results
 
 The hourly tracking data were randomly split into `r dim(DATA_TRAIN)[1]` locations for training the first random forest model, and `r dim(DATA_TEST)[1]` locations for validation, and the sensitivities reported here are on test data not used to train the model.
 
@@ -96,6 +102,103 @@ OUTgrid<-countgrid %>%
 
 pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
 pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,15))
+#year.pal <- colorFactor(topo.colors(7), KDE_sf$id)
+feed.pal <- colorFactor(c("darkgreen","lightgreen"), unique(plot_feeders$Type))
+val.pal <- colorFactor(c("green","red"), unique(VAL_DAT$Classification))
+m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+  setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
+  htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
+                           position: 'bottomright' }).addTo(this)}"
+  ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
+  addProviderTiles("Esri.WorldImagery", group = "Satellite",
+                   options = providerTileOptions(opacity = 0.6, attribution = F,minZoom = 5, maxZoom = 20)) %>%
+  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 15)) %>%  
+  addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
+  
+  addCircleMarkers(
+    data=plot_OUT,
+    radius = 2,
+    stroke = TRUE, color = "black", weight = 0.5,
+    fillColor = "grey75", fillOpacity = 0.5,
+    popup = ~ paste0("year ID: ", plot_OUT$year_id, "<br>", plot_OUT$timestamp)
+  ) %>%
+  addPolygons(
+    data=OUTgrid %>%
+      st_transform(4326),
+    stroke = TRUE, color = ~pred.pal(FEEDER_predicted), weight = 1,
+    fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5,
+    popup = ~as.character(paste("N_pts=",n,"/ N_ind=",N_ind,"/ Prop feed pts=",round(prop_feed,3), sep=" ")),
+    label = ~as.character(round(FEEDER_predicted,3))
+  ) %>%
+  
+  addCircleMarkers(
+    data=plot_feeders,
+    radius = 3,
+    stroke = TRUE, color = ~feed.pal(Type), weight = 1,
+    fillColor = ~feed.pal(Type), fillOpacity = 0.2
+  ) %>%
+  
+  addCircleMarkers(
+    data=VAL_DAT %>%
+      st_transform(4326),
+    radius = 5,
+    stroke = TRUE, color = ~val.pal(Classification), weight = 1,
+    fillColor = ~val.pal(Classification), fillOpacity = 1,
+    popup = ~as.character(paste(round(FEEDER_predicted,3),"/ N_ind=",N_ind,"/ Prop feed pts=",round(prop_feed,3), sep=" ")),
+    label = ~as.character(round(FEEDER_predicted,3))
+  ) %>%
+  
+
+  addLegend(     # legend for predicted prob of feeding
+    position = "topleft",
+    pal = pred.pal,
+    values = OUTgrid$FEEDER_predicted,
+    opacity = 1,
+    title = "Predicted probability of </br>anthropogenic feeding"
+  ) %>%
+  addLegend(     # legend for known feeding sites
+    position = "topleft",
+    pal = feed.pal,
+    values = plot_feeders$Type,
+    opacity = 1,
+    title = "Type of feeding station"
+  ) %>%
+  addLegend(     # legend for known feeding sites
+    position = "topleft",
+    pal = val.pal,
+    values = VAL_DAT$Classification,
+    opacity = 1,
+    title = "Validation (interviews)"
+  ) %>%
+  
+  
+  
+  addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
+
+m2
+
+```
+*Fig. 3: Map of predicted probability of the presence of anthropogenic feeding sites in the main Red Kite study area Switzerland. Dark green points indicate known feeding locations that were used to train models, small grey dots indicate Red Kite GPS locations that were classified as feeding behaviour, and bright red and green points are validation data (feeding locations obtained from interviews that were used to evaluate the predictions).*
+
+
+
+# Projection across Switzerland
+
+We used the two models above to project the existence of anthropogenic feeding locations across Switzerland. 
+
+We can now quantify the proportion of daytime that Red Kites spend in grid cells with a high predicted probability of containing an anthropogenic feeding site as a proxy for their 'sociality' or 'dependence', and relate that proxy to survival, residence, and breeding success.
+
+
+
+
+```{r leafletmap, echo=FALSE,warning=FALSE,error=FALSE,message=FALSE, fig.width=10,fig.height=8}
+OUTgrid<-countgrid %>% 
+  mutate(gridid=seq_along(n)) %>%
+  left_join(PRED_GRID, by="gridid") %>%
+  filter(!is.na(FEEDER_predicted))
+
+pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
+pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,15))
 feed.pal <- colorFactor(c("darkgreen","lightgreen","forestgreen"), unique(plot_feeders$Type))
 m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
   setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
@@ -149,13 +252,5 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
 m2
 ```
 *Fig. 3: Map of existing (green dots) and predicted probability of the presence of anthropogenic feeding sites in Switzerland (so far only in study area)*
-
-
-
-# Next steps
-
-We have requested remote sensing data from across Switzerland to potentially predict anthropogenic feeding sites across the country. This would allow us to extrapolate the extent of anthropogenic feeding that occurs (as far as we can tell from our tracked sample of birds).
-
-We can now quantify the proportion of daytime that Red Kites spend in grid cells with a high predicted probability of containing an anthropogenic feeding site as a proxy for their 'sociality' or 'dependence', and relate that proxy to survival, residence, and breeding success.
 
 
