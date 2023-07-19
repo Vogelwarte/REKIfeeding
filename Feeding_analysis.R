@@ -430,50 +430,33 @@ length(validat[validat$FEEDER_predicted>0.5,])/dim(validat)[1]
 ## Jerome Guelat provided R script to convert addresses to coordinates
 source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
 library(stringi)
-library(rvest)
-lines <- read_html("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/data/FeedersFionaPelle.csv") %>% 
-  html_nodes(".Address") %>% 
-  html_text()
-
-> grep("Maßnahmen", lines, value = TRUE)[1]
-
-lines <- stri_read_lines("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/data/FeedersFionaPelle.csv", encoding = NULL)
 
 ## Feeding is the question whether they feed or not
 setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
-feed_surveys2<-fread("data/FeedersFionaPelle.csv") %>% 
-  mutate(FEEDER_surveyed=ifelse(Feeding=="Yes",1,0)) %>%
-  filter(FEEDER_surveyed==1)
+feed_surveys2<-read_csv("data/FeedersFionaPelle.csv", locale = locale(encoding = "UTF-8")) %>%
+#<-fread("data/FeedersFionaPelle.csv", encoding = 'UTF-8') %>% 
+  mutate(FEEDER_surveyed=ifelse(Feeding=="Yes",1,0))
 
 ## generate coordinates from addresses
 feed_surveys2_locs<-swissgeocode(address=as.character(feed_surveys2$Address), nresults=3)
 
-
-
-
-
-
- %>%
-  st_as_sf(coords = c("coord_x", "coord_y"), crs=21781) %>%
+feed_surv2_sf<-feed_surveys2_locs %>% rename(Address=address_origin) %>%
+  left_join(feed_surveys2, by="Address",relationship ="many-to-many") %>%
+  filter(!is.na(x)) %>%
+  filter(!is.na(FEEDER_surveyed)) %>%
+  st_as_sf(coords = c("lon", "lat"), crs=4326) %>%
   st_transform(crs = 3035) 
+feed_surv2_sf$FEEDER_surveyed
 
-
-
-
-
-
-
-
-
-
-validat <- st_intersection(OUTgrid, feed_surveys)
-AUC_TEST<-auc(roc(data=validat,response=FEEDER_surveyed,predictor=FEEDER_predicted))
+validat2 <- st_intersection(OUTgrid, feed_surv2_sf)
+validat2$FEEDER_predicted
+AUC_TEST2<-auc(roc(data=validat2,response=FEEDER_surveyed,predictor=FEEDER_predicted))
 
 ### summarise the predicted sites
-validat<-validat %>% filter(FEEDER_surveyed==1)
-hist(validat$FEEDER_predicted)
-mean(validat$FEEDER_predicted)
-length(validat[validat$FEEDER_predicted>0.5,])/dim(validat)[1]
+validat2<-validat2 %>% filter(FEEDER_surveyed==1)
+hist(validat2$FEEDER_predicted)
+mean(validat2$FEEDER_predicted)
+length(validat2[validat2$FEEDER_predicted>0.5,])/dim(validat2)[1]
 
 
 
@@ -530,6 +513,14 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     fillColor = "red", fillOpacity = 0.5
   ) %>%
   
+  addCircleMarkers(
+    data=validat2 %>%
+      st_transform(4326),
+    radius = 5,
+    stroke = TRUE, color = "red", weight = 1,
+    fillColor = "red", fillOpacity = 0.5
+  ) %>%
+  
 
   addLegend(     # legend for predicted prob of feeding
     position = "topleft",
@@ -553,8 +544,8 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
 m2
 
 
-htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding/output/Potential_feeding_grids.html")
-mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding/output/Potential_feeding_grids.html")
+htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids.html")
+mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids.html")
 st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas.kml",append=FALSE)
 
 
