@@ -141,22 +141,6 @@ leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom
 
 
 
-############### LOOP OVER TUNING SETTINGS TO IMPROVE PERFORMANCE ##################
-### this takes too long >3 hrs
-# tuning.out<-expand.grid(m=c(4,8,14),t=c(500,750,1000,2000)) %>%
-#   dplyr::mutate(oob.error=0)
-# for (m in c(4,8,14)) {
-#   for(t in c(500,750,1000,2000)){
-#     RFtest<-ranger::ranger(as.factor(FEEDER) ~ sex + revisits + residence_time + age_cy +
-#                              step_length + turning_angle + speed + 
-#                            mean_speed + mean_angle + YDAY + hour + month + BUILD,
-#                            data = DATA, mtry = m, num.trees = t, replace = T, importance = "permutation", oob.error=T, write.forest=F)
-#     tuning.out[tuning.out$t==t & tuning.out$m==m,3] <-RFtest$prediction.error
-#   }
-# }
-# 
-# tuning.out<-tuning.out %>% dplyr::arrange(oob.error)
-
 
 ##### RUN MODEL ##########
 
@@ -227,6 +211,77 @@ OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
   print(impplot)
 
 
+  
+  
+  ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+  ########## VALIDATE PREDICTIONS WITH SURVEY DATA FROM EVA CEREGHETTI AND FIONA PELLET  #############
+  ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+  ## read in survey data from Eva Cereghetti
+  ## Q1 is the question whether they feed or not
+  setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
+  feed_surveys<-fread("data/survey.final.csv") %>% #filter(Q1=="Ja") %>%
+    mutate(FEEDER_surveyed=ifelse(Q1=="Ja",1,0)) %>%
+    select(nr,coord_x,coord_y,square,random,area,building.type,FEEDER_surveyed) %>%
+    st_as_sf(coords = c("coord_x", "coord_y"), crs=21781) %>%
+    st_transform(crs = 3035) 
+  
+  ## read in survey from Fiona Pellet provided with addresses only
+  ## Jerome Guelat provided R script to convert addresses to coordinates
+  source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
+  library(stringi)
+  
+  ## Feeding is the question whether they feed or not
+  feed_surveys2<-read_csv("data/FeedersFionaPelle.csv", locale = locale(encoding = "UTF-8")) %>%
+    #<-fread("data/FeedersFionaPelle.csv", encoding = 'UTF-8') %>% 
+    mutate(FEEDER_surveyed=ifelse(Feeding=="Yes",1,0))
+  
+  ## generate coordinates from addresses
+  feed_surveys2_locs<-swissgeocode(address=as.character(feed_surveys2$Address), nresults=3)
+  
+  feed_surv2_sf<-feed_surveys2_locs %>% rename(Address=address_origin) %>%
+    left_join(feed_surveys2, by="Address",relationship ="many-to-many") %>%
+    filter(!is.na(x)) %>%
+    filter(!is.na(FEEDER_surveyed)) %>%
+    group_by(lon,lat) %>%
+    summarise(FEEDER_surveyed=max(FEEDER_surveyed)) %>%
+    st_as_sf(coords = c("lon", "lat"), crs=4326) %>%
+    st_transform(crs = 3035) %>%
+    bind_rows(feed_surveys)
+  feed_surv2_sf$FEEDER_surveyed
+
+## create 50 m buffer around feeders  
+VAL_FEED_BUFF <-feed_surv2_sf %>%
+  st_buffer(dist=50) %>%
+  select(FEEDER_surveyed)
+
+VAL_DAT<-OUT  %>%
+  st_as_sf(coords = c("long", "lat"), crs=4326) %>%
+  st_transform(crs = 3035) %>%
+  st_join(VAL_FEED_BUFF,
+          join = st_intersects, 
+          left = TRUE) %>%
+  mutate(FEEDER_surveyed=ifelse(is.na(FEEDER_surveyed),0,FEEDER_surveyed)) %>%
+  dplyr::mutate(FEEDER_surveyed = as.factor(dplyr::case_when(FEEDER_surveyed==1 ~ "YES",
+                                                             FEEDER_surveyed==0 ~ "NO"))) %>%
+  mutate(FEEDER_observed=as.factor(dplyr::if_else(as.character(FEEDER_surveyed)=="YES",FEEDER_surveyed,FEEDER_observed))) %>%
+  mutate(feed_obs_num=as.numeric(FEEDER_observed)-1)
+str(VAL_DAT)  
+suppressWarnings({valmat<-caret::confusionMatrix(data = VAL_DAT$FEEDER_observed, reference = VAL_DAT$FEEDER_predicted, positive="YES")})
+valmat
+  
+## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
+## but we use ROC curve to identify threshold
+ROC_val<-roc(data=VAL_DAT,
+             response=feed_obs_num,
+             predictor=feed_prob)
+AUC_VAL<-auc(ROC_val)
+
+  
+
+### DEFINE PREDICTION THRESHOLD FOR FEEDING LOCATIONS ###
+THRESH_pts<-coords(ROC_val, "best", "threshold")$threshold
+
+
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
@@ -260,18 +315,8 @@ plot_feeders3<- fread("data/feeding_platforms_15_16.csv") %>%
 
 plot_feeders<-rbind(plot_feeders,plot_feeders2,plot_feeders3)
 
-## FIRST, split the multipolygon into separate polygons:
-# feed_site_polygons <- st_cast(feed_site_sf, "POLYGON")
-# #nearneighb<-st_nearest_feature(feed_site_polygons,plot_feeders)
-# feed_site_distances<-st_distance(feed_site_polygons,plot_feeders) 
-# feed_site_polygons <- feed_site_polygons %>%
-#   mutate(dist_feeder=apply(feed_site_distances,1,min)/1000) %>%  ### distance in km
-#   arrange(desc(dist_feeder))
 
-
-
-
-# 
+ 
 # ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 # ########## PLOT THE MAP FOR KNOWN AND OBSERVED FEEDING STATIONS   #############
 # ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
@@ -283,13 +328,14 @@ plot_feeders<-rbind(plot_feeders,plot_feeders2,plot_feeders3)
 # # create plotting frame
 #   
 plot_OUT<-OUT %>%
-  filter(FEEDER_predicted=="YES") %>%
-    st_as_sf(coords = c("long", "lat"), crs = 4326)
+  filter(feed_prob>THRESH_pts) %>%
+  #filter(FEEDER_predicted=="YES") %>%
+  st_as_sf(coords = c("long", "lat"), crs = 4326)
 
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-########## ALTERNATIVE APPROACH TO SIMPLY COUNT POINTS AND INDIVIDUALS IN GRID   #############
+########## SECOND LEVEL PREDICTION: COUNT POINTS AND INDIVIDUALS IN GRID   #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 
 #### FIRST COUNT N INDIVIDUALS PER GRID CELL
@@ -409,35 +455,35 @@ OUTgrid<-countgrid %>% select(-FEEDER) %>%
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ## read in survey data from Eva Cereghetti
 ## Q1 is the question whether they feed or not
-setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
-feed_surveys<-fread("data/survey.final.csv") %>% #filter(Q1=="Ja") %>%
-  mutate(FEEDER_surveyed=ifelse(Q1=="Ja",1,0)) %>%
-  select(nr,coord_x,coord_y,square,random,area,building.type,FEEDER_surveyed) %>%
-  st_as_sf(coords = c("coord_x", "coord_y"), crs=21781) %>%
-  st_transform(crs = 3035) 
-
-## read in survey from Fiona Pellet provided with addresses only
-## Jerome Guelat provided R script to convert addresses to coordinates
-source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
-library(stringi)
-
-## Feeding is the question whether they feed or not
-feed_surveys2<-read_csv("data/FeedersFionaPelle.csv", locale = locale(encoding = "UTF-8")) %>%
-  #<-fread("data/FeedersFionaPelle.csv", encoding = 'UTF-8') %>% 
-  mutate(FEEDER_surveyed=ifelse(Feeding=="Yes",1,0))
-
-## generate coordinates from addresses
-feed_surveys2_locs<-swissgeocode(address=as.character(feed_surveys2$Address), nresults=3)
-
-feed_surv2_sf<-feed_surveys2_locs %>% rename(Address=address_origin) %>%
-  left_join(feed_surveys2, by="Address",relationship ="many-to-many") %>%
-  filter(!is.na(x)) %>%
-  filter(!is.na(FEEDER_surveyed)) %>%
-  group_by(lon,lat) %>%
-  summarise(FEEDER_surveyed=max(FEEDER_surveyed)) %>%
-  st_as_sf(coords = c("lon", "lat"), crs=4326) %>%
-  st_transform(crs = 3035) %>%
-  bind_rows(feed_surveys)
+# setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
+# feed_surveys<-fread("data/survey.final.csv") %>% #filter(Q1=="Ja") %>%
+#   mutate(FEEDER_surveyed=ifelse(Q1=="Ja",1,0)) %>%
+#   select(nr,coord_x,coord_y,square,random,area,building.type,FEEDER_surveyed) %>%
+#   st_as_sf(coords = c("coord_x", "coord_y"), crs=21781) %>%
+#   st_transform(crs = 3035) 
+# 
+# ## read in survey from Fiona Pellet provided with addresses only
+# ## Jerome Guelat provided R script to convert addresses to coordinates
+# source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
+# library(stringi)
+# 
+# ## Feeding is the question whether they feed or not
+# feed_surveys2<-read_csv("data/FeedersFionaPelle.csv", locale = locale(encoding = "UTF-8")) %>%
+#   #<-fread("data/FeedersFionaPelle.csv", encoding = 'UTF-8') %>% 
+#   mutate(FEEDER_surveyed=ifelse(Feeding=="Yes",1,0))
+# 
+# ## generate coordinates from addresses
+# feed_surveys2_locs<-swissgeocode(address=as.character(feed_surveys2$Address), nresults=3)
+# 
+# feed_surv2_sf<-feed_surveys2_locs %>% rename(Address=address_origin) %>%
+#   left_join(feed_surveys2, by="Address",relationship ="many-to-many") %>%
+#   filter(!is.na(x)) %>%
+#   filter(!is.na(FEEDER_surveyed)) %>%
+#   group_by(lon,lat) %>%
+#   summarise(FEEDER_surveyed=max(FEEDER_surveyed)) %>%
+#   st_as_sf(coords = c("lon", "lat"), crs=4326) %>%
+#   st_transform(crs = 3035) %>%
+#   bind_rows(feed_surveys)
 feed_surv2_sf$FEEDER_surveyed
 
 
