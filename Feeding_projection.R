@@ -24,7 +24,7 @@ library(amt)
 library(recurse)
 
 ## set root folder for project
-setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding")
+setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
 
 
 
@@ -265,7 +265,12 @@ track_sf <-   st_as_sf(track_sf, coords = c("long", "lat"), crs = 4326) %>%
 tab <- st_intersects(grid_CH, track_sf)
 lengths(tab)
 countgrid <- st_sf(n = lengths(tab), geometry = st_cast(grid_CH, "MULTIPOLYGON")) %>%
-  st_transform(3035)
+  st_transform(3035) %>%
+  filter(n>20)
+
+
+
+
 summary(log(countgrid$n+1))
 pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,10))
 leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
@@ -308,9 +313,10 @@ DATA <- DATA %>%
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 
 #### COUNT N INDIVIDUALS PER GRID CELL
-
-for(c in 1:length(tab)){
-  countgrid$N_ind[c]<-length(unique(track_sf$year_id[tab[c][[1]]]))
+tabind <- st_intersects(countgrid, track_sf)
+lengths(tabind)
+for(c in 1:length(tabind)){
+  countgrid$N_ind[c]<-length(unique(track_sf$year_id[tabind[c][[1]]]))
 }
 
 #### COUNT N INDIVIDUALS AND PREDICTED FEEDING LOCS PER GRID CELL
@@ -318,12 +324,11 @@ OUT_sf<-DATA %>%
   filter(FEEDER_predicted=="YES") %>%
   st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
   st_transform(3035)
-tab2 <- st_intersects(grid_CH, OUT_sf)
-countgrid$N_feed_points<-lengths(tab2)
-for(c in 1:length(tab2)){
-  countgrid$N_feed_ind[c]<-length(unique(OUT_sf$year_id[tab2[c][[1]]]))
+tabfeed <- st_intersects(countgrid, OUT_sf)
+countgrid$N_feed_points<-lengths(tabfeed)
+for(c in 1:length(tabfeed)){
+  countgrid$N_feed_ind[c]<-length(unique(OUT_sf$year_id[tabfeed[c][[1]]]))
 }
-
 
 
 ### MANIPULATE COUNTED ANIMALS INTO PROPORTIONS
@@ -342,10 +347,9 @@ hist(countgrid$prop_pts)
 ########## PREDICT SECOND RANDOM FOREST MODEL TO PREDICT FEEDING SITE AT GRID CELL LEVEL   #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 
-
 PROJ_GRID<-countgrid %>% 
   mutate(gridid=seq_along(n)) %>%
-  filter(n>10) %>%
+  #filter(n>10) %>%
   #filter(prop_feed>-1) %>% ## to exclude NaN that occur when no points occur
   st_drop_geometry()
 str(PROJ_GRID)
@@ -372,6 +376,10 @@ CHgrid<-countgrid %>%
 
 range(CHgrid$FEEDER_predicted)
 
+FEEDgrid<-CHgrid %>%
+  filter(FEEDER_predicted>THRESH)
+
+
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
@@ -385,7 +393,9 @@ range(CHgrid$FEEDER_predicted)
 pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
 
 m4 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
-  setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
+  setView(lng = mean(st_coordinates(OUT_sf %>%  st_transform(4326))[,1]),
+          lat = mean(st_coordinates(OUT_sf %>%  st_transform(4326))[,2]),
+          zoom = 8) %>%
   htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
                            position: 'bottomright' }).addTo(this)}"
   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
@@ -394,19 +404,19 @@ m4 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
   addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 15)) %>%  
   addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
   
-  addCircleMarkers(
-    data=OUT_sf %>%
-      st_transform(4326),
-    radius = 2,
-    stroke = TRUE, color = "black", weight = 0.5,
-    fillColor = "grey75", fillOpacity = 0.5,
-    popup = ~ paste0("year ID: ", plot_OUT$year_id, "<br>", plot_OUT$timestamp)
-  ) %>%
   addPolygons(
     data=CHgrid %>%
       st_transform(4326),
     stroke = TRUE, color = ~pred.pal(FEEDER_predicted), weight = 1,
     fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5
+  ) %>%
+  addPolygons(
+    data=FEEDgrid %>%
+      st_transform(4326),
+    stroke = TRUE, color = "red", weight = 1.5,
+    fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5,
+    popup = ~as.character(paste(round(FEEDER_predicted,3),"/ N_ind=",N_ind,"/ Prop feed pts=",round(prop_feed,3), sep=" ")),
+    label = ~as.character(round(FEEDER_predicted,3))
   ) %>%
   
   addLegend(     # legend for predicted prob of feeding
@@ -424,8 +434,8 @@ m4
 
 htmltools::save_html(html = m4, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids_CH.html")
 mapview::mapshot(m4, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids_CH.html")
-st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas_CH.kml",append=FALSE)
-
+st_write(CHgrid,"output/REKI_predicted_anthropogenic_feeding_areas_CH.kml",append=FALSE)
+saveRDS(CHgrid, "output/pred_anthro_feed_grid.rds")
 
 
 
@@ -440,7 +450,7 @@ library(rmarkdown)
 # Sys.setenv(RSTUDIO_PANDOC="C:/Users/Inge Oppel/AppData/Local/Pandoc")
 # Sys.setenv(RSTUDIO_PANDOC="C:/Program Files/RStudio/bin/pandoc")
 #
-rmarkdown::render('C:\\Users\\sop\\OneDrive - Vogelwarte\\REKI\\Analysis\\Feeding\\Feeding_Analysis_report2023_v2.Rmd',
+rmarkdown::render('C:\\Users\\sop\\OneDrive - Vogelwarte\\REKI\\Analysis\\REKIfeeding\\Feeding_Analysis_report2023_v2.Rmd',
                   output_file = "Feeding_Analysis_report2023_v2.html",
-                  output_dir = 'C:\\Users\\sop\\OneDrive - Vogelwarte\\REKI\\Analysis\\Feeding\\output')
+                  output_dir = 'C:\\Users\\sop\\OneDrive - Vogelwarte\\REKI\\Analysis\\REKIfeeding\\output')
 

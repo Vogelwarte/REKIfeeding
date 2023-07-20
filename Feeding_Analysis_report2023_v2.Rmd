@@ -222,73 +222,53 @@ boxplot1
 
 # Projection across Switzerland
 
-We used the two models above to project the existence of anthropogenic feeding locations across Switzerland. 
-
-We can now quantify the proportion of daytime that Red Kites spend in grid cells with a high predicted probability of containing an anthropogenic feeding site as a proxy for their 'sociality' or 'dependence', and relate that proxy to survival, residence, and breeding success.
-
-
-
+We used the two models above to project the existence of anthropogenic feeding locations across Switzerland. To avoid computational burdens beyond the extent of our tracking data, we first reduced Switzerland to those `r dim(countgrid)[1]` grid cells with a minimum of `r min(VAL_DAT$n[VAL_DAT$Classification=="correct"])` Red Kite GPS locations, which eliminated  `r round((1-(dim(countgrid)[1]/length(grid_CH)[1]))*100,2)`% of Swiss grid cells from predictions. Of those grid cells with sufficient data,   `r round((1-(dim(countgrid)[1]/length(grid_CH)[1]))*100,2)`% were predicted to contain anthropogenic feeding stations with a probability exceeding the threshold for optimal sensitivity (Fig. 5).  
 
 ```{r SUImap, echo=FALSE,warning=FALSE,error=FALSE,message=FALSE, fig.width=10,fig.height=8}
-OUTgrid<-countgrid %>% 
-  mutate(gridid=seq_along(n)) %>%
-  left_join(PRED_GRID, by="gridid") %>%
-  filter(!is.na(FEEDER_predicted))
-
 pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
-pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,15))
-feed.pal <- colorFactor(c("darkgreen","lightgreen","forestgreen"), unique(plot_feeders$Type))
-m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
-  setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
+
+m4 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+  setView(lng = mean(st_coordinates(OUT_sf %>%  st_transform(4326))[,1]),
+          lat = mean(st_coordinates(OUT_sf %>%  st_transform(4326))[,2]),
+          zoom = 8) %>%
   htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
                            position: 'bottomright' }).addTo(this)}"
   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
   addProviderTiles("Esri.WorldImagery", group = "Satellite",
-                   options = providerTileOptions(opacity = 0.6, attribution = F,minZoom = 8, maxZoom = 25)) %>%
-  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 8, maxZoom = 25)) %>%  
+                   options = providerTileOptions(opacity = 0.6, attribution = F,minZoom = 5, maxZoom = 20)) %>%
+  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 15)) %>%  
   addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
   
-  addCircleMarkers(
-    data=plot_OUT,
-    radius = 2,
-    stroke = TRUE, color = "black", weight = 0.5,
-    fillColor = "grey75", fillOpacity = 0.5,
-    popup = ~ paste0("year ID: ", plot_OUT$year_id, "<br>", plot_OUT$timestamp)
-  ) %>%
   addPolygons(
-    data=OUTgrid %>%
+    data=CHgrid %>%
       st_transform(4326),
     stroke = TRUE, color = ~pred.pal(FEEDER_predicted), weight = 1,
-    fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5
+    fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5,
+    label = ~as.character(round(FEEDER_predicted,3))
+  ) %>%
+  addPolygons(
+    data=FEEDgrid %>%
+      st_transform(4326),
+    stroke = TRUE, color = "red", weight = 1.5,
+    fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5,
+    popup = ~as.character(paste(round(FEEDER_predicted,3),"/ N_ind=",N_ind,"/ Prop feed pts=",round(prop_feed,5), sep=" ")),
+    label = ~as.character(round(FEEDER_predicted,3))
   ) %>%
   
-  addCircleMarkers(
-    data=plot_feeders,
-    radius = 5,
-    stroke = TRUE, color = ~feed.pal(Type), weight = 1,
-    fillColor = ~feed.pal(Type), fillOpacity = 0.2
-  ) %>%
-  
-
   addLegend(     # legend for predicted prob of feeding
     position = "topleft",
     pal = pred.pal,
-    values = OUTgrid$FEEDER_predicted,
+    values = CHgrid$FEEDER_predicted,
     opacity = 1,
     title = "Predicted probability of </br>anthropogenic feeding"
-  ) %>%
-  addLegend(     # legend for known feeding sites
-    position = "topleft",
-    pal = feed.pal,
-    values = plot_feeders$Type,
-    opacity = 1,
-    title = "Type of feeding station"
   ) %>%
   
   addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
 
-m2
+m4
 ```
-*Fig. 3: Map of existing (green dots) and predicted probability of the presence of anthropogenic feeding sites in Switzerland (so far only in study area)*
+*Fig. 5: Map of the predicted probability of the presence of anthropogenic feeding sites in Switzerland based on Red Kite GPS tracking data. Grid cells with a red frame exceed the threshold for a positive prediction (=feeding area is likely), and all grid cells with colour have the minimum of 20 GPS locations.*
 
 
+
+Thus, while we are able to extrapolate the extent of anthropogenic food supplementation for Red Kites based on tracking data, these projections are fundamentally limited by the amount of tracking data available and may be very sparse outside of our main study area. Nonetheless, for our study population we can now quantify the proportion of daytime that Red Kites spend in grid cells with a high predicted probability of containing an anthropogenic feeding site as a proxy for their 'sociality' or 'dependence', and relate that proxy to survival, residence, and breeding success.
