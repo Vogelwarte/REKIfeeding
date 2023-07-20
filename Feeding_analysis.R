@@ -453,40 +453,8 @@ OUTgrid<-countgrid %>% select(-FEEDER) %>%
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## VALIDATE PREDICTIONS WITH SURVEY DATA FROM EVA CEREGHETTI AND FIONA PELLET  #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-## read in survey data from Eva Cereghetti
-## Q1 is the question whether they feed or not
-# setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
-# feed_surveys<-fread("data/survey.final.csv") %>% #filter(Q1=="Ja") %>%
-#   mutate(FEEDER_surveyed=ifelse(Q1=="Ja",1,0)) %>%
-#   select(nr,coord_x,coord_y,square,random,area,building.type,FEEDER_surveyed) %>%
-#   st_as_sf(coords = c("coord_x", "coord_y"), crs=21781) %>%
-#   st_transform(crs = 3035) 
-# 
-# ## read in survey from Fiona Pellet provided with addresses only
-# ## Jerome Guelat provided R script to convert addresses to coordinates
-# source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
-# library(stringi)
-# 
-# ## Feeding is the question whether they feed or not
-# feed_surveys2<-read_csv("data/FeedersFionaPelle.csv", locale = locale(encoding = "UTF-8")) %>%
-#   #<-fread("data/FeedersFionaPelle.csv", encoding = 'UTF-8') %>% 
-#   mutate(FEEDER_surveyed=ifelse(Feeding=="Yes",1,0))
-# 
-# ## generate coordinates from addresses
-# feed_surveys2_locs<-swissgeocode(address=as.character(feed_surveys2$Address), nresults=3)
-# 
-# feed_surv2_sf<-feed_surveys2_locs %>% rename(Address=address_origin) %>%
-#   left_join(feed_surveys2, by="Address",relationship ="many-to-many") %>%
-#   filter(!is.na(x)) %>%
-#   filter(!is.na(FEEDER_surveyed)) %>%
-#   group_by(lon,lat) %>%
-#   summarise(FEEDER_surveyed=max(FEEDER_surveyed)) %>%
-#   st_as_sf(coords = c("lon", "lat"), crs=4326) %>%
-#   st_transform(crs = 3035) %>%
-#   bind_rows(feed_surveys)
+### validation data already read in above
 feed_surv2_sf$FEEDER_surveyed
-
-
 
 #validat <- st_intersection(OUTgrid, feed_surv2_sf) %>%
 validat <- st_intersection(feed_surv2_sf,OUTgrid) %>%
@@ -496,67 +464,31 @@ summary(validat$FEEDER_predicted)
 
 ## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
 ## but you cannot fit an ROC curve if the response is only 1 and not 0
-validat<-validat %>% filter(FEEDER_surveyed==1)
-# ROC_val<-roc(data=validat,response=FEEDER_surveyed,predictor=FEEDER_predicted)
-# AUC_TEST<-auc(ROC_val)
-# coords(ROC_val, "best", "threshold")
-
-### summarise the predicted sites
-hist(validat$FEEDER_predicted)
-mean(validat$FEEDER_predicted)
-length(validat[validat$FEEDER_predicted>THRESH,])/dim(validat)[1]
-
-
-
-
-# ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-# ########## VALIDATE PREDICTIONS WITH INTERVIEW DATA FROM FIONA PELLE  #############
-# ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-# ## survey provided with addresses only
-# ## Jerome Guelat provided R script to convert addresses to coordinates
-# source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
-# library(stringi)
-# 
-# ## Feeding is the question whether they feed or not
-# setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
-# feed_surveys2<-read_csv("data/FeedersFionaPelle.csv", locale = locale(encoding = "UTF-8")) %>%
-# #<-fread("data/FeedersFionaPelle.csv", encoding = 'UTF-8') %>% 
-#   mutate(FEEDER_surveyed=ifelse(Feeding=="Yes",1,0))
-# 
-# ## generate coordinates from addresses
-# feed_surveys2_locs<-swissgeocode(address=as.character(feed_surveys2$Address), nresults=3)
-# 
-# feed_surv2_sf<-feed_surveys2_locs %>% rename(Address=address_origin) %>%
-#   left_join(feed_surveys2, by="Address",relationship ="many-to-many") %>%
-#   filter(!is.na(x)) %>%
-#   filter(!is.na(FEEDER_surveyed)) %>%
-#   st_as_sf(coords = c("lon", "lat"), crs=4326) %>%
-#   st_transform(crs = 3035) 
-# feed_surv2_sf$FEEDER_surveyed
-# 
-# validat2 <- st_intersection(OUTgrid, feed_surv2_sf)
-# validat2$FEEDER_predicted
-# ROC_val<-roc(data=validat2,response=FEEDER_surveyed,predictor=FEEDER_predicted)
-# AUC_TEST2<-auc(ROC_val)
-# coords(ROC_val, "best", "threshold")
-# 
-# 
-# 
-# ### summarise the predicted sites
-# validat2<-validat2 %>% filter(FEEDER_surveyed==1)
-# hist(validat2$FEEDER_predicted)
-# mean(validat2$FEEDER_predicted)
-# length(validat2[validat2$FEEDER_predicted>0.5,])/dim(validat2)[1]
-
+# validat<-validat %>% filter(FEEDER_surveyed==1)
+ROC_val<-roc(data=validat,response=FEEDER_surveyed,predictor=FEEDER_predicted)
+AUC_TEST<-auc(ROC_val)
+coords(ROC_val, "best", "threshold")
 
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-########## COMBINE VALIDATION DATA  #############
+########## SUMMARISE VALIDATION DATA  #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 VAL_DAT<-validat %>%
-  select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_observed,FEEDER_predicted) %>%
+  filter(FEEDER_surveyed==1) %>%
+  select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_predicted) %>%
   mutate(Classification=ifelse(FEEDER_predicted>THRESH,"correct","missed"))
+
+### summarise the predicted sites
+table(VAL_DAT$Classification)[1]
+summary(VAL_DAT$FEEDER_predicted)
+mean(VAL_DAT$FEEDER_predicted)
+table(VAL_DAT$Classification)[1]/dim(VAL_DAT)[1]
+min(VAL_DAT$n[VAL_DAT$Classification=="correct"])
+min(VAL_DAT$N_ind[VAL_DAT$Classification=="correct"])
+min(VAL_DAT$N_feed_points[VAL_DAT$Classification=="correct"])
+min(VAL_DAT$N_feed_ind[VAL_DAT$Classification=="correct"])
+
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
@@ -568,8 +500,6 @@ VAL_DAT<-validat %>%
 ## need to specify color palette 
 # If you want to set your own colors manually:
 pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
-pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,15))
-#year.pal <- colorFactor(topo.colors(7), KDE_sf$id)
 feed.pal <- colorFactor(c("darkgreen","lightgreen"), unique(plot_feeders$Type))
 val.pal <- colorFactor(c("green","red"), unique(VAL_DAT$Classification))
 m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
@@ -652,56 +582,31 @@ st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas.kml",append=
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-########## IDENTIFY AREAS WHERE PREDICTION DOES NOT WORK   #############
+########## COMPARE DATA BETWEEN SUCCESSFUL AND FAILED PREDICTIONS   #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-
-
-### MISSED PREDICTION - FIGURE OUT WHY NOT PREDICTED AS FEEDER
-
-### LOOK AT THE GRID CELLS THAT ARE NOT USED FOR RF DUE TO FEW LOCATIONS
-## does not contain the missed predictions
-# MISS_GRID<-countgrid %>% 
-#   mutate(gridid=seq_along(n)) %>%
-#   filter(n<11) 
-# m2 %>% addPolygons(
-#   data=MISS_GRID %>%
-#     st_transform(4326),
-#   stroke = TRUE, color = "red", weight = 3,
-#   fillColor = "red", fillOpacity = 0.2)
-
-### LOOK AT THE GRID CELLS THAT ARE NOT INCLUDED IN PLOT
-# does not contain the missed predictions
-MISS_GRID<-countgrid %>%
-  mutate(gridid=seq_along(n)) %>%
-  filter(!(gridid %in% PRED_GRID$gridid))
-m2 %>% addPolygons(
-  data=MISS_GRID %>%
-    st_transform(4326),
-  stroke = TRUE, color = "red", weight = 3,
-  fillColor = "red", fillOpacity = 0.2)
-
-
-ERROR_GRID<-OUTgrid %>% filter(FEEDER_observed==1) %>%
-  filter(FEEDER_predicted<0.1)
-
-m2 %>% addPolygons(
-  data=ERROR_GRID %>%
-    st_transform(4326),
-  stroke = TRUE, color = "red", weight = 3,
-  fillColor = "red", fillOpacity = 0.2)
-
-
-
-### PREDICTION OF FEEDERS WHERE NONE EXISTS
-ERROR_GRID<-OUTgrid %>% filter(FEEDER_observed==0) %>%
-  filter(FEEDER_predicted>0.5)
-
-m2 %>% addPolygons(
-  data=ERROR_GRID %>%
-    st_transform(4326),
-  stroke = TRUE, color = "red", weight = 3,
-  fillColor = "red", fillOpacity = 0.2)
-
+VAL_DAT %>%
+  st_drop_geometry() %>%
+  select(-FEEDER_observed,-FEEDER_predicted) %>%
+  gather(key=variable, value=value,-Classification) %>%
+  filter(!(variable=="n" & value>45000)) %>%  ### remove a single outlier value
+  filter(!(variable=="N_feed_ind" & value>30)) %>%  ### remove a single outlier value
+  filter(!(variable=="N_feed_points" & value>500)) %>%  ### remove a single outlier value
+  
+  
+  ggplot(aes(x=Classification, y=value)) +
+  geom_boxplot() +
+  facet_wrap(~variable, ncol=3, scales="free_y") +
+  labs(x="Prediction of grid cells with known anthropogenic feeding",
+       y="Value of respective variable") +
+  ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
+                 axis.text=ggplot2::element_text(size=16, color="black"),
+                 strip.background=ggplot2::element_rect(fill="white", colour="black"), 
+                 strip.text=ggplot2::element_text(size=16, color="black"),
+                 axis.title=ggplot2::element_text(size=20), 
+                 panel.grid.major = ggplot2::element_blank(), 
+                 panel.grid.minor = ggplot2::element_blank(), 
+                 panel.border = ggplot2::element_blank())
+  
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
