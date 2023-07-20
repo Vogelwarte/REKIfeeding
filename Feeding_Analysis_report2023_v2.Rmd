@@ -98,11 +98,6 @@ The validation data consisted of a list of known feeding locations obtained by i
 
 
 ```{r leafletmap, echo=FALSE,warning=FALSE,error=FALSE,message=FALSE, fig.width=10,fig.height=8}
-OUTgrid<-countgrid %>% 
-  mutate(gridid=seq_along(n)) %>%
-  left_join(PRED_GRID, by="gridid") %>%
-  filter(!is.na(FEEDER_predicted))
-
 pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
 pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,15))
 #year.pal <- colorFactor(topo.colors(7), KDE_sf$id)
@@ -194,7 +189,7 @@ The single most important factor for failing to predict a known feeding location
 ```{r boxplot, echo=FALSE,warning=FALSE,error=FALSE,message=FALSE, fig.width=12,fig.height=8}
 boxplot1<-VAL_DAT %>%
   st_drop_geometry() %>%
-  select(-FEEDER_observed,-FEEDER_predicted) %>%
+  select(-FEEDER_predicted) %>%
   gather(key=variable, value=value,-Classification) %>%
   filter(!(variable=="n" & value>45000)) %>%  ### remove a single outlier value
   filter(!(variable=="N_feed_ind" & value>30)) %>%  ### remove a single outlier value

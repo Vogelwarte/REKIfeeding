@@ -432,10 +432,10 @@ m4 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
 m4
 
 
-htmltools::save_html(html = m4, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids_CH.html")
-mapview::mapshot(m4, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids_CH.html")
-st_write(CHgrid,"output/REKI_predicted_anthropogenic_feeding_areas_CH.kml",append=FALSE)
-saveRDS(CHgrid, "output/pred_anthro_feed_grid.rds")
+# htmltools::save_html(html = m4, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids_CH.html")
+# mapview::mapshot(m4, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids_CH.html")
+# st_write(CHgrid,"output/REKI_predicted_anthropogenic_feeding_areas_CH.kml",append=FALSE)
+# saveRDS(CHgrid, "output/pred_anthro_feed_grid.rds")
 
 
 
