@@ -242,7 +242,7 @@ track_nofor_day_build<-track_nofor_day %>%
 
 ################ PREPARE DATA FOR PREDICTION
 
-DATA <- track_nofor_day_build %>%
+DATA_CH <- track_nofor_day_build %>%
   mutate(YDAY=yday(t_), hour=hour(t_), month=month(t_)) %>%
   filter(!is.na(step_length)) %>%
   filter(!is.na(turning_angle)) %>%
@@ -251,7 +251,7 @@ DATA <- track_nofor_day_build %>%
   filter(!is.na(mean_angle)) %>%
   select(-tod_,-FOREST) %>%
   mutate(point_id=seq_along(t_))
-head(DATA)
+head(DATA_CH)
 
 
 
@@ -298,9 +298,9 @@ leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom
 
 #### apply RF2 model across all data
 
-PRED<-stats::predict(RF2,data=DATA, type = "response")
+PRED<-stats::predict(RF2,data=DATA_CH, type = "response")
 
-DATA <- DATA %>%
+DATA_CH <- DATA_CH %>%
   dplyr::bind_cols(PRED$predictions) %>%
   dplyr::rename(no_feed_prob = NO, feed_prob = YES) %>%
   dplyr::mutate(FEEDER_predicted = as.factor(dplyr::case_when(feed_prob > THRESH_pts ~ "YES",
@@ -320,7 +320,7 @@ for(c in 1:length(tabind)){
 }
 
 #### COUNT N INDIVIDUALS AND PREDICTED FEEDING LOCS PER GRID CELL
-OUT_sf<-DATA %>%
+OUT_sf<-DATA_CH %>%
   filter(FEEDER_predicted=="YES") %>%
   st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
   st_transform(3035)

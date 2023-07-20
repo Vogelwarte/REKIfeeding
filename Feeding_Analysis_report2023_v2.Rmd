@@ -32,9 +32,9 @@ The locations predicted to be near anthropogenic feeding stations by this model 
 
 # Validation
 
-To assess whether the predictions are reliable, we draw on two interview datasets where members of the public were asked (by Eva Cereghetti and Fiona Pelle) whether they feed red kites or other scavengers. From those two theses we have `r dim(VAL_DAT)[1]` known feeding locations available that were not used for training the models, and can therefore be used for validation.
+To assess whether the predictions are reliable, we draw on two interview datasets where members of the public were asked (by Eva Cereghetti and Fiona Pelle) whether they feed red kites or other scavengers. From those two theses we have `r dim(VAL_DAT)[1]` grid cells with known feeding locations available that were not used for training the models, and can therefore be used for validation.
 
-We use two metrics of validation, because the 
+We use two metrics of validation, because the validation data can only indicate the *presence* (but not the *absence*) of a feeding location. First, we use the area under the receiver-operated characteristic curve (AUC), which is a threshold-independent metric for classification, but requires both presence and absence validation data. Thus, we would expect the value of the AUC to be lower than what is typically considered 'good' (0.8). However, we can use the curve to identify the optimal threshold of probability that maximizes sensitivity and specificity, and then use that threshold for the binary classification. Using the ROC-derived threshold we then calculate the proportion of grid cells with a known anthropogenic feeding location that were correctly predicted.
 
 # Results
 
@@ -66,7 +66,7 @@ The random forest model classified `r testmat$table[2,2]` of `r sum(testmat$tabl
 *Fig. 1: Relative variable importance to predict whether GPS locations are associated with anthropogenic feeding sites*
 
 
-There were `r dim(plot_OUT)[1]` locations of `r length(unique(plot_OUT$year_id))` bird-seasons predicted by the random forest algorithm to be consistent with foraging at anthropogenic feeding stations. These locations were then summarised in 500 m grid cells, resulting in `r dim(PRED_GRID)[1]` of the `r length(grid)` grid cells in the study area where predicted 'anthropogenic feeding locations' occurred. These locations were then summarised by grid cell, leading to a range of proportions from `r round(min(countgrid$prop_feed, na.rm=T)*100,1)`% to `r round(max(countgrid$prop_feed, na.rm=T)*100,0)`% of GPS locations and `r round(min(PRED_GRID$prop_ind, na.rm=T)*100,1)` to `r round(max(PRED_GRID$prop_ind, na.rm=T)*100,1)`% of individuals that were predicted to be 'feeding' in a grid cell. 
+There were `r dim(plot_OUT)[1]` locations of `r length(unique(plot_OUT$year_id))` bird-seasons predicted by the random forest algorithm to be consistent with foraging at anthropogenic feeding stations. These locations were then summarised in 500 m grid cells, resulting in `r dim(PRED_GRID)[1]` of the `r length(grid)` grid cells in the study area where predicted 'anthropogenic feeding locations' occurred. The proportions ranged from `r round(min(PRED_GRID$prop_feed, na.rm=T)*100,1)`% to `r round(max(PRED_GRID$prop_feed, na.rm=T)*100,0)`% of GPS locations and `r round(min(PRED_GRID$prop_pts, na.rm=T)*100,1)` to `r round(max(PRED_GRID$prop_pts, na.rm=T)*100,1)`% of individuals that were predicted to be 'feeding' in a grid cell. 
 
 The second random forest model, predicting the occurrence of anthropogenic feeding stations per grid cell based on 7 predictor variables, achieved an AUC of `r round(as.numeric(AUC),3)` for the internally cross-validated training data, but only `r round(as.numeric(AUC_TEST),3)`  for the external validation data based on feeders identified by interviews (Fig. 3). The predicted probabilities of the study area grid cells containing an anthropogenic feeding station ranged from `r round(min(PRED_GRID$FEEDER_predicted),3)` to `r round(max(PRED_GRID$FEEDER_predicted),3)`, with `r length(which(PRED_GRID$FEEDER_predicted>THRESH))` grid cells having a probability greater than the threshold identified for highest sensitivity (`r round(THRESH,3)`). Of those grid cells with >`r round(THRESH,3)` predicted probability of containing an anthropogenic feeding site, `r length(which(PRED_GRID$FEEDER_predicted>THRESH & PRED_GRID$FEEDER_observed==1))` had a known feeding site and `r length(which(PRED_GRID$FEEDER_predicted>THRESH & PRED_GRID$FEEDER_observed==0))` did not have a known feeding site.
 
@@ -159,7 +159,7 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     pal = feed.pal,
     values = plot_feeders$Type,
     opacity = 1,
-    title = "Type of feeding station"
+    title = "Training data feeding station type"
   ) %>%
   addLegend(     # legend for known feeding sites
     position = "topleft",
@@ -181,9 +181,9 @@ m2
 
 # Reliability of prediction
 
-To assess whether the predictions are reliable, we draw on two interview datasets where members of the public were asked (by Eva Cereghetti and Fiona Pelle) whether they feed red kites or other scavengers. From the `r dim(VAL_DAT)[1]` known feeding locations available that were not used for training the models, `r round(table(VAL_DAT$Classification)[2]/dim(VAL_DAT)[1],3)*100`% were not predicted with our tracking data, so we explored potential explanatory variables (Fig. 4).
+To assess whether the predictions are reliable, we draw on the `r dim(VAL_DAT)[1]` known feeding locations  that were not used for training the models (interviews), of which `r round(table(VAL_DAT$Classification)[2]/dim(VAL_DAT)[1],3)*100`% were not predicted with our tracking data. We then explored potential explanatory variables differentiating between correct and missed predictions (Fig. 4).
 
-The single most important factor for failing to predict a known feeding location was data scarcity (Fig. 4). Grid cells with a 'missed' prediction had generally fewer GPS points overall, from fewer individuals, and a fewer total number of GPS locations with feeding behaviour. Correct predictions of anthropogenic feeding locations required a minimum of `r min(VAL_DAT$n[VAL_DAT$Classification=="correct"])` GPS locations from a minimum of `r min(VAL_DAT$N_ind[VAL_DAT$Classification=="correct"])` individuals within a given 500 m grid cell.
+The single most important factor for failing to predict a known feeding location was data scarcity (Fig. 4). Grid cells with a 'missed' prediction had generally fewer GPS points overall, from fewer individuals, and a fewer total number of GPS locations with feeding behaviour. Correct predictions of anthropogenic feeding locations had a minimum of `r min(VAL_DAT$n[VAL_DAT$Classification=="correct"])` GPS locations from a minimum of `r min(VAL_DAT$N_ind[VAL_DAT$Classification=="correct"])` individuals within a given 500 m grid cell.
 
 
 ```{r boxplot, echo=FALSE,warning=FALSE,error=FALSE,message=FALSE, fig.width=12,fig.height=8}
@@ -217,7 +217,7 @@ boxplot1
 
 # Projection across Switzerland
 
-We used the two models above to project the existence of anthropogenic feeding locations across Switzerland. To avoid computational burdens beyond the extent of our tracking data, we first reduced Switzerland to those `r dim(countgrid)[1]` grid cells with a minimum of `r min(VAL_DAT$n[VAL_DAT$Classification=="correct"])` Red Kite GPS locations, which eliminated  `r round((1-(dim(countgrid)[1]/length(grid_CH)[1]))*100,2)`% of Swiss grid cells from predictions. Of those grid cells with sufficient data,   `r round((1-(dim(countgrid)[1]/length(grid_CH)[1]))*100,2)`% were predicted to contain anthropogenic feeding stations with a probability exceeding the threshold for optimal sensitivity (Fig. 5).  
+We used the two models above to project the existence of anthropogenic feeding locations across Switzerland. To avoid computational burdens beyond the extent of our tracking data, we first reduced Switzerland to those `r dim(countgrid)[1]` grid cells with a minimum of `r min(VAL_DAT$n[VAL_DAT$Classification=="correct"])` Red Kite GPS locations, which eliminated  `r round((1-(dim(countgrid)[1]/length(grid_CH)[1]))*100,2)`% of Swiss grid cells from predictions. Of those grid cells with sufficient data, `r round((dim(FEEDgrid)[1]/(dim(CHgrid)[1]))*100,2)`% were predicted to contain anthropogenic feeding stations with a probability exceeding the threshold for optimal sensitivity (Fig. 5).  
 
 ```{r SUImap, echo=FALSE,warning=FALSE,error=FALSE,message=FALSE, fig.width=10,fig.height=8}
 pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
