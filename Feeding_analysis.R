@@ -113,6 +113,7 @@ table(DATA_TEST$FEEDER)
 grid <- forest %>% 
   st_make_grid(cellsize = 500, what = "polygons",
                square = FALSE) # This statements leads to hexagons
+sum(st_area(grid))/1000000  ## size of study area in sq km
 track_sf <-   st_as_sf(track_sf, coords = c("long", "lat"), crs = 4326) %>%
   st_transform(3035)
 tab <- st_intersects(grid, track_sf)
@@ -200,6 +201,17 @@ OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
     ggplot2::ylab("Variable importance (%)") +
     ggplot2::xlab("Explanatory variable") +
     ggplot2::scale_y_continuous(limits=c(-5,105), breaks=seq(0,100,20), labels=seq(0,100,20))+
+    ggplot2::scale_x_discrete(name="",limit = mylevels,
+                     labels = c("step length [m]",
+                                "building present [y/n]",
+                                "age [years]",                              
+                                "distance to nest [m]",
+                                "attendance pattern [visits/day]",
+                                "time span of visitation [days]",
+                                "frequency of visits",
+                                "N of days",
+                                "attendance duration [hrs]",
+                                "N of repeat visits"))  +
     ggplot2::annotate("text",x=2,y=80,label=paste("Accuracy = ",round(testmat$byClass[3],3)),size=8) +
     ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
                    axis.text.x=ggplot2::element_text(size=18, color="black"),
@@ -210,7 +222,8 @@ OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
                    panel.border = ggplot2::element_blank())
   print(impplot)
 
-
+  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
+  
   
   
   ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
@@ -271,15 +284,15 @@ valmat
   
 ## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
 ## but we use ROC curve to identify threshold
-ROC_val<-roc(data=VAL_DAT,
+ROC_val<-pROC::roc(data=VAL_DAT,
              response=feed_obs_num,
              predictor=feed_prob)
-AUC_VAL<-auc(ROC_val)
+AUC_VAL<-pROC::auc(ROC_val)
 
   
 
 ### DEFINE PREDICTION THRESHOLD FOR FEEDING LOCATIONS ###
-THRESH_pts<-coords(ROC_val, "best", "threshold")$threshold
+THRESH_pts<-pROC::coords(ROC_val, "best", "threshold")$threshold
 
 
 
@@ -404,10 +417,10 @@ PRED_GRID <- PRED_GRID %>%
 dim(PRED$predictions)
 dim(PRED_GRID)
 
-ROC_train<-roc(data=PRED_GRID,response=FEEDER_observed,predictor=FEEDER_predicted)
-AUC<-auc(ROC_train)
+ROC_train<-pROC::roc(data=PRED_GRID,response=FEEDER_observed,predictor=FEEDER_predicted)
+AUC<-pROC::auc(ROC_train)
 AUC
-THRESH<-coords(ROC_train, "best", "threshold")$threshold
+THRESH<-pROC::coords(ROC_train, "best", "threshold")$threshold
 
 
 #### CREATE PLOT FOR VARIABLE IMPORTANCE
@@ -420,6 +433,13 @@ impplot2<-IMP2[6:1,] %>%
   ggplot2::ylab("Variable importance (%)") +
   ggplot2::xlab("Explanatory variable") +
   ggplot2::scale_y_continuous(limits=c(-5,105), breaks=seq(0,100,20), labels=seq(0,100,20))+
+  ggplot2::scale_x_discrete(name="",limit = mylevels2,
+                            labels = c("N individuals",
+                                       "N feeding individuals",
+                                       "N feeding locations",
+                                       "Total N of GPS locations",
+                                       "Proportion of feeding locations",
+                                       "Proportion of feeding individuals"))  +
   ggplot2::annotate("text",x=2,y=80,label=paste("AUC = ",round(AUC,3)),size=8) +
   ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
                  axis.text.x=ggplot2::element_text(size=18, color="black"),
@@ -430,6 +450,7 @@ impplot2<-IMP2[6:1,] %>%
                  panel.border = ggplot2::element_blank())
 print(impplot2)
 
+ggsave("output/REKI_feed_congregation_variable_importance.jpg", height=7, width=11)
 
 
 
@@ -465,9 +486,9 @@ summary(validat$FEEDER_predicted)
 ## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
 ## but you cannot fit an ROC curve if the response is only 1 and not 0
 # validat<-validat %>% filter(FEEDER_surveyed==1)
-ROC_val<-roc(data=validat,response=FEEDER_surveyed,predictor=FEEDER_predicted)
-AUC_TEST<-auc(ROC_val)
-coords(ROC_val, "best", "threshold")
+ROC_val<-pROC::roc(data=validat,response=FEEDER_surveyed,predictor=FEEDER_predicted)
+AUC_TEST<-pROC::auc(ROC_val)
+pROC::coords(ROC_val, "best", "threshold")
 
 
 
@@ -512,13 +533,13 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
   addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 15)) %>%  
   addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
   
-  addCircleMarkers(
-    data=plot_OUT,
-    radius = 2,
-    stroke = TRUE, color = "black", weight = 0.5,
-    fillColor = "grey75", fillOpacity = 0.5,
-    popup = ~ paste0("year ID: ", plot_OUT$year_id, "<br>", plot_OUT$timestamp)
-  ) %>%
+  # addCircleMarkers(
+  #   data=plot_OUT,
+  #   radius = 2,
+  #   stroke = TRUE, color = "black", weight = 0.5,
+  #   fillColor = "grey75", fillOpacity = 0.5,
+  #   popup = ~ paste0("year ID: ", plot_OUT$year_id, "<br>", plot_OUT$timestamp)
+  # ) %>%
   addPolygons(
     data=OUTgrid %>%
       st_transform(4326),
@@ -530,9 +551,9 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
   
   addCircleMarkers(
     data=plot_feeders,
-    radius = 3,
-    stroke = TRUE, color = ~feed.pal(Type), weight = 1,
-    fillColor = ~feed.pal(Type), fillOpacity = 0.2
+    radius = 2,
+    stroke = TRUE, color = "black", weight = 1,   ###~feed.pal(Type)
+    fillColor = "grey25", fillOpacity = 0.5   ## ~feed.pal(Type)
   ) %>%
   
   addCircleMarkers(
@@ -553,13 +574,13 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     opacity = 1,
     title = "Predicted probability of </br>anthropogenic feeding"
   ) %>%
-  addLegend(     # legend for known feeding sites
-    position = "topleft",
-    pal = feed.pal,
-    values = plot_feeders$Type,
-    opacity = 1,
-    title = "Type of feeding station"
-  ) %>%
+  # addLegend(     # legend for known feeding sites
+  #   position = "topleft",
+  #   pal = feed.pal,
+  #   values = plot_feeders$Type,
+  #   opacity = 1,
+  #   title = "Type of feeding station"
+  # ) %>%
   addLegend(     # legend for known feeding sites
     position = "topleft",
     pal = val.pal,
@@ -584,18 +605,26 @@ st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas.kml",append=
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## COMPARE DATA BETWEEN SUCCESSFUL AND FAILED PREDICTIONS   #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+
+# New facet label names for predictor variable
+var.labs <- c("Total N of GPS locations","N individuals","N feeding locations","N feeding individuals","Proportion of feeding individuals",
+              "Proportion of feeding locations")
+names(var.labs) <- names(VAL_DAT)[1:6]
+
+
 VAL_DAT %>%
   st_drop_geometry() %>%
-  select(-FEEDER_observed,-FEEDER_predicted) %>%
+  select(-FEEDER_predicted) %>%
   gather(key=variable, value=value,-Classification) %>%
   filter(!(variable=="n" & value>45000)) %>%  ### remove a single outlier value
   filter(!(variable=="N_feed_ind" & value>30)) %>%  ### remove a single outlier value
   filter(!(variable=="N_feed_points" & value>500)) %>%  ### remove a single outlier value
+  dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels2)) %>%
   
   
   ggplot(aes(x=Classification, y=value)) +
   geom_boxplot() +
-  facet_wrap(~variable, ncol=3, scales="free_y") +
+  facet_wrap(~variable, ncol=3, scales="free_y",labeller = labeller(variable = var.labs)) +
   labs(x="Prediction of grid cells with known anthropogenic feeding",
        y="Value of respective variable") +
   ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
