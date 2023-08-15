@@ -275,15 +275,15 @@ FEEDER_buff<- FEEDERS %>% st_transform(crs = 3035) %>%
 ### EXPERIMENTAL FEEDING STATIONS
 EXPFEEDERS<- fread("data/experimental_feeding.csv") %>%
   mutate(long=as.numeric(lon)) %>%
-  group_by(nest_name) %>%
-  summarise(lat=mean(lat,na.rm=T),long=mean(long, na.rm=T)) %>%
+  # group_by(nest_name) %>%
+  # summarise(lat=mean(lat,na.rm=T),long=mean(long, na.rm=T)) %>%
   filter(!is.na(long)) %>%
   filter(!is.na(lat)) %>%
   st_as_sf(coords = c("long", "lat"))
 st_crs(EXPFEEDERS) <- 4326
 EXPFEEDERS_buff<- EXPFEEDERS %>% st_transform(crs = 3035) %>%
   st_buffer(dist=50) %>%
-  select(nest_name) %>%
+  select(nest_name,Timepoint,food_placed) %>%
   rename(feeder_id=nest_name)
 
 
@@ -301,6 +301,7 @@ PLATFORMS_buff
 
 
 ### SUMMARY OF NUMBER OF FEEDERS
+## this makes only sense if the experimental feeders have been grouped
 dim(FEEDERS)[1] +
 dim(EXPFEEDERS)[1] +
 dim(PLATFORMS)[1]
@@ -398,3 +399,4 @@ track_sf <- track_sf %>%
 fwrite(as.data.frame(track_sf),"data/REKI_annotated_feeding.csv")
 saveRDS(track_sf, file = "data/REKI_trackingdata_annotated.rds")
 head(track_sf)
+dim(track_sf)
