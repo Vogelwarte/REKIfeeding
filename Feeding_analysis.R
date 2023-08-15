@@ -4,6 +4,7 @@
 # original idea by Nathalie Heiniger (MSc thesis 2020)
 # uses csv table prepared by "Feeding_data_prep.r"
 # created by steffen.oppel@vogelwarte.ch in June 2023
+# minor change
 
 library(tidyverse)
 library(dplyr, warn.conflicts = FALSE)
