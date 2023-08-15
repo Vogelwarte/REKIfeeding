@@ -618,7 +618,7 @@ library(rmarkdown)
 
 ### create HTML report for overall summary report
 # Sys.setenv(RSTUDIO_PANDOC="C:/Users/Inge Oppel/AppData/Local/Pandoc")
-# Sys.setenv(RSTUDIO_PANDOC="C:/Program Files/RStudio/bin/pandoc")
+# Sys.setenv(RSTUDIO_PANDOC="C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools")
 #
 # rmarkdown::render('C:\\Users\\sop\\OneDrive - Vogelwarte\\REKI\\Analysis\\Feeding\\Feeding_Analysis_report2023_v2.Rmd',
 #                   output_file = "Feeding_Analysis_Progress2023.html",
