@@ -27,7 +27,7 @@ sf_use_s2(FALSE) # deactivating spherical geometry s2
 
 
 ## set root folder for project
-setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding")
+setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIFeeding")
 
 
 
@@ -274,13 +274,16 @@ FEEDER_buff<- FEEDERS %>% st_transform(crs = 3035) %>%
 
 ### EXPERIMENTAL FEEDING STATIONS
 EXPFEEDERS<- fread("data/experimental_feeding.csv") %>%
-  filter(!is.na(lon)) %>%
+  mutate(long=as.numeric(lon)) %>%
+  group_by(nest_name) %>%
+  summarise(lat=mean(lat,na.rm=T),long=mean(long, na.rm=T)) %>%
+  filter(!is.na(long)) %>%
   filter(!is.na(lat)) %>%
-  st_as_sf(coords = c("lon", "lat"))
+  st_as_sf(coords = c("long", "lat"))
 st_crs(EXPFEEDERS) <- 4326
 EXPFEEDERS_buff<- EXPFEEDERS %>% st_transform(crs = 3035) %>%
   st_buffer(dist=50) %>%
-  select(nest_name,Timepoint,food_placed) %>%
+  select(nest_name) %>%
   rename(feeder_id=nest_name)
 
 
@@ -295,6 +298,12 @@ PLATFORMS_buff<- PLATFORMS %>% st_transform(crs = 3035) %>%
   select(Name,year,n_event,start_date,end_date) %>%
   rename(feeder_id=Name)
 PLATFORMS_buff
+
+
+### SUMMARY OF NUMBER OF FEEDERS
+dim(FEEDERS)[1] +
+dim(EXPFEEDERS)[1] +
+dim(PLATFORMS)[1]
 
 
 ### NESTS
