@@ -4,7 +4,7 @@
 # original idea by Nathalie Heiniger (MSc thesis 2020)
 # uses csv table prepared by "Feeding_data_prep.r"
 # created by steffen.oppel@vogelwarte.ch in June 2023
-# minor change
+# 15 Aug: updated graphs to make nice ppt presentation
 
 library(tidyverse)
 library(dplyr, warn.conflicts = FALSE)
@@ -139,8 +139,61 @@ leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom
     fillColor = ~pal(log(n+1)), fillOpacity = 0.5
   )
 
-# ANALYSING DATA -----------------------------------------------------------------
 
+
+########## CREATE A LEAFLET MAP TO SHOW APPROACH OF OVERLAYING FEEDING AND NON-FEEDING LOCATIONS ########################
+
+### NEED TO FIND GOOD EXAMPLE BIRD FOR DEMO ###
+sort(unique(DATA$FEED_ID))
+DATA %>% filter (FEEDER=="YES") %>% filter(revisits>370)
+
+## need to specify color palette 
+# If you want to set your own colors manually:
+res.pal <- colorNumeric(c("grey15","firebrick"), seq(0,600))
+mF <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+  setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
+  htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
+                           position: 'bottomright' }).addTo(this)}"
+  ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
+  addProviderTiles("Esri.WorldImagery", group = "Satellite",
+                   options = providerTileOptions(opacity = 0.4, attribution = F,minZoom = 5, maxZoom = 20)) %>%
+  # addPolylines(
+  #   data=DATA %>% filter(year_id=="2018_459"),
+  #   lng = ~long, lat = ~lat, group = ~year_id,
+  #   color = "red", weight = 1
+  #  ) %>%
+  addCircleMarkers(
+    data=track_sf %>% filter(year_id=="2018_459") %>% st_transform(4326),
+    radius = 5,
+    stroke = TRUE, color = ~res.pal(revisits), weight = 0.8,
+    fillColor = ~res.pal(revisits), fillOpacity = 0.8
+  ) %>%
+  addCircleMarkers(
+    data=plot_feeders,
+    radius = 10,
+    stroke = TRUE, color = "cornflowerblue", weight = 1,   ###~feed.pal(Type)
+    fillColor = "cornflowerblue", fillOpacity = 0.8   ## ~feed.pal(Type)
+  ) %>%
+
+  
+  addLegend(     # legend for predicted prob of feeding
+    position = "topleft",
+    pal = res.pal,
+    values = DATA$revisits,
+    opacity = 1,
+    title = "Number of </br>repeat visits"
+  ) %>%
+  
+  addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
+
+mF
+
+
+
+
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## ANALYSING DATA IN RANDOM FOREST  #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 
 
 
@@ -335,7 +388,6 @@ plot_feeders<-rbind(plot_feeders,plot_feeders2,plot_feeders3)
 # ########## PLOT THE MAP FOR KNOWN AND OBSERVED FEEDING STATIONS   #############
 # ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 #   
-#   ########## CREATE A LEAFLET MAP OF PREDICTED FEEDING LOCATIONS ########################
 #  
 # head(OUT)    
 #   
@@ -345,6 +397,55 @@ plot_OUT<-OUT %>%
   filter(feed_prob>THRESH_pts) %>%
   #filter(FEEDER_predicted=="YES") %>%
   st_as_sf(coords = c("long", "lat"), crs = 4326)
+
+
+
+########## CREATE A LEAFLET MAP TO SHOW APPROACH OF OVERLAYING FEEDING AND NON-FEEDING LOCATIONS ########################
+
+## need to specify color palette 
+# If you want to set your own colors manually:
+pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
+m1 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+  setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
+  htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
+                           position: 'bottomright' }).addTo(this)}"
+  ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
+  addProviderTiles("Esri.WorldImagery", group = "Satellite",
+                   options = providerTileOptions(opacity = 0.4, attribution = F,minZoom = 5, maxZoom = 20)) %>%
+  
+  addCircleMarkers(
+    data=track_nofor_day_build,
+    radius = 2,
+    stroke = TRUE, color = "grey15", weight = 0.6,
+    fillColor = "grey15", fillOpacity = 0.6
+  ) %>%
+  addCircleMarkers(
+    data=plot_OUT,
+    radius = 5,
+    stroke = TRUE, color = ~pred.pal(feed_prob), weight = 0.8,
+    fillColor = ~pred.pal(feed_prob), fillOpacity = 0.8,
+    popup = ~ paste0("year ID: ", plot_OUT$year_id, "<br>", plot_OUT$timestamp)
+  ) %>%
+  addPolygons(
+    data=grid %>%
+      st_transform(4326),
+    stroke = TRUE, color = "black", weight = 1,
+    fillColor = NA, fillOpacity = 0
+  ) %>%
+
+  addLegend(     # legend for predicted prob of feeding
+    position = "topleft",
+    pal = pred.pal,
+    values = plot_OUT$feed_prob,
+    opacity = 1,
+    title = "Probability of </br>anthropogenic feeding"
+  ) %>%
+
+  addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
+
+m1
+
+
 
 
 
