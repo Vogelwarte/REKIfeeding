@@ -40,6 +40,39 @@ WGS84_coords ="+init=epsg:4326"
 CH_LV03_coords ="+init=epsg:21781"
 
 
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## CALCULATE DISTANCE FROM PREDICTED FEEDING SITE TO NEAREST KNOWN SITE   #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+
+# READ IN FEEDING LOCATIONS
+plot_feeders<-fread("data/Private_Feeders/private_feeders_upd2022.csv") %>% 
+  filter(!is.na(coordX)) %>%
+  st_as_sf(coords = c("coordX", "coordY"), crs=21781) %>%
+  st_transform(crs = 4326) %>%
+  mutate(Type="Private") %>%
+  select(Type)
+
+### EXPERIMENTAL FEEDING STATIONS
+plot_feeders2<- fread("data/experimental_feeding.csv") %>%
+  filter(!is.na(lon)) %>%
+  filter(!is.na(lat)) %>%
+  st_as_sf(coords = c("lon", "lat"), crs=4326)%>%
+  mutate(Type="Experimental") %>%
+  select(Type)
+
+### FEEDING PLATFORMS - are also experimental
+plot_feeders3<- fread("data/feeding_platforms_15_16.csv") %>%
+  filter(!is.na(x)) %>%
+  mutate(start_date=dmy(start_date), end_date=dmy(end_date)) %>%
+  st_as_sf(coords = c("x", "y"), crs=21781) %>%
+  st_transform(crs = 4326)%>%
+  mutate(Type="Experimental") %>%
+  select(Type)
+
+plot_feeders<-rbind(plot_feeders,plot_feeders2,plot_feeders3)
+
+
+
 
 ### READ IN SHAPEFILES OF FOREST AND BUILDINGS
 buildings <- st_read("data/Buildings/tlm_buildings_studyareaExtra_size65_buff_50m_sf_singlepoly.shp", stringsAsFactors=FALSE) %>%
@@ -350,37 +383,6 @@ THRESH_pts<-pROC::coords(ROC_val, "best", "threshold")$threshold
 
 
 
-
-##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-########## CALCULATE DISTANCE FROM PREDICTED FEEDING SITE TO NEAREST KNOWN SITE   #############
-##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-
-# READ IN FEEDING LOCATIONS
-plot_feeders<-fread("data/Private_Feeders/private_feeders_upd2022.csv") %>% 
-  filter(!is.na(coordX)) %>%
-  st_as_sf(coords = c("coordX", "coordY"), crs=21781) %>%
-  st_transform(crs = 4326) %>%
-  mutate(Type="Private") %>%
-  select(Type)
-
-### EXPERIMENTAL FEEDING STATIONS
-plot_feeders2<- fread("data/experimental_feeding.csv") %>%
-  filter(!is.na(lon)) %>%
-  filter(!is.na(lat)) %>%
-  st_as_sf(coords = c("lon", "lat"), crs=4326)%>%
-  mutate(Type="Experimental") %>%
-  select(Type)
-
-### FEEDING PLATFORMS - are also experimental
-plot_feeders3<- fread("data/feeding_platforms_15_16.csv") %>%
-  filter(!is.na(x)) %>%
-  mutate(start_date=dmy(start_date), end_date=dmy(end_date)) %>%
-  st_as_sf(coords = c("x", "y"), crs=21781) %>%
-  st_transform(crs = 4326)%>%
-  mutate(Type="Experimental") %>%
-  select(Type)
-
-plot_feeders<-rbind(plot_feeders,plot_feeders2,plot_feeders3)
 
 
  
