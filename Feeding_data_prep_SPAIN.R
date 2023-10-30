@@ -223,3 +223,7 @@ mF <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
   addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
 
 mF
+
+
+
+

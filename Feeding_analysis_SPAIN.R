@@ -26,18 +26,80 @@ setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
 
 # LOADING DATA -----------------------------------------------------------------
 ### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES 
-track_sf<-load(file = "data/REKI_trackingdata_Spain.rds")
+track_sf<-readRDS(file = "data/REKI_trackingdata_Spain.rds")
+
+### READ IN SHAPEFILES OF RUBBISH DUMPS
+## add layers that Jaume sent and from 
+
+dumps <- st_read("data/Spain/Vertederos.shp") %>% 
+  st_drop_geometry() %>%   ## for some reason the CRS is weird and wrong
+  st_as_sf(coords = c("LONGITUD", "LATITUD"))
+st_crs(dumps) <- 4326
+
+
+
+### basic stats
+length(unique(DATA$year_id))
+length(unique(DATA$bird_id))
+length(unique(DATA$FEED_ID))
+
+
+# CREATING BASELINE MAP OF POINT DENSITY IN SPAIN -----------------------------------------------------------------
+
+grid <- dumps %>%
+  st_transform(5635) %>% 
+  st_make_grid(cellsize = 500, what = "polygons",
+               square = FALSE) # This statements leads to hexagons
+sum(st_area(grid))/1000000  ## size of study area in sq km
+
+tab <- st_intersects(grid, track_sf)
+lengths(tab)
+countgrid <- st_sf(n = lengths(tab), geometry = st_cast(grid, "MULTIPOLYGON")) %>%
+  st_transform(5635)
+summary(log(countgrid$n+1))
+pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,10))
+
+
+leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+  htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
+                           position: 'bottomright' }).addTo(this)}"
+  ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
+  addProviderTiles("Esri.WorldImagery", group = "Satellite",
+                   options = providerTileOptions(opacity = 0.6, attribution = F)) %>%
+  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F)) %>%  
+  addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
+  
+  addPolygons(
+    data=countgrid %>%
+      st_transform(4326),
+    stroke = TRUE, color = ~pal(log(n+1)), weight = 1,
+    fillColor = ~pal(log(n+1)), fillOpacity = 0.5
+  ) %>%
+  
+  addCircleMarkers(
+    data=dumps,
+    radius = 5,
+    stroke = TRUE, color = "green", weight = 0.8,
+    fillColor = "green", fillOpacity = 0.8
+  ) %>%
+  
+  addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
 
 
 
 
-################ CREATE VARIOUS SUBSETS TO IMPROVE RATIO OF CLASS MEMBERSHIP
+
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## APPLYING RANDOM FOREST MODEL TO SPANISH DATA        #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+RF2<-readRDS("output/feed_site_RF_model.rds")
+
+
+################ TAKE SUBSET OF DATA AND PREPARE DATA FOR PREDICTION#######################
 track_day<-track_sf %>% dplyr::filter(tod_=="day")
 
-
-################ PREPARE DATA FOR PREDICTION
-
 DATA <- track_day %>%
+  st_drop_geometry() %>%
   mutate(YDAY=yday(t_), hour=hour(t_), month=month(t_)) %>%
   filter(!is.na(step_length)) %>%
   filter(!is.na(turning_angle)) %>%
@@ -45,14 +107,161 @@ DATA <- track_day %>%
   filter(!is.na(mean_speed)) %>%
   filter(!is.na(mean_angle)) %>%
   select(-tod_) %>%
+  mutate(BUILD=1, NEST=0, dist_nest=100000) %>%
   mutate(point_id=seq_along(t_))
 head(DATA)
+str(DATA)
 
 
-### basic stats
-length(unique(DATA$year_id))
-length(unique(DATA$bird_id))
-length(unique(DATA$FEED_ID))
+### PREDICT FORAGING BEHAVIOUR ###
+PRED<-stats::predict(RF2,data=DATA, type = "response")
+
+DATA <- DATA %>%
+  dplyr::bind_cols(PRED$predictions) %>%
+  dplyr::rename(no_feed_prob = NO, feed_prob = YES) %>%
+  dplyr::mutate(FEEDER_predicted = as.factor(dplyr::case_when(feed_prob > 0.5 ~ "YES",
+                                                              feed_prob < 0.5 ~ "NO")))
+
+
+
+
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## SECOND LEVEL PREDICTION: COUNT POINTS AND INDIVIDUALS IN GRID   #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+
+#### FIRST COUNT N INDIVIDUALS PER GRID CELL
+
+for(c in 1:length(tab)){
+  countgrid$N_ind[c]<-length(unique(track_sf$year_id[tab[c][[1]]]))
+}
+
+#### SECOND COUNT N INDIVIDUALS AND PREDICTED FEEDING LOCS PER GRID CELL
+OUT_sf<-DATA %>%
+  filter(FEEDER_predicted=="YES") %>%
+  st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
+  st_transform(3035)
+tab2 <- st_intersects(grid, OUT_sf)
+countgrid$N_feed_points<-lengths(tab2)
+for(c in 1:length(tab2)){
+  countgrid$N_feed_ind[c]<-length(unique(OUT_sf$year_id[tab2[c][[1]]]))
+}
+
+### MANIPULATE COUNTED ANIMALS INTO PROPORTIONS
+
+countgrid<-countgrid %>%
+  mutate(prop_feed=N_feed_ind/N_ind) %>%
+  mutate(prop_pts=N_feed_points/n)
+
+
+### overlay feeder data with countgrid
+feed_grd<-st_intersects(countgrid,(plot_feeders %>% st_transform(3035)))
+countgrid$FEEDER<-lengths(feed_grd) 
+
+
+PRED_GRID<-countgrid %>% 
+  mutate(gridid=seq_along(n)) %>%
+  filter(n>10) %>%
+  st_drop_geometry() %>%
+  mutate(FEEDER=ifelse(FEEDER==0,0,1))
+
+RF3<-readRDS("output/feed_grid_RF_model.rds")
+
+
+
+########## CREATE OUTPUT GRID WITH PREDICTED FEEDING LOCATIONS ########################
+
+OUTgrid<-countgrid %>% select(-FEEDER) %>%
+  mutate(gridid=seq_along(n)) %>%
+  left_join(PRED_GRID, by=c("gridid","n","N_ind","N_feed_points","N_feed_ind","prop_feed","prop_pts")) %>%
+  filter(!is.na(FEEDER_predicted))
+
+
+
+
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## PLOT THE MAP FOR KNOWN AND OBSERVED FEEDING STATIONS   #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+
+########## CREATE A LEAFLET MAP OF PREDICTED FEEDING LOCATIONS ########################
+
+## need to specify color palette 
+# If you want to set your own colors manually:
+pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
+feed.pal <- colorFactor(c("darkgreen","lightgreen"), unique(plot_feeders$Type))
+val.pal <- colorFactor(c("green","red"), unique(VAL_DAT$Classification))
+m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+  setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
+  htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
+                           position: 'bottomright' }).addTo(this)}"
+  ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
+  addProviderTiles("Esri.WorldImagery", group = "Satellite",
+                   options = providerTileOptions(opacity = 0.6, attribution = F,minZoom = 5, maxZoom = 20)) %>%
+  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 15)) %>%  
+  addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
+  
+  addPolygons(
+    data=OUTgrid %>%
+      st_transform(4326),
+    stroke = TRUE, color = ~pred.pal(FEEDER_predicted), weight = 1,
+    fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5,
+    popup = ~as.character(paste("N_pts=",n,"/ N_ind=",N_ind,"/ Prop feed pts=",round(prop_feed,3), sep=" ")),
+    label = ~as.character(round(FEEDER_predicted,3))
+  ) %>%
+  
+  addCircleMarkers(
+    data=plot_feeders,
+    radius = 2,
+    stroke = TRUE, color = "black", weight = 1,   ###~feed.pal(Type)
+    fillColor = "grey25", fillOpacity = 0.5   ## ~feed.pal(Type)
+  ) %>%
+  
+  addCircleMarkers(
+    data=VAL_DAT %>%
+      st_transform(4326),
+    radius = 5,
+    stroke = TRUE, color = ~val.pal(Classification), weight = 1,
+    fillColor = ~val.pal(Classification), fillOpacity = 1,
+    popup = ~as.character(paste(round(FEEDER_predicted,3),"/ N_ind=",N_ind,"/ Prop feed pts=",round(prop_feed,3), sep=" ")),
+    label = ~as.character(round(FEEDER_predicted,3))
+  ) %>%
+  
+  
+  addLegend(     # legend for predicted prob of feeding
+    position = "topleft",
+    pal = pred.pal,
+    values = OUTgrid$FEEDER_predicted,
+    opacity = 1,
+    title = "Predicted probability of </br>anthropogenic feeding"
+  ) %>%
+  
+  
+  addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
+
+m2
+
+
+htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids.html")
+mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids.html")
+st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas.kml",append=FALSE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # CREATING BASELINE MAP OF SAMPLING INTENSITY -----------------------------------------------------------------
@@ -177,143 +386,8 @@ suppressWarnings({trainmat<-caret::confusionMatrix(data = DATA_TRAIN$FEEDER_obse
 #### classification success of test data
 
 PRED<-stats::predict(RF2,data=DATA_TEST, type = "response")
-prevalence<-table(DATA_TEST$FEEDER)[2]/sum(table(DATA_TEST$FEEDER))
-DATA_TEST <- DATA_TEST %>%
-  dplyr::mutate(FEEDER_observed = factor(FEEDER,levels=c("NO","YES"))) %>%
-  dplyr::bind_cols(PRED$predictions) %>%
-  dplyr::rename(no_feed_prob = NO, feed_prob = YES) %>%
-  dplyr::mutate(FEEDER_predicted = as.factor(dplyr::case_when(feed_prob > prevalence ~ "YES",
-                                                              feed_prob < prevalence ~ "NO")))
-
-suppressWarnings({testmat<-caret::confusionMatrix(data = DATA_TEST$FEEDER_observed, reference = DATA_TEST$FEEDER_predicted, positive="YES")})
-
-## export data for further use in outcome prediction
-OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
-
-
-#### CREATE PLOT FOR VARIABLE IMPORTANCE
-  mylevels<-IMP$variable[10:1]
-  impplot<-IMP[10:1,] %>%
-    dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels)) %>%
-    ggplot2::ggplot(ggplot2::aes(x=variable, y=rel.imp)) +
-    ggplot2::geom_bar(stat='identity', fill='lightblue') +
-    ggplot2::coord_flip()+
-    ggplot2::ylab("Variable importance (%)") +
-    ggplot2::xlab("Explanatory variable") +
-    ggplot2::scale_y_continuous(limits=c(-5,105), breaks=seq(0,100,20), labels=seq(0,100,20))+
-    ggplot2::scale_x_discrete(name="",limit = mylevels,
-                     labels = c("step length [m]",
-                                "building present [y/n]",
-                                "age [years]",                              
-                                "distance to nest [m]",
-                                "attendance pattern [visits/day]",
-                                "time span of visitation [days]",
-                                "frequency of visits",
-                                "N of days",
-                                "attendance duration [hrs]",
-                                "N of repeat visits"))  +
-    ggplot2::annotate("text",x=2,y=80,label=paste("Accuracy = ",round(testmat$byClass[3],3)),size=8) +
-    ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
-                   axis.text.x=ggplot2::element_text(size=18, color="black"),
-                   axis.text.y=ggplot2::element_text(size=16, color="black"), 
-                   axis.title=ggplot2::element_text(size=20), 
-                   panel.grid.major = ggplot2::element_blank(), 
-                   panel.grid.minor = ggplot2::element_blank(), 
-                   panel.border = ggplot2::element_blank())
-  print(impplot)
-
-  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
-  
-  
-  
-  ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-  ########## VALIDATE PREDICTIONS WITH SURVEY DATA FROM EVA CEREGHETTI AND FIONA PELLET  #############
-  ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-  ## read in survey data from Eva Cereghetti
-  ## Q1 is the question whether they feed or not
-  setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
-  feed_surveys<-fread("data/survey.final.csv") %>% #filter(Q1=="Ja") %>%
-    mutate(FEEDER_surveyed=ifelse(Q1=="Ja",1,0)) %>%
-    select(nr,coord_x,coord_y,square,random,area,building.type,FEEDER_surveyed) %>%
-    st_as_sf(coords = c("coord_x", "coord_y"), crs=21781) %>%
-    st_transform(crs = 3035) 
-  
-  ## read in survey from Fiona Pellet provided with addresses only
-  ## Jerome Guelat provided R script to convert addresses to coordinates
-  source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
-  library(stringi)
-  
-  ## Feeding is the question whether they feed or not
-  feed_surveys2<-read_csv("data/FeedersFionaPelle.csv", locale = locale(encoding = "UTF-8")) %>%
-    #<-fread("data/FeedersFionaPelle.csv", encoding = 'UTF-8') %>% 
-    mutate(FEEDER_surveyed=ifelse(Feeding=="Yes",1,0))
-  
-  ## generate coordinates from addresses
-  feed_surveys2_locs<-swissgeocode(address=as.character(feed_surveys2$Address), nresults=3)
-  
-  feed_surv2_sf<-feed_surveys2_locs %>% rename(Address=address_origin) %>%
-    left_join(feed_surveys2, by="Address",relationship ="many-to-many") %>%
-    filter(!is.na(x)) %>%
-    filter(!is.na(FEEDER_surveyed)) %>%
-    group_by(lon,lat) %>%
-    summarise(FEEDER_surveyed=max(FEEDER_surveyed)) %>%
-    st_as_sf(coords = c("lon", "lat"), crs=4326) %>%
-    st_transform(crs = 3035) %>%
-    bind_rows(feed_surveys)
-  feed_surv2_sf$FEEDER_surveyed
-
-## create 50 m buffer around feeders  
-VAL_FEED_BUFF <-feed_surv2_sf %>%
-  st_buffer(dist=50) %>%
-  select(FEEDER_surveyed)
-
-VAL_DAT<-OUT  %>%
-  st_as_sf(coords = c("long", "lat"), crs=4326) %>%
-  st_transform(crs = 3035) %>%
-  st_join(VAL_FEED_BUFF,
-          join = st_intersects, 
-          left = TRUE) %>%
-  mutate(FEEDER_surveyed=ifelse(is.na(FEEDER_surveyed),0,FEEDER_surveyed)) %>%
-  dplyr::mutate(FEEDER_surveyed = as.factor(dplyr::case_when(FEEDER_surveyed==1 ~ "YES",
-                                                             FEEDER_surveyed==0 ~ "NO"))) %>%
-  mutate(FEEDER_observed=as.factor(dplyr::if_else(as.character(FEEDER_surveyed)=="YES",FEEDER_surveyed,FEEDER_observed))) %>%
-  mutate(feed_obs_num=as.numeric(FEEDER_observed)-1)
-str(VAL_DAT)  
-suppressWarnings({valmat<-caret::confusionMatrix(data = VAL_DAT$FEEDER_observed, reference = VAL_DAT$FEEDER_predicted, positive="YES")})
-valmat
-  
-## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
-## but we use ROC curve to identify threshold
-ROC_val<-pROC::roc(data=VAL_DAT,
-             response=feed_obs_num,
-             predictor=feed_prob)
-AUC_VAL<-pROC::auc(ROC_val)
-
-  
-
-### DEFINE PREDICTION THRESHOLD FOR FEEDING LOCATIONS ###
-THRESH_pts<-pROC::coords(ROC_val, "best", "threshold")$threshold
-
-
-
-
 
  
-# ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-# ########## PLOT THE MAP FOR KNOWN AND OBSERVED FEEDING STATIONS   #############
-# ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-#   
-#  
-# head(OUT)    
-#   
-# # create plotting frame
-#   
-plot_OUT<-OUT %>%
-  filter(feed_prob>THRESH_pts) %>%
-  #filter(FEEDER_predicted=="YES") %>%
-  st_as_sf(coords = c("long", "lat"), crs = 4326)
-
-
 
 ########## CREATE A LEAFLET MAP TO SHOW APPROACH OF OVERLAYING FEEDING AND NON-FEEDING LOCATIONS ########################
 
