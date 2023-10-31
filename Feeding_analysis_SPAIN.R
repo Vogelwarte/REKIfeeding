@@ -113,8 +113,8 @@ PRED<-stats::predict(RF2,data=DATA, type = "response")
 DATA <- DATA %>%
   dplyr::bind_cols(PRED$predictions) %>%
   dplyr::rename(no_feed_prob = NO, feed_prob = YES) %>%
-  dplyr::mutate(FEEDER_predicted = as.factor(dplyr::case_when(feed_prob > 0.15 ~ "YES",
-                                                              feed_prob < 0.15 ~ "NO")))
+  dplyr::mutate(FEEDER_predicted = as.factor(dplyr::case_when(feed_prob > 0.02367809 ~ "YES",   ### prevalence as estimated by Feeding_analysis.r
+                                                              feed_prob < 0.02367809 ~ "NO")))
 
 
 
@@ -232,9 +232,9 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
 m2
 
 
-htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids.html")
-mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids.html")
-st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas.kml",append=FALSE)
+htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/REKI_predicted_anthropogenic_feeding_areas_SPAIN.html")
+mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/REKI_predicted_anthropogenic_feeding_areas_SPAIN.html")
+st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas_SPAIN.kml",append=FALSE)
 
 
 
