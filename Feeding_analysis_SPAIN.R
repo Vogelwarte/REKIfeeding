@@ -113,8 +113,10 @@ PRED<-stats::predict(RF2,data=DATA, type = "response")
 DATA <- DATA %>%
   dplyr::bind_cols(PRED$predictions) %>%
   dplyr::rename(no_feed_prob = NO, feed_prob = YES) %>%
-  dplyr::mutate(FEEDER_predicted = as.factor(dplyr::case_when(feed_prob > 0.02367809 ~ "YES",   ### prevalence as estimated by Feeding_analysis.r
-                                                              feed_prob < 0.02367809 ~ "NO")))
+  dplyr::mutate(FEEDER_predicted = as.factor(dplyr::case_when(feed_prob > 0.15 ~ "YES",   ### prevalence as estimated by Feeding_analysis.r
+                                                              feed_prob < 0.15 ~ "NO")))
+  # dplyr::mutate(FEEDER_predicted = as.factor(dplyr::case_when(feed_prob > 0.02367809 ~ "YES",   ### prevalence as estimated by Feeding_analysis.r
+  #                                                             feed_prob < 0.02367809 ~ "NO")))
 
 
 
