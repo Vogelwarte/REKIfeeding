@@ -246,7 +246,7 @@ IMP<-as.data.frame(RF2$variable.importance) %>%
   dplyr::arrange(dplyr::desc(red.accuracy)) %>%
   dplyr::mutate(rel.imp=(red.accuracy/max(red.accuracy))*100) %>%
   dplyr::select(variable,red.accuracy,rel.imp)
-
+write.table(IMP,"clipboard", sep="\t")
 
 #### classification success of training data
 
@@ -509,7 +509,7 @@ IMP2<-as.data.frame(RF3$variable.importance) %>%
   dplyr::arrange(dplyr::desc(red.accuracy)) %>%
   dplyr::mutate(rel.imp=(red.accuracy/max(red.accuracy))*100) %>%
   dplyr::select(variable,red.accuracy,rel.imp)
-
+write.table(IMP2,"clipboard", sep="\t")
 
 #### classification success of training data
 

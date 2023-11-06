@@ -22,6 +22,9 @@ sf_use_s2(FALSE)
 library(pROC)
 library(amt)
 library(recurse)
+library(rworldmap)
+SUI<-st_as_sf(rworldmap::countriesLow) %>% filter(SOVEREIGNT=="Switzerland")
+# SUI<-st_read("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/SUISSE/ch_1km.shp")
 
 ## set root folder for project
 setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
@@ -400,7 +403,7 @@ m4 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
                            position: 'bottomright' }).addTo(this)}"
   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
   addProviderTiles("Esri.WorldImagery", group = "Satellite",
-                   options = providerTileOptions(opacity = 0.6, attribution = F,minZoom = 5, maxZoom = 20)) %>%
+                   options = providerTileOptions(opacity = 0.2, attribution = F,minZoom = 5, maxZoom = 20)) %>%
   addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 15)) %>%  
   addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
   
@@ -417,6 +420,12 @@ m4 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5,
     popup = ~as.character(paste(round(FEEDER_predicted,3),"/ N_ind=",N_ind,"/ Prop feed pts=",round(prop_feed,3), sep=" ")),
     label = ~as.character(round(FEEDER_predicted,3))
+  ) %>%
+  
+  addPolylines(
+    data=SUI %>%
+      st_transform(4326),
+    stroke = TRUE, color = "black", weight = 1.5
   ) %>%
   
   addLegend(     # legend for predicted prob of feeding

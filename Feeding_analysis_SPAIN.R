@@ -20,6 +20,10 @@ library(stars)
 filter<-dplyr::filter
 sf_use_s2(FALSE)
 library(pROC)
+library(rworldmap)
+ESP<-st_as_sf(rworldmap::countriesLow) %>% filter(SOVEREIGNT %in% c("Portugal","Spain"))
+# SUI<-st_read("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/SUISSE/ch_1km.shp")
+
 
 ## set root folder for project
 setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
@@ -199,7 +203,7 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
                            position: 'bottomright' }).addTo(this)}"
   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
   addProviderTiles("Esri.WorldImagery", group = "Satellite",
-                   options = providerTileOptions(opacity = 0.6, attribution = F,minZoom = 5, maxZoom = 20)) %>%
+                   options = providerTileOptions(opacity = 0.2, attribution = F,minZoom = 5, maxZoom = 20)) %>%
   addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 15)) %>%  
   addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
   
@@ -218,6 +222,12 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     radius = 2,
     stroke = TRUE, color = "green", weight = 1,   ###~feed.pal(Type)
     fillColor = "green", fillOpacity = 0.5   ## ~feed.pal(Type)
+  ) %>%
+  
+  addPolylines(
+    data=ESP %>%
+      st_transform(4326),
+    stroke = TRUE, color = "black", weight = 1.5
   ) %>%
   
   addLegend(     # legend for predicted prob of feeding
@@ -241,6 +251,34 @@ st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas_SPAIN.kml",a
 
 
 
+
+
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## VALIDATE PREDICTIONS WITH INDEPENDENT RUBBISH DUMP DATA  #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+dumps <- dumps %>%
+  st_transform(5635)
+validat <- st_intersection(dumps,OUTgrid) %>%
+  filter(!is.na(n))  ## excludes grids with no tracking data
+summary(validat$FEEDER_predicted)
+
+
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## SUMMARISE VALIDATION DATA  #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+VAL_DAT<-validat %>%
+  select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_predicted) %>%
+  mutate(Classification=ifelse(FEEDER_predicted>THRESH,"correct","missed"))
+
+### summarise the predicted sites
+table(VAL_DAT$Classification)[1]
+summary(VAL_DAT$FEEDER_predicted)
+mean(VAL_DAT$FEEDER_predicted)
+table(VAL_DAT$Classification)[1]/dim(VAL_DAT)[1]
+min(VAL_DAT$n[VAL_DAT$Classification=="correct"])
+min(VAL_DAT$N_ind[VAL_DAT$Classification=="correct"])
+min(VAL_DAT$N_feed_points[VAL_DAT$Classification=="correct"])
+min(VAL_DAT$N_feed_ind[VAL_DAT$Classification=="correct"])
 
 
 
