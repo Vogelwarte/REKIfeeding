@@ -21,7 +21,13 @@ filter<-dplyr::filter
 sf_use_s2(FALSE)
 library(pROC)
 library(rworldmap)
-ESP<-st_as_sf(rworldmap::countriesLow) %>% filter(SOVEREIGNT %in% c("Portugal","Spain"))
+ESP<-st_as_sf(rworldmap::countriesLow) %>%
+  filter(SOVEREIGNT %in% c("Portugal","Spain")) %>%
+  st_cast("POLYGON")  %>%
+  st_transform(5635) %>%
+  mutate(Area=as.numeric(st_area(.))) %>%
+  filter(Area>10000000000)   ### removes all the islands
+plot(ESP)
 # SUI<-st_read("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/SUISSE/ch_1km.shp")
 
 
@@ -44,14 +50,16 @@ st_crs(dumps) <- 4326
 
 # CREATING BASELINE MAP OF POINT DENSITY IN SPAIN -----------------------------------------------------------------
 
-grid <- track_sf %>%
+grid <- ESP %>%
   st_make_grid(cellsize = 5000, what = "polygons",  ## increased from 500 to 5000 to manage computation
                square = FALSE) # This statements leads to hexagons
-sum(st_area(grid))/1000000  ## size of study area in sq km
 
-tab <- st_intersects(grid, track_sf)
+ESPgrid <-grid[lengths(st_intersects(grid,ESP))==1]
+sum(st_area(ESPgrid))/1000000  ## size of study area in sq km
+
+tab <- st_intersects(ESPgrid, track_sf)
 lengths(tab)
-countgrid <- st_sf(n = lengths(tab), geometry = st_cast(grid, "MULTIPOLYGON")) %>%
+countgrid <- st_sf(n=lengths(tab), geometry = st_cast(ESPgrid, "MULTIPOLYGON")) %>%
   st_transform(5635)
 summary(log(countgrid$n+1))
 pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,10.5))
@@ -73,6 +81,12 @@ leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom
     fillColor = ~pal(log(n+1)), fillOpacity = 0.5
   ) %>%
   
+  addPolylines(
+    data=ESP %>%
+      st_transform(4326),
+    stroke = TRUE, color = "black", weight = 1.5
+  ) %>%
+  
   addCircleMarkers(
     data=dumps,
     radius = 3,
@@ -82,8 +96,9 @@ leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom
   
   addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
 
-
-
+#### basic numbers of Spanish grid
+length(ESPgrid)
+dim(countgrid[countgrid$n>20,])[1]/length(ESPgrid)
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
@@ -140,7 +155,7 @@ OUT_sf<-DATA %>%
   filter(FEEDER_predicted=="YES") %>%
   st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
   st_transform(5635)
-tab2 <- st_intersects(grid, OUT_sf)
+tab2 <- st_intersects(ESPgrid, OUT_sf)
 countgrid$N_feed_points<-lengths(tab2)
 for(c in 1:length(tab2)){
   countgrid$N_feed_ind[c]<-length(unique(OUT_sf$year_id[tab2[c][[1]]]))
@@ -160,7 +175,7 @@ countgrid$FEEDER<-lengths(feed_grd)
 
 PRED_GRID<-countgrid %>% 
   mutate(gridid=seq_along(n)) %>%
-  filter(n>10) %>%
+  filter(n>20) %>%
   st_drop_geometry() %>%
   mutate(FEEDER=ifelse(FEEDER==0,0,1))
 
@@ -198,7 +213,7 @@ OUTgrid<-countgrid %>% select(-FEEDER) %>%
 # If you want to set your own colors manually:
 pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
 m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
-  setView(lng = mean(st_coordinates(dumps)[,1]), lat = mean(st_coordinates(dumps)[,2]), zoom = 11) %>%
+  setView(lng = mean(st_coordinates(dumps)[,1]), lat = mean(st_coordinates(dumps)[,2]), zoom = 7) %>%
   htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
                            position: 'bottomright' }).addTo(this)}"
   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
@@ -251,6 +266,13 @@ st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas_SPAIN.kml",a
 
 
 
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## SIMPLE NUMBERS FOR MANUSCRIPT  #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+
+
+dim(OUTgrid[OUTgrid$FEEDER_predicted>0.15,])
+dim(OUTgrid[OUTgrid$FEEDER_predicted>0.15,])/dim(OUTgrid)
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
