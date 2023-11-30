@@ -55,8 +55,35 @@ trackingdata <- trackingdata %>%
   filter(!is.na(timestamp)) %>%
   filter(!is.na(long)) %>%
   filter(!is.na(year_id))
-
 dim(trackingdata)
+
+
+#### CREATE SEASON ID as BREEDING and NONBREEDING SEASONS for each bird
+head(trackingdata)
+trackingdata <- trackingdata %>%
+  rename(bird_id = individual.local.identifier) %>%
+  mutate(season1 = ifelse(yday(timestamp)>70 ,"B","MB")) %>%
+  mutate(season2 = ifelse(yday(timestamp)>175 ,"NB","B")) %>%
+  mutate(season_id = ifelse(yday(timestamp)<70 ,
+                         paste(season1,year-1,bird_id,sep="_"),
+                         paste(season2,year,bird_id,sep="_"))
+  ) %>%
+  select(-season1,-season2) %>%
+  arrange(season_id,timestamp)
+
+  
+### REMOVE DUPLICATE TIME STAMPS AND THOSE WITH TOO FEW LOCATIONS ####
+dupes<-duplicated(trackingdata,by=c("timestamp","year_id","year","month","day","season_id","bird_id"))
+which(dupes==TRUE)
+trackingdata<-trackingdata[!dupes==T,]
+dim(trackingdata)
+
+length(unique(trackingdata$season_id))
+toofew<-trackingdata %>% mutate(count=1) %>% group_by(season_id) %>%
+  summarise(N=sum(count)) %>%
+  filter(N<20)
+trackingdata<-trackingdata %>% filter(!(season_id %in% toofew$season_id))
+
 
 
 # converting to metric CRS prior to estimating distances
@@ -73,11 +100,8 @@ head(track_sf)
 
 
 ### REMOVE DUPLICATE TIME STAMPS AND THOSE WITH TOO FEW LOCATIONS ####
-toofew<-track_sf %>% mutate(count=1) %>% group_by(year_id) %>%
-  summarise(N=sum(count)) %>%
-  filter(N<10)
-track_sf<-track_sf %>% filter(!(year_id %in% toofew$year_id))
-duplicates<-track_sf %>% mutate(count=1) %>% group_by(year_id, t_) %>%
+
+duplicates<-trackingdata %>% mutate(count=1) %>% group_by(year_id, timestamp) %>%
   summarise(N=sum(count)) %>%
   filter(N>1)
 
