@@ -14,10 +14,8 @@ library(lubridate)
 library(leaflet)
 library(adehabitatHR)
 library(stars)
-library(rworldmap)
 library(trip)
 library(sqldf)
-data(countriesLow)
 filter<-dplyr::filter
 sf_use_s2(FALSE)
 
@@ -81,43 +79,32 @@ dim(trackingdata)
 length(unique(trackingdata$season_id))
 toofew<-trackingdata %>% mutate(count=1) %>% group_by(season_id) %>%
   summarise(N=sum(count)) %>%
-  filter(N<20)
+  filter(N<10)
 trackingdata<-trackingdata %>% filter(!(season_id %in% toofew$season_id))
+dim(trackingdata)
 
 
-
-# converting to metric CRS prior to estimating distances
+# converting to metric CRS prior to curtailing data to extent of CHgrid
 track_sf <- trackingdata %>% 
   st_as_sf(coords = c("long", "lat"))
 st_crs(track_sf) <- 4326
 
 track_sf <- track_sf %>%
-  st_transform(crs = 3035) %>%
-  dplyr::mutate(long_eea = sf::st_coordinates(.)[,1],
-                lat_eea = sf::st_coordinates(.)[,2])
-
+  st_transform(crs = 3035)
 head(track_sf)
+dim(track_sf)
 
-
-### REMOVE DUPLICATE TIME STAMPS AND THOSE WITH TOO FEW LOCATIONS ####
-
-duplicates<-trackingdata %>% mutate(count=1) %>% group_by(year_id, timestamp) %>%
-  summarise(N=sum(count)) %>%
-  filter(N>1)
-
-track_sf[c(1526,1529),]
-track_sf %>% filter(year_id=="2016_10") %>% filter(t_==ymd_hms("2016-06-20 21:00:00"))
-
-
-
+# Points in SWISS GRID
+track_sf_CH <- st_filter(track_sf,CHgrid)
+dim(track_sf_CH)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # QUANTIFY TIME IN AREA OF EACH SWISS GRID CELL
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-REKI_trips<-trip(track_sf, TORnames=c("t_","year_id"), correct_all=TRUE)			### switch to "DateTime" when using the raw locations
-trg <- tripGrid(EV_all_trips, grid=grd,method="pixellate")						### this will provide the number of bird seconds spent in each grid cell
+CHspdf<-as(CHgrid, "Spatial")
+grdSUI<-makeGridTopology(obj=CHspdf)
+REKI_trips<-trip(track_sf_CH, TORnames=c("timestamp","season_id"), correct_all=TRUE)		### switch to "DateTime" when using the raw locations
+TIME_GRID <- tripGrid(REKI_trips, grid=grdSUI,method="pixellate")						### this will provide the number of bird seconds spent in each grid cell
 spplot(trg)			## plots the trips with a legend
 proj4string(turbSPDF)<-proj4string(EVSP_all)
 
