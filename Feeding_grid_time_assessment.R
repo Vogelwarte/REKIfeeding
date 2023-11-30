@@ -76,12 +76,7 @@ which(dupes==TRUE)
 trackingdata<-trackingdata[!dupes==T,]
 dim(trackingdata)
 
-length(unique(trackingdata$season_id))
-toofew<-trackingdata %>% mutate(count=1) %>% group_by(season_id) %>%
-  summarise(N=sum(count)) %>%
-  filter(N<10)
-trackingdata<-trackingdata %>% filter(!(season_id %in% toofew$season_id))
-dim(trackingdata)
+
 
 
 # converting to metric CRS prior to curtailing data to extent of CHgrid
@@ -94,45 +89,92 @@ track_sf <- track_sf %>%
 head(track_sf)
 dim(track_sf)
 
-# Points in SWISS GRID
-track_sf_CH <- st_filter(track_sf,CHgrid)
-dim(track_sf_CH)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# QUANTIFY TIME IN AREA OF EACH SWISS GRID CELL
+# QUANTIFY TIME IN AREA OF EACH SWISS GRID CELL - THIS CALCULATES THE OVERALL POPULATION LEVEL
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-CHspdf<-as(CHgrid, "Spatial")
-grdSUI<-makeGridTopology(obj=CHspdf)
-REKI_trips<-trip(track_sf_CH, TORnames=c("timestamp","season_id"), correct_all=TRUE)		### switch to "DateTime" when using the raw locations
-TIME_GRID <- tripGrid(REKI_trips, grid=grdSUI,method="pixellate")						### this will provide the number of bird seconds spent in each grid cell
-spplot(trg)			## plots the trips with a legend
-proj4string(turbSPDF)<-proj4string(EVSP_all)
 
 
-### CONVERT SPATIAL GRID TO SOMETHING WE CAN PLOT
-spdf <- SpatialPixelsDataFrame(points=trg, data=trg@data)
-HOTSPOTS<-data.frame(lat=spdf@coords[,2],long=spdf@coords[,1],time=spdf@data$z)
-HOTSPOTS$time<-HOTSPOTS$time/(3600*24)								### this converts the seconds into bird days
-summary(HOTSPOTS)
-
-HOTSPOTS<-HOTSPOTS[HOTSPOTS$time>10,]
-
-##### CONVERT TO SPATIAL POLYGONS FOR OVERLAY ###
-ras<- raster(spdf)		# converts the SpatialPixelDataFrame into a raster
-spoldf <- rasterToPolygons(ras, n=4) # converts the raster into quadratic polygons
-proj4string(spoldf)<-proj4string(EVSP_all)
 
 
-### PRODUCE NICE AND SHINY MAP WITH THE MOST IMPORTANT TEMPORARY CONGREGATION SITES ###
 
-#MAP <- get_map(EGVUbox, source="google", zoom=4, color = "bw")		### retrieves a map from Google (requires live internet connection)
-MAP <- get_map(location = c(lon = mean(long), lat = mean(lat)), source="google", zoom=4, color = "bw")		### retrieves a map from Google (requires live internet connection)
 
-pdf("EGVU_MIGRATION_HOTSPOTS.pdf", width=12, height=11)
-ggmap(MAP)+geom_tile(data=HOTSPOTS, aes(x=long,y=lat, fill = time)) +
-  scale_fill_gradient(name = 'N bird days', low="white", high="red", na.value = 'transparent', guide = "colourbar", limits=c(10, 30))+
-  theme(axis.ticks = element_blank(),axis.text = element_blank(),axis.title = element_blank())+
-  theme(strip.text.y = element_text(size = 20, colour = "black"), strip.text.x = element_text(size = 15, colour = "black"))+
-  geom_point(data=turbs, aes(x=Longitude, y=Latitude), pch=16, col='darkolivegreen', size=0.5)
-dev.off()
 
+
+
+
+
+
+
+
+
+
+
+# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# # ABANDONED BECAUSE TIME IN GRID WAS VERY HARD
+# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# 
+# # Points in SWISS GRID
+# track_sf_CH <- st_filter(track_sf,CHgrid)
+# duplicated(track_sf_CH)
+# dim(track_sf_CH)
+# 
+# 
+# length(unique(track_sf_CH$season_id))
+# toofew<-track_sf_CH %>% mutate(count=1) %>% group_by(season_id) %>%
+#   summarise(N=sum(count)) %>%
+#   filter(N<10)
+# track_sf_CH<-track_sf_CH %>% filter(!(season_id %in% toofew$season_id))
+# dim(track_sf_CH)
+# 
+# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# # QUANTIFY TIME IN AREA OF EACH SWISS GRID CELL - THIS CALCULATES THE OVERALL POPULATION LEVEL
+# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# CHspdf<-as(CHgrid, "Spatial")
+# grdSUI<-makeGridTopology(obj=CHspdf)
+# REKI_trips<-trip(track_sf_CH, TORnames=c("timestamp","season_id"), correct_all=TRUE)		### switch to "DateTime" when using the raw locations
+# TIME_GRID <- tripGrid(REKI_trips, grid=grdSUI,method="pixellate")						### this will provide the number of bird seconds spent in each grid cell
+# spplot(TIME_GRID)			## plots the trips with a legend
+# proj4string(turbSPDF)<-proj4string(EVSP_all)
+# 
+# 
+# ### CONVERT SPATIAL GRID TO SOMETHING WE CAN PLOT
+# spdf <- SpatialPixelsDataFrame(points=trg, data=trg@data)
+# HOTSPOTS<-data.frame(lat=spdf@coords[,2],long=spdf@coords[,1],time=spdf@data$z)
+# HOTSPOTS$time<-HOTSPOTS$time/(3600*24)								### this converts the seconds into bird days
+# summary(HOTSPOTS)
+# 
+# HOTSPOTS<-HOTSPOTS[HOTSPOTS$time>10,]
+# 
+# ##### CONVERT TO SPATIAL POLYGONS FOR OVERLAY ###
+# ras<- raster(spdf)		# converts the SpatialPixelDataFrame into a raster
+# spoldf <- rasterToPolygons(ras, n=4) # converts the raster into quadratic polygons
+# proj4string(spoldf)<-proj4string(EVSP_all)
+# 
+# 
+# ### PRODUCE NICE AND SHINY MAP WITH THE MOST IMPORTANT TEMPORARY CONGREGATION SITES ###
+# 
+# #MAP <- get_map(EGVUbox, source="google", zoom=4, color = "bw")		### retrieves a map from Google (requires live internet connection)
+# MAP <- get_map(location = c(lon = mean(long), lat = mean(lat)), source="google", zoom=4, color = "bw")		### retrieves a map from Google (requires live internet connection)
+# 
+# pdf("EGVU_MIGRATION_HOTSPOTS.pdf", width=12, height=11)
+# ggmap(MAP)+geom_tile(data=HOTSPOTS, aes(x=long,y=lat, fill = time)) +
+#   scale_fill_gradient(name = 'N bird days', low="white", high="red", na.value = 'transparent', guide = "colourbar", limits=c(10, 30))+
+#   theme(axis.ticks = element_blank(),axis.text = element_blank(),axis.title = element_blank())+
+#   theme(strip.text.y = element_text(size = 20, colour = "black"), strip.text.x = element_text(size = 15, colour = "black"))+
+#   geom_point(data=turbs, aes(x=Longitude, y=Latitude), pch=16, col='darkolivegreen', size=0.5)
+# dev.off()
+# 
+# 
+# 
+# 
+# 
+# 
+# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# # TRYING TO USE RECURSE WITH AN OLD INSTALLATION OF RECURSE AND RGEOS
+# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# 
+# 
+# 
+# 
+# 
