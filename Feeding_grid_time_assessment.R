@@ -16,6 +16,8 @@ library(adehabitatHR)
 library(stars)
 library(trip)
 library(sqldf)
+library(amt)
+library(adehabitatLT)
 filter<-dplyr::filter
 sf_use_s2(FALSE)
 
@@ -60,7 +62,7 @@ dim(trackingdata)
 head(trackingdata)
 trackingdata <- trackingdata %>%
   rename(bird_id = individual.local.identifier) %>%
-  mutate(season1 = ifelse(yday(timestamp)>70 ,"B","MB")) %>%
+  mutate(season1 = ifelse(yday(timestamp)>70 ,"B","NB")) %>%
   mutate(season2 = ifelse(yday(timestamp)>175 ,"NB","B")) %>%
   mutate(season_id = ifelse(yday(timestamp)<70 ,
                          paste(season1,year-1,bird_id,sep="_"),
@@ -78,22 +80,66 @@ dim(trackingdata)
 
 
 
-
 # converting to metric CRS prior to curtailing data to extent of CHgrid
 track_sf <- trackingdata %>% 
   st_as_sf(coords = c("long", "lat"))
 st_crs(track_sf) <- 4326
 
 track_sf <- track_sf %>%
-  st_transform(crs = 3035)
+  st_transform(crs = 3035) %>%
+  dplyr::mutate(long_eea = sf::st_coordinates(.)[,1],
+                lat_eea = sf::st_coordinates(.)[,2])
 head(track_sf)
 dim(track_sf)
 
 
+
+### CREATE A TRACK AND INTERPOLATE TO 15 min
+
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# QUANTIFY TIME IN AREA OF EACH SWISS GRID CELL - THIS CALCULATES THE OVERALL POPULATION LEVEL
+# INTERPOLATE ALL TRACKING DATA TO 15 MIN INTERVALS TO ENSURE THAT NO MIGRATION IS MISSED THROUGH A CELL
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+### Convert to LTRAJ TO INTERPOLATE DATA
+traj<-as.ltraj(xy=trackingdata[,9:10],date=trackingdata[,2],id=trackingdata[,11],infolocs=trackingdata[,c(1:11)],typeII=TRUE)
+
+## Rediscretization every 900 seconds
+tr <- redisltraj(traj, 900, type="time")
+
+## Convert output into a data frame
+all_dat15min<-data.frame()
+for (l in 1:length(unique(trackingdata$season_id))){
+  out<-tr[[l]]
+  out$season_id<-as.character(attributes(tr[[l]])[4])				#### extracts the MigID from the attribute 'id'
+  all_dat15min<-rbind(all_dat15min,out)				#### combines all data
+}
+
+### re-insert year and season
+all_dat15min$season<-all_dat15min$season[match(all_dat15min$season_id,trackingdata$season_id)]
+all_dat15min$year<-all_migdata$year[match(all_dat15min$season_id,trackingdata$season_id)]
+head(all_dat15min)
+dim(all_dat15min)
+
+
+
+
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# JOIN TRACKING DATA WITH PREDICTION GRID AND SUMMARISE HOURS
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+FEED_TRACK<-track_sf %>% st_join(CHgrid) %>%
+  mutate(FEEDER_predicted=ifelse(is.na(FEEDER_predicted),0,FEEDER_predicted))
+
+SUMMARY<-FEED_TRACK %>%
+  mutate(season=ifelse(substr(season_id,1,1)=="B","breeding","non-breeding")) %>%
+  group_by(season_id, season) %>%
+  summarise(FEED=mean(FEEDER_predicted))
+
+
+ggplot(SUMMARY, aes(x=season,y=FEED)) + geom_boxplot()
 
 
 
@@ -174,7 +220,8 @@ dim(track_sf)
 # # TRYING TO USE RECURSE WITH AN OLD INSTALLATION OF RECURSE AND RGEOS
 # #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
-# 
+# require(devtools)
+# install_version("recurse", version = "0.x.x", repos = "http://cran.us.r-project.org")
 # 
 # 
 # 
