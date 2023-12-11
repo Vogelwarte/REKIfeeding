@@ -23,6 +23,12 @@ library(pROC)
 library(amt)
 library(recurse)
 
+
+### read in Switzerland map
+try(setwd("S:/rasters/outline_maps/swiss_map_overview"),silent=T)
+SUI<-st_read("layers.gpkg")
+plot(SUI)
+
 ## set root folder for project
 try(setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent=T)
 try(setwd("C:/STEFFEN/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent=T)
