@@ -505,14 +505,14 @@ PRED_GRID<-countgrid %>%
 
 RF3 <- ranger::ranger(FEEDER ~ n+N_ind+N_feed_points+N_feed_ind+prop_feed+prop_pts,     
                       data=PRED_GRID, mtry=2, num.trees=2500, replace=F, importance="permutation", oob.error=T, write.forest=T, probability=T)
-saveRDS(RF3, "output/feed_grid_RF_model.rds")
+#saveRDS(RF3, "output/feed_grid_RF_model.rds")
 IMP2<-as.data.frame(RF3$variable.importance) %>%
   dplyr::mutate(variable=names(RF3$variable.importance)) %>%
   dplyr::rename(red.accuracy=`RF3$variable.importance`) %>%
   dplyr::arrange(dplyr::desc(red.accuracy)) %>%
   dplyr::mutate(rel.imp=(red.accuracy/max(red.accuracy))*100) %>%
   dplyr::select(variable,red.accuracy,rel.imp)
-write.table(IMP2,"clipboard", sep="\t")
+#write.table(IMP2,"clipboard", sep="\t")
 
 #### classification success of training data
 
@@ -557,7 +557,7 @@ impplot2<-IMP2[6:1,] %>%
                  panel.border = ggplot2::element_blank())
 print(impplot2)
 
-ggsave("output/REKI_feed_congregation_variable_importance.jpg", height=7, width=11)
+#ggsave("output/REKI_feed_congregation_variable_importance.jpg", height=7, width=11)
 
 
 
@@ -616,6 +616,11 @@ min(VAL_DAT$n[VAL_DAT$Classification=="correct"])
 min(VAL_DAT$N_ind[VAL_DAT$Classification=="correct"])
 min(VAL_DAT$N_feed_points[VAL_DAT$Classification=="correct"])
 min(VAL_DAT$N_feed_ind[VAL_DAT$Classification=="correct"])
+
+
+### CALCULATE BOYCE INDEX FOR VALIDATION DATA ###
+BI2<-Boyce(obs = validat$FEEDER_surveyed , pred = validat$FEEDER_predicted)$Boyce
+BI2
 
 
 

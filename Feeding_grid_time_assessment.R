@@ -42,8 +42,8 @@ tracks <- tracks %>%
          year_id=paste(year,id,sep="_")) %>%
   rename(bird_id = id) %>%
   filter(!is.na(year_id)) %>%
-  mutate(season1 = ifelse(yday(timestamp)>70 ,"B","NB")) %>%
-  mutate(season2 = ifelse(yday(timestamp)>175 ,"NB","B")) %>%
+  mutate(season1 = ifelse(yday(timestamp)>70 ,"B","NB")) %>%   ## 10 MARCH
+  mutate(season2 = ifelse(yday(timestamp)>175 ,"NB","B")) %>%  ## 20 June
   mutate(season_id = ifelse(yday(timestamp)<70 ,
                               paste(season1,year-1,bird_id,sep="_"),
                               paste(season2,year,bird_id,sep="_"))
@@ -193,6 +193,7 @@ saveRDS(FEED_DATA,"output/REKI_feed_data.rds")
 
 
 ########### clean up workspace #######################
+FEED_DATA <- readRDS("output/REKI_feed_data.rds")
 rm('FEED_TRACK')
 gc()
 
@@ -221,7 +222,7 @@ PLOTDAT<- INDSUMMARY %>%
 range(PLOTDAT$ucl)
 PLOTDAT %>%  
   mutate(age_cy=ifelse(sex=="m", age_cy-0.2, age_cy+0.2)) %>%
-  mutate(season=ifelse(season=="B", "breeding season (Mar - Jul)", "non-breeding season (Aug - Feb)")) %>%
+  mutate(season=ifelse(season=="B", "breeding season (Mar - Jun)", "non-breeding season (Jul - Feb)")) %>%
   
   ggplot() +
   geom_point(aes(y=median, x=age_cy, colour=sex),size=1.5)+
@@ -237,13 +238,20 @@ PLOTDAT %>%
         legend.text=element_text(size=14, color="black"),
         legend.title=element_text(size=18, color="black"),
         legend.key=element_blank(),
-        legend.position=c(0.08,0.92),
+        legend.position=c(0.08,0.91),
         strip.background=element_rect(fill="white", colour="black"), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
         panel.border = element_blank())
 
 ggsave("output/REKI_feeding_site_usage.jpg", height=9, width=11)
+
+
+
+### REPORT OUTPUT NUMBERS ####
+
+INDSUMMARY %>%
+  filter(sex %in% c("m","f")) %>% arrange(desc(FEED))
 
 
 
