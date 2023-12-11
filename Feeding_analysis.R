@@ -6,6 +6,8 @@
 # created by steffen.oppel@vogelwarte.ch in June 2023
 # 15 Aug: updated graphs to make nice ppt presentation
 
+## 11 December 2023: included new evaluation method - Boyce index https://www.r-bloggers.com/2022/05/model-evaluation-with-presence-points-and-raster-predictions/
+
 library(tidyverse)
 library(dplyr, warn.conflicts = FALSE)
 options(dplyr.summarise.inform = FALSE)
@@ -20,6 +22,7 @@ library(stars)
 filter<-dplyr::filter
 sf_use_s2(FALSE)
 library(pROC)
+library(modEvA)  ### for calculating the Boyce index
 
 ## set root folder for project
 setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
@@ -309,7 +312,7 @@ OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
                    panel.border = ggplot2::element_blank())
   print(impplot)
 
-  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
+#  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
   
   
   
@@ -382,9 +385,9 @@ AUC_VAL<-pROC::auc(ROC_val)
 THRESH_pts<-pROC::coords(ROC_val, "best", "threshold")$threshold
 
 
-
-
-
+### CALCULATE BOYCE INDEX FOR VALIDATION DATA ###
+BI<-Boyce(obs = VAL_DAT$feed_obs_num, pred = VAL_DAT$feed_prob)$Boyce
+BI
  
 # ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 # ########## PLOT THE MAP FOR KNOWN AND OBSERVED FEEDING STATIONS   #############
