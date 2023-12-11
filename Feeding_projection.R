@@ -26,7 +26,7 @@ library(recurse)
 
 ### read in Switzerland map
 try(setwd("S:/rasters/outline_maps/swiss_map_overview"),silent=T)
-SUI<-st_read("layers.gpkg")
+SUI<-st_read("layers.gpkg") %>% filter(country=="Switzerland")
 plot(SUI)
 
 ## set root folder for project
@@ -409,7 +409,7 @@ m4 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
                            position: 'bottomright' }).addTo(this)}"
   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
   addProviderTiles("Esri.WorldImagery", group = "Satellite",
-                   options = providerTileOptions(opacity = 0.6, attribution = F,minZoom = 5, maxZoom = 20)) %>%
+                   options = providerTileOptions(opacity = 0.3, attribution = F,minZoom = 5, maxZoom = 20)) %>%
   addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 15)) %>%  
   addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
   
@@ -426,6 +426,12 @@ m4 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5,
     popup = ~as.character(paste(round(FEEDER_predicted,3),"/ N_ind=",N_ind,"/ Prop feed pts=",round(prop_feed,3), sep=" ")),
     label = ~as.character(round(FEEDER_predicted,3))
+  ) %>%
+  addPolygons(
+    data=SUI %>%
+      st_transform(4326),
+    stroke = TRUE, color = "black", weight = 3,
+    fillColor = NULL, fillOpacity = 0
   ) %>%
   
   addLegend(     # legend for predicted prob of feeding
