@@ -23,7 +23,6 @@ library(pROC)
 library(amt)
 library(recurse)
 
-
 ### read in Switzerland map
 try(setwd("S:/rasters/outline_maps/swiss_map_overview"),silent=T)
 SUI<-st_read("layers.gpkg") %>% filter(country=="Switzerland")

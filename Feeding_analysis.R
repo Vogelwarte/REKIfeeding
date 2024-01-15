@@ -23,6 +23,7 @@ filter<-dplyr::filter
 sf_use_s2(FALSE)
 library(pROC)
 library(modEvA)  ### for calculating the Boyce index
+library(pdp) ### for creating partial dependence plots
 
 ## set root folder for project
 setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
@@ -318,6 +319,16 @@ OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
 
 #  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
   
+  
+########### PARTIAL DEPENDENCE PLOTS ###############
+ndpart<-partial(RF2, pred.var=c("dist_nest","age_cy"), progress=T, parallel=T, prob=T, paropts = list(.packages = "ranger"))  
+autoplot(ndpart,center = TRUE, alpha = 0.2, rug = TRUE, train = DATA_TRAIN)  
+  
+agepart<-partial(RF2, pred.var="age_cy", progress=T, parallel=T, prob=T)  
+autoplot(agepart)    
+  
+  
+  #  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
   
   
   ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
