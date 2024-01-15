@@ -32,68 +32,68 @@ setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIFeeding")
 
 
 
-###  LOADING DATA -----------------------------------------------------------------
-# ATTEMPT TO LOAD DATA FROM MOVEBANK ABANDONED ON 20 June 2023 because of memory limits
-# saved Movebank data to csv file and read in csv file on 28 June 2023
-# instead using data given to Ursin Beeli for NestTool analysis
-movemil_GSM <- read.csv("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/02_preprocessing/01_milvus_gsm.csv")
-movemil_Milsar <- read.csv("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/02_preprocessing/02_milvus_milsar.csv")
-dat_GSM <- as.data.frame(movemil_GSM) %>%
-  dplyr::select(individual.local.identifier,timestamp,year_id,year,month,day,long_wgs,lat_wgs,long_eea,lat_eea) %>%
-  mutate(timestamp=as.POSIXct(timestamp,format ="%Y-%m-%d %H:%M:%S", tz = "UTC")) %>%
-  dplyr::filter(!is.na(timestamp))
-myDF <- as.data.frame(movemil_Milsar) %>%
-  dplyr::select(individual.local.identifier,timestamp,year_id,year,month,day,long_wgs,lat_wgs,long_eea,lat_eea) %>%
-  mutate(timestamp=as.POSIXct(timestamp,format ="%Y-%m-%d %H:%M:%S", tz = "UTC")) %>%
-  dplyr::filter(!is.na(timestamp)) %>%
-  bind_rows(dat_GSM) %>%
-  arrange(year_id,timestamp)
-
-############# THIS CHUNK LAST RUN ON 28 JUNE 2023 ##############
-# movemil_Milsar <- fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding/data/Milvusmilvus_Milsar_SOI_final.csv")    ### insufficient memory to read in those data
-# dim(movemil_Milsar)
-# 
-# 
-# #read in your data directly from movebank
-# username <- "Steffen"
-# password <- "xxxxx"
-# curl <- movebankLogin(username=username,  password=password)
-# #
-# # #read in your data directly from movebank
-# # getMovebankID(study="Milvusmilvus_Milsar_SOI_final", login=curl)
-# # unique(getMovebankSensors(study=1356790386, login=curl)$sensor_type_id)
-# # getMovebankSensors(login=curl)
-# movemil_GSM <- getMovebankLocationData(study="Milvusmilvus_GSM_SOI", sensorID=653, login=curl)
-# # movemil_Milsar <- getMovebankLocationData(study="Milvusmilvus_Milsar_SOI_final", sensorID=653, login=curl)  ## does not work due to Individual(s): '423' do(es) not have data for one or more of the selected sensor(s).
-# 
-# 
+# ###  LOADING DATA -----------------------------------------------------------------
+# # ATTEMPT TO LOAD DATA FROM MOVEBANK ABANDONED ON 20 June 2023 because of memory limits
+# # saved Movebank data to csv file and read in csv file on 28 June 2023
+# # instead using data given to Ursin Beeli for NestTool analysis
+# movemil_GSM <- read.csv("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/02_preprocessing/01_milvus_gsm.csv")
+# movemil_Milsar <- read.csv("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/02_preprocessing/02_milvus_milsar.csv")
 # dat_GSM <- as.data.frame(movemil_GSM) %>%
-#   dplyr::select(individual.local.identifier,timestamp,location.long,location.lat) %>%
-#   rename(id=individual.local.identifier, lat=location.lat,long=location.long) %>%
-#   mutate(year=year(timestamp),
-#           month=month(timestamp),
-#           day=day(timestamp),
-#           yday=yday(timestamp),
-#          year_id=paste(year,id,sep="_")) %>%
+#   dplyr::select(individual.local.identifier,timestamp,year_id,year,month,day,long_wgs,lat_wgs,long_eea,lat_eea) %>%
+#   mutate(timestamp=as.POSIXct(timestamp,format ="%Y-%m-%d %H:%M:%S", tz = "UTC")) %>%
 #   dplyr::filter(!is.na(timestamp))
-# 
-# 
 # myDF <- as.data.frame(movemil_Milsar) %>%
-#   dplyr::select(`individual-local-identifier`,timestamp,`location-long`,`location-lat`) %>%
-#   rename(id=`individual-local-identifier`, lat=`location-lat`,long=`location-long`) %>%
-#   mutate(year=year(timestamp),
-#          month=month(timestamp),
-#          day=day(timestamp),
-#          yday=yday(timestamp),
-#          year_id=paste(year,id,sep="_")) %>%
+#   dplyr::select(individual.local.identifier,timestamp,year_id,year,month,day,long_wgs,lat_wgs,long_eea,lat_eea) %>%
+#   mutate(timestamp=as.POSIXct(timestamp,format ="%Y-%m-%d %H:%M:%S", tz = "UTC")) %>%
 #   dplyr::filter(!is.na(timestamp)) %>%
 #   bind_rows(dat_GSM) %>%
 #   arrange(year_id,timestamp)
-# dim(myDF)
-trackingdata <- myDF[!duplicated(paste0(myDF$timestamp,myDF$id)),] ## this is to exclude duplicated timestamps (if present)
-saveRDS(trackingdata, file = "data/REKI_trackingdata_raw.rds", version=3)
-dim(trackingdata)
-rm(myDF,dat_GSM,movemil_GSM,movemil_Milsar)
+# 
+# ############# THIS CHUNK LAST RUN ON 28 JUNE 2023 ##############
+# # movemil_Milsar <- fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/Feeding/data/Milvusmilvus_Milsar_SOI_final.csv")    ### insufficient memory to read in those data
+# # dim(movemil_Milsar)
+# # 
+# # 
+# # #read in your data directly from movebank
+# # username <- "Steffen"
+# # password <- "xxxxx"
+# # curl <- movebankLogin(username=username,  password=password)
+# # #
+# # # #read in your data directly from movebank
+# # # getMovebankID(study="Milvusmilvus_Milsar_SOI_final", login=curl)
+# # # unique(getMovebankSensors(study=1356790386, login=curl)$sensor_type_id)
+# # # getMovebankSensors(login=curl)
+# # movemil_GSM <- getMovebankLocationData(study="Milvusmilvus_GSM_SOI", sensorID=653, login=curl)
+# # # movemil_Milsar <- getMovebankLocationData(study="Milvusmilvus_Milsar_SOI_final", sensorID=653, login=curl)  ## does not work due to Individual(s): '423' do(es) not have data for one or more of the selected sensor(s).
+# # 
+# # 
+# # dat_GSM <- as.data.frame(movemil_GSM) %>%
+# #   dplyr::select(individual.local.identifier,timestamp,location.long,location.lat) %>%
+# #   rename(id=individual.local.identifier, lat=location.lat,long=location.long) %>%
+# #   mutate(year=year(timestamp),
+# #           month=month(timestamp),
+# #           day=day(timestamp),
+# #           yday=yday(timestamp),
+# #          year_id=paste(year,id,sep="_")) %>%
+# #   dplyr::filter(!is.na(timestamp))
+# # 
+# # 
+# # myDF <- as.data.frame(movemil_Milsar) %>%
+# #   dplyr::select(`individual-local-identifier`,timestamp,`location-long`,`location-lat`) %>%
+# #   rename(id=`individual-local-identifier`, lat=`location-lat`,long=`location-long`) %>%
+# #   mutate(year=year(timestamp),
+# #          month=month(timestamp),
+# #          day=day(timestamp),
+# #          yday=yday(timestamp),
+# #          year_id=paste(year,id,sep="_")) %>%
+# #   dplyr::filter(!is.na(timestamp)) %>%
+# #   bind_rows(dat_GSM) %>%
+# #   arrange(year_id,timestamp)
+# # dim(myDF)
+# trackingdata <- myDF[!duplicated(paste0(myDF$timestamp,myDF$id)),] ## this is to exclude duplicated timestamps (if present)
+# saveRDS(trackingdata, file = "data/REKI_trackingdata_raw.rds", version=3)
+# dim(trackingdata)
+# rm(myDF,dat_GSM,movemil_GSM,movemil_Milsar)
 
 ### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES
 trackingdata<-readRDS(file = "data/REKI_trackingdata_raw.rds")
@@ -400,3 +400,8 @@ fwrite(as.data.frame(track_sf),"data/REKI_annotated_feeding.csv")
 saveRDS(track_sf, file = "data/REKI_trackingdata_annotated.rds")
 head(track_sf)
 dim(track_sf)
+
+
+#### SIMPLE SUMMARY FOR MANUSCRIPT
+track_sf %>% group_by(bird_id) %>%
+  summarise(N= length(unique(year_id)))

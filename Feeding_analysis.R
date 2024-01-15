@@ -116,7 +116,10 @@ head(DATA)
 length(unique(DATA$year_id))
 length(unique(DATA$bird_id))
 length(unique(DATA$FEED_ID))
-
+DATA %>% group_by(bird_id) %>%
+  summarise(N= length(unique(year_id))) %>%
+  ungroup() %>%
+  summarise(avg=mean(N), max=max(N))
 
 ### random feeder subsetting
 ## results in poor transferability
