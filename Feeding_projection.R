@@ -274,7 +274,8 @@ countgrid <- st_sf(n = lengths(tab), geometry = st_cast(grid_CH, "MULTIPOLYGON")
   st_transform(3035) %>%
   filter(n>20)
 
-
+dim(grid_CH)
+dim(countgrid)
 
 
 summary(log(countgrid$n+1))

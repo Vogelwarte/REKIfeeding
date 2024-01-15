@@ -114,6 +114,7 @@ head(DATA)
 
 ### basic stats
 length(unique(DATA$year_id))
+range(DATA$year)
 length(unique(DATA$bird_id))
 length(unique(DATA$FEED_ID))
 DATA %>% group_by(bird_id) %>%
