@@ -321,12 +321,18 @@ OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
   
   
 ########### PARTIAL DEPENDENCE PLOTS ###############
-ndpart<-partial(RF2, pred.var=c("dist_nest","age_cy"), progress=T, parallel=T, prob=T, paropts = list(.packages = "ranger"))  
-autoplot(ndpart,center = TRUE, alpha = 0.2, rug = TRUE, train = DATA_TRAIN)  
+Sys.time()
+## this seems to take forever if parallel=T, otherwise 15 min
   
-agepart<-partial(RF2, pred.var="age_cy", progress=T, parallel=T, prob=T)  
-autoplot(agepart)    
-  
+# ndpart<-partial(RF2, pred.var="dist_nest", trim.outliers=F, progress=T, prob=T)
+# autoplot(ndpart)
+# range(DATA_TRAIN$dist_nest)
+# range(DATA_TEST$dist_nest)
+# hist(OUT$dist_nest)
+#   
+# agepart<-partial(RF2, pred.var="age_cy", progress=T, trim.outliers=T, prob=T)  
+# autoplot(agepart)    
+   
   
   #  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
   
@@ -732,6 +738,20 @@ st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas.kml",append=
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## COMPARE DATA BETWEEN SUCCESSFUL AND FAILED PREDICTIONS   #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+### remove outliers to make plot more informative
+## https://stackoverflow.com/questions/59140960/remove-outliers-and-reduce-ylim-appropriately-for-each-facet-in-ggplot2
+
+# filtering function - turns outliers into NAs to be removed
+filter_lims <- function(x){
+  l <- boxplot.stats(x)$stats[1]
+  u <- boxplot.stats(x)$stats[5]
+  
+  for (i in 1:length(x)){
+    x[i] <- ifelse(x[i]>l & x[i]<u, x[i], NA)
+  }
+  return(x)
+}
+
 
 # New facet label names for predictor variable
 var.labs <- c("Total N of GPS locations","N individuals","N feeding locations","N feeding individuals","Proportion of feeding individuals",
@@ -747,10 +767,11 @@ VAL_DAT %>%
   filter(!(variable=="N_feed_ind" & value>30)) %>%  ### remove a single outlier value
   filter(!(variable=="N_feed_points" & value>500)) %>%  ### remove a single outlier value
   dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels2)) %>%
+  mutate(value2 = filter_lims(value)) %>%  # new variable (value2) so as not to displace first one)
   
   
-  ggplot(aes(x=Classification, y=value)) +
-  geom_boxplot() +
+  ggplot(aes(x=Classification, y=value2)) +
+  geom_boxplot(na.rm = TRUE, coef = 5) +
   facet_wrap(~variable, ncol=3, scales="free_y",labeller = labeller(variable = var.labs)) +
   labs(x="Prediction of grid cells with known anthropogenic feeding",
        y="Value of respective variable") +

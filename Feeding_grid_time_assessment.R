@@ -227,7 +227,7 @@ PLOTDAT %>%
   ggplot() +
   geom_point(aes(y=median, x=age_cy, colour=sex),size=1.5)+
   geom_errorbar(aes(x=age_cy, ymin=lcl, ymax=ucl, colour=sex), width=0.1)+
-  scale_y_continuous(name="Mean daily usage (hrs) of anthropogenic feeding", limits=c(0,24), breaks=seq(0,24,3)) +
+  scale_y_continuous(name="Mean daily usage (hrs) of anthropogenic feeding", limits=c(0,15), breaks=seq(0,15,3)) +
   scale_x_continuous(name="Age (in years)", limits=c(0.5,8.5), breaks=seq(1,8,1)) +
   facet_wrap(~season, ncol=1, scales="free_y", dir="v") +
   theme(panel.background=element_rect(fill="white", colour="black"), 
@@ -238,7 +238,7 @@ PLOTDAT %>%
         legend.text=element_text(size=14, color="black"),
         legend.title=element_text(size=18, color="black"),
         legend.key=element_blank(),
-        legend.position=c(0.08,0.91),
+        legend.position=c(0.08,0.31),
         strip.background=element_rect(fill="white", colour="black"), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
