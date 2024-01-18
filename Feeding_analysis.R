@@ -473,6 +473,56 @@ m1
 
 
 
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## ASSESS REASONS FOR FAILED PREDICTIONS (FIG S1) #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+head(OUT)
+### remove outliers to make plot more informative
+## https://stackoverflow.com/questions/59140960/remove-outliers-and-reduce-ylim-appropriately-for-each-facet-in-ggplot2
+
+# filtering function - turns outliers into NAs to be removed
+filter_lims <- function(x){
+  l <- boxplot.stats(x)$stats[1]
+  u <- boxplot.stats(x)$stats[5]
+  
+  for (i in 1:length(x)){
+    x[i] <- ifelse(x[i]>l & x[i]<u, x[i], NA)
+  }
+  return(x)
+}
+
+
+# New facet label names for predictor variable
+var.labs <- c("Step length", "Distance to nest", "Mean visit frequency","N days", "Time at location", "N revisits", "Evenness of attendance", "Time span of attendance")
+
+
+OUT %>%
+  mutate(Classification=ifelse(FEEDER_predicted==FEEDER_observed,"correct",ifelse(FEEDER_predicted=="YES","false pred","missed pred"))) %>%
+  select(Classification,step_length,speed,revisits,residence_time,meanFreqVisit,n_days,TimeSpan,TempEven,dist_nest) %>%
+  gather(key=variable, value=value,-Classification) %>%
+  dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels[c(1,4,7,8,9,10,6,5)])) %>%
+  #group_by(variable) %>%
+  mutate(value2 = filter_lims(value)) %>%  # new variable (value2) so as not to displace first one)
+  mutate(value2 = filter_lims(value2)) %>%  # new variable (value2) so as not to displace first one)
+  filter(!is.na(value2)) %>%
+  
+  ggplot(aes(x=Classification, y=value2)) +
+  geom_boxplot(na.rm = TRUE) +
+  facet_wrap(~variable, ncol=3, scales="free_y") +
+  #facet_wrap(~variable, ncol=3, scales="free_y",labeller = labeller(variable = var.labs)) +
+  labs(x="Prediction of locations near known anthropogenic feeding",
+       y="Value of respective variable") +
+  ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
+                 axis.text=ggplot2::element_text(size=16, color="black"),
+                 strip.background=ggplot2::element_rect(fill="white", colour="black"), 
+                 strip.text=ggplot2::element_text(size=16, color="black"),
+                 axis.title=ggplot2::element_text(size=20), 
+                 panel.grid.major = ggplot2::element_blank(), 
+                 panel.grid.minor = ggplot2::element_blank(), 
+                 panel.border = ggplot2::element_blank())
+
+
+
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
