@@ -1,0 +1,13 @@
+variable,Classification,mean,min,max
+N_feed_ind,correct,2,0,26
+N_feed_ind,missed,0,0,4
+N_feed_points,correct,3,0,1223
+N_feed_points,missed,0,0,13
+N_ind,correct,24,7,82
+N_ind,missed,16,5,57
+n,correct,212,20,3414
+n,missed,42,11,377
+prop_feed,correct,0.111111111111111,0,0.428571428571429
+prop_feed,missed,0,0,0.166666666666667
+prop_pts,correct,0.0232558139534884,0,0.386658235852039
+prop_pts,missed,0,0,0.0783132530120482

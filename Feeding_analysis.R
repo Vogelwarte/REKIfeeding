@@ -531,12 +531,8 @@ pred_succ_var_summary<-OUT %>%
   mutate(Classification=ifelse(FEEDER_predicted==FEEDER_observed,"correct",ifelse(FEEDER_predicted=="YES","false pred","missed pred"))) %>%
   select(Classification,step_length,speed,revisits,residence_time,meanFreqVisit,n_days,TimeSpan,TempEven,dist_nest) %>%
   gather(key=variable, value=value,-Classification) %>%
-  dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels[c(1,4,7,8,9,10,6,5)])) %>%
-  mutate(value2 = filter_lims(value)) %>%  # new variable (value2) so as not to displace first one)
-  mutate(value2 = filter_lims(value2)) %>%  # new variable (value2) so as not to displace first one)
-  filter(!is.na(value2)) %>%
   group_by(variable, Classification) %>%
-  summarise(mean=mean(value2), min=min(value2), max=max(value2))
+  summarise(mean=median(value), min=min(value), max=max(value))
 
 fwrite(pred_succ_var_summary,"output/RF1_pred_succ_var_summary.csv")
 
@@ -852,6 +848,25 @@ VAL_DAT %>%
                  panel.grid.minor = ggplot2::element_blank(), 
                  panel.border = ggplot2::element_blank())
   
+
+
+
+
+
+
+
+pred2_succ_var_summary<-VAL_DAT %>%
+  st_drop_geometry() %>%
+  select(-FEEDER_predicted) %>%
+  gather(key=variable, value=value,-Classification) %>%
+  filter(!(variable=="n" & value>45000)) %>%  ### remove a single outlier value
+  # filter(!(variable=="N_feed_ind" & value>30)) %>%  ### remove a single outlier value
+  # filter(!(variable=="N_feed_points" & value>500)) %>%  ### remove a single outlier value
+  group_by(variable, Classification) %>%
+  summarise(mean=median(value), min=min(value), max=max(value))
+
+fwrite(pred2_succ_var_summary,"output/RF2_pred_succ_var_summary.csv")
+
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
