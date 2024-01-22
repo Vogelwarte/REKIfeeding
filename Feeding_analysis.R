@@ -605,17 +605,18 @@ IMP2<-as.data.frame(RF3$variable.importance) %>%
 #### classification success of training data
 
 PRED<-stats::predict(RF3,data=PRED_GRID, type = "response")
-prevalence<-table(DATA_TRAIN$FEEDER)[2]/sum(table(DATA_TRAIN$FEEDER))
 PRED_GRID <- PRED_GRID %>%
   dplyr::mutate(FEEDER_observed = FEEDER) %>%
   dplyr::mutate(FEEDER_predicted=PRED$predictions[,2])
 dim(PRED$predictions)
 dim(PRED_GRID)
 
-ROC_train<-pROC::roc(data=PRED_GRID,response=FEEDER_observed,predictor=FEEDER_predicted)
-AUC<-pROC::auc(ROC_train)
-AUC
-THRESH<-pROC::coords(ROC_train, "best", "threshold")$threshold
+# ROC_train<-pROC::roc(data=PRED_GRID,response=FEEDER_observed,predictor=FEEDER_predicted)
+# AUC<-pROC::auc(ROC_train)
+# AUC
+# THRESH<-pROC::coords(ROC_train, "best", "threshold")$threshold
+THRESH<-table(PRED_GRID$FEEDER)[2]/dim(PRED_GRID)[1]
+
 
 
 #### CREATE PLOT FOR VARIABLE IMPORTANCE
@@ -681,9 +682,9 @@ summary(validat$FEEDER_predicted)
 ## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
 ## but you cannot fit an ROC curve if the response is only 1 and not 0
 # validat<-validat %>% filter(FEEDER_surveyed==1)
-ROC_val<-pROC::roc(data=validat,response=FEEDER_surveyed,predictor=FEEDER_predicted)
-AUC_TEST<-pROC::auc(ROC_val)
-pROC::coords(ROC_val, "best", "threshold")
+# ROC_val<-pROC::roc(data=validat,response=FEEDER_surveyed,predictor=FEEDER_predicted)
+# AUC_TEST<-pROC::auc(ROC_val)
+# pROC::coords(ROC_val, "best", "threshold")
 
 
 
