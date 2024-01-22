@@ -497,7 +497,10 @@ var.labs <- c("Step length", "Distance to nest", "Mean visit frequency","N days"
 
 
 OUT %>%
-  mutate(Classification=ifelse(FEEDER_predicted==FEEDER_observed,"correct",ifelse(FEEDER_predicted=="YES","false pred","missed pred"))) %>%
+  mutate(Classification=ifelse(FEEDER_predicted==FEEDER_observed,"correct",
+                               ifelse(FEEDER_predicted=="YES","false pred","missed pred"))) %>%
+  # mutate(Classification=ifelse(Classification!="correct",Classification,
+  #                              ifelse(FEEDER_predicted=="YES","correct pres","correct abs"))) %>%
   select(Classification,step_length,speed,revisits,residence_time,meanFreqVisit,n_days,TimeSpan,TempEven,dist_nest) %>%
   gather(key=variable, value=value,-Classification) %>%
   dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels[c(1,4,7,8,9,10,6,5)])) %>%
@@ -522,6 +525,20 @@ OUT %>%
                  panel.border = ggplot2::element_blank())
 
 
+
+
+pred_succ_var_summary<-OUT %>%
+  mutate(Classification=ifelse(FEEDER_predicted==FEEDER_observed,"correct",ifelse(FEEDER_predicted=="YES","false pred","missed pred"))) %>%
+  select(Classification,step_length,speed,revisits,residence_time,meanFreqVisit,n_days,TimeSpan,TempEven,dist_nest) %>%
+  gather(key=variable, value=value,-Classification) %>%
+  dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels[c(1,4,7,8,9,10,6,5)])) %>%
+  mutate(value2 = filter_lims(value)) %>%  # new variable (value2) so as not to displace first one)
+  mutate(value2 = filter_lims(value2)) %>%  # new variable (value2) so as not to displace first one)
+  filter(!is.na(value2)) %>%
+  group_by(variable, Classification) %>%
+  summarise(mean=mean(value2), min=min(value2), max=max(value2))
+
+fwrite(pred_succ_var_summary,"output/RF1_pred_succ_var_summary.csv")
 
 
 
