@@ -7,6 +7,8 @@
 # 15 Aug: updated graphs to make nice ppt presentation
 
 ## 11 December 2023: included new evaluation method - Boyce index https://www.r-bloggers.com/2022/05/model-evaluation-with-presence-points-and-raster-predictions/
+## 22 Jan 2024: finalised revisions of comments by Martin Grüebler
+
 
 library(tidyverse)
 library(dplyr, warn.conflicts = FALSE)
@@ -27,10 +29,6 @@ library(pdp) ### for creating partial dependence plots
 
 ## set root folder for project
 setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
-
-### TO DO :
-## create subset of known feeding locations for training the model and retain some for testing (from similar point intensity locations)
-
 
 # LOADING DATA -----------------------------------------------------------------
 ### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES 
@@ -114,6 +112,7 @@ head(DATA)
 
 
 ### basic stats
+dim(DATA)
 length(unique(DATA$year_id))
 range(DATA$year)
 length(unique(DATA$bird_id))
@@ -524,6 +523,7 @@ OUT %>%
                  panel.grid.minor = ggplot2::element_blank(), 
                  panel.border = ggplot2::element_blank())
 
+ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_S1.jpg", width=12, height=11, dpi=300)
 
 
 
@@ -632,7 +632,7 @@ impplot2<-IMP2[6:1,] %>%
                                        "Total N of GPS locations",
                                        "Proportion of feeding locations",
                                        "Proportion of feeding individuals"))  +
-  ggplot2::annotate("text",x=2,y=80,label=paste("AUC = ",round(AUC,3)),size=8) +
+  #ggplot2::annotate("text",x=2,y=80,label=paste("AUC = ",round(AUC,3)),size=8) +
   ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
                  axis.text.x=ggplot2::element_text(size=18, color="black"),
                  axis.text.y=ggplot2::element_text(size=16, color="black"), 
@@ -726,8 +726,8 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
                            position: 'bottomright' }).addTo(this)}"
   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
   addProviderTiles("Esri.WorldImagery", group = "Satellite",
-                   options = providerTileOptions(opacity = 0.6, attribution = F,minZoom = 5, maxZoom = 20)) %>%
-  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 15)) %>%  
+                   options = providerTileOptions(opacity = 0.6, attribution = F,minZoom = 5, maxZoom = 14)) %>%
+  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 14)) %>%  
   addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
   
   # addCircleMarkers(
@@ -793,8 +793,8 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
 m2
 
 
-htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids.html")
-mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids.html")
+htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_1.html")
+mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_1.html")
 st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas.kml",append=FALSE)
 
 
@@ -849,6 +849,7 @@ VAL_DAT %>%
                  panel.border = ggplot2::element_blank())
   
 
+ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_S2.jpg", width=10, height=8, dpi=300)
 
 
 
