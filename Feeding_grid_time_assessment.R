@@ -222,7 +222,7 @@ PLOTDAT<- INDSUMMARY %>%
 range(PLOTDAT$ucl)
 PLOTDAT %>%  
   mutate(age_cy=ifelse(sex=="m", age_cy-0.2, age_cy+0.2)) %>%
-  mutate(season=ifelse(season=="B", "breeding season (Mar - Jun)", "non-breeding season (Jul - Feb)")) %>%
+  mutate(season=ifelse(season=="B", "breeding season", "non-breeding season")) %>%
   
   ggplot() +
   geom_point(aes(y=median, x=age_cy, colour=sex),size=1.5)+
@@ -244,7 +244,7 @@ PLOTDAT %>%
         panel.grid.minor = element_blank(), 
         panel.border = element_blank())
 
-ggsave("output/REKI_feeding_site_usage.jpg", height=9, width=11)
+ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_3.jpg", width=11, height=9, dpi=300)
 
 
 
