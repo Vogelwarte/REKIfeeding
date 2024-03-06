@@ -409,8 +409,8 @@ m4 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
                            position: 'bottomright' }).addTo(this)}"
   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
   addProviderTiles("Esri.WorldImagery", group = "Satellite",
-                   options = providerTileOptions(opacity = 0.3, attribution = F,minZoom = 5, maxZoom = 20)) %>%
-  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 15)) %>%  
+                   options = providerTileOptions(opacity = 0.3, attribution = F,minZoom = 5, maxZoom = 14)) %>%
+  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 14)) %>%  
   addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
   
   addPolygons(
@@ -451,6 +451,8 @@ m4
 # mapview::mapshot(m4, url = "C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding/output/Potential_feeding_grids_CH.html")
 # st_write(CHgrid,"output/REKI_predicted_anthropogenic_feeding_areas_CH.kml",append=FALSE)
 # saveRDS(CHgrid, "output/pred_anthro_feed_grid.rds")
+htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_2.html")
+mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_1.html")
 
 
 
