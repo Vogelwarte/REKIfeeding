@@ -19,8 +19,9 @@ data/buildings.gpkg
 data/wald.gpkg
 
 
-# Output files from R CMD check
+# Output files that are too big
 /*.Rcheck/
+output/REKI_feed_data.rds
 
 # RStudio files
 .Rproj.user/
