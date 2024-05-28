@@ -27,7 +27,7 @@ library(lubridate)
 #library(move)
 library(data.table); setDTthreads(percent = 65)
 sf_use_s2(FALSE) # deactivating spherical geometry s2
-
+library(tictoc)
 
 ## set root folder for project
 setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIFeeding")
@@ -119,6 +119,7 @@ track_amt <- as.data.frame(track_amt)
 
 # track_amt_recurse <- lapply(track_amt_list, function(x)
 #   getRecursions(x = x[1:4], radius = 50, timeunits = "hours"))
+tic()
 track_amt$revisits <- NA
 track_amt$residence_time <- NA
 for (i in unique(track_amt$id)){
@@ -146,40 +147,39 @@ for (i in unique(track_amt$id)){
   track_amt$n_days[track_amt$id == i] <-tempout$n_days
   track_amt$TimeSpan[track_amt$id == i] <-tempout$TimeSpan
   track_amt$TempEven[track_amt$id == i] <-tempout$TempEven
-  
+  rm(tempout,x,xr)
 }
-
-
-
-
-# allocating recurse information to track data frame (15 mins)
-track_amt$revisits <- NA
-track_amt$residence_time <- NA
-for (i in 1:length(track_amt_recurse)) {
-  track_amt$revisits[track_amt$id == unique(track_amt$id)[i]] <-
-    track_amt_recurse[[i]]$revisits
-  track_amt$residence_time[track_amt$id == unique(track_amt$id)[i]] <-
-    track_amt_recurse[[i]]$residenceTime
-  
-# CALCULATING FIRST AND LAST REVISIT AND DURATION AND TEMPORAL PERSISTENCE OF REVISITS -----------------------------------------------------------------
-  tempout<-
-    track_amt_recurse[[i]]$revisitStats %>%
-    mutate(jday.ent=yday(entranceTime),jday.ex=yday(exitTime)) %>%
-    group_by(coordIdx) %>%
-    summarise(first=min(entranceTime, na.rm=T),
-              last=max(exitTime, na.rm=T),
-              meanFreqVisit=mean(timeSinceLastVisit, na.rm=T),
-              n_days=length(unique(c(jday.ent,jday.ex)))) %>%
-    mutate(TimeSpan=as.numeric(difftime(last,first,unit="days"))) %>%
-    mutate(TempEven=n_days/TimeSpan) %>%
-    mutate(meanFreqVisit=ifelse(is.na(meanFreqVisit),0,meanFreqVisit)) %>%   ## set the frequency of visit to 0 for locations never revisited
-    mutate(TempEven=ifelse(n_days==1,1,TempEven)) %>%   ## set the evenness to 1 for locations never revisited on more than a single day
-    select(meanFreqVisit,n_days,TimeSpan,TempEven)
-  track_amt$meanFreqVisit[track_amt$id == unique(track_amt$id)[i]] <-tempout$meanFreqVisit
-  track_amt$n_days[track_amt$id == unique(track_amt$id)[i]] <-tempout$n_days
-  track_amt$TimeSpan[track_amt$id == unique(track_amt$id)[i]] <-tempout$TimeSpan
-  track_amt$TempEven[track_amt$id == unique(track_amt$id)[i]] <-tempout$TempEven
-}
+toc()
+# 
+# 
+# # allocating recurse information to track data frame (15 mins)
+# track_amt$revisits <- NA
+# track_amt$residence_time <- NA
+# for (i in 1:length(track_amt_recurse)) {
+#   track_amt$revisits[track_amt$id == unique(track_amt$id)[i]] <-
+#     track_amt_recurse[[i]]$revisits
+#   track_amt$residence_time[track_amt$id == unique(track_amt$id)[i]] <-
+#     track_amt_recurse[[i]]$residenceTime
+#   
+# # CALCULATING FIRST AND LAST REVISIT AND DURATION AND TEMPORAL PERSISTENCE OF REVISITS -----------------------------------------------------------------
+#   tempout<-
+#     track_amt_recurse[[i]]$revisitStats %>%
+#     mutate(jday.ent=yday(entranceTime),jday.ex=yday(exitTime)) %>%
+#     group_by(coordIdx) %>%
+#     summarise(first=min(entranceTime, na.rm=T),
+#               last=max(exitTime, na.rm=T),
+#               meanFreqVisit=mean(timeSinceLastVisit, na.rm=T),
+#               n_days=length(unique(c(jday.ent,jday.ex)))) %>%
+#     mutate(TimeSpan=as.numeric(difftime(last,first,unit="days"))) %>%
+#     mutate(TempEven=n_days/TimeSpan) %>%
+#     mutate(meanFreqVisit=ifelse(is.na(meanFreqVisit),0,meanFreqVisit)) %>%   ## set the frequency of visit to 0 for locations never revisited
+#     mutate(TempEven=ifelse(n_days==1,1,TempEven)) %>%   ## set the evenness to 1 for locations never revisited on more than a single day
+#     select(meanFreqVisit,n_days,TimeSpan,TempEven)
+#   track_amt$meanFreqVisit[track_amt$id == unique(track_amt$id)[i]] <-tempout$meanFreqVisit
+#   track_amt$n_days[track_amt$id == unique(track_amt$id)[i]] <-tempout$n_days
+#   track_amt$TimeSpan[track_amt$id == unique(track_amt$id)[i]] <-tempout$TimeSpan
+#   track_amt$TempEven[track_amt$id == unique(track_amt$id)[i]] <-tempout$TempEven
+# }
 
 
 # CALCULATING MOVING AVERAGE FOR SPEED AND ANGLE -----------------------------------------------------------------
