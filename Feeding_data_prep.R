@@ -40,7 +40,9 @@ setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIFeeding")
 
 ### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES
 #trackingdata<-readRDS(file = "data/REKI_trackingdata_raw.rds")
-trackingdata<-readRDS(file = "data/REKI_trackingdata_raw2024.rds")
+trackingdata<-readRDS(file = "data/REKI_trackingdata_raw2024.rds") %>%
+  dplyr::mutate(long_wgs = sf::st_coordinates(.)[,1],
+                lat_wgs = sf::st_coordinates(.)[,2])
 
 
 
@@ -57,6 +59,7 @@ trackingdata <- trackingdata %>%
   filter(lat<48) %>%
   filter(!is.na(timestamp)) %>%
   filter(!is.na(long)) %>%
+  mutate(year_id=paste(year(timestamp),bird_id, sep="_")) %>%
   filter(!is.na(year_id))
 
 dim(trackingdata)
@@ -88,36 +91,6 @@ track_amt <- track_sf %>%
   time_of_day(include.crepuscule = T) %>% # if F, crepuscule is considered as night
   arrange(id, t_)
 
-
-
-#### SWITCHED OFF ON 30 JUNE AFTER REVERTING TO HOURLY DATASET
-# turn into a 30 min resolution track - this doesn't work with multiple animals as 'negative time differences occur'
-# amt_resampled<-tibble()
-# for(i in unique(track_amt$id)){
-#   singletrack<-track_amt %>% filter(id==i)
-#   single_amt <- track_resample(singletrack, rate = minutes(60), tolerance = minutes(10), start = 1)
-#   amt_resampled<-amt_resampled %>% bind_rows(single_amt)
-#   ### troubleshooting ###
-#   # t_ <- as.numeric(singletrack$t_)
-#   # summary(diff(t_))
-#   # neg.time<-which(diff(t_) < 0)
-#   # track_amt[c(neg.time[1:3]),] %>% arrange(id, t_)
-#   # test<-singletrack[2500:2510,]
-# }
-# 
-# if(dim(track_amt)[1]-dim(amt_resampled)[1]>0){
-#   track_amt <- amt_resampled %>%
-#     mk_track(
-#       .x = x_,
-#       .y = y_,
-#       .t = t_,
-#       id = id,
-#       crs = 3035
-#     ) %>%
-#     time_of_day(include.crepuscule = T) %>% # if F, crepuscule is considered as night
-#     arrange(id, t_)
-#   rm(amt_resampled,singletrack,single_amt)
-# }
 
 ### CALCULATE OTHER METRICS
 track_amt$step_length<-amt::step_lengths(track_amt)       # include step lengths
