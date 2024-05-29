@@ -29,11 +29,11 @@ library(modEvA)  ### for calculating the Boyce index
 library(pdp) ### for creating partial dependence plots
 
 ## set root folder for project
-setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
+#setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
 
 # LOADING DATA -----------------------------------------------------------------
 ### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES 
-track_sf<-fread("data/REKI_annotated_feeding.csv")
+track_sf<-fread("data/REKI_annotated_feeding2024.csv")
 #track_sf<-load(file = "data/REKI_trackingdata_annotated.rds")
 
 #define different coordinate systems
@@ -100,7 +100,7 @@ table(track_nofor_day_build$FEEDER)
 
 ################ PREPARE DATA FOR PREDICTION
 
-DATA <- track_nofor_day_build %>%
+DATA <- track_nofor_day_build %>% filter(is.na(bird_id))
   mutate(YDAY=yday(t_), hour=hour(t_), month=month(t_)) %>%
   filter(!is.na(step_length)) %>%
   filter(!is.na(turning_angle)) %>%
@@ -190,7 +190,7 @@ DATA %>% filter (FEEDER=="YES") %>% filter(revisits>370)
 
 ## need to specify color palette 
 # If you want to set your own colors manually:
-res.pal <- colorNumeric(c("grey15","firebrick"), seq(0,600))
+res.pal <- colorNumeric(c("grey15","firebrick"), seq(0,3300))
 mF <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
   setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
   htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
