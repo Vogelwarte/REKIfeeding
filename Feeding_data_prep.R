@@ -30,7 +30,7 @@ sf_use_s2(FALSE) # deactivating spherical geometry s2
 library(tictoc)
 
 ## set root folder for project
-setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIFeeding")
+#setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIFeeding")
 
 
 
@@ -43,6 +43,11 @@ setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIFeeding")
 trackingdata<-readRDS(file = "data/REKI_trackingdata_raw2024.rds") %>%
   dplyr::mutate(long_wgs = sf::st_coordinates(.)[,1],
                 lat_wgs = sf::st_coordinates(.)[,2])
+
+### LOAD INDIVIDUAL LIFE HISTORIES
+#trackingdata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/02_preprocessing/03_milvus_combined.csv")
+indseasondata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/01_validation/03_validation_combined.csv")
+nestdata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/data/Basic_nest_list_2015_2022.csv")
 
 
 
@@ -86,6 +91,8 @@ track_amt <- track_sf %>%
     .y = lat_eea,
     .t = timestamp,
     id = year_id,
+    sex=sex,
+    age_cy=age_cy,
     crs = 3035
   ) %>%
   time_of_day(include.crepuscule = T) %>% # if F, crepuscule is considered as night
@@ -114,8 +121,8 @@ track_amt <- as.data.frame(track_amt)
 
 ### RECURSIONS IN A LOPP - takes 2 hrs --------------------------------
 # calculating recursions
-# rm(trackingdata,track_sf,buildings,forest)  ### clean up workspace and memory
-# gc()
+rm(trackingdata,track_sf,buildings,forest)  ### clean up workspace and memory
+gc()
 
 # track_amt_recurse <- lapply(track_amt_list, function(x)
 #   getRecursions(x = x[1:4], radius = 50, timeunits = "hours"))
@@ -150,36 +157,7 @@ for (i in unique(track_amt$id)){
   rm(tempout,x,xr)
 }
 toc()
-# 
-# 
-# # allocating recurse information to track data frame (15 mins)
-# track_amt$revisits <- NA
-# track_amt$residence_time <- NA
-# for (i in 1:length(track_amt_recurse)) {
-#   track_amt$revisits[track_amt$id == unique(track_amt$id)[i]] <-
-#     track_amt_recurse[[i]]$revisits
-#   track_amt$residence_time[track_amt$id == unique(track_amt$id)[i]] <-
-#     track_amt_recurse[[i]]$residenceTime
-#   
-# # CALCULATING FIRST AND LAST REVISIT AND DURATION AND TEMPORAL PERSISTENCE OF REVISITS -----------------------------------------------------------------
-#   tempout<-
-#     track_amt_recurse[[i]]$revisitStats %>%
-#     mutate(jday.ent=yday(entranceTime),jday.ex=yday(exitTime)) %>%
-#     group_by(coordIdx) %>%
-#     summarise(first=min(entranceTime, na.rm=T),
-#               last=max(exitTime, na.rm=T),
-#               meanFreqVisit=mean(timeSinceLastVisit, na.rm=T),
-#               n_days=length(unique(c(jday.ent,jday.ex)))) %>%
-#     mutate(TimeSpan=as.numeric(difftime(last,first,unit="days"))) %>%
-#     mutate(TempEven=n_days/TimeSpan) %>%
-#     mutate(meanFreqVisit=ifelse(is.na(meanFreqVisit),0,meanFreqVisit)) %>%   ## set the frequency of visit to 0 for locations never revisited
-#     mutate(TempEven=ifelse(n_days==1,1,TempEven)) %>%   ## set the evenness to 1 for locations never revisited on more than a single day
-#     select(meanFreqVisit,n_days,TimeSpan,TempEven)
-#   track_amt$meanFreqVisit[track_amt$id == unique(track_amt$id)[i]] <-tempout$meanFreqVisit
-#   track_amt$n_days[track_amt$id == unique(track_amt$id)[i]] <-tempout$n_days
-#   track_amt$TimeSpan[track_amt$id == unique(track_amt$id)[i]] <-tempout$TimeSpan
-#   track_amt$TempEven[track_amt$id == unique(track_amt$id)[i]] <-tempout$TempEven
-# }
+
 
 
 # CALCULATING MOVING AVERAGE FOR SPEED AND ANGLE -----------------------------------------------------------------
@@ -194,11 +172,9 @@ track_amt <- track_amt %>%
 head(track_amt)
 dim(track_amt)
 
-# COMBINING DATA WITH FORESTS AND BUILDINGS -----------------------------------------------------------------
 
-#trackingdata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/02_preprocessing/03_milvus_combined.csv")
-indseasondata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/01_validation/03_validation_combined.csv")
-nestdata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/data/Basic_nest_list_2015_2022.csv")
+
+# COMBINING DATA WITH FORESTS AND BUILDINGS -----------------------------------------------------------------
 
 #define different coordinate systems
 CH_LV95_coords = "+init=epsg:2056"
@@ -361,6 +337,7 @@ table(track_sf$BUILD)
 
 ### calculate distance to nearest nest
 ## this causes memory allocation error, so need to do it in a loop, which takes 45 min
+## NEED TO FACTOR IN YEAR AS WELL ??
 rm(track_amt,EXPFEEDERS)
 gc()
 
