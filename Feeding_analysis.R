@@ -9,6 +9,7 @@
 ## 11 December 2023: included new evaluation method - Boyce index https://www.r-bloggers.com/2022/05/model-evaluation-with-presence-points-and-raster-predictions/
 ## 22 Jan 2024: finalised revisions of comments by Martin Grüebler
 
+## RE-RUN ANALYSIS WITH 2024 data at very high resolution
 
 library(tidyverse)
 library(dplyr, warn.conflicts = FALSE)
