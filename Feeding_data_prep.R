@@ -112,7 +112,7 @@ track_amt <- as.data.frame(track_amt)
 
 
 
-
+### RECURSIONS IN A LOPP - takes 2 hrs --------------------------------
 # calculating recursions
 # rm(trackingdata,track_sf,buildings,forest)  ### clean up workspace and memory
 # gc()
@@ -192,7 +192,7 @@ track_amt <- track_amt %>%
   mutate(mean_speed=ifelse(is.na(mean_speed),speed,mean_speed)) %>%
   mutate(mean_angle=ifelse(is.na(mean_angle),turning_angle,mean_angle)) 
 head(track_amt)
-
+dim(track_amt)
 
 # COMBINING DATA WITH FORESTS AND BUILDINGS -----------------------------------------------------------------
 
@@ -275,26 +275,28 @@ nests_buff
 
 ### remove locations outside of study area
 track_sf <- track_amt %>% 
-  st_as_sf(coords = c("x_", "y_"))
+  st_as_sf(coords = c("x_", "y_"))  #
 st_crs(track_sf) <- 3035
 head(track_sf)
-track_sf <- track_sf %>% st_crop(x=track_sf, y=st_bbox(forest))
-
-
+track_sf <- track_sf %>% st_crop(x=track_sf, y=st_bbox(forest)) ## this reduces n locs from 10 mio to 8 mio
+dim(track_sf)
+st_difference(FEEDER_buff)
 
 ### spatial joins with forests, buildings and feeders
+## this operation bizarrely ADDs duplicate rows where polygons overlap
+## need to include st_difference() for all layers to prevent this
 head(track_sf)
 track_sf <- track_sf %>%
-  st_join(forest,
+  st_join(st_difference(forest),
           join = st_intersects, 
           left = TRUE) %>%
-  st_join(buildings,
+  st_join(st_difference(buildings),
           join = st_intersects, 
           left = TRUE) %>%
-  st_join(FEEDER_buff,
+  st_join(st_difference(FEEDER_buff),
           join = st_intersects, 
           left = TRUE) %>%
-  st_join(nests_buff,
+  st_join(st_difference(nests_buff),
           join = st_intersects, 
           left = TRUE) %>%
   mutate(BUILD=ifelse(is.na(build_id),0,1),
@@ -303,7 +305,7 @@ track_sf <- track_sf %>%
          FEEDER=ifelse(is.na(feeder_id),"NO","YES")) %>%   ### FOR PUBLIC FEEDERS SPATIAL OVERLAP IS YES OR NO
   mutate(FEED_ID=feeder_id) %>%
   select(-feeder_id) %>%
-  st_join(EXPFEEDERS_buff,
+  st_join(st_difference(EXPFEEDERS_buff),
           join = st_intersects, 
           left = TRUE) %>%
   mutate(FEEDER=ifelse(is.na(feeder_id),FEEDER,
@@ -311,7 +313,7 @@ track_sf <- track_sf %>%
   mutate(FEED_ID=ifelse(is.na(feeder_id),FEED_ID,feeder_id)) %>%
   select(-feeder_id) %>%
   
-  st_join(PLATFORMS_buff,
+  st_join(st_difference(PLATFORMS_buff),
           join = st_intersects, 
           left = TRUE) %>%
   mutate(FEEDER=ifelse(is.na(feeder_id),FEEDER,
@@ -321,7 +323,7 @@ track_sf <- track_sf %>%
   rename(forest_size=AREA)
 
 head(track_sf)
-
+dim(track_sf)
 st_bbox(FEEDER_buff)
 st_bbox(forest)
 st_bbox(buildings)
@@ -332,9 +334,26 @@ table(track_sf$BUILD)
 
 
 ### calculate distance to nearest nest
+## this causes memory allocation error, so need to do it in a loop
+
+
 nest_site_distances<-st_distance(track_sf,nests) 
 track_sf <- track_sf %>%
   mutate(dist_nest=apply(nest_site_distances,1,min)/1000)  ### distance in km
+
+
+
+tic()
+track_amt$revisits <- NA
+track_amt$residence_time <- NA
+for (i in unique(track_amt$id)){
+  x<-track_amt %>% filter(id==i)
+  x_distances<-st_distance(x,nests) 
+  track_sf$dist_nest <- apply(x_distances,1,min)/1000  ### distance in km
+
+}
+toc()
+
 
 
 
