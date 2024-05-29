@@ -100,7 +100,7 @@ table(track_nofor_day_build$FEEDER)
 
 ################ PREPARE DATA FOR PREDICTION
 
-DATA <- track_nofor_day_build %>% filter(is.na(bird_id))
+DATA <- track_nofor_day_build %>%
   mutate(YDAY=yday(t_), hour=hour(t_), month=month(t_)) %>%
   filter(!is.na(step_length)) %>%
   filter(!is.na(turning_angle)) %>%
