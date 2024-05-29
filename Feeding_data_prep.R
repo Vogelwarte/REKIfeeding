@@ -228,18 +228,45 @@ FEEDER_buff<- FEEDERS %>% st_transform(crs = 3035) %>%
 
 
 ### EXPERIMENTAL FEEDING STATIONS
-EXPFEEDERS<- fread("data/experimental_feeding.csv") %>%
+## there are two duplicates that cause errors when using st_difference because they lead to identical buffers
+# EXPFEEDERS<- fread("data/experimental_feeding.csv") %>%
+#   mutate(long=as.numeric(lon)) %>%
+#   filter(!is.na(long)) %>%
+#   filter(!is.na(lat)) %>%
+#   st_as_sf(coords = c("long", "lat"))
+# ### troubleshoot the duplicates
+# # EXPFEEDERS %>% st_transform(crs = 3035) %>% group_by(geometry) %>% summarise(N=length(nest_name),event=min(event_id),event2=max(event_id)) %>% filter(N>1)
+# # EXPFEEDERS %>% filter(event_id %in% c(5610,5611,4413,4414))
+# # EXPFEEDERS %>% filter(nest_name %in% c("Alterswil_Grabach"))
+# st_crs(EXPFEEDERS) <- 4326
+# 
+# EXPFEEDERS_buff<- EXPFEEDERS %>%
+#   #dplyr::filter(!event_id %in% c(5610,4413)) %>%  ## remove 2 offending stations with duplicate coordinates that cause problems when overlaying with locations
+#   #dplyr::filter(!event_id %in% c(206,218)) %>%  ## remove 2 offending stations with duplicate coordinates that cause problems when overlaying with locations
+#   st_transform(crs = 3035) %>%
+#   st_buffer(dist=50) %>%
+#   select(nest_name,Timepoint,food_placed) %>%
+#   rename(feeder_id=nest_name)
+
+# plot(EXPFEEDERS_buff[which(st_coordinates(EXPFEEDERS_buff)[,2]==2638298.634522798),])
+# st_make_valid(EXPFEEDERS_buff[which(st_coordinates(EXPFEEDERS_buff)[,2]==2638298.634522798),])
+# st_difference(st_make_valid(EXPFEEDERS_buff))
+
+### THE PROBLEM IS THE SPATIAL DUPLICATION AT MULTIPLE TIME POINTS; SO WE TAKE THE MEDIAN FOR EACH NEST NAME
+EXPFEEDERS_buff<- fread("data/experimental_feeding.csv") %>%
+  dplyr::filter(!event_id %in% c(5610,4413)) %>%  ## remove 2 offending stations with duplicate coordinates that cause problems when overlaying with locations
   mutate(long=as.numeric(lon)) %>%
-  # group_by(nest_name) %>%
-  # summarise(lat=mean(lat,na.rm=T),long=mean(long, na.rm=T)) %>%
   filter(!is.na(long)) %>%
   filter(!is.na(lat)) %>%
-  st_as_sf(coords = c("long", "lat"))
-st_crs(EXPFEEDERS) <- 4326
-EXPFEEDERS_buff<- EXPFEEDERS %>% st_transform(crs = 3035) %>%
+  group_by(nest_name) %>%
+  summarise(start=min(Timepoint), end=max(Timepoint), lat=mean(lat,na.rm=T),long=mean(long, na.rm=T), food_placed=median(food_placed, na.rm=T)) %>%
+  st_as_sf(coords = c("long", "lat"), crs=4326) %>%
+  ungroup() %>%
+  st_transform(crs = 3035) %>%
   st_buffer(dist=50) %>%
-  select(nest_name,Timepoint,food_placed) %>%
+  select(nest_name,start, end,food_placed) %>%
   rename(feeder_id=nest_name)
+st_difference(EXPFEEDERS_buff)
 
 
 ### FEEDING PLATFORMS
@@ -284,20 +311,20 @@ st_difference(FEEDER_buff)
 
 ### spatial joins with forests, buildings and feeders
 ## this operation bizarrely ADDs duplicate rows where polygons overlap
-## need to include st_difference() for all layers to prevent this
+## need to include st_difference() for all layers to prevent this: https://gis.stackexchange.com/questions/351429/sf-st-intersection-returning-duplicate-features
 head(track_sf)
 track_sf <- track_sf %>%
   st_join(st_difference(forest),
-          join = st_intersects, 
+          join = st_intersects,
           left = TRUE) %>%
   st_join(st_difference(buildings),
-          join = st_intersects, 
+          join = st_intersects,
           left = TRUE) %>%
   st_join(st_difference(FEEDER_buff),
-          join = st_intersects, 
+          join = st_intersects,
           left = TRUE) %>%
   st_join(st_difference(nests_buff),
-          join = st_intersects, 
+          join = st_intersects,
           left = TRUE) %>%
   mutate(BUILD=ifelse(is.na(build_id),0,1),
          NEST=ifelse(is.na(nest_name),0,1),
@@ -309,17 +336,16 @@ track_sf <- track_sf %>%
           join = st_intersects, 
           left = TRUE) %>%
   mutate(FEEDER=ifelse(is.na(feeder_id),FEEDER,
-                       ifelse(t_ %within% interval(Timepoint,Timepoint+days(30)),"YES",FEEDER))) %>%   ### FOR EXPERIMENTAL FEEDERS NEED TEMPORAL OVERLAP TO WITHIN A MONTH OF Timepoint
+                       ifelse(t_ %within% interval(start,end+days(30)),"YES",FEEDER))) %>%   ### FOR EXPERIMENTAL FEEDERS NEED TEMPORAL OVERLAP TO WITHIN A MONTH OF Timepoint - changed to start and end of interval
   mutate(FEED_ID=ifelse(is.na(feeder_id),FEED_ID,feeder_id)) %>%
   select(-feeder_id) %>%
-  
   st_join(st_difference(PLATFORMS_buff),
           join = st_intersects, 
           left = TRUE) %>%
   mutate(FEEDER=ifelse(is.na(feeder_id),FEEDER,
                        ifelse(t_ %within% interval(start_date,end_date+days(30)),"YES",FEEDER))) %>%   ### FOR FEEDING PLATFORMS NEED TEMPORAL OVERLAP TO WITHIN A MONTH OF end time
   mutate(FEED_ID=ifelse(is.na(feeder_id),FEED_ID,feeder_id)) %>%
-  select(-year,-n_event,-start_date,-end_date,-Timepoint,-food_placed,-nest_name,-tree_spec,-feeder_id) %>%
+  select(-year,-n_event,-start_date,-end_date,-start,-end,-food_placed,-nest_name,-tree_spec,-feeder_id) %>%
   rename(forest_size=AREA)
 
 head(track_sf)
@@ -334,23 +360,21 @@ table(track_sf$BUILD)
 
 
 ### calculate distance to nearest nest
-## this causes memory allocation error, so need to do it in a loop
+## this causes memory allocation error, so need to do it in a loop, which takes 45 min
+rm(track_amt,EXPFEEDERS)
+gc()
 
-
-nest_site_distances<-st_distance(track_sf,nests) 
-track_sf <- track_sf %>%
-  mutate(dist_nest=apply(nest_site_distances,1,min)/1000)  ### distance in km
-
-
+# nest_site_distances<-st_distance(track_sf,nests) 
+# track_sf <- track_sf %>%
+#   mutate(dist_nest=apply(nest_site_distances,1,min)/1000)  ### distance in km
 
 tic()
-track_amt$revisits <- NA
-track_amt$residence_time <- NA
-for (i in unique(track_amt$id)){
-  x<-track_amt %>% filter(id==i)
-  x_distances<-st_distance(x,nests) 
-  track_sf$dist_nest <- apply(x_distances,1,min)/1000  ### distance in km
+track_sf$dist_nest <- NA
 
+for (i in unique(track_sf$id)){
+  x<-track_sf %>% filter(id==i)
+  x_distances<-st_distance(x,nests)
+  track_sf$dist_nest[track_sf$id==i] <- apply(x_distances,1,min)/1000  ### distance in km
 }
 toc()
 
@@ -370,8 +394,8 @@ track_sf <- track_sf %>%
   left_join(indseasondata, by="year_id")
 
 
-fwrite(as.data.frame(track_sf),"data/REKI_annotated_feeding.csv")
-saveRDS(track_sf, file = "data/REKI_trackingdata_annotated.rds")
+fwrite(as.data.frame(track_sf),"data/REKI_annotated_feeding2024.csv")
+saveRDS(track_sf, file = "data/REKI_trackingdata_annotated2024.rds")
 head(track_sf)
 dim(track_sf)
 
