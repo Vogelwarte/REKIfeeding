@@ -102,19 +102,24 @@ table(track_nofor_day_build$FEEDER)
 
 DATA <- track_nofor_day_build %>%
   mutate(YDAY=yday(t_), hour=hour(t_), month=month(t_)) %>%
+  mutate(extra=year_id) %>%
+  separate_wider_delim(extra, delim="_", names=c("year","bird_id")) %>%
   filter(!is.na(step_length)) %>%
   filter(!is.na(turning_angle)) %>%
   filter(!is.na(speed)) %>%
   filter(!is.na(mean_speed)) %>%
   filter(!is.na(mean_angle)) %>%
   select(-tod_,-FOREST,-forest_size,-build_id,-type_of_food,-frequency) %>%
-  mutate(point_id=seq_along(t_))
+  mutate(point_id=seq_along(t_)) %>%
+  mutate(year=as.numeric(year), bird_id=as.factor(bird_id)) %>%
+  filter(!is.na(age_cy)) ##### TEMPORARY APPROACH UNTIL I CAN GET DATA FROM 2022 onwards
 head(DATA)
 
 
 ### basic stats
 dim(DATA)
 length(unique(DATA$year_id))
+range(DATA$age_cy)
 range(DATA$year)
 length(unique(DATA$bird_id))
 length(unique(DATA$FEED_ID))

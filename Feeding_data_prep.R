@@ -261,7 +261,7 @@ PLATFORMS_buff
 ### SUMMARY OF NUMBER OF FEEDERS
 ## this makes only sense if the experimental feeders have been grouped
 dim(FEEDERS)[1] +
-dim(EXPFEEDERS)[1] +
+dim(EXPFEEDERS_buff)[1] +
 dim(PLATFORMS)[1]
 
 
@@ -360,19 +360,19 @@ toc()
 
 
 ### join data with individual info
-track_sf <- track_sf %>% 
+track_out <- track_sf %>% 
   st_transform(crs = 4326) %>%
   dplyr::mutate(long = sf::st_coordinates(.)[,1],
                 lat = sf::st_coordinates(.)[,2]) %>%
   # mutate(long = unlist(map(track_sf$geometry,1)),
   #        lat = unlist(map(track_sf$geometry,2)))
   st_drop_geometry() %>%
-  rename(year_id=id) %>%
-  left_join(indseasondata, by="year_id")
+  rename(year_id=id) #%>%
+  #left_join(indseasondata, by="year_id")
 
 
-fwrite(as.data.frame(track_sf),"data/REKI_annotated_feeding2024.csv")
-saveRDS(track_sf, file = "data/REKI_trackingdata_annotated2024.rds")
+fwrite(as.data.frame(track_out),"data/REKI_annotated_feeding2024.csv")
+saveRDS(track_sf, file = "data/REKI_trackingdata_annotated2024_sf.rds")
 head(track_sf)
 dim(track_sf)
 
