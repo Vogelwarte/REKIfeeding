@@ -95,6 +95,7 @@ head(trackingdata)
 track_sf <- trackingdata %>%
   dplyr::select(year_id,sex,age_cy,timestamp,geometry,long,lat) %>%
   st_transform(crs = 3035) %>%
+  ungroup() %>%
   dplyr::mutate(long_eea = sf::st_coordinates(.)[,1],
               lat_eea = sf::st_coordinates(.)[,2])
 
@@ -122,7 +123,7 @@ gc()
 
 ### CALCULATE OTHER METRICS
 track_amt$step_length<-amt::step_lengths(track_amt)       # include step lengths
-track_amt$turning_angle<-amt::direction_abs(track_amt,append_last=T)      # include turning angles
+track_amt$turning_angle<-amt::direction_rel(track_amt,append_last=T, full_circle = FALSE,lonlat = FALSE)      # include RELATIVE turning angles - changed from absolute
 track_amt$speed<-amt::speed(track_amt)      # include speed
 
 head(track_amt)
@@ -137,7 +138,7 @@ track_amt <- as.data.frame(track_amt)
 
 
 
-### RECURSIONS IN A LOPP - takes 2 hrs --------------------------------
+### RECURSIONS IN A LOOP - takes 2 hrs --------------------------------
 # calculating recursions
 rm(trackingdata,track_sf,buildings,forest)  ### clean up workspace and memory
 gc()

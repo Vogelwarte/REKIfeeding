@@ -55,6 +55,10 @@ track_sf %>% mutate(extra=year_id) %>%
   separate_wider_delim(extra, delim="_", names=c("year","bird_id")) %>%
   group_by
 
+hist(track_sf$turning_angle*(180/pi))
+
+
+
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## CALCULATE DISTANCE FROM PREDICTED FEEDING SITE TO NEAREST KNOWN SITE   #############
