@@ -112,7 +112,8 @@ track_amt <- track_sf %>%
     id = year_id,
     sex=sex,
     age_cy=age_cy,
-    crs = 3035
+    crs = 3035,
+    order_by_ts=TRUE
   ) %>%
   time_of_day(include.crepuscule = T) %>% # if F, crepuscule is considered as night
   arrange(id, t_)
@@ -126,9 +127,24 @@ track_amt$step_length<-amt::step_lengths(track_amt)       # include step lengths
 track_amt$turning_angle<-abs(amt::direction_rel(track_amt,append_last=T, full_circle = FALSE,lonlat = FALSE))      # include RELATIVE turning angles - changed from absolute
 track_amt$turning_angle<-ifelse(is.na(track_amt$turning_angle),0,track_amt$turning_angle)  ## replace NA turning angles (caused by 0 distance) with 0
 track_amt$speed<-amt::speed(track_amt)      # include speed
+track_amt$locid<-seq_along(track_amt$t_)
+
+### ABOVE METRICS NEED TO BE SET TO NA FOR THE LAST POSITION OF EACH INDIVIDUAL
+lastlocs<- track_amt %>% st_drop_geometry() %>%
+	arrange(id,t_) %>%
+	group_by(id) %>%
+	summarise(last=max(t_), lastloc=max(locid))
+track_amt$speed[track_amt$locid %in% lastlocs$lastloc]<-NA
+track_amt$step_length[track_amt$locid %in% lastlocs$lastloc]<-NA
+track_amt$turning_angle[track_amt$locid %in% lastlocs$lastloc]<-NA
 
 head(track_amt)
 hist(track_amt$turning_angle*(180/pi))
+range(track_amt$speed, na.rm=T)
+track_amt %>% filter(speed<0)
+track_amt %>% filter(id=="2015_139") %>% filter(yday(t_) > yday(ymd("2015-10-27"))) %>% st_drop_geometry() %>% print(n=30)
+track_sf %>% filter(id=="2015_137") %>% filter(yday(t_) > yday(ymd("2015-09-26"))) %>% st_drop_geometry() %>% print(n=30)
+
 
 
 # RECURSIONS FOR EACH LOCATION 50 m BUFFER--------------------------------------------------
