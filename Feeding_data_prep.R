@@ -123,10 +123,12 @@ gc()
 
 ### CALCULATE OTHER METRICS
 track_amt$step_length<-amt::step_lengths(track_amt)       # include step lengths
-track_amt$turning_angle<-amt::direction_rel(track_amt,append_last=T, full_circle = FALSE,lonlat = FALSE)      # include RELATIVE turning angles - changed from absolute
+track_amt$turning_angle<-abs(amt::direction_rel(track_amt,append_last=T, full_circle = FALSE,lonlat = FALSE))      # include RELATIVE turning angles - changed from absolute
+track_amt$turning_angle<-ifelse(is.na(track_amt$turning_angle),0,track_amt$turning_angle)  ## replace NA turning angles (caused by 0 distance) with 0
 track_amt$speed<-amt::speed(track_amt)      # include speed
 
 head(track_amt)
+hist(track_amt$turning_angle*(180/pi))
 
 
 # RECURSIONS FOR EACH LOCATION 50 m BUFFER--------------------------------------------------
