@@ -82,14 +82,37 @@ locs2<-movebank_retrieve(study_id=MYSTUDY[2],
 maxtimelag<-60  ## maximum duration of 60 seconds to consider subsequent locations separate
 filterlocs<-bind_rows(locs1,locs2) %>%
   group_by(individual_id) %>%
-  mutate(prev_t=dplyr::lag(timestamp), prev_id=lag(individual_id), prev_lat=dplyr::lag(location_lat),prev_long=dplyr::lag(location_long)) %>%
+  mutate(prev_t=dplyr::lag(timestamp), prev_id=dplyr::lag(individual_id), prev_lat=dplyr::lag(location_lat),prev_long=dplyr::lag(location_long)) %>%
   mutate(dt=as.numeric(difftime(timestamp,prev_t, units="sec"))) %>%
-  mutate(dt=ifelse(prev_id==individual_id & round(prev_lat,3)==round(location_lat,3) & round(prev_long,3)==round(location_long,3),dt,maxtimelag*2)) %>%
-  mutate(dt=if_else(is.na(dt),maxtimelag*2,dt)) %>%
+  mutate(dt=dplyr::if_else(prev_id==individual_id & round(prev_lat,3)==round(location_lat,3) & round(prev_long,3)==round(location_long,3),dt,maxtimelag*2)) %>%
+  mutate(dt=dplyr::if_else(is.na(dt),maxtimelag*2,dt)) %>%
   filter(dt>maxtimelag) %>%
   ungroup() %>%
   dplyr::select(timestamp,location_lat,location_long,individual_id)
 dim(filterlocs)
+
+
+#### turned into function to contribute to move2: https://gitlab.com/bartk/move2/-/issues/60
+
+
+#' @param locs tibble. Tracking data downloaded from Movebank using \code{move2::movebank_retrieve}
+#' @param mintimelag numeric. Time lag (in seconds) that must have elapsed between two subsequent locations of the same individual for both locations to be retained.
+#' @param loc_res integer. Precision of global coordinates (in EPSG:4326) to which subsequent latitudes and longitudes are rounded when assessing whether identical locations should be filtered.
+# mt_filter_lag<-function(locs,maxtimelag=60,loc_res=3){
+#   out<-locs %>%
+#     group_by(individual_id) %>%
+#     mutate(prev_t=dplyr::lag(timestamp), prev_id=dplyr::lag(individual_id), prev_lat=dplyr::lag(location_lat),prev_long=dplyr::lag(location_long)) %>%
+#     mutate(dt=as.numeric(difftime(timestamp,prev_t, units="sec"))) %>%
+#     mutate(dt=dplyr::if_else(prev_id==individual_id & round(prev_lat,loc_res)==round(location_lat,loc_res) & round(prev_long,loc_res)==round(location_long,loc_res),dt,maxtimelag*2)) %>%
+#     mutate(dt=dplyr::if_else(is.na(dt),maxtimelag*2,dt)) %>%
+#     filter(dt>maxtimelag) %>%
+#     ungroup() %>%
+#     dplyr::select(timestamp,location_lat,location_long,individual_id)
+#   return(out)
+# }
+# 
+# mt_filter_lag(locs1,maxtimelag=120,loc_res=3)
+
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
