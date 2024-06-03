@@ -129,7 +129,11 @@ track_amt$turning_angle<-ifelse(is.na(track_amt$turning_angle),0,track_amt$turni
 track_amt$speed<-amt::speed(track_amt)      # include speed
 track_amt$locid<-seq_along(track_amt$t_)
 
-### ABOVE METRICS NEED TO BE SET TO NA FOR THE LAST POSITION OF EACH INDIVIDUAL
+## check how speed is calculated by hand
+#track_amt %>% mutate(dt=as.numeric(difftime(dplyr::lead(t_),t_, units="sec"))) %>%
+#	mutate(speed2=step_length/dt)
+
+### ABOVE METRICS NEED TO BE SET TO NA FOR THE LAST POSITION OF EACH INDIVIDUAL - THEY ARE NOT CALCULATED FOR YEAR_ID and therefore calculate distances between different animals
 lastlocs<- track_amt %>% st_drop_geometry() %>%
 	arrange(id,t_) %>%
 	group_by(id) %>%
@@ -143,7 +147,59 @@ hist(track_amt$turning_angle*(180/pi))
 range(track_amt$speed, na.rm=T)
 track_amt %>% filter(speed<0)
 track_amt %>% filter(id=="2015_139") %>% filter(yday(t_) > yday(ymd("2015-10-27"))) %>% st_drop_geometry() %>% print(n=30)
-track_sf %>% filter(id=="2015_137") %>% filter(yday(t_) > yday(ymd("2015-09-26"))) %>% st_drop_geometry() %>% print(n=30)
+track_amt %>% filter(speed>50)
+track_amt %>% filter(locid %in% seq(21245,21258,1))
+
+
+### FILTER OUT CRAZY SPEED LOCATIONS
+dim(track_amt) 
+crazyspeedlocs<- track_amt %>% filter(speed>50) %>% st_drop_geometry()
+
+#l=21248
+#l=1067771
+#l=226069
+#l=6473339
+for (l in crazyspeedlocs$locid) {
+	chunk<-track_amt %>% filter(locid %in% seq(l-5,l+5,1)) %>% st_drop_geometry() %>% select(-age_cy,-sex,-tod_) %>%
+	mutate(prev_t=dplyr::lag(t_), post_t=dplyr::lead(t_), prev_dist=dplyr::lag(step_length),post_dist=dplyr::lead(step_length)) %>%
+	mutate(pre_dt=as.numeric(difftime(t_,prev_t, units="sec")),post_dt=as.numeric(difftime(post_t,t_, units="sec"))) %>%
+	rowwise() %>%
+	mutate(dt=min(pre_dt,post_dt, na.rm=T)) %>%
+	ungroup()
+
+	## filter the location that is (1) among the top 2 step_lengths, (2) among the top 2 turning angles, (3) min of (pre_dt and post_dt) among the bottom 2 dts
+	sel1a<-slice_max(chunk,step_length,n=2)
+	sel1b<-slice_max(chunk,speed,n=2)
+	sel2<-slice_max(chunk,turning_angle,n=2)
+	sel3<-slice_min(chunk,dt,n=2)
+	sel3b<-slice_min(chunk,post_dt,n=1)
+	badid<-Reduce(intersect, list(unique(sel1a$locid,sel1b$locid),sel2$locid,sel3$locid))
+	if(length(badid)<1){badid<-Reduce(intersect, list(sel1b$locid,sel3b$locid))}
+	if(length(badid)<1){badid<-Reduce(intersect, list(unique(sel1a$locid,sel1b$locid),sel2$locid))}
+	if(length(badid)==1){track_amt<-track_amt %>% filter(locid!=badid)
+	rm(sel1,sel2,sel3,chunk,badid)}
+}
+dim(track_amt)
+
+### RECALCULATE METRICS AFTER HAVING ELIMINATED CRAZY SPEED LOCS
+track_amt$locid<-seq_along(track_amt$t_)
+track_amt$step_length<-amt::step_lengths(track_amt)       # include step lengths
+track_amt$turning_angle<-abs(amt::direction_rel(track_amt,append_last=T, full_circle = FALSE,lonlat = FALSE))      # include RELATIVE turning angles - changed from absolute
+track_amt$turning_angle<-ifelse(is.na(track_amt$turning_angle),0,track_amt$turning_angle)  ## replace NA turning angles (caused by 0 distance) with 0
+track_amt$speed<-amt::speed(track_amt)      # include speed
+lastlocs<- track_amt %>% st_drop_geometry() %>%
+	arrange(id,t_) %>%
+	group_by(id) %>%
+	summarise(last=max(t_), lastloc=max(locid))
+track_amt$speed[track_amt$locid %in% lastlocs$lastloc]<-NA
+track_amt$step_length[track_amt$locid %in% lastlocs$lastloc]<-NA
+track_amt$turning_angle[track_amt$locid %in% lastlocs$lastloc]<-NA
+dim(track_amt)
+
+## check whether the speeds are now better
+crazyspeedlocs<- track_amt %>% filter(speed>50) %>% st_drop_geometry()
+crazyspeedlocs
+
 
 
 
