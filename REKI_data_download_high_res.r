@@ -15,6 +15,7 @@ library(leaflet)
 library(units)
 library(foreach)
 library(geosphere)
+library(keyring)
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,13 +71,33 @@ locs2<-movebank_retrieve(study_id=MYSTUDY[2],
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ### these functions failed on 28 May 2024 with Error: Not all locations are non empty points. Called from: assert_that(mt_is_time_ordered_non_empty_points(x))
+## CANNOT BE REINSTATED because these functions require sf objects (download changed to tibble only for speed)
 # locs1<-rmOutlier(locs1,maxspeed=35)
 # locs1<-speedfilter(locs1,thrspeed=35)
 # locs2<-rmOutlier(locs2,maxspeed=35)
 # locs2<-speedfilter(locs2,thrspeed=35)
 
 
-locs<-bind_rows(locs1,locs2) %>%
+### MANUAL filter function to remove all locations that are within a certain time window
+maxtimelag<-60  ## maximum duration of 60 seconds to consider subsequent locations separate
+filterlocs<-bind_rows(locs1,locs2) %>%
+  group_by(individual_id) %>%
+  mutate(prev_t=dplyr::lag(timestamp), prev_id=lag(individual_id), prev_lat=dplyr::lag(location_lat),prev_long=dplyr::lag(location_long)) %>%
+  mutate(dt=as.numeric(difftime(timestamp,prev_t, units="sec"))) %>%
+  mutate(dt=ifelse(prev_id==individual_id & round(prev_lat,3)==round(location_lat,3) & round(prev_long,3)==round(location_long,3),dt,maxtimelag*2)) %>%
+  mutate(dt=if_else(is.na(dt),maxtimelag*2,dt)) %>%
+  filter(dt>maxtimelag) %>%
+  ungroup() %>%
+  dplyr::select(timestamp,location_lat,location_long,individual_id)
+dim(filterlocs)
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# FILTER AND COMBINE DATA ----------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+locs<-filterlocs %>%
   left_join(birds, by="individual_id") %>%
   mutate(tag_year=as.numeric(comments)) %>%
   mutate(age_cy=as.integer((timestamp-latest_date_born)/365)) %>%
