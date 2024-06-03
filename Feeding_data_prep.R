@@ -15,6 +15,7 @@
 ### REVISED on 28 May 2024 with newly downloaded tracking data
 ### revision in different branch to work with HIGH RES data - not at hourly resolution
 
+## ADDED individual life history data from all birds on 3 June 2024
 
 library(tidyverse)
 library(rnaturalearth)
@@ -23,6 +24,7 @@ library(amt)
 library(dplyr, warn.conflicts = FALSE)
 options(dplyr.summarise.inform = FALSE)
 library(recurse)
+library(readxl)
 library(lubridate)
 #library(move)
 library(data.table); setDTthreads(percent = 65)
@@ -46,7 +48,11 @@ trackingdata<-readRDS(file = "data/REKI_trackingdata_raw2024.rds") %>%
 
 ### LOAD INDIVIDUAL LIFE HISTORIES
 #trackingdata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/02_preprocessing/03_milvus_combined.csv")
-indseasondata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/01_validation/03_validation_combined.csv")
+#indseasondata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/01_validation/03_validation_combined.csv")
+indseasondata<-read_excel("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/Individual_life_history_2015-2023.xlsx", sheet="Individual_life_history_2015-20") %>% # updated on 3 June 2024 to include birds from 2022
+  dplyr::select(bird_id,ring_number,tag_year,sex_compiled, age, hatch_year) %>%
+  rename(ring_id=ring_number) %>%
+  mutate(hatch_year=if_else(is.na(as.numeric(hatch_year)),tag_year-3,as.numeric(hatch_year)))
 nestdata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/data/Basic_nest_list_2015_2022.csv")
 
 
@@ -70,12 +76,24 @@ trackingdata <- trackingdata %>%
 dim(trackingdata)
 
 
-# converting to metric CRS prior to estimating distances
-track_sf <- trackingdata %>% 
-  st_as_sf(coords = c("long", "lat"))
-st_crs(track_sf) <- 4326
+# filling in gaps in age and sex and making age uniform (in years)
 
-track_sf <- track_sf %>%
+trackingdata <- trackingdata %>%
+  left_join(indseasondata, by=c("bird_id","ring_id")) %>%
+  mutate(age_cy=year(timestamp)-hatch_year) %>%
+  mutate(sex=if_else(is.na(sex),sex_compiled,sex))
+
+dim(trackingdata)
+summary(trackingdata$age_cy)
+head(trackingdata)
+
+# converting to metric CRS prior to estimating distances
+# track_sf <- trackingdata %>% 
+#   st_as_sf(coords = c("long", "lat"))  ### not needed anymore in 2024 because data are read in as sf object
+# st_crs(track_sf) <- 4326
+
+track_sf <- trackingdata %>%
+  dplyr::select(year_id,sex,age_cy,timestamp,geometry,long,lat) %>%
   st_transform(crs = 3035) %>%
   dplyr::mutate(long_eea = sf::st_coordinates(.)[,1],
               lat_eea = sf::st_coordinates(.)[,2])

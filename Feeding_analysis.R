@@ -16,6 +16,7 @@ library(dplyr, warn.conflicts = FALSE)
 options(dplyr.summarise.inform = FALSE)
 library(ranger)
 library(caret)
+library(readxl)
 library(randomForest)
 library(sf)
 library(lubridate)
@@ -41,6 +42,18 @@ CH_LV95_coords = "+init=epsg:2056"
 EU_coords = "+init=epsg:3035"
 WGS84_coords ="+init=epsg:4326"
 CH_LV03_coords ="+init=epsg:21781"
+
+
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## ADD MISSING LIFE HISTORY DATA   #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+ilh<-read_excel("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/Individual_life_history_2015-2023.xlsx", sheet="Individual_life_history_2015-20") %>%
+  dplyr::select(bird_id,tag_year,sex_compiled, age, hatch_year)
+head(ilh)
+
+track_sf %>% mutate(extra=year_id) %>%
+  separate_wider_delim(extra, delim="_", names=c("year","bird_id")) %>%
+  group_by
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
