@@ -35,28 +35,13 @@ library(pdp) ### for creating partial dependence plots
 # LOADING DATA -----------------------------------------------------------------
 ### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES 
 track_sf<-fread("data/REKI_annotated_feeding2024.csv")
-#track_sf<-load(file = "data/REKI_trackingdata_annotated.rds")
+#track_sf<-load(file = "data/REKI_trackingdata_annotated2024_sf.rds")
 
 #define different coordinate systems
 CH_LV95_coords = "+init=epsg:2056"
 EU_coords = "+init=epsg:3035"
 WGS84_coords ="+init=epsg:4326"
 CH_LV03_coords ="+init=epsg:21781"
-
-
-##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-########## ADD MISSING LIFE HISTORY DATA   #############
-##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-ilh<-read_excel("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/Individual_life_history_2015-2023.xlsx", sheet="Individual_life_history_2015-20") %>%
-  dplyr::select(bird_id,tag_year,sex_compiled, age, hatch_year)
-head(ilh)
-
-track_sf %>% mutate(extra=year_id) %>%
-  separate_wider_delim(extra, delim="_", names=c("year","bird_id")) %>%
-  group_by
-
-hist(track_sf$turning_angle*(180/pi))
-
 
 
 
@@ -133,7 +118,18 @@ DATA <- track_nofor_day_build %>%
 head(DATA)
 
 
-### basic stats
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## PROVIDE SUMMARY INFO FOR MANUSCRIPT   #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+
+dim(track_sf)
+hist(track_sf$turning_angle*(180/pi))
+
+## calculate and inspect the average time between subsequent locations
+# abandoned here and moved to 'REKI_data_download_high_res.r'
+# pointless to do this after filtering because long gaps when birds left SUI!!!
+
+
 dim(DATA)
 length(unique(DATA$year_id))
 range(DATA$age_cy)

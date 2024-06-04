@@ -102,6 +102,10 @@ filterlocs<-mt_filter_lag(filterlocs,maxtimelag=120,loc_res=4)
 
 
 
+
+
+
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # FILTER AND COMBINE DATA ----------------
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -128,6 +132,36 @@ dim(locs)
 
 ### SAVE THE TRACKING DATA
 saveRDS(locs, file = "data/REKI_trackingdata_raw2024.rds")
+
+
+
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## PROVIDE SUMMARY INFO FOR MANUSCRIPT   #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+
+## calculate and inspect the average time between subsequent locations
+locs<-locs %>% group_by(bird_id) %>%
+  mutate(prev_t=dplyr::lag(timestamp)) %>%
+  mutate(dt=as.numeric(difftime(timestamp,prev_t, units="sec"))) %>%
+  ungroup()
+
+
+
+hist(locs$dt, breaks=c(0,120,300,600,1200,1800,3600,7200,300000000))
+
+
+summary(locs$dt, na.rm=T)
+longgaps<-track_sf %>% mutate(dt=(step_length/speed)/3600) %>% filter(dt>150) %>% select(year_id,locid,dt) %>% arrange(desc(dt))
+
+for (l in longgaps$locid){
+  chunk<-track_sf %>% mutate(dt=(step_length/speed)/3600) %>%
+    filter(locid %in% seq(l-5,l+5,1)) %>% select(year_id,t_,age_cy,sex,locid,step_length,speed,turning_angle,dt)
+  
+}
+
+
+
+
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
