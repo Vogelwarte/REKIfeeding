@@ -258,7 +258,7 @@ mF
 
 
 ##### RUN MODEL ##########
-
+## takes about 25 minutes with 2024 dataset
 
 RF2 <- ranger::ranger(as.factor(FEEDER) ~ sex + age_cy + YDAY + hour + month +                            ## basic variables such as age, sex, and time
                         revisits + residence_time + meanFreqVisit + n_days + TimeSpan + TempEven +        ## several variables dealing with the temporal revisitation pattern
@@ -338,9 +338,15 @@ OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
 
 #  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
   
+trainmat
+testmat
+31146+5687
+
   
+  
+    
 ########### PARTIAL DEPENDENCE PLOTS ###############
-Sys.time()
+#tic()
 ## this seems to take forever if parallel=T, otherwise 15 min
   
 # ndpart<-partial(RF2, pred.var="dist_nest", trim.outliers=F, progress=T, prob=T)
@@ -354,7 +360,7 @@ Sys.time()
    
   
   #  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
-  
+ #toc() 
   
   ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
   ########## VALIDATE PREDICTIONS WITH SURVEY DATA FROM EVA CEREGHETTI AND FIONA PELLET  #############
