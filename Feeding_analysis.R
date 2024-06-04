@@ -163,7 +163,8 @@ DATA_TEST<- DATA %>% filter(!(point_id %in% DATA_TRAIN$point_id))
 table(DATA_TRAIN$FEEDER)
 table(DATA_TEST$FEEDER)
 
-
+table(DATA_TRAIN$NEST)
+table(DATA_TEST$NEST)
 
 # DATA %>% filter(FEED_ID=="") %>% filter(FEEDER=="YES")
 # DATA %>% filter(!(FEED_ID=="")) %>% filter(FEEDER=="NO")   ### these are feeders that were only temporarily active, so feeder=NO, despite location in spatial proximity
@@ -181,7 +182,7 @@ lengths(tab)
 countgrid <- st_sf(n = lengths(tab), geometry = st_cast(grid, "MULTIPOLYGON")) %>%
   st_transform(3035)
 summary(log(countgrid$n+1))
-pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,15))
+pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,12))
 leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
   htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
                            position: 'bottomright' }).addTo(this)}"
@@ -204,11 +205,11 @@ leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom
 
 ### NEED TO FIND GOOD EXAMPLE BIRD FOR DEMO ###
 sort(unique(DATA$FEED_ID))
-DATA %>% filter (FEEDER=="YES") %>% filter(revisits>370)
+DATA %>% filter (FEEDER=="YES") %>% filter(revisits>2000) %>% arrange(revisits)
 
 ## need to specify color palette 
 # If you want to set your own colors manually:
-res.pal <- colorNumeric(c("grey15","firebrick"), seq(0,3300))
+res.pal <- colorNumeric(c("grey15","red"), seq(0,3300))
 mF <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
   setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
   htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
@@ -222,7 +223,7 @@ mF <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
   #   color = "red", weight = 1
   #  ) %>%
   addCircleMarkers(
-    data=track_sf %>% filter(year_id=="2018_459") %>% st_transform(4326),
+    data=track_sf %>% filter(year_id=="2019_481") %>% st_transform(4326),
     radius = 5,
     stroke = TRUE, color = ~res.pal(revisits), weight = 0.8,
     fillColor = ~res.pal(revisits), fillOpacity = 0.8
