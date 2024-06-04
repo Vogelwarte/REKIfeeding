@@ -28,6 +28,8 @@ MYUSERNAME<-"Steffen"
 movebank_store_credentials(username=MYUSERNAME, key_name = getOption("move2_movebank_key_name"), force = TRUE)
 movebank_download_study_info(study_id=MYSTUDY[2])$sensor_type_ids
 
+
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # DOWNLOAD MOVEBANK DATA AND ANIMAL INFO ----------------
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -144,16 +146,38 @@ locs<-locs %>% group_by(bird_id) %>%
   mutate(prev_t=dplyr::lag(timestamp)) %>%
   mutate(dt=as.numeric(difftime(timestamp,prev_t, units="sec"))) %>%
   ungroup()
+locs$locid<-seq_along(locs$timestamp)
+
+summary(locs$dt)
+summary(locs$dt[locs$dt<10000])
+shortgaps<-locs %>% filter(dt<30)
+hist(locs$dt[locs$dt<10000], breaks=c(0,120,300,600,1200,3600,10000))
 
 
+locs %>% filter(dt<10000) %>%
+	filter(!is.na(dt)) %>%
+ggplot()+
+geom_histogram(aes(x=dt), breaks=c(0,120,300,600,1200,3600,10000), colour="navyblue", fill="grey87")+                               
 
-hist(locs$dt, breaks=c(0,120,300,600,1200,1800,3600,7200,300000000))
+  ylab("Number of GPS locations") +
+  xlab("Interval (s) between subsequent locations") +
+  theme(panel.background=element_rect(fill="white", colour="black"), 
+        axis.text.y=element_text(size=18, color="black"),
+        axis.text.x=element_text(size=14, color="black", angle=45, vjust=0.5), 
+        axis.title=element_text(size=20), 
+        strip.text.x=element_text(size=18, color="black"), 
+        strip.background=element_rect(fill="white", colour="black"), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        panel.border = element_blank())
+
+
 
 
 summary(locs$dt, na.rm=T)
 longgaps<-track_sf %>% mutate(dt=(step_length/speed)/3600) %>% filter(dt>150) %>% select(year_id,locid,dt) %>% arrange(desc(dt))
 
-for (l in longgaps$locid){
+for (l in shortgaps$locid){
   chunk<-track_sf %>% mutate(dt=(step_length/speed)/3600) %>%
     filter(locid %in% seq(l-5,l+5,1)) %>% select(year_id,t_,age_cy,sex,locid,step_length,speed,turning_angle,dt)
   
