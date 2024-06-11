@@ -288,7 +288,7 @@ DATA_TRAIN <- DATA_TRAIN %>%
   dplyr::mutate(FEEDER_predicted = as.factor(dplyr::case_when(feed_prob > prevalence ~ "YES",
                                                             feed_prob < prevalence ~ "NO")))
 
-suppressWarnings({trainmat<-caret::confusionMatrix(data = DATA_TRAIN$FEEDER_observed, reference = DATA_TRAIN$FEEDER_predicted, positive="YES")})
+suppressWarnings({trainmat<-caret::confusionMatrix(data = DATA_TRAIN$FEEDER_predicted, reference = DATA_TRAIN$FEEDER_observed, positive="YES")})
 
 #### classification success of test data
 
@@ -301,7 +301,11 @@ DATA_TEST <- DATA_TEST %>%
   dplyr::mutate(FEEDER_predicted = as.factor(dplyr::case_when(feed_prob > prevalence ~ "YES",
                                                               feed_prob < prevalence ~ "NO")))
 
-suppressWarnings({testmat<-caret::confusionMatrix(data = DATA_TEST$FEEDER_observed, reference = DATA_TEST$FEEDER_predicted, positive="YES")})
+suppressWarnings({testmat<-caret::confusionMatrix(data = DATA_TEST$FEEDER_predicted, reference = DATA_TEST$FEEDER_observed, positive="YES")})
+
+hist(DATA_TEST$feed_prob, breaks=c(0,0.005,0.01,0.015,0.02,0.025,0.03,0.35,0.1,0.5,1))
+max(DATA_TEST$feed_prob)
+
 
 ## export data for further use in outcome prediction
 OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
@@ -420,7 +424,7 @@ VAL_DAT<-DATA_TEST  %>%
   mutate(FEEDER_observed=as.factor(dplyr::if_else(as.character(FEEDER_surveyed)=="YES",FEEDER_surveyed,FEEDER_observed))) %>%
   mutate(feed_obs_num=as.numeric(FEEDER_observed)-1)
 str(VAL_DAT)  
-suppressWarnings({valmat<-caret::confusionMatrix(data = VAL_DAT$FEEDER_observed, reference = VAL_DAT$FEEDER_predicted, positive="YES")})
+suppressWarnings({valmat<-caret::confusionMatrix(data = VAL_DAT$FEEDER_predicted, reference = VAL_DAT$FEEDER_observed, positive="YES")})
 valmat
 5812/(5812+1175)
 31286/(31286+5812)
