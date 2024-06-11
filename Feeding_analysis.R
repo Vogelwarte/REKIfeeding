@@ -159,6 +159,8 @@ DATA %>% group_by(bird_id) %>%
 ### completely random subsetting
 DATA_TRAIN<- DATA %>% slice_sample(prop=0.67, by = FEEDER, replace = FALSE)
 DATA_TEST<- DATA %>% filter(!(point_id %in% DATA_TRAIN$point_id))
+dim(DATA_TRAIN)
+dim(DATA_TEST)
 
 table(DATA_TRAIN$FEEDER)
 table(DATA_TEST$FEEDER)
@@ -340,8 +342,11 @@ OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
   
 trainmat
 testmat
-31146+5687
+5697/(5697+31347)
+5697/(5697+442)
 
+# save.image("output/Feeding_analysis2024.RData")  
+# load("output/Feeding_analysis2024.RData")
   
   
     
@@ -403,7 +408,7 @@ VAL_FEED_BUFF <-feed_surv2_sf %>%
   st_buffer(dist=50) %>%
   select(FEEDER_surveyed)
 
-VAL_DAT<-OUT  %>%
+VAL_DAT<-DATA_TEST  %>%
   st_as_sf(coords = c("long", "lat"), crs=4326) %>%
   st_transform(crs = 3035) %>%
   st_join(VAL_FEED_BUFF,
@@ -417,6 +422,8 @@ VAL_DAT<-OUT  %>%
 str(VAL_DAT)  
 suppressWarnings({valmat<-caret::confusionMatrix(data = VAL_DAT$FEEDER_observed, reference = VAL_DAT$FEEDER_predicted, positive="YES")})
 valmat
+5812/(5812+1175)
+31286/(31286+5812)
   
 ## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
 ## but we use ROC curve to identify threshold
@@ -521,7 +528,7 @@ filter_lims <- function(x){
 var.labs <- c("Step length", "Distance to nest", "Mean visit frequency","N days", "Time at location", "N revisits", "Evenness of attendance", "Time span of attendance")
 
 
-OUT %>%
+DATA_TEST %>%
   mutate(Classification=ifelse(FEEDER_predicted==FEEDER_observed,"correct",
                                ifelse(FEEDER_predicted=="YES","false pred","missed pred"))) %>%
   # mutate(Classification=ifelse(Classification!="correct",Classification,
@@ -549,7 +556,7 @@ OUT %>%
                  panel.grid.minor = ggplot2::element_blank(), 
                  panel.border = ggplot2::element_blank())
 
-ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_S1.jpg", width=12, height=11, dpi=300)
+ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_S1_2024.jpg", width=12, height=11, dpi=300)
 
 
 
@@ -560,13 +567,19 @@ pred_succ_var_summary<-OUT %>%
   group_by(variable, Classification) %>%
   summarise(mean=median(value), min=min(value), max=max(value))
 
-fwrite(pred_succ_var_summary,"output/RF1_pred_succ_var_summary.csv")
+fwrite(pred_succ_var_summary,"output/RF1_pred_succ_var_summary_2024.csv")
 
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## SECOND LEVEL PREDICTION: COUNT POINTS AND INDIVIDUALS IN GRID   #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+
+#### ASSESS NUMBER OF AVAILABLE LOCATIONS
+table(OUT$FEEDER_predicted)
+OUT %>% dplyr::filter(FEEDER_predicted=="YES") %>% summarise(n=length(unique(year_id)))
+
+
 
 #### FIRST COUNT N INDIVIDUALS PER GRID CELL
 
@@ -612,6 +625,8 @@ PRED_GRID<-countgrid %>%
   filter(n>10) %>%
   st_drop_geometry() %>%
   mutate(FEEDER=ifelse(FEEDER==0,0,1))
+
+table(PRED_GRID$FEEDER)
 
 RF3 <- ranger::ranger(FEEDER ~ n+N_ind+N_feed_points+N_feed_ind+prop_feed+prop_pts,     
                       data=PRED_GRID, mtry=2, num.trees=2500, replace=F, importance="permutation", oob.error=T, write.forest=T, probability=T)
@@ -668,7 +683,7 @@ impplot2<-IMP2[6:1,] %>%
                  panel.border = ggplot2::element_blank())
 print(impplot2)
 
-#ggsave("output/REKI_feed_congregation_variable_importance.jpg", height=7, width=11)
+#ggsave("output/REKI_feed_congregation_variable_importance2024.jpg", height=7, width=11)
 
 
 
@@ -819,9 +834,9 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
 m2
 
 
-htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_1.html")
-mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_1.html")
-st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas.kml",append=FALSE)
+htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_1_2024.html")
+mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_1_2024.html")
+st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas_2024.kml",append=FALSE)
 
 
 
@@ -875,7 +890,7 @@ VAL_DAT %>%
                  panel.border = ggplot2::element_blank())
   
 
-ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_S2.jpg", width=10, height=8, dpi=300)
+ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_S2_2024.jpg", width=10, height=8, dpi=300)
 
 
 
@@ -892,7 +907,7 @@ pred2_succ_var_summary<-VAL_DAT %>%
   group_by(variable, Classification) %>%
   summarise(mean=median(value), min=min(value), max=max(value))
 
-fwrite(pred2_succ_var_summary,"output/RF2_pred_succ_var_summary.csv")
+fwrite(pred2_succ_var_summary,"output/RF2_pred_succ_var_summary2024.csv")
 
 
 
@@ -904,7 +919,6 @@ library(markdown)
 library(rmarkdown)
 
 ### create HTML report for overall summary report
-# Sys.setenv(RSTUDIO_PANDOC="C:/Users/Inge Oppel/AppData/Local/Pandoc")
 # Sys.setenv(RSTUDIO_PANDOC="C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools")
 #
 # rmarkdown::render('C:\\Users\\sop\\OneDrive - Vogelwarte\\REKI\\Analysis\\Feeding\\Feeding_Analysis_report2023_v2.Rmd',
@@ -912,127 +926,6 @@ library(rmarkdown)
 #                   output_dir = 'C:\\Users\\sop\\OneDrive - Vogelwarte\\REKI\\Analysis\\Feeding\\output')
 
 
-save.image("output/Feeding_analysis.RData")  
-load("output/Feeding_analysis.RData")
+save.image("output/Feeding_analysis2024.RData")  
+load("output/Feeding_analysis2024.RData")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-###########~~~~~~~~~~~~~     ABANDONED CODE       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-## abandoned kernelUD in early July 2023 because prediction with RF in grid cells was better than HR estimates and arbitrary polygons
-
-# ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-# ########## CALCULATE 50% kernelUD for positive predicted locations   #############
-# ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-### REMOVED on 3 July 2023 as simpler grid approach is faster and more efficient
-# OUT_sp<-OUT %>%
-#     filter(FEEDER_predicted=="YES") %>%
-#     st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
-#     st_transform(3035) %>%
-#     select(year) %>%   ### everything below fails for year_id
-#     as("Spatial")
-#   
-# plot(OUT_sp)  
-#   ### FILTER OUT year_ID with too few locations
-#   # exclude<-as_tibble(OUT_sp) %>% group_by(year_id) %>% summarise(n=length(coords.x1)) %>% dplyr::filter(n<10)
-#   # OUT_sp<- OUT_sp[!(OUT_sp$year_id %in% exclude$year_id),] 
-#   
-#   
-#   ### CREATE CUSTOM GRID for kernelUD (instead of same4all=TRUE) --------------
-#   extendX <- max(diff(range(coordinates(OUT_sp)[, 1])) * 0.05, 50 * 100)
-#   extendY <- max(diff(range(coordinates(OUT_sp)[, 2])) * 0.05, 50 * 100)
-#   
-#   minX <- min(coordinates(OUT_sp)[, 1]) - extendX
-#   maxX <- max(coordinates(OUT_sp)[, 1]) + extendX
-#   minY <- min(coordinates(OUT_sp)[, 2]) - extendY
-#   maxY <- max(coordinates(OUT_sp)[, 2]) + extendY
-#   res <- (max(abs(minX - maxX) / 1000, abs(minY - maxY) / 1000)) / 1000
-#   xrange <- seq(minX, maxX, by = res * 1000)
-#   yrange <- seq(minY, maxY, by = res * 1000)
-#   grid.locs <- expand.grid(x = xrange, y = yrange)
-#   INPUTgrid <- SpatialPixels(
-#     SpatialPoints(grid.locs), proj4string = proj4string(OUT_sp)
-#   )
-#   
-# #### convert grid to INPUT grid
-# ## is too small for kernels  
-# # INPUTgrid <- countgrid  %>%
-# #   st_transform(3035) %>% st_rasterize() %>%
-# #   as("Spatial")
-# 
-#   
-# #### THIS FAILED FOR THE year_id level - can only be done at year level
-#   plot(INPUTgrid,  col='grey87')
-#   plot(OUT_sp, add=T, col='red')
-# 
-# ### THIS RUNS FOR >30 MINUTES
-# KDE.Surface <-   adehabitatHR::kernelUD(OUT_sp,h = 100, grid = INPUTgrid, same4all = FALSE)
-# #image(KDE.Surface)
-# #KDE.Surface <-   adehabitatHR::kernelUD(OUT_sp,h = "href", grid=10000, same4all = TRUE)
-# KDE_sp <- adehabitatHR::getverticeshr(KDE.Surface, percent=75, unin = "m", unout = "ha")
-# 
-# KDE_sf <- st_as_sf(KDE_sp) %>%
-#   st_transform(4326)  
-# 
-# 
-# 
-# 
-#     
-# ### COUNT OVERLAPPING CORE AREAS
-# KDE <- adehabitatHR::estUDm2spixdf(KDE.Surface)
-# pixArea <- KDE@grid@cellsize[[1]]
-# 
-# ## output reported by kernelUD is intensity / m2. This intensity is multiplied
-# # by pixel area and sums to 1 for each individual (exceptions near borders)
-# ## we sort this calc cumulative sum --> this is effectively the "% UD"
-# KDE@data <- KDE@data %>%
-#   mutate(rowname = seq_len(nrow(KDE@data))) %>%
-#   tidyr::pivot_longer(!rowname, names_to = "ID", values_to = "UD") %>%
-#   mutate(usage = UD * (pixArea^2)) %>%
-#   arrange(ID, desc(usage)) %>%
-#   group_by(ID) %>%
-#   mutate(cumulUD = cumsum(usage)) %>%
-#   dplyr::select(rowname, ID, cumulUD) %>%
-#   arrange(rowname) %>%
-#   tidyr::pivot_wider(names_from = ID, values_from = cumulUD) %>%
-#   dplyr::select(-rowname)
-# 
-# Noverlaps <- KDE
-# 
-# Noverlaps@data <- as.data.frame(
-#   ifelse(Noverlaps@data < 0.5, 1, 0)
-# ) %>%
-#   mutate(N_YEAR = rowSums(.))
-# 
-# cols <- colnames(Noverlaps@data)[-which(colnames(Noverlaps@data) == "N_YEAR")]
-# 
-# Noverlaps@data <- Noverlaps@data %>% dplyr::select(N_YEAR)
-# 
-# ### THIS OPERATION IS VERY SLOW
-# # OUTMAP <- raster::aggregate(
-# #   as(Noverlaps, "SpatialPolygonsDataFrame"),
-# #   c("N_YEAR")
-# # )
-# 
-# ### CONVERT INTO SIMPLE FEATURE AS OUTPUT AND FOR PLOTTING
-# feed_site_sf <- sf::st_as_sf(as(Noverlaps, "SpatialPolygonsDataFrame")) %>%
-#   dplyr::filter(N_YEAR>1) %>%
-#   sf::st_union(by_feature = TRUE) %>%
-#   sf::st_transform(4326) %>%
-#   arrange(N_YEAR)
-# 
-# length(feed_site_sf$geometry[[1]])
-# 
-# 
-# 
-  
