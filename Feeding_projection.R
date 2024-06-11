@@ -35,7 +35,7 @@ try(setwd("C:/STEFFEN/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent=T
 
 ###### LOADING DATA -----------------------------------------------------------------
 
-load("output/Feeding_analysis.RData")
+load("output/Feeding_analysis2024.RData")
 
 #define different coordinate systems
 CH_LV95_coords = "+init=epsg:2056"
@@ -227,8 +227,10 @@ forest_CH <- st_read("data/wald.gpkg", "wald") %>%
 # head(track_sf)
 # 
 
-### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES
-track_sf<-readRDS(file = "data/REKI_trackingdata_annotated_CH.rds")
+### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES 
+track_sf<-fread("data/REKI_annotated_feeding2024.csv") %>%
+  mutate(extra=year_id) %>%
+  separate_wider_delim(extra, delim="_", names=c("year","bird_id"))
 
 
 
@@ -237,11 +239,7 @@ track_sf<-readRDS(file = "data/REKI_trackingdata_annotated_CH.rds")
 
 
 ################ CREATE VARIOUS SUBSETS TO IMPROVE RATIO OF CLASS MEMBERSHIP
-track_day<-track_sf %>% dplyr::filter(tod_=="day")
-track_nofor<-track_sf %>% filter(FOREST==0)
-track_nofor_day<-track_sf %>% filter(FOREST==0) %>% filter(tod_=="day")
-
-track_nofor_day_build<-track_nofor_day %>%
+track_nofor_day_build<-track_sf %>% filter(FOREST==0) %>% filter(tod_=="day") %>%
   filter(!(BUILD==0)) 
 
 
