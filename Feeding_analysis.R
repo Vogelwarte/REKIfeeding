@@ -23,6 +23,7 @@ library(lubridate)
 library(leaflet)
 library(adehabitatHR)
 library(stars)
+library(tmap)
 filter<-dplyr::filter
 sf_use_s2(FALSE)
 library(pROC)
@@ -34,7 +35,10 @@ library(pdp) ### for creating partial dependence plots
 
 # LOADING DATA -----------------------------------------------------------------
 ### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES 
-track_sf<-fread("data/REKI_annotated_feeding2024.csv")
+track_sf<-fread("data/REKI_annotated_feeding2024.csv") %>%
+  mutate(extra=year_id) %>%
+  separate_wider_delim(extra, delim="_", names=c("year","bird_id"))
+
 #track_sf<-load(file = "data/REKI_trackingdata_annotated2024_sf.rds")
 
 #define different coordinate systems
@@ -104,8 +108,8 @@ table(track_nofor_day_build$FEEDER)
 
 DATA <- track_nofor_day_build %>%
   mutate(YDAY=yday(t_), hour=hour(t_), month=month(t_)) %>%
-  mutate(extra=year_id) %>%
-  separate_wider_delim(extra, delim="_", names=c("year","bird_id")) %>%
+  # mutate(extra=year_id) %>%
+  # separate_wider_delim(extra, delim="_", names=c("year","bird_id")) %>%
   filter(!is.na(step_length)) %>%
   filter(!is.na(turning_angle)) %>%
   filter(!is.na(speed)) %>%
@@ -303,8 +307,8 @@ DATA_TEST <- DATA_TEST %>%
 
 suppressWarnings({testmat<-caret::confusionMatrix(data = DATA_TEST$FEEDER_predicted, reference = DATA_TEST$FEEDER_observed, positive="YES")})
 
-hist(DATA_TEST$feed_prob, breaks=c(0,0.005,0.01,0.015,0.02,0.025,0.03,0.35,0.1,0.5,1))
-max(DATA_TEST$feed_prob)
+# hist(DATA_TEST$feed_prob, breaks=c(0,0.005,0.01,0.015,0.02,0.025,0.03,0.35,0.1,0.5,1))
+# max(DATA_TEST$feed_prob)
 
 
 ## export data for further use in outcome prediction
@@ -346,8 +350,8 @@ OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
   
 trainmat
 testmat
-5697/(5697+31347)
 5697/(5697+442)
+31347+244124
 
 # save.image("output/Feeding_analysis2024.RData")  
 # load("output/Feeding_analysis2024.RData")
@@ -427,7 +431,7 @@ str(VAL_DAT)
 suppressWarnings({valmat<-caret::confusionMatrix(data = VAL_DAT$FEEDER_predicted, reference = VAL_DAT$FEEDER_observed, positive="YES")})
 valmat
 5812/(5812+1175)
-31286/(31286+5812)
+31286+243664
   
 ## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
 ## but we use ROC curve to identify threshold
@@ -583,23 +587,27 @@ fwrite(pred_succ_var_summary,"output/RF1_pred_succ_var_summary_2024.csv")
 table(OUT$FEEDER_predicted)
 OUT %>% dplyr::filter(FEEDER_predicted=="YES") %>% summarise(n=length(unique(year_id)))
 
-
-
-#### FIRST COUNT N INDIVIDUALS PER GRID CELL
-
-for(c in 1:length(tab)){
-  countgrid$N_ind[c]<-length(unique(track_sf$year_id[tab[c][[1]]]))
-}
-
-#### SECOND COUNT N INDIVIDUALS AND PREDICTED FEEDING LOCS PER GRID CELL
+#### CREATE A COUNT GRID SIMPLE FEATURE
 OUT_sf<-OUT %>%
   filter(FEEDER_predicted=="YES") %>%
   st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
   st_transform(3035)
 tab2 <- st_intersects(grid, OUT_sf)
 countgrid$N_feed_points<-lengths(tab2)
+
+
+#### FIRST COUNT N INDIVIDUALS PER GRID CELL
+
+for(c in 1:length(tab)){
+  #countgrid$N_ind[c]<-length(unique(track_sf$year_id[tab[c][[1]]]))
+  countgrid$N_ind[c]<-length(unique(track_sf$bird_id[tab[c][[1]]]))
+}
+
+#### SECOND COUNT N INDIVIDUALS AND PREDICTED FEEDING LOCS PER GRID CELL
+
 for(c in 1:length(tab2)){
-  countgrid$N_feed_ind[c]<-length(unique(OUT_sf$year_id[tab2[c][[1]]]))
+  #countgrid$N_feed_ind[c]<-length(unique(OUT_sf$year_id[tab2[c][[1]]]))
+  countgrid$N_feed_ind[c]<-length(unique(OUT_sf$bird_id[tab2[c][[1]]]))
 }
 
 
@@ -612,11 +620,13 @@ countgrid<-countgrid %>%
 
 hist(countgrid$prop_feed)
 hist(countgrid$prop_pts)
+summary(countgrid)
 
+countgrid %>% filter(is.na(prop_feed))
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-########## FIT SECOND RANDOM FOREST MODEL TO PREDICT FEEDING SITE AT GRID CELL LEVEL   #############
+########## SUMMARISE AND PLOT GRID CELLS WITH FEEDERS   #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 
 ### overlay feeder data with countgrid
@@ -630,7 +640,25 @@ PRED_GRID<-countgrid %>%
   st_drop_geometry() %>%
   mutate(FEEDER=ifelse(FEEDER==0,0,1))
 
-table(PRED_GRID$FEEDER)
+# reporting for manuscript
+table(PRED_GRID$N_feed_points)[1]
+dim(PRED_GRID)
+summary(PRED_GRID)
+
+# tmap_mode("view")
+# tm_basemap(server="OpenStreetMap") +
+#   tm_shape(OUT_sf)+
+#   tm_symbols(col = 'feed_prob', size = 0.01) +
+#   tm_shape(plot_feeders)+
+#   tm_symbols(col = 'green', size = 0.05) +
+#   tm_shape(countgrid)  +
+#   tm_polygons(col = "firebrick", fill="N_feed_points", alpha=0.2)
+
+
+
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## FIT SECOND RANDOM FOREST MODEL TO PREDICT FEEDING SITE AT GRID CELL LEVEL   #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 
 RF3 <- ranger::ranger(FEEDER ~ n+N_ind+N_feed_points+N_feed_ind+prop_feed+prop_pts,     
                       data=PRED_GRID, mtry=2, num.trees=2500, replace=F, importance="permutation", oob.error=T, write.forest=T, probability=T)
@@ -657,7 +685,6 @@ dim(PRED_GRID)
 # AUC
 # THRESH<-pROC::coords(ROC_train, "best", "threshold")$threshold
 THRESH<-table(PRED_GRID$FEEDER)[2]/dim(PRED_GRID)[1]
-
 
 
 #### CREATE PLOT FOR VARIABLE IMPORTANCE
@@ -708,6 +735,25 @@ OUTgrid<-countgrid %>% select(-FEEDER) %>%
 
 
 
+########### PARTIAL DEPENDENCE PLOTS ###############
+tic()
+## this seems to take forever if parallel=T, otherwise 15 min
+
+ndpart<-partial(RF3, pred.var="N_feed_points", trim.outliers=F, progress=T, prob=T)
+autoplot(ndpart)
+range(PRED_GRID$N_feed_points)
+
+agepart<-partial(RF3, pred.var="prop_feed", progress=T, trim.outliers=T, prob=T)
+autoplot(agepart)
+
+ptspart<-partial(RF3, pred.var="prop_pts", progress=T, trim.outliers=T, prob=T)
+autoplot(ptspart)
+
+
+#  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
+toc()
+
+
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## VALIDATE PREDICTIONS WITH SURVEY DATA FROM EVA CEREGHETTI AND FIONA PELLET  #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
@@ -732,13 +778,22 @@ summary(validat$FEEDER_predicted)
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## SUMMARISE VALIDATION DATA  #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-VAL_DAT<-validat %>%
-  filter(FEEDER_surveyed==1) %>%
+
+### find and remove duplicates
+duplfeed<-validat %>% 
+  st_drop_geometry() %>%
+  group_by(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,gridid) %>%
+  summarise(nv=length(FEEDER_surveyed)) %>% filter(nv>1)
+
+
+VAL_DAT<-validat %>% select (-nr,-square,-random,-area,-building.type) %>% distinct() %>% filter(gridid==890) 
+  #filter(!(is.na(nr) & (gridid %in% duplfeed$gridid))) %>%
+  filter(FEEDER_surveyed==1) %>% filter(n>80000)
   select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_predicted) %>%
   mutate(Classification=ifelse(FEEDER_predicted>THRESH,"correct","missed"))
 
 ### summarise the predicted sites
-table(VAL_DAT$Classification)[1]
+table(VAL_DAT$Classification)
 summary(VAL_DAT$FEEDER_predicted)
 mean(VAL_DAT$FEEDER_predicted)
 table(VAL_DAT$Classification)[1]/dim(VAL_DAT)[1]
@@ -746,10 +801,10 @@ min(VAL_DAT$n[VAL_DAT$Classification=="correct"])
 min(VAL_DAT$N_ind[VAL_DAT$Classification=="correct"])
 min(VAL_DAT$N_feed_points[VAL_DAT$Classification=="correct"])
 min(VAL_DAT$N_feed_ind[VAL_DAT$Classification=="correct"])
-
+VAL_DAT %>% filter(N_feed_points==0)
 
 ### CALCULATE BOYCE INDEX FOR VALIDATION DATA ###
-BI2<-Boyce(obs = validat$FEEDER_surveyed , pred = validat$FEEDER_predicted)$Boyce
+BI2<-Boyce(obs = validat$FEEDER_surveyed , pred = validat$FEEDER_predicted, n.bins=10)$Boyce
 BI2
 
 
@@ -798,6 +853,14 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     fillColor = "grey25", fillOpacity = 0.5   ## ~feed.pal(Type)
   ) %>%
   
+  # addCircleMarkers(
+  #   data=VAL_DAT %>%
+  #     st_transform(4326) %>% filter(N_feed_points==0),
+  #   radius = 8,
+  #   stroke = TRUE, color = "goldenrod", weight = 1,
+  #   fillColor = "goldenrod"
+  # ) %>%
+  
   addCircleMarkers(
     data=VAL_DAT %>%
       st_transform(4326),
@@ -808,7 +871,6 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     label = ~as.character(round(FEEDER_predicted,3))
   ) %>%
   
-
   addLegend(     # legend for predicted prob of feeding
     position = "topleft",
     pal = pred.pal,
@@ -871,13 +933,13 @@ names(var.labs) <- names(VAL_DAT)[1:6]
 VAL_DAT %>%
   st_drop_geometry() %>%
   select(-FEEDER_predicted) %>%
-  gather(key=variable, value=value,-Classification) %>%
-  filter(!(variable=="n" & value>45000)) %>%  ### remove a single outlier value
+  gather(key=variable, value=value,-Classification) %>% #filter(variable=='n') %>% arrange(desc(value))
+  #filter(!(variable=="n" & value>45000)) %>%  ### remove a single outlier value
   filter(!(variable=="N_feed_ind" & value>30)) %>%  ### remove a single outlier value
   filter(!(variable=="N_feed_points" & value>500)) %>%  ### remove a single outlier value
+  filter(!(variable=="prop_feed" & value>0.3)) %>%  ### remove a single outlier value
   dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels2)) %>%
   mutate(value2 = filter_lims(value)) %>%  # new variable (value2) so as not to displace first one)
-  
   
   ggplot(aes(x=Classification, y=value2)) +
   geom_boxplot(na.rm = TRUE, coef = 5) +
