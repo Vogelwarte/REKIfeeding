@@ -264,7 +264,7 @@ mF
 
 
 ##### RUN MODEL ##########
-## takes about 25 minutes with 2024 dataset
+## takes about 45 minutes with 2024 dataset
 
 RF2 <- ranger::ranger(as.factor(FEEDER) ~ sex + age_cy + YDAY + hour + month +                            ## basic variables such as age, sex, and time
                         revisits + residence_time + meanFreqVisit + n_days + TimeSpan + TempEven +        ## several variables dealing with the temporal revisitation pattern
@@ -408,7 +408,7 @@ testmat
     summarise(FEEDER_surveyed=max(FEEDER_surveyed)) %>%
     st_as_sf(coords = c("lon", "lat"), crs=4326) %>%
     st_transform(crs = 3035) %>%
-    bind_rows(feed_surveys)
+    bind_rows(feed_surveys) %>% distinct()
   feed_surv2_sf$FEEDER_surveyed
 
 ## create 50 m buffer around feeders  
@@ -778,30 +778,46 @@ summary(validat$FEEDER_predicted)
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## SUMMARISE VALIDATION DATA  #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-
+validat
 ### find and remove duplicates
-duplfeed<-validat %>% 
-  st_drop_geometry() %>%
-  group_by(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,gridid) %>%
-  summarise(nv=length(FEEDER_surveyed)) %>% filter(nv>1)
+# duplfeed<-validat %>% 
+#   st_drop_geometry() %>%
+#   distinct() %>%
+#   group_by(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,gridid) %>%
+#   summarise(nv=length(FEEDER_surveyed)) %>% filter(nv>1)
 
 
-VAL_DAT<-validat %>% select (-nr,-square,-random,-area,-building.type) %>% distinct() %>% filter(gridid==890) 
+VAL_DAT2<-validat %>% #st_drop_geometry() %>%
+  select(-nr,-square,-random,-area,-building.type) %>% distinct() %>% #filter(gridid==890) 
   #filter(!(is.na(nr) & (gridid %in% duplfeed$gridid))) %>%
-  filter(FEEDER_surveyed==1) %>% filter(n>80000)
+  filter(FEEDER_surveyed==1) %>%
   select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_predicted) %>%
   mutate(Classification=ifelse(FEEDER_predicted>THRESH,"correct","missed"))
 
+
+# This does not work to reduce N points (???)
+# redvalidat<-validat %>% 
+#   select(-nr,-square,-random,-area,-building.type) %>%
+#   distinct() %>%
+#   filter(FEEDER_surveyed==1)
+# VAL_DAT2<- redvalidat %>%
+#   stats::aggregate(redvalidat,by=redvalidat,FUN = max, 
+#                      join = function(x, y) st_is_within_distance(x, y, dist = 10000)) %>%
+#   filter(!is.na(FEEDER_surveyed)) %>%
+#   select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_predicted,gridid) %>%
+#   mutate(Classification=ifelse(FEEDER_predicted>THRESH,"correct","missed"))
+
+
 ### summarise the predicted sites
-table(VAL_DAT$Classification)
-summary(VAL_DAT$FEEDER_predicted)
-mean(VAL_DAT$FEEDER_predicted)
-table(VAL_DAT$Classification)[1]/dim(VAL_DAT)[1]
-min(VAL_DAT$n[VAL_DAT$Classification=="correct"])
-min(VAL_DAT$N_ind[VAL_DAT$Classification=="correct"])
-min(VAL_DAT$N_feed_points[VAL_DAT$Classification=="correct"])
-min(VAL_DAT$N_feed_ind[VAL_DAT$Classification=="correct"])
-VAL_DAT %>% filter(N_feed_points==0)
+table(VAL_DAT2$Classification)
+summary(VAL_DAT2$FEEDER_predicted)
+mean(VAL_DAT2$FEEDER_predicted)
+table(VAL_DAT2$Classification)[1]/dim(VAL_DAT)[1]
+min(VAL_DAT2$n[VAL_DAT2$Classification=="correct"])
+min(VAL_DAT2$N_ind[VAL_DAT2$Classification=="correct"])
+min(VAL_DAT2$N_feed_points[VAL_DAT2$Classification=="correct"])
+min(VAL_DAT2$N_feed_ind[VAL_DAT2$Classification=="correct"])
+VAL_DAT2 %>% filter(N_feed_points==0)
 
 ### CALCULATE BOYCE INDEX FOR VALIDATION DATA ###
 BI2<-Boyce(obs = validat$FEEDER_surveyed , pred = validat$FEEDER_predicted, n.bins=10)$Boyce
@@ -826,8 +842,8 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
                            position: 'bottomright' }).addTo(this)}"
   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
   addProviderTiles("Esri.WorldImagery", group = "Satellite",
-                   options = providerTileOptions(opacity = 0.6, attribution = F,minZoom = 5, maxZoom = 14)) %>%
-  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 14)) %>%  
+                   options = providerTileOptions(opacity = 0.6, attribution = F,minZoom = 5, maxZoom = 22)) %>%
+  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 22)) %>%  
   addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
   
   # addCircleMarkers(
@@ -854,7 +870,7 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
   ) %>%
   
   # addCircleMarkers(
-  #   data=VAL_DAT %>%
+  #   data=VAL_DAT2 %>%
   #     st_transform(4326) %>% filter(N_feed_points==0),
   #   radius = 8,
   #   stroke = TRUE, color = "goldenrod", weight = 1,
@@ -862,7 +878,15 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
   # ) %>%
   
   addCircleMarkers(
-    data=VAL_DAT %>%
+    data=VAL_DAT2 %>%
+      st_transform(4326) %>% filter(gridid %in% duplfeed$gridid),
+    radius = 8,
+    stroke = TRUE, color = "goldenrod", weight = 1,
+    fillColor = "goldenrod"
+  ) %>%
+  
+  addCircleMarkers(
+    data=VAL_DAT2 %>%
       st_transform(4326),
     radius = 5,
     stroke = TRUE, color = ~val.pal(Classification), weight = 1,
@@ -927,17 +951,17 @@ filter_lims <- function(x){
 # New facet label names for predictor variable
 var.labs <- c("Total N of GPS locations","N individuals","N feeding locations","N feeding individuals","Proportion of feeding individuals",
               "Proportion of feeding locations")
-names(var.labs) <- names(VAL_DAT)[1:6]
+names(var.labs) <- names(VAL_DAT2)[1:6]
 
 
-VAL_DAT %>%
+VAL_DAT2 %>%
   st_drop_geometry() %>%
   select(-FEEDER_predicted) %>%
-  gather(key=variable, value=value,-Classification) %>% #filter(variable=='n') %>% arrange(desc(value))
-  #filter(!(variable=="n" & value>45000)) %>%  ### remove a single outlier value
+  gather(key=variable, value=value,-Classification) %>% 
+  filter(!(variable=="n" & value>45000)) %>%  ### remove a single outlier value
   filter(!(variable=="N_feed_ind" & value>30)) %>%  ### remove a single outlier value
-  filter(!(variable=="N_feed_points" & value>500)) %>%  ### remove a single outlier value
-  filter(!(variable=="prop_feed" & value>0.3)) %>%  ### remove a single outlier value
+  filter(!(variable=="N_feed_points" & value>350)) %>%  ### remove a single outlier value
+  filter(!(variable=="prop_pts" & value>0.3)) %>%  #filter(variable=='n') %>% arrange(desc(value))### remove a single outlier value
   dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels2)) %>%
   mutate(value2 = filter_lims(value)) %>%  # new variable (value2) so as not to displace first one)
   
@@ -963,7 +987,7 @@ ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Fi
 
 
 
-pred2_succ_var_summary<-VAL_DAT %>%
+pred2_succ_var_summary<-VAL_DAT2 %>%
   st_drop_geometry() %>%
   select(-FEEDER_predicted) %>%
   gather(key=variable, value=value,-Classification) %>%
