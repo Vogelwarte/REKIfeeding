@@ -159,8 +159,9 @@ locs %>% filter(dt<10000) %>%
 ggplot()+
 geom_histogram(aes(x=dt), breaks=c(0,120,300,600,1200,3600,10000), colour="navyblue", fill="grey87")+                               
 
-  ylab("Number of GPS locations") +
-  xlab("Interval (s) between subsequent locations") +
+  scale_x_continuous(name="Interval (s) between subsequent locations", breaks=c(0,300,600,1200,3600,10000), labels=c(0,300,600,1200,3600,10000))+
+  scale_y_continuous(name="Number of GPS locations (millions)", breaks=seq(0,4000000,500000), labels=seq(0,4,0.5))+
+  
   theme(panel.background=element_rect(fill="white", colour="black"), 
         axis.text.y=element_text(size=18, color="black"),
         axis.text.x=element_text(size=14, color="black", angle=45, vjust=0.5), 
