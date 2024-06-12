@@ -1,13 +1,13 @@
 variable,Classification,mean,min,max
 N_feed_ind,correct,13.5,0,155
 N_feed_ind,missed,4,0,12
-N_feed_points,correct,43,0,2293
+N_feed_points,correct,39.5,0,2293
 N_feed_points,missed,6,0,31
-N_ind,correct,168,50,525
+N_ind,correct,169,50,525
 N_ind,missed,109,40,382
-n,correct,2723,291,25159
+n,correct,2619,291,25159
 n,missed,810,268,6269
-prop_feed,correct,0.0732051842143585,0,0.449275362318841
+prop_feed,correct,0.0718020541549953,0,0.449275362318841
 prop_feed,missed,0.0328358208955224,0,0.114754098360656
 prop_pts,correct,0.0154155258624341,0,0.371730769230769
 prop_pts,missed,0.0049449672994098,0,0.0177304964539007

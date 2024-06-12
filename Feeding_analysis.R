@@ -383,7 +383,8 @@ testmat
   setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
   feed_surveys<-fread("data/survey.final.csv") %>% #filter(Q1=="Ja") %>%
     mutate(FEEDER_surveyed=ifelse(Q1=="Ja",1,0)) %>%
-    select(nr,coord_x,coord_y,square,random,area,building.type,FEEDER_surveyed) %>%
+    mutate(ID=paste0("Eva",nr)) %>%
+    select(ID,coord_x,coord_y,square,random,area,building.type,FEEDER_surveyed) %>%
     st_as_sf(coords = c("coord_x", "coord_y"), crs=21781) %>%
     st_transform(crs = 3035) 
   
@@ -404,12 +405,34 @@ testmat
     left_join(feed_surveys2, by="Address",relationship ="many-to-many") %>%
     filter(!is.na(x)) %>%
     filter(!is.na(FEEDER_surveyed)) %>%
-    group_by(lon,lat) %>%
+    mutate(ID=paste0("Fiona",ID)) %>%
+    group_by(ID,lon,lat) %>%
     summarise(FEEDER_surveyed=max(FEEDER_surveyed)) %>%
     st_as_sf(coords = c("lon", "lat"), crs=4326) %>%
     st_transform(crs = 3035) %>%
     bind_rows(feed_surveys) %>% distinct()
   feed_surv2_sf$FEEDER_surveyed
+
+## REMOVE DUPLICATE LOCATIONS
+mtx_distance <- st_distance(feed_surv2_sf[feed_surv2_sf$FEEDER_surveyed==1,], feed_surv2_sf[feed_surv2_sf$FEEDER_surveyed==1,])
+mtx_distance<-as_tibble(mtx_distance)
+names(mtx_distance)<-feed_surv2_sf$ID[feed_surv2_sf$FEEDER_surveyed==1]
+eliminate<-mtx_distance %>%
+	mutate(ID=feed_surv2_sf$ID[feed_surv2_sf$FEEDER_surveyed==1]) %>%
+	gather(key="ID2", value="dist",-ID) %>%
+	mutate(dist=as.numeric(dist)) %>%
+	filter(!(ID==ID2)) %>%
+	filter(dist<40) %>%
+	arrange(desc(dist))
+dim(feed_surv2_sf)
+for (l in 1:dim(eliminate)[1]) {
+	#gridids<-length(unique(feed_surv2_sf$gridid[feed_surv2_sf$ID %in% c(eliminate$ID[l],eliminate$ID2[l])]))  ## check whether the two points are in the same grid cell
+	pair1<-eliminate$ID2[l]
+	if((eliminate$ID[l] %in% feed_surv2_sf$ID)){
+		feed_surv2_sf<-feed_surv2_sf %>% filter(!(ID==pair1))
+		}
+}
+dim(feed_surv2_sf)
 
 ## create 50 m buffer around feeders  
 VAL_FEED_BUFF <-feed_surv2_sf %>%
@@ -430,8 +453,8 @@ VAL_DAT<-DATA_TEST  %>%
 str(VAL_DAT)  
 suppressWarnings({valmat<-caret::confusionMatrix(data = VAL_DAT$FEEDER_predicted, reference = VAL_DAT$FEEDER_observed, positive="YES")})
 valmat
-5812/(5812+1175)
-31286+243664
+5776/(5776+997)
+31337/(31337+244625)
   
 ## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
 ## but we use ROC curve to identify threshold
@@ -449,7 +472,10 @@ THRESH_pts<-pROC::coords(ROC_val, "best", "threshold")$threshold
 ### CALCULATE BOYCE INDEX FOR VALIDATION DATA ###
 BI<-Boyce(obs = VAL_DAT$feed_obs_num, pred = VAL_DAT$feed_prob)$Boyce
 BI
- 
+
+
+
+
 # ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 # ########## PLOT THE MAP FOR KNOWN AND OBSERVED FEEDING STATIONS   #############
 # ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
@@ -779,6 +805,7 @@ summary(validat$FEEDER_predicted)
 ########## SUMMARISE VALIDATION DATA  #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 validat
+
 ### find and remove duplicates
 # duplfeed<-validat %>% 
 #   st_drop_geometry() %>%
@@ -788,25 +815,11 @@ validat
 
 
 VAL_DAT2<-validat %>% #st_drop_geometry() %>%
-  select(-nr,-square,-random,-area,-building.type) %>% distinct() %>% #filter(gridid==890) 
+  select(-square,-random,-area,-building.type) %>% distinct() %>% #filter(gridid==890) 
   #filter(!(is.na(nr) & (gridid %in% duplfeed$gridid))) %>%
   filter(FEEDER_surveyed==1) %>%
-  select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_predicted) %>%
+  select(ID, n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_predicted) %>%
   mutate(Classification=ifelse(FEEDER_predicted>THRESH,"correct","missed"))
-
-
-# This does not work to reduce N points (???)
-# redvalidat<-validat %>% 
-#   select(-nr,-square,-random,-area,-building.type) %>%
-#   distinct() %>%
-#   filter(FEEDER_surveyed==1)
-# VAL_DAT2<- redvalidat %>%
-#   stats::aggregate(redvalidat,by=redvalidat,FUN = max, 
-#                      join = function(x, y) st_is_within_distance(x, y, dist = 10000)) %>%
-#   filter(!is.na(FEEDER_surveyed)) %>%
-#   select(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_predicted,gridid) %>%
-#   mutate(Classification=ifelse(FEEDER_predicted>THRESH,"correct","missed"))
-
 
 ### summarise the predicted sites
 table(VAL_DAT2$Classification)
@@ -951,12 +964,12 @@ filter_lims <- function(x){
 # New facet label names for predictor variable
 var.labs <- c("Total N of GPS locations","N individuals","N feeding locations","N feeding individuals","Proportion of feeding individuals",
               "Proportion of feeding locations")
-names(var.labs) <- names(VAL_DAT2)[1:6]
+names(var.labs) <- names(VAL_DAT2)[2:7]
 
 
 VAL_DAT2 %>%
   st_drop_geometry() %>%
-  select(-FEEDER_predicted) %>%
+  select(-FEEDER_predicted,-ID) %>%
   gather(key=variable, value=value,-Classification) %>% 
   filter(!(variable=="n" & value>45000)) %>%  ### remove a single outlier value
   filter(!(variable=="N_feed_ind" & value>30)) %>%  ### remove a single outlier value
@@ -989,7 +1002,7 @@ ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Fi
 
 pred2_succ_var_summary<-VAL_DAT2 %>%
   st_drop_geometry() %>%
-  select(-FEEDER_predicted) %>%
+  select(-FEEDER_predicted,-ID) %>%
   gather(key=variable, value=value,-Classification) %>%
   filter(!(variable=="n" & value>45000)) %>%  ### remove a single outlier value
   # filter(!(variable=="N_feed_ind" & value>30)) %>%  ### remove a single outlier value
