@@ -374,7 +374,7 @@ track_sf <- track_amt %>%
   st_as_sf(coords = c("x_", "y_"))  #
 st_crs(track_sf) <- 3035
 head(track_sf)
-track_sf <- track_sf %>% st_crop(x=track_sf, y=st_bbox(forest)) ## this reduces n locs from 10 mio to 8 mio
+#track_sf <- track_sf %>% st_crop(x=track_sf, y=st_bbox(forest)) ## this reduces n locs from 10 mio to 8 mio
 dim(track_sf)
 st_difference(FEEDER_buff)
 
@@ -449,6 +449,7 @@ for (i in unique(track_sf$id)){
 toc()
 
 
+# EXPORT THE ANNOTATED DATA FOR ALL OF SUI AND STUDY AREA -----------------------------------------------------------------
 
 
 
@@ -463,13 +464,30 @@ track_out <- track_sf %>%
   rename(year_id=id) #%>%
   #left_join(indseasondata, by="year_id")
 
-
-fwrite(as.data.frame(track_out),"data/REKI_annotated_feeding2024.csv")
-saveRDS(track_sf, file = "data/REKI_trackingdata_annotated2024_sf.rds")
-head(track_sf)
 dim(track_sf)
-
+fwrite(as.data.frame(track_out),"data/REKI_annotated_feeding2024_CH.csv")
+saveRDS(track_sf, file = "data/REKI_trackingdata_annotated2024_CH.rds")
 
 #### SIMPLE SUMMARY FOR MANUSCRIPT
 track_sf %>% group_by(bird_id) %>%
   summarise(N= length(unique(year_id)))
+
+
+##### CROP TO STUDY AREA ONLY ###########
+
+track_sf <- track_sf %>% st_crop(x=track_sf, y=st_bbox(forest)) ## this reduces n locs from 10 mio to 8 mio
+
+track_out <- track_sf %>% 
+  st_transform(crs = 4326) %>%
+  dplyr::mutate(long = sf::st_coordinates(.)[,1],
+                lat = sf::st_coordinates(.)[,2]) %>%
+  st_drop_geometry() %>%
+  rename(year_id=id)
+
+fwrite(as.data.frame(track_out),"data/REKI_annotated_feeding2024_study_area.csv")
+saveRDS(track_sf, file = "data/REKI_trackingdata_annotated2024_study_area.rds")
+
+head(track_sf)
+dim(track_sf)
+
+

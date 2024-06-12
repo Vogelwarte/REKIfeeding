@@ -58,7 +58,7 @@ forest_CH <- st_read("data/wald.gpkg", "wald") %>%
 
 
 ### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES 
-track_sf<-fread("data/REKI_annotated_feeding2024.csv") %>%
+track_sf<-fread("data/REKI_annotated_feeding2024_CH.csv") %>%
   mutate(extra=year_id) %>%
   separate_wider_delim(extra, delim="_", names=c("year","bird_id")) %>%
   st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
