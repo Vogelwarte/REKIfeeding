@@ -11,6 +11,8 @@
 
 ## RE-RUN ANALYSIS WITH 2024 data at very high resolution
 
+## 11 June 2024: changed the count of ID (from year_id to bird_id)
+
 library(tidyverse)
 library(dplyr, warn.conflicts = FALSE)
 options(dplyr.summarise.inform = FALSE)
@@ -350,8 +352,6 @@ OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
   
 trainmat
 testmat
-5697/(5697+442)
-31347+244124
 
 # save.image("output/Feeding_analysis2024.RData")  
 # load("output/Feeding_analysis2024.RData")
@@ -453,8 +453,8 @@ VAL_DAT<-DATA_TEST  %>%
 str(VAL_DAT)  
 suppressWarnings({valmat<-caret::confusionMatrix(data = VAL_DAT$FEEDER_predicted, reference = VAL_DAT$FEEDER_observed, positive="YES")})
 valmat
-5776/(5776+997)
-31337/(31337+244625)
+5772/(5772+1038)
+31316/(31316+244645)
   
 ## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
 ## but we use ROC curve to identify threshold
@@ -750,6 +750,10 @@ dim(PRED_GRID %>% filter(FEEDER_observed==1 & FEEDER_predicted>0.5))
 dim(PRED_GRID %>% filter(FEEDER_observed==1 & n>10 & FEEDER_predicted>mean(PRED_GRID$FEEDER_observed)))/dim(PRED_GRID %>% filter(FEEDER_observed==1  & n>10))
 hist(PRED_GRID$FEEDER_predicted)
 mean(PRED_GRID$FEEDER_observed)
+range(PRED_GRID$prop_feed)
+range(PRED_GRID$prop_pts)
+names(PRED_GRID)
+
 
 
 ########## CREATE OUTPUT GRID WITH PREDICTED FEEDING LOCATIONS ########################
@@ -775,8 +779,6 @@ autoplot(agepart)
 ptspart<-partial(RF3, pred.var="prop_pts", progress=T, trim.outliers=T, prob=T)
 autoplot(ptspart)
 
-
-#  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
 toc()
 
 
@@ -976,9 +978,9 @@ VAL_DAT2 %>%
   filter(!(variable=="N_feed_points" & value>350)) %>%  ### remove a single outlier value
   filter(!(variable=="prop_pts" & value>0.3)) %>%  #filter(variable=='n') %>% arrange(desc(value))### remove a single outlier value
   dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels2)) %>%
-  mutate(value2 = filter_lims(value)) %>%  # new variable (value2) so as not to displace first one)
+  #mutate(value2 = filter_lims(value)) %>%  # new variable (value2) so as not to displace first one)
   
-  ggplot(aes(x=Classification, y=value2)) +
+  ggplot(aes(x=Classification, y=value)) +
   geom_boxplot(na.rm = TRUE, coef = 5) +
   facet_wrap(~variable, ncol=3, scales="free_y",labeller = labeller(variable = var.labs)) +
   labs(x="Prediction of grid cells with known anthropogenic feeding",
