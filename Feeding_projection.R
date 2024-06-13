@@ -60,9 +60,9 @@ forest_CH <- st_read("data/wald.gpkg", "wald") %>%
 ### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES 
 track_sf<-fread("data/REKI_annotated_feeding2024_CH.csv") %>%
   mutate(extra=year_id) %>%
-  separate_wider_delim(extra, delim="_", names=c("year","bird_id")) %>%
-  st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
-  st_transform(3035)
+  separate_wider_delim(extra, delim="_", names=c("year","bird_id")) 
+  # st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
+  # st_transform(3035)
 dim(track_sf)
 
 
@@ -72,7 +72,6 @@ dim(track_sf)
 
 ################ CREATE SUBSETS TO APPLY MODEL TO DAYTIME LOCATIONS OUTSIDE OF FOREST
 track_nofor_day_build<-track_sf %>%
-  st_drop_geometry() %>%
   filter(FOREST==0) %>%
   filter(tod_=="day") %>%
   filter(!(BUILD==0)) 
@@ -94,6 +93,10 @@ dim(DATA_CH)
 
 
 # CREATING BASELINE MAP OF SAMPLING INTENSITY -----------------------------------------------------------------
+
+track_sf<-track_sf %>%
+  st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
+  st_transform(3035)
 
 grid_CH <- forest_CH %>% 
   st_make_grid(cellsize = 500, what = "polygons",
@@ -302,6 +305,12 @@ m4
 htmltools::save_html(html = m4, file = "C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_2.html")
 mapview::mapshot(m4, url = "C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_2.html")
 htmlwidgets::saveWidget(m4,"C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_2.html", selfcontained = T)
+
+
+save.image("output/Feeding_grid_CH.RData")  
+load("output/Feeding_grid_CH.RData")
+
+
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
