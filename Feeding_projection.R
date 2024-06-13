@@ -109,7 +109,8 @@ countgrid <- st_sf(n = lengths(tab), geometry = st_cast(grid_CH, "MULTIPOLYGON")
   filter(n>20)
 
 dim(grid_CH)
-dim(countgrid)
+dim(countgrid)/359869
+1-(dim(countgrid)[1]/359869) ## reported in results - fraction eliminated
 
 
 summary(log(countgrid$n+1))
@@ -206,8 +207,8 @@ hist(countgrid$prop_pts)
 
 PROJ_GRID<-countgrid %>% 
   mutate(gridid=seq_along(n)) %>%
-  #filter(n>10) %>%
-  #filter(prop_feed>-1) %>% ## to exclude NaN that occur when no points occur
+  filter(n>10) %>%
+  filter(prop_feed>-1) %>% ## to exclude NaN that occur when no points occur
   st_drop_geometry()
 str(PROJ_GRID)
 PROJ_GRID %>% filter(is.na(prop_feed))
@@ -236,6 +237,7 @@ range(CHgrid$FEEDER_predicted)
 FEEDgrid<-CHgrid %>%
   filter(FEEDER_predicted>THRESH)
 
+dim(FEEDgrid)[1]/dim(CHgrid)[1]
 
 
 saveRDS(CHgrid,"output/REKI_feeding_grid2024.rds")

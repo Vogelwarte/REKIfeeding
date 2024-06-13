@@ -37,7 +37,7 @@ library(pdp) ### for creating partial dependence plots
 
 # LOADING DATA -----------------------------------------------------------------
 ### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES 
-track_sf<-fread("data/REKI_annotated_feeding2024.csv") %>%
+track_sf<-fread("data/REKI_annotated_feeding2024_CH.csv") %>%
   mutate(extra=year_id) %>%
   separate_wider_delim(extra, delim="_", names=c("year","bird_id"))
 
@@ -453,8 +453,9 @@ VAL_DAT<-DATA_TEST  %>%
 str(VAL_DAT)  
 suppressWarnings({valmat<-caret::confusionMatrix(data = VAL_DAT$FEEDER_predicted, reference = VAL_DAT$FEEDER_observed, positive="YES")})
 valmat
-5772/(5772+1038)
-31316/(31316+244645)
+5829/(5829+1025)
+30973/(30973+ 247031)
+
   
 ## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
 ## but we use ROC curve to identify threshold
@@ -827,7 +828,7 @@ VAL_DAT2<-validat %>% #st_drop_geometry() %>%
 table(VAL_DAT2$Classification)
 summary(VAL_DAT2$FEEDER_predicted)
 mean(VAL_DAT2$FEEDER_predicted)
-table(VAL_DAT2$Classification)[1]/dim(VAL_DAT)[1]
+table(VAL_DAT2$Classification)[1]/dim(VAL_DAT2)[1]
 min(VAL_DAT2$n[VAL_DAT2$Classification=="correct"])
 min(VAL_DAT2$N_ind[VAL_DAT2$Classification=="correct"])
 min(VAL_DAT2$N_feed_points[VAL_DAT2$Classification=="correct"])
@@ -892,14 +893,7 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
   #   fillColor = "goldenrod"
   # ) %>%
   
-  addCircleMarkers(
-    data=VAL_DAT2 %>%
-      st_transform(4326) %>% filter(gridid %in% duplfeed$gridid),
-    radius = 8,
-    stroke = TRUE, color = "goldenrod", weight = 1,
-    fillColor = "goldenrod"
-  ) %>%
-  
+
   addCircleMarkers(
     data=VAL_DAT2 %>%
       st_transform(4326),
