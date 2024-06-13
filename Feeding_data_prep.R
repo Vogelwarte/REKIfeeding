@@ -469,7 +469,9 @@ fwrite(as.data.frame(track_out),"data/REKI_annotated_feeding2024_CH.csv")
 saveRDS(track_sf, file = "data/REKI_trackingdata_annotated2024_CH.rds")
 
 #### SIMPLE SUMMARY FOR MANUSCRIPT
-track_sf %>% group_by(bird_id) %>%
+track_out %>%  mutate(extra=year_id) %>%
+  separate_wider_delim(extra, delim="_", names=c("year","bird_id")) %>%
+  group_by(bird_id) %>%
   summarise(N= length(unique(year_id)))
 
 
