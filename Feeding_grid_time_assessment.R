@@ -23,8 +23,10 @@ sf_use_s2(FALSE)
 
 
 ########## READ IN RAW TRACKING DATA ########################
-tracks<-readRDS(file = "C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_raw_tracking_data_30Nov2023.rds")
-
+#tracks<-readRDS(file = "C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_raw_tracking_data_30Nov2023.rds")
+tracks<-readRDS(file = "data/REKI_trackingdata_raw2024.rds") %>%
+  dplyr::mutate(long = sf::st_coordinates(.)[,1],
+                lat = sf::st_coordinates(.)[,2]) %>% st_drop_geometry()
 
 
 # DATA PREPARATION -------------------------------------------------------------
@@ -39,8 +41,7 @@ tracks <- tracks %>%
   filter(lat>35) %>%
   filter(!is.na(timestamp)) %>%
   mutate(year=year(timestamp), 
-         year_id=paste(year,id,sep="_")) %>%
-  rename(bird_id = id) %>%
+         year_id=paste(year,bird_id,sep="_")) %>%
   filter(!is.na(year_id)) %>%
   mutate(season1 = ifelse(yday(timestamp)>70 ,"B","NB")) %>%   ## 10 MARCH
   mutate(season2 = ifelse(yday(timestamp)>175 ,"NB","B")) %>%  ## 20 June
@@ -84,7 +85,8 @@ gc()
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ### Convert to LTRAJ TO INTERPOLATE DATA
-traj<-as.ltraj(xy=tracks[,3:4],date=tracks[,2],id=tracks[,7],infolocs=tracks[,c(1:7)],typeII=TRUE)
+trajtracks<-as.data.frame(tracks)  ### LTRAJ only works on data.frames but not on tibbles!
+traj<-as.ltraj(xy=trajtracks[,6:7],date=trajtracks[,5],id=trajtracks[,10],infolocs=trajtracks[,c(1:10)],typeII=TRUE)
 
 ## Rediscretization every 900 seconds
 tr <- redisltraj(traj, 900, type="time")
@@ -98,10 +100,10 @@ for (l in 1:length(unique(tracks$season_id))){
 }
 
 setwd("C:/Users/sop/OneDrive - Vogelwarte/General/DATA")
-saveRDS(all_dat15min,"REKI_regular_15min_tracking_data_30Nov2023.rds")
+saveRDS(all_dat15min,"REKI_regular_15min_tracking_data_June2024.rds")
 
 ### remove unnecessary data
-rm('tracks','tr','traj','out')
+rm('tracks','tr','traj','out','trajtracks')
 gc()
 
 
@@ -115,7 +117,7 @@ head(track_sf)
 dim(track_sf)
 
 setwd("C:/Users/sop/OneDrive - Vogelwarte/General/DATA")
-saveRDS(track_sf,"REKI_regular_15min_tracking_data_30Nov2023_projected.rds")
+saveRDS(track_sf,"REKI_regular_15min_tracking_data_13Jun2024_projected.rds")
 
 
 
@@ -131,7 +133,7 @@ gc()
 ## set root folder for project
 try(setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent=T)
 # try(setwd("C:/STEFFEN/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent=T)
-track_sf<-readRDS("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_30Nov2023_projected.rds")
+track_sf<-readRDS("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_13Jun2024_projected.rds")
 # track_sf<-readRDS("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_30Nov2023_projected.rds")
 CHgrid<-readRDS("output/REKI_feeding_grid.rds")
 range(CHgrid$FEEDER_predicted)
@@ -145,7 +147,11 @@ rm('track_sf')
 gc()
 
 SUMMARY<-FEED_TRACK  %>%
-  mutate(season=ifelse(substr(season_id,1,1)=="B","breeding","non-breeding")) %>%
+  st_drop_geometry() %>%
+  #mutate(season=ifelse(substr(season_id,1,1)=="B","breeding","non-breeding")) %>%
+  mutate(season_id = ifelse(yday(date)<70 ,
+                            paste(season,year(date)-1,bird_id,sep="_"),
+                            paste(season,year(date),bird_id,sep="_"))) %>%
   group_by(season_id, season) %>%
   summarise(FEED=mean(FEEDER_predicted))
 
@@ -159,18 +165,12 @@ ggplot(SUMMARY, aes(x=season,y=FEED)) + geom_boxplot()
 ###### LOADING INDIVIDUAL DATA THAT PREDICTED FEEDING PROBABILITY ------------------------------------------------------------
 
 
-### TO DO #############
-## link foraging area use to individuals
-## create 4-panel plot with 
-## x-axis: age
-## colour= sex
-## panels: breeding vs non-breeding season
-## ask Steph to exclude migrants OR use simple latitudinal cutoff
-
-inddat<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/data/Individual_life_history_2015-2022.csv") %>%
-  select(bird_id,sex_compiled,hatch_year, tag_year) %>%
+library(readxl)
+inddat<-read_excel("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/Individual_life_history_2015-2023.xlsx", sheet="Individual_life_history_2015-20") %>% # updated on 3 June 2024 to include birds from 2022
+  dplyr::select(bird_id,ring_number,tag_year,sex_compiled, age, hatch_year) %>%
+  rename(ring_id=ring_number) %>%
   rename(sex=sex_compiled) %>%
-  mutate(hatch_year= as.numeric(ifelse(hatch_year=="unknown",(tag_year-4),hatch_year)))
+  mutate(hatch_year=if_else(is.na(as.numeric(hatch_year)),tag_year-3,as.numeric(hatch_year)))
 
 # inddat<-fread("C:/STEFFEN/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/data/Individual_life_history_2015-2022.csv") %>%
 #   select(bird_id,sex_compiled,hatch_year, tag_year) %>%
@@ -179,21 +179,22 @@ inddat<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/da
 
 ### MERGE tracks with INDIVIDUAL DATA
 
-FEED_DATA <- as_tibble(FEED_TRACK) %>% #mutate(year_id = substr(season_id,3,nchar(season_id))) %>%
+FEED_DATA <- FEED_TRACK %>% #mutate(year_id = substr(season_id,3,nchar(season_id))) %>%
+  st_drop_geometry() %>%
   mutate(bird_id = as.integer(bird_id), year=as.integer(year)) %>%
   left_join(inddat, by='bird_id') %>%
-  select(-geometry,-n, -N_ind, -N_feed_points, -N_feed_ind, -prop_feed, -prop_pts, -gridid) %>%
+  select(-n, -N_ind, -N_feed_points, -N_feed_ind, -prop_feed, -prop_pts, -gridid) %>%
   mutate(season_id = paste(season,year,bird_id,sep="_")) %>%
   #mutate(year=year(date)) %>%
   mutate(age_cy=(year-tag_year)+1)
   # mutate(HR=ifelse(home_range_id>0,"settled","not settled")) %>%
   # mutate(BR=ifelse(nest_id>0,"breeding","not breeding"))
   
-saveRDS(FEED_DATA,"output/REKI_feed_data.rds")
-
-
-########### clean up workspace #######################
-FEED_DATA <- readRDS("output/REKI_feed_data.rds")
+# saveRDS(FEED_DATA,"output/REKI_feed_data2024.rds")
+# 
+# 
+# ########### clean up workspace #######################
+# FEED_DATA <- readRDS("output/REKI_feed_data2024.rds")
 rm('FEED_TRACK')
 gc()
 
@@ -215,7 +216,7 @@ PLOTDAT<- INDSUMMARY %>%
   filter(sex %in% c("m","f")) %>% ### remove the unassigned and unknown sexes (3 birds)
   ungroup() %>%
   group_by(season, sex, age_cy) %>%
-  summarise(n=length(unique(season_id)), median=quantile(FEED,0.5),lcl=quantile(FEED,0.15),ucl=quantile(FEED,0.85))
+  summarise(n=length(unique(season_id)), median=quantile(FEED,0.5),lcl=quantile(FEED,0.025),ucl=quantile(FEED,0.975))
 
 
 ### CREATE A GRAPH OF USAGE BY AGE, SEX, and BREEDING SEASON
@@ -227,7 +228,7 @@ PLOTDAT %>%
   ggplot() +
   geom_point(aes(y=median, x=age_cy, colour=sex),size=1.5)+
   geom_errorbar(aes(x=age_cy, ymin=lcl, ymax=ucl, colour=sex), width=0.1)+
-  scale_y_continuous(name="Mean daily usage (hrs) of anthropogenic feeding", limits=c(0,15), breaks=seq(0,15,3)) +
+  scale_y_continuous(name="Mean daily usage (hrs) of anthropogenic feeding", limits=c(0,20), breaks=seq(0,20,4)) +
   scale_x_continuous(name="Age (in years)", limits=c(0.5,8.5), breaks=seq(1,8,1)) +
   facet_wrap(~season, ncol=1, scales="free_y", dir="v") +
   theme(panel.background=element_rect(fill="white", colour="black"), 
@@ -238,7 +239,7 @@ PLOTDAT %>%
         legend.text=element_text(size=14, color="black"),
         legend.title=element_text(size=18, color="black"),
         legend.key=element_blank(),
-        legend.position=c(0.08,0.31),
+        legend.position=c(0.08,0.39),
         strip.background=element_rect(fill="white", colour="black"), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
