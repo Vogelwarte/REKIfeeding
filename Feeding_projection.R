@@ -24,6 +24,8 @@ sf_use_s2(FALSE)
 library(pROC)
 library(amt)
 library(recurse)
+library("rnaturalearth")
+library("rnaturalearthdata")
 
 
 ### read in Switzerland map
@@ -250,7 +252,11 @@ saveRDS(CHgrid,"output/REKI_feeding_grid2024.rds")
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 
 ########## CREATE A LEAFLET MAP OF PREDICTED FEEDING LOCATIONS ########################
-
+SUIpol <- ne_countries(scale = "large", returnclass = "sf") %>%
+  filter(admin=="Switzerland") %>%
+  st_transform(3035)
+CHgrid<-CHgrid %>% st_intersection(.,SUIpol) %>% filter(!is.na(admin))
+FEEDgrid<-FEEDgrid %>% st_intersection(.,SUIpol) %>% filter(!is.na(admin))
 ## need to specify color palette 
 # If you want to set your own colors manually:
 pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
