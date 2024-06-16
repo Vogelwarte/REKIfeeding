@@ -34,6 +34,7 @@ library(pdp) ### for creating partial dependence plots
 
 ## set root folder for project
 #setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
+#setwd("C:/STEFFEN/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
 
 # LOADING DATA -----------------------------------------------------------------
 ### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES 
@@ -921,7 +922,7 @@ m2 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
   addLegend(     # legend for known feeding sites
     position = "topleft",
     pal = val.pal,
-    values = VAL_DAT$Classification,
+    values = VAL_DAT2$Classification,
     opacity = 1,
     title = "Validation (interviews)"
   ) %>%
@@ -934,7 +935,7 @@ m2
 
 
 htmltools::save_html(html = m2, file = "C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_1_2024.html")
-mapview::mapshot(m2, url = "C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_1_2024.html")
+mapview::mapshot(m2, url = "C:/STEFFEN/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_1_2024.html")
 st_write(OUTgrid,"output/REKI_predicted_anthropogenic_feeding_areas_2024.kml",append=FALSE)
 
 
