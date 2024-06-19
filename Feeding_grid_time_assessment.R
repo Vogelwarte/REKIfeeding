@@ -134,7 +134,7 @@ gc()
 try(setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent=T)
 # try(setwd("C:/STEFFEN/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent=T)
 track_sf<-readRDS("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_13Jun2024_projected.rds")
-# track_sf<-readRDS("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_30Nov2023_projected.rds")
+# track_sf<-readRDS("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_13Jun2024_projected.rds")
 CHgrid<-readRDS("output/REKI_feeding_grid.rds")
 range(CHgrid$FEEDER_predicted)
 
@@ -172,10 +172,11 @@ inddat<-read_excel("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/Individual_l
   rename(sex=sex_compiled) %>%
   mutate(hatch_year=if_else(is.na(as.numeric(hatch_year)),tag_year-3,as.numeric(hatch_year)))
 
-# inddat<-fread("C:/STEFFEN/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/data/Individual_life_history_2015-2022.csv") %>%
-#   select(bird_id,sex_compiled,hatch_year, tag_year) %>%
-#   rename(sex=sex_compiled) %>%
-#   mutate(hatch_year= as.numeric(ifelse(hatch_year=="unknown",(tag_year-4),hatch_year)))
+inddat<-read_excel("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/Individual_life_history_2015-2023.xlsx", sheet="Individual_life_history_2015-20") %>% # updated on 3 June 2024 to include birds from 2022
+  dplyr::select(bird_id,ring_number,tag_year,sex_compiled, age, hatch_year) %>%
+  rename(ring_id=ring_number) %>%
+  rename(sex=sex_compiled) %>%
+  mutate(hatch_year=if_else(is.na(as.numeric(hatch_year)),tag_year-3,as.numeric(hatch_year)))
 
 ### MERGE tracks with INDIVIDUAL DATA
 
@@ -226,20 +227,20 @@ PLOTDAT %>%
   mutate(season=ifelse(season=="B", "breeding season", "non-breeding season")) %>%
   
   ggplot() +
-  geom_point(aes(y=median, x=age_cy, colour=sex),size=1.5)+
-  geom_errorbar(aes(x=age_cy, ymin=lcl, ymax=ucl, colour=sex), width=0.1)+
+  geom_point(aes(y=median, x=age_cy, colour=sex),size=2)+
+  geom_errorbar(aes(x=age_cy, ymin=lcl, ymax=ucl, colour=sex), width=0.2)+
   scale_y_continuous(name="Mean daily usage (hrs) of anthropogenic feeding", limits=c(0,20), breaks=seq(0,20,4)) +
   scale_x_continuous(name="Age (in years)", limits=c(0.5,8.5), breaks=seq(1,8,1)) +
   facet_wrap(~season, ncol=1, scales="free_y", dir="v") +
   theme(panel.background=element_rect(fill="white", colour="black"), 
-        axis.text.y=element_text(size=16, color="black"), 
-        axis.text.x=element_text(size=13, color="black"), 
+        axis.text=element_text(size=16, color="black"), 
         axis.title=element_text(size=18), 
         strip.text=element_text(size=18, color="black"),
-        legend.text=element_text(size=14, color="black"),
+        legend.text=element_text(size=16, color="black"),
         legend.title=element_text(size=18, color="black"),
         legend.key=element_blank(),
         legend.position=c(0.08,0.39),
+        legend.background=element_blank(), 
         strip.background=element_rect(fill="white", colour="black"), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), 
