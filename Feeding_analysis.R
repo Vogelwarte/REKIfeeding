@@ -51,6 +51,11 @@ WGS84_coords ="+init=epsg:4326"
 CH_LV03_coords ="+init=epsg:21781"
 
 
+### read in Switzerland map
+SUI<-st_read("S:/rasters/outline_maps/swiss_map_overview/layers.gpkg") %>% filter(country=="Switzerland")
+plot(SUI)
+
+
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## CALCULATE DISTANCE FROM PREDICTED FEEDING SITE TO NEAREST KNOWN SITE   #############
@@ -96,13 +101,21 @@ forest <- st_read("data/Forest/vec25_forest_buff_20m_studyarea.shp", stringsAsFa
 
 
 ################ CREATE VARIOUS SUBSETS TO IMPROVE RATIO OF CLASS MEMBERSHIP
-track_day<-track_sf %>% dplyr::filter(tod_=="day")
-track_nofor<-track_sf %>% filter(FOREST==0)
-track_nofor_day<-track_sf %>% filter(FOREST==0) %>% filter(tod_=="day")
-table(track_nofor_day$FEEDER)
-
-track_nofor_day_build<-track_nofor_day %>%
-  filter(!(BUILD==0 & FEEDER =="NO")) 
+# track_day<-track_sf %>% dplyr::filter(tod_=="day") %>%
+#   st_intersection(,SUI) %>% filter(!is.na(admin))
+# track_nofor<-track_sf %>% filter(FOREST==0)
+track_nofor_day_build<-track_sf %>%
+  filter(FOREST==0) %>%
+  filter(tod_=="day") %>%
+  filter(!(BUILD==0 & FEEDER =="NO")) %>%
+  st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
+  st_transform(2056) %>%
+  st_intersection(.,SUI) %>% filter(!is.na(country)) %>% ### remove all data outside of Switzerland
+  st_transform(4326) %>%
+  dplyr::mutate(long = sf::st_coordinates(.)[,1],
+                lat = sf::st_coordinates(.)[,2]) %>%
+  st_drop_geometry()
+ 
 
 table(track_nofor_day_build$FEEDER)
 
@@ -180,7 +193,7 @@ table(DATA_TEST$NEST)
 
 # CREATING BASELINE MAP OF SAMPLING INTENSITY -----------------------------------------------------------------
 
-grid <- forest %>% 
+grid <- SUI %>% st_transform(3035) %>%
   st_make_grid(cellsize = 500, what = "polygons",
                square = FALSE) # This statements leads to hexagons
 sum(st_area(grid))/1000000  ## size of study area in sq km
