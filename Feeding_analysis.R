@@ -13,6 +13,7 @@
 
 ## 11 June 2024: changed the count of ID (from year_id to bird_id)
 
+#library(stringi)
 library(tidyverse)
 library(dplyr, warn.conflicts = FALSE)
 options(dplyr.summarise.inform = FALSE)
@@ -55,6 +56,8 @@ CH_LV03_coords ="+init=epsg:21781"
 SUI<-st_read("S:/rasters/outline_maps/swiss_map_overview/layers.gpkg") %>% filter(country=="Switzerland")
 plot(SUI)
 
+STUDY_AREA<-st_read("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_study_area.kml")
+plot(STUDY_AREA)
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
@@ -112,6 +115,7 @@ track_nofor_day_build<-track_sf %>%
   st_transform(2056) %>%
   st_intersection(.,SUI) %>% filter(!is.na(country)) %>% ### remove all data outside of Switzerland
   st_transform(4326) %>%
+  st_intersection(.,STUDY_AREA) %>% filter(!is.na(Name)) %>% ### remove all data outside of study area
   dplyr::mutate(long = sf::st_coordinates(.)[,1],
                 lat = sf::st_coordinates(.)[,2]) %>%
   st_drop_geometry()
@@ -195,7 +199,11 @@ table(DATA_TEST$NEST)
 
 grid <- SUI %>% st_transform(3035) %>%
   st_make_grid(cellsize = 500, what = "polygons",
-               square = FALSE) # This statements leads to hexagons
+               square = FALSE) %>% # This statements leads to hexagons
+  st_transform(2056) %>%
+  st_intersection(.,SUI) %>% ### remove all data outside of Switzerland
+  st_transform(3035)
+
 sum(st_area(grid))/1000000  ## size of study area in sq km
 track_sf <-   st_as_sf(track_sf, coords = c("long", "lat"), crs = 4326) %>%
   st_transform(3035)
@@ -342,17 +350,17 @@ OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
     ggplot2::xlab("Explanatory variable") +
     ggplot2::scale_y_continuous(limits=c(-5,105), breaks=seq(0,100,20), labels=seq(0,100,20))+
     ggplot2::scale_x_discrete(name="",limit = mylevels,
-                     labels = c("step length [m]",
-                                "building present [y/n]",
+                     labels = c("speed [m/s]",
                                 "age [years]",                              
                                 "distance to nest [m]",
+                                "building present [y/n]",
+                                "attendance duration [hrs]",
                                 "attendance pattern [visits/day]",
                                 "time span of visitation [days]",
                                 "frequency of visits",
                                 "N of days",
-                                "attendance duration [hrs]",
                                 "N of repeat visits"))  +
-    ggplot2::annotate("text",x=2,y=80,label=paste("Accuracy = ",round(testmat$byClass[3],3)),size=8) +
+    ggplot2::annotate("text",x=2,y=80,label=paste("Accuracy = ",round(testmat$byClass[11],3)),size=8) +
     ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
                    axis.text.x=ggplot2::element_text(size=18, color="black"),
                    axis.text.y=ggplot2::element_text(size=16, color="black"), 
@@ -362,7 +370,7 @@ OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
                    panel.border = ggplot2::element_blank())
   print(impplot)
 
-#  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
+ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
   
 trainmat
 testmat
@@ -374,7 +382,7 @@ testmat
     
 ########### PARTIAL DEPENDENCE PLOTS ###############
 #tic()
-## this seems to take forever if parallel=T, otherwise 15 min
+## this seems to take forever if parallel=T, otherwise 2 hrs per plot! min
   
 # ndpart<-partial(RF2, pred.var="dist_nest", trim.outliers=F, progress=T, prob=T)
 # autoplot(ndpart)
@@ -382,11 +390,11 @@ testmat
 # range(DATA_TEST$dist_nest)
 # hist(OUT$dist_nest)
 #   
-# agepart<-partial(RF2, pred.var="age_cy", progress=T, trim.outliers=T, prob=T)  
-# autoplot(agepart)    
+# agepart<-partial(RF2, pred.var="age_cy", progress=T, trim.outliers=T, prob=T)
+# autoplot(agepart)
    
   
-  #  ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
+  #  ggsave("output/REKI_feed_age_pdp.jpg", height=7, width=11)
  #toc() 
   
   ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
@@ -405,7 +413,7 @@ testmat
   ## read in survey from Fiona Pellet provided with addresses only
   ## Jerome Guelat provided R script to convert addresses to coordinates
   source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
-  library(stringi)
+
   
   ## Feeding is the question whether they feed or not
   feed_surveys2<-read_csv("data/FeedersFionaPelle.csv", locale = locale(encoding = "UTF-8")) %>%
@@ -467,8 +475,8 @@ VAL_DAT<-DATA_TEST  %>%
 str(VAL_DAT)  
 suppressWarnings({valmat<-caret::confusionMatrix(data = VAL_DAT$FEEDER_predicted, reference = VAL_DAT$FEEDER_observed, positive="YES")})
 valmat
-5829/(5829+1025)
-30973/(30973+ 247031)
+5827/(5827+981)
+31067/(31067+ 247014)
 
   
 ## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
@@ -638,7 +646,7 @@ countgrid$N_feed_points<-lengths(tab2)
 
 
 #### FIRST COUNT N INDIVIDUALS PER GRID CELL
-
+## this is tab and not tab 2 because it is independent of behaviour
 for(c in 1:length(tab)){
   #countgrid$N_ind[c]<-length(unique(track_sf$year_id[tab[c][[1]]]))
   countgrid$N_ind[c]<-length(unique(track_sf$bird_id[tab[c][[1]]]))
@@ -739,12 +747,12 @@ impplot2<-IMP2[6:1,] %>%
   ggplot2::xlab("Explanatory variable") +
   ggplot2::scale_y_continuous(limits=c(-5,105), breaks=seq(0,100,20), labels=seq(0,100,20))+
   ggplot2::scale_x_discrete(name="",limit = mylevels2,
-                            labels = c("N individuals",
-                                       "N feeding individuals",
+                            labels = c("Proportion of feeding locations",
+                                       "Proportion of feeding individuals",
                                        "N feeding locations",
                                        "Total N of GPS locations",
-                                       "Proportion of feeding locations",
-                                       "Proportion of feeding individuals"))  +
+                                       "N feeding individuals",
+                                       "N individuals"))  +
   #ggplot2::annotate("text",x=2,y=80,label=paste("AUC = ",round(AUC,3)),size=8) +
   ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
                  axis.text.x=ggplot2::element_text(size=18, color="black"),
@@ -824,18 +832,18 @@ summary(validat$FEEDER_predicted)
 validat
 
 ### find and remove duplicates
-# duplfeed<-validat %>% 
-#   st_drop_geometry() %>%
-#   distinct() %>%
-#   group_by(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,gridid) %>%
-#   summarise(nv=length(FEEDER_surveyed)) %>% filter(nv>1)
+duplfeed<-validat %>%
+  st_drop_geometry() %>%
+  distinct() %>%
+  group_by(n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,gridid) %>%
+  summarise(nv=length(FEEDER_surveyed)) %>% filter(nv>1)
 
 
 VAL_DAT2<-validat %>% #st_drop_geometry() %>%
   select(-square,-random,-area,-building.type) %>% distinct() %>% #filter(gridid==890) 
   #filter(!(is.na(nr) & (gridid %in% duplfeed$gridid))) %>%
   filter(FEEDER_surveyed==1) %>%
-  select(ID, n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_predicted) %>%
+  select(ID,n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_predicted) %>%
   mutate(Classification=ifelse(FEEDER_predicted>THRESH,"correct","missed"))
 
 ### summarise the predicted sites
