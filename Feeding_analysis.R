@@ -58,8 +58,8 @@ CH_LV03_coords ="+init=epsg:21781"
 SUI<-readRDS("data/Swiss_border.rds")
 plot(SUI)
 
-STUDY_AREA<-st_read("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/REKI_study_area.kml")
-saveRDS(STUDY_AREA,"data/REKI_study_area.rds")
+# STUDY_AREA<-st_read("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/REKI_study_area_sm.kml")
+# saveRDS(STUDY_AREA,"data/REKI_study_area.rds")
 STUDY_AREA<-readRDS("data/REKI_study_area.rds")
 plot(STUDY_AREA)
 
@@ -89,11 +89,23 @@ plot_feeders3<- fread("data/feeding_platforms_15_16.csv") %>%
   filter(!is.na(x)) %>%
   mutate(start_date=dmy(start_date), end_date=dmy(end_date)) %>%
   st_as_sf(coords = c("x", "y"), crs=21781) %>%
-  st_transform(crs = 4326)%>%
+  st_transform(crs = 4326) %>%
   mutate(Type="Experimental") %>%
   select(Type)
 
 plot_feeders<-rbind(plot_feeders,plot_feeders2,plot_feeders3)
+
+
+########## PLOT FEEDERS AND CHECK EXTENT OF STUDY AREA   #############
+
+tmap_mode("view")
+tm_basemap(server="OpenStreetMap") +
+  tm_shape(SUI)  +
+  tm_polygons(col = "firebrick", fill="grey95", alpha=0.1) +
+  tm_shape(STUDY_AREA)  +
+  tm_polygons(col = "firebrick", fill="firebrick", alpha=0.2) +
+  tm_shape(plot_feeders)+
+  tm_symbols(col = 'green', size = 0.0025)
 
 
 
@@ -406,7 +418,7 @@ testmat
   ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
   ## read in survey data from Eva Cereghetti
   ## Q1 is the question whether they feed or not
-  setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
+  #setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
   feed_surveys<-fread("data/survey.final.csv") %>% #filter(Q1=="Ja") %>%
     mutate(FEEDER_surveyed=ifelse(Q1=="Ja",1,0)) %>%
     mutate(ID=paste0("Eva",nr)) %>%
@@ -417,6 +429,7 @@ testmat
   ## read in survey from Fiona Pellet provided with addresses only
   ## Jerome Guelat provided R script to convert addresses to coordinates
   source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
+source("C:/STEFFEN/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
 
   
   ## Feeding is the question whether they feed or not
@@ -465,6 +478,7 @@ VAL_FEED_BUFF <-feed_surv2_sf %>%
   st_buffer(dist=50) %>%
   select(FEEDER_surveyed)
 
+
 VAL_DAT<-DATA_TEST  %>%
   st_as_sf(coords = c("long", "lat"), crs=4326) %>%
   st_transform(crs = 3035) %>%
@@ -481,6 +495,25 @@ suppressWarnings({valmat<-caret::confusionMatrix(data = VAL_DAT$FEEDER_predicted
 valmat
 5827/(5827+981)
 31067/(31067+ 247014)
+
+
+
+########## PLOT PREDICTIONS IN STUDY AREA   #############
+
+tmap_mode("plot")
+tm_basemap(server="OpenStreetMap") +
+  tm_shape(SUI)  +
+  tm_polygons(col = "firebrick", fill="grey95", alpha=0.1) +
+  tm_shape(STUDY_AREA)  +
+  tm_polygons(col = "firebrick", fill="firebrick", alpha=0.2) +
+  tm_shape(feed_surv2_sf)+
+  tm_symbols(col = 'green', size = 0.0025)+
+  tm_shape(VAL_DAT)+
+  tm_symbols(col = 'black', size = 0.0001)
+
+
+
+
 
   
 ## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
@@ -690,6 +723,8 @@ countgrid$FEEDER<-lengths(feed_grd)
 PRED_GRID<-countgrid %>% 
   mutate(gridid=seq_along(n)) %>%
   filter(n>10) %>%
+  st_transform(4326) %>%
+  st_intersection(.,STUDY_AREA) %>% filter(!is.na(Name)) %>% ### remove all data outside of study area
   st_drop_geometry() %>%
   mutate(FEEDER=ifelse(FEEDER==0,0,1))
 
@@ -698,14 +733,14 @@ table(PRED_GRID$N_feed_points)[1]
 dim(PRED_GRID)
 summary(PRED_GRID)
 
-# tmap_mode("view")
-# tm_basemap(server="OpenStreetMap") +
-#   tm_shape(OUT_sf)+
-#   tm_symbols(col = 'feed_prob', size = 0.01) +
-#   tm_shape(plot_feeders)+
-#   tm_symbols(col = 'green', size = 0.05) +
-#   tm_shape(countgrid)  +
-#   tm_polygons(col = "firebrick", fill="N_feed_points", alpha=0.2)
+tmap_mode("view")
+tm_basemap(server="OpenStreetMap") +
+  tm_shape(OUT_sf)+
+  tm_symbols(col = 'feed_prob', size = 0.01) +
+  tm_shape(plot_feeders)+
+  tm_symbols(col = 'green', size = 0.05) +
+  tm_shape(PRED_GRID)  +
+  tm_polygons(col = "firebrick", fill="N_feed_points", alpha=0.2)
 
 
 
@@ -789,6 +824,7 @@ OUTgrid<-countgrid %>% select(-FEEDER) %>%
   mutate(gridid=seq_along(n)) %>%
   left_join(PRED_GRID, by=c("gridid","n","N_ind","N_feed_points","N_feed_ind","prop_feed","prop_pts")) %>%
   filter(!is.na(FEEDER_predicted))
+  
 
 
 
@@ -817,7 +853,9 @@ feed_surv2_sf$FEEDER_surveyed
 
 #validat <- st_intersection(OUTgrid, feed_surv2_sf) %>%
 validat <- st_intersection(feed_surv2_sf,OUTgrid) %>%
-  filter(!is.na(n))  ## excludes bullshit addresses outside of study area
+  filter(!is.na(n))  %>% ## excludes bullshit addresses outside of study area
+  st_transform(4326) %>%
+  st_intersection(.,STUDY_AREA) %>% filter(!is.na(Name))### remove all data outside of study area
 validat$FEEDER_surveyed
 summary(validat$FEEDER_predicted)
 
@@ -870,7 +908,7 @@ validat<-validat %>% st_transform(4326) %>%
   st_intersection(.,STUDY_AREA) %>% filter(!is.na(Name)) ### remove all data outside of study area
 
 
-BI2<-Boyce(obs = validat$FEEDER_surveyed , pred = validat$FEEDER_predicted, n.bins=10)$Boyce
+BI2<-Boyce(obs = validat$FEEDER_surveyed , pred = validat$FEEDER_predicted, n.bins=8)$Boyce
 BI2
 
 
