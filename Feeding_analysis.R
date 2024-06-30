@@ -53,10 +53,14 @@ CH_LV03_coords ="+init=epsg:21781"
 
 
 ### read in Switzerland map
-SUI<-st_read("S:/rasters/outline_maps/swiss_map_overview/layers.gpkg") %>% filter(country=="Switzerland")
+# SUI<-st_read("S:/rasters/outline_maps/swiss_map_overview/layers.gpkg") %>% filter(country=="Switzerland")
+# saveRDS(SUI,"data/Swiss_border.rds")
+SUI<-readRDS("data/Swiss_border.rds")
 plot(SUI)
 
-STUDY_AREA<-st_read("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_study_area.kml")
+STUDY_AREA<-st_read("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/REKI_study_area.kml")
+saveRDS(STUDY_AREA,"data/REKI_study_area.rds")
+STUDY_AREA<-readRDS("data/REKI_study_area.rds")
 plot(STUDY_AREA)
 
 
@@ -846,6 +850,10 @@ VAL_DAT2<-validat %>% #st_drop_geometry() %>%
   select(ID,n,N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,FEEDER_predicted) %>%
   mutate(Classification=ifelse(FEEDER_predicted>THRESH,"correct","missed"))
 
+### check how many are in study area
+VAL_DAT2<-VAL_DAT2 %>% st_transform(4326) %>%
+  st_intersection(.,STUDY_AREA) %>% filter(!is.na(Name)) ### remove all data outside of study area
+
 ### summarise the predicted sites
 table(VAL_DAT2$Classification)
 summary(VAL_DAT2$FEEDER_predicted)
@@ -858,6 +866,10 @@ min(VAL_DAT2$N_feed_ind[VAL_DAT2$Classification=="correct"])
 VAL_DAT2 %>% filter(N_feed_points==0)
 
 ### CALCULATE BOYCE INDEX FOR VALIDATION DATA ###
+validat<-validat %>% st_transform(4326) %>%
+  st_intersection(.,STUDY_AREA) %>% filter(!is.na(Name)) ### remove all data outside of study area
+
+
 BI2<-Boyce(obs = validat$FEEDER_surveyed , pred = validat$FEEDER_predicted, n.bins=10)$Boyce
 BI2
 
