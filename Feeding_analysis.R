@@ -64,7 +64,7 @@ plot(SUI)
 # saveRDS(STUDY_AREA,"data/REKI_study_area.rds")
 STUDY_AREA<-readRDS("data/REKI_study_area.rds")
 plot(STUDY_AREA)
-
+st_area(STUDY_AREA)/1000000
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## CALCULATE DISTANCE FROM PREDICTED FEEDING SITE TO NEAREST KNOWN SITE   #############
