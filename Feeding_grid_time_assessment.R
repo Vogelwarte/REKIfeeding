@@ -21,24 +21,28 @@ filter<-dplyr::filter
 sf_use_s2(FALSE)
 
 
+### read in Switzerland map
+# SUI<-st_read("S:/rasters/outline_maps/swiss_map_overview/layers.gpkg") %>% filter(country=="Switzerland")
+# saveRDS(SUI,"data/Swiss_border.rds")
+SUI<-readRDS("data/Swiss_border.rds")
+plot(SUI)
+
 
 ########## READ IN RAW TRACKING DATA ########################
 #tracks<-readRDS(file = "C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_raw_tracking_data_30Nov2023.rds")
 tracks<-readRDS(file = "data/REKI_trackingdata_raw2024.rds") %>%
+  st_transform(2056) %>%
+  st_intersection(.,SUI) %>% filter(!is.na(country)) %>% ### remove all data outside of Switzerland
+  st_transform(4326) %>%
   dplyr::mutate(long = sf::st_coordinates(.)[,1],
                 lat = sf::st_coordinates(.)[,2]) %>% st_drop_geometry()
 
 
 # DATA PREPARATION -------------------------------------------------------------
 
-
 tracks <- tracks %>%
   filter(!is.na(long)) %>%
   filter(!is.na(lat)) %>%
-  filter(long<11) %>%
-  filter(long>-10) %>%
-  filter(lat<49) %>%
-  filter(lat>35) %>%
   filter(!is.na(timestamp)) %>%
   mutate(year=year(timestamp), 
          year_id=paste(year,bird_id,sep="_")) %>%
@@ -77,7 +81,7 @@ dim(tracks)
 
 ########### clean up workspace #######################
 ls()
-rm('data','exclude','dupes','trackingdata','CHgrid')
+rm('data','exclude','dupes','trackingdata','CHgrid','SUI')
 gc()
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -86,7 +90,7 @@ gc()
 
 ### Convert to LTRAJ TO INTERPOLATE DATA
 trajtracks<-as.data.frame(tracks)  ### LTRAJ only works on data.frames but not on tibbles!
-traj<-as.ltraj(xy=trajtracks[,6:7],date=trajtracks[,5],id=trajtracks[,10],infolocs=trajtracks[,c(1:10)],typeII=TRUE)
+traj<-as.ltraj(xy=trajtracks[,7:8],date=trajtracks[,5],id=trajtracks[,11],infolocs=trajtracks[,c(1:11)],typeII=TRUE)
 
 ## Rediscretization every 900 seconds
 tr <- redisltraj(traj, 900, type="time")
@@ -117,7 +121,7 @@ head(track_sf)
 dim(track_sf)
 
 setwd("C:/Users/sop/OneDrive - Vogelwarte/General/DATA")
-saveRDS(track_sf,"REKI_regular_15min_tracking_data_13Jun2024_projected.rds")
+saveRDS(track_sf,"REKI_regular_15min_tracking_data_June2024_projected.rds")
 
 
 
