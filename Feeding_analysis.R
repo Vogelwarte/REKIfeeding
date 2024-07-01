@@ -1056,7 +1056,7 @@ names(var.labs) <- names(VAL_DAT2)[2:7]
 
 VAL_DAT2 %>%
   st_drop_geometry() %>%
-  select(-FEEDER_predicted,-ID) %>%
+  select(-FEEDER_predicted,-ID,-Name,-Description) %>%
   gather(key=variable, value=value,-Classification) %>% 
   filter(!(variable=="n" & value>45000)) %>%  ### remove a single outlier value
   filter(!(variable=="N_feed_ind" & value>30)) %>%  ### remove a single outlier value
