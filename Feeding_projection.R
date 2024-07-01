@@ -29,9 +29,15 @@ library("rnaturalearthdata")
 
 
 ### read in Switzerland map
-try(setwd("S:/rasters/outline_maps/swiss_map_overview"),silent=T)
-SUI<-st_read("layers.gpkg") %>% filter(country=="Switzerland")
+# SUI<-st_read("S:/rasters/outline_maps/swiss_map_overview/layers.gpkg") %>% filter(country=="Switzerland")
+# saveRDS(SUI,"data/Swiss_border.rds")
+SUI<-readRDS("data/Swiss_border.rds")
 plot(SUI)
+
+# STUDY_AREA<-st_read("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/REKI_study_area_sm.kml")
+# saveRDS(STUDY_AREA,"data/REKI_study_area.rds")
+STUDY_AREA<-readRDS("data/REKI_study_area.rds")
+plot(STUDY_AREA)
 
 ## set root folder for project
 try(setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent=T)
@@ -70,7 +76,7 @@ dim(track_sf)
 
 
 
-###### APPLY MODELS ACROSS EXTENT OF TRACKING DATA  -----------------------------------------------------------------
+###### APPLY MODELS ACROSS FULL EXTENT OF TRACKING DATA  -----------------------------------------------------------------
 
 
 ################ CREATE SUBSETS TO APPLY MODEL TO DAYTIME LOCATIONS OUTSIDE OF FOREST
@@ -116,37 +122,37 @@ dim(countgrid)/359869
 1-(dim(countgrid)[1]/359869) ## reported in results - fraction eliminated
 
 
-summary(log(countgrid$n+1))
-pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,12))
-leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
-  htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
-                           position: 'bottomright' }).addTo(this)}"
-  ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
-  addProviderTiles("Esri.WorldImagery", group = "Satellite",
-                   options = providerTileOptions(opacity = 0.6, attribution = F)) %>%
-  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F)) %>%  
-  addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
-  
-  addCircleMarkers(
-    data=track_sf %>% st_transform(4326) %>% slice_sample(n=1000),
-    radius = 1,
-    stroke = TRUE, color = "goldenrod", weight = 0.8,
-    fillColor = "goldenrod", fillOpacity = 0.8
-  ) %>%
-  
-  addPolygons(
-    data=st_as_sfc(st_bbox(track_sf %>% st_transform(4326))),
-    stroke = TRUE, color = "red", weight = 1,
-    fillOpacity = 0.5
-  )
-  # 
-  # addPolygons(
-  #   data=grid_CH %>%
-  #     st_transform(4326),
-  #   stroke = TRUE, color = "green", weight = 1,
-  #   fillColor = "grey17", fillOpacity = 0.5
-  # )
-
+# summary(log(countgrid$n+1))
+# pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,12))
+# leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+#   htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
+#                            position: 'bottomright' }).addTo(this)}"
+#   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
+#   addProviderTiles("Esri.WorldImagery", group = "Satellite",
+#                    options = providerTileOptions(opacity = 0.6, attribution = F)) %>%
+#   addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F)) %>%  
+#   addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
+#   
+#   addCircleMarkers(
+#     data=track_sf %>% st_transform(4326) %>% slice_sample(n=1000),
+#     radius = 1,
+#     stroke = TRUE, color = "goldenrod", weight = 0.8,
+#     fillColor = "goldenrod", fillOpacity = 0.8
+#   ) %>%
+#   
+#   addPolygons(
+#     data=st_as_sfc(st_bbox(track_sf %>% st_transform(4326))),
+#     stroke = TRUE, color = "red", weight = 1,
+#     fillOpacity = 0.5
+#   )
+#   # 
+#   # addPolygons(
+#   #   data=grid_CH %>%
+#   #     st_transform(4326),
+#   #   stroke = TRUE, color = "green", weight = 1,
+#   #   fillColor = "grey17", fillOpacity = 0.5
+#   # )
+# 
 
 
 
