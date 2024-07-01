@@ -13,6 +13,8 @@
 
 ## 11 June 2024: changed the count of ID (from year_id to bird_id)
 
+## 30 June 2024: curtailed whole analysis to study area
+
 #library(stringi)
 library(tidyverse)
 library(dplyr, warn.conflicts = FALSE)
@@ -228,74 +230,96 @@ lengths(tab)
 countgrid <- st_sf(n = lengths(tab), geometry = st_cast(grid, "MULTIPOLYGON")) %>%
   st_transform(3035)
 summary(log(countgrid$n+1))
-pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,12))
-leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
-  htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
-                           position: 'bottomright' }).addTo(this)}"
-  ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
-  addProviderTiles("Esri.WorldImagery", group = "Satellite",
-                   options = providerTileOptions(opacity = 0.6, attribution = F)) %>%
-  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F)) %>%  
-  addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
-  
-  addPolygons(
-    data=countgrid %>%
-      st_transform(4326),
-    stroke = TRUE, color = ~pal(log(n+1)), weight = 1,
-    fillColor = ~pal(log(n+1)), fillOpacity = 0.5
-  )
+
+#### COUNT N INDIVIDUALS PER GRID CELL
+## this is tab and not tab 2 because it is independent of behaviour
+for(c in 1:length(tab)){
+  #countgrid$N_ind[c]<-length(unique(track_sf$year_id[tab[c][[1]]]))
+  countgrid$N_ind[c]<-length(unique(track_sf$bird_id[tab[c][[1]]]))
+}
+
+
+# view the map
+
+tmap_mode("view")
+tm_basemap(server="OpenStreetMap") +
+  tm_shape(countgrid)  +
+  tm_polygons(col = 'N_ind', fill='N_ind', alpha=0.4)
+
+
+# pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,12))
+# leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+#   htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
+#                            position: 'bottomright' }).addTo(this)}"
+#   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
+#   addProviderTiles("Esri.WorldImagery", group = "Satellite",
+#                    options = providerTileOptions(opacity = 0.6, attribution = F)) %>%
+#   addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F)) %>%  
+#   addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%  
+#   
+#   addPolygons(
+#     data=countgrid %>%
+#       st_transform(4326),
+#     stroke = TRUE, color = ~pal(log(n+1)), weight = 1,
+#     fillColor = ~pal(log(n+1)), fillOpacity = 0.5
+#   )
 
 
 
-########## CREATE A LEAFLET MAP TO SHOW APPROACH OF OVERLAYING FEEDING AND NON-FEEDING LOCATIONS ########################
+# ########## CREATE A LEAFLET MAP TO SHOW APPROACH OF OVERLAYING FEEDING AND NON-FEEDING LOCATIONS ########################
+# 
+# ### NEED TO FIND GOOD EXAMPLE BIRD FOR DEMO ###
+# sort(unique(DATA$FEED_ID))
+# DATA %>% filter (FEEDER=="YES") %>% filter(revisits>2000) %>% arrange(revisits)
+# 
+# ## need to specify color palette 
+# # If you want to set your own colors manually:
+# res.pal <- colorNumeric(c("grey15","red"), seq(0,3300))
+# mF <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+#   setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
+#   htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
+#                            position: 'bottomright' }).addTo(this)}"
+#   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
+#   addProviderTiles("Esri.WorldImagery", group = "Satellite",
+#                    options = providerTileOptions(opacity = 0.4, attribution = F,minZoom = 5, maxZoom = 20)) %>%
+#   # addPolylines(
+#   #   data=DATA %>% filter(year_id=="2018_459"),
+#   #   lng = ~long, lat = ~lat, group = ~year_id,
+#   #   color = "red", weight = 1
+#   #  ) %>%
+#   addCircleMarkers(
+#     data=track_sf %>% filter(year_id=="2019_481") %>% st_transform(4326),
+#     radius = 5,
+#     stroke = TRUE, color = ~res.pal(revisits), weight = 0.8,
+#     fillColor = ~res.pal(revisits), fillOpacity = 0.8
+#   ) %>%
+#   addCircleMarkers(
+#     data=plot_feeders,
+#     radius = 10,
+#     stroke = TRUE, color = "cornflowerblue", weight = 1,   ###~feed.pal(Type)
+#     fillColor = "cornflowerblue", fillOpacity = 0.8   ## ~feed.pal(Type)
+#   ) %>%
+# 
+#   
+#   addLegend(     # legend for predicted prob of feeding
+#     position = "topleft",
+#     pal = res.pal,
+#     values = DATA$revisits,
+#     opacity = 1,
+#     title = "Number of </br>repeat visits"
+#   ) %>%
+#   
+#   addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
+# 
+# mF
 
-### NEED TO FIND GOOD EXAMPLE BIRD FOR DEMO ###
-sort(unique(DATA$FEED_ID))
-DATA %>% filter (FEEDER=="YES") %>% filter(revisits>2000) %>% arrange(revisits)
 
-## need to specify color palette 
-# If you want to set your own colors manually:
-res.pal <- colorNumeric(c("grey15","red"), seq(0,3300))
-mF <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
-  setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
-  htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
-                           position: 'bottomright' }).addTo(this)}"
-  ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
-  addProviderTiles("Esri.WorldImagery", group = "Satellite",
-                   options = providerTileOptions(opacity = 0.4, attribution = F,minZoom = 5, maxZoom = 20)) %>%
-  # addPolylines(
-  #   data=DATA %>% filter(year_id=="2018_459"),
-  #   lng = ~long, lat = ~lat, group = ~year_id,
-  #   color = "red", weight = 1
-  #  ) %>%
-  addCircleMarkers(
-    data=track_sf %>% filter(year_id=="2019_481") %>% st_transform(4326),
-    radius = 5,
-    stroke = TRUE, color = ~res.pal(revisits), weight = 0.8,
-    fillColor = ~res.pal(revisits), fillOpacity = 0.8
-  ) %>%
-  addCircleMarkers(
-    data=plot_feeders,
-    radius = 10,
-    stroke = TRUE, color = "cornflowerblue", weight = 1,   ###~feed.pal(Type)
-    fillColor = "cornflowerblue", fillOpacity = 0.8   ## ~feed.pal(Type)
-  ) %>%
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## REDUCE WORKSPACE TO MAKE SAVING OUTPUT EASIER  #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 
-  
-  addLegend(     # legend for predicted prob of feeding
-    position = "topleft",
-    pal = res.pal,
-    values = DATA$revisits,
-    opacity = 1,
-    title = "Number of </br>repeat visits"
-  ) %>%
-  
-  addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
-
-mF
-
-
-
+rm(forest,buildings,track_sf,track_nofor_day_build)
+gc()
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## ANALYSING DATA IN RANDOM FOREST  #############
@@ -355,39 +379,39 @@ suppressWarnings({testmat<-caret::confusionMatrix(data = DATA_TEST$FEEDER_predic
 OUT<-dplyr::bind_rows(DATA_TEST, DATA_TRAIN)
 
 
-#### CREATE PLOT FOR VARIABLE IMPORTANCE
-  mylevels<-IMP$variable[10:1]
-  impplot<-IMP[10:1,] %>%
-    dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels)) %>%
-    ggplot2::ggplot(ggplot2::aes(x=variable, y=rel.imp)) +
-    ggplot2::geom_bar(stat='identity', fill='lightblue') +
-    ggplot2::coord_flip()+
-    ggplot2::ylab("Variable importance (%)") +
-    ggplot2::xlab("Explanatory variable") +
-    ggplot2::scale_y_continuous(limits=c(-5,105), breaks=seq(0,100,20), labels=seq(0,100,20))+
-    ggplot2::scale_x_discrete(name="",limit = mylevels,
-                     labels = c("speed [m/s]",
-                                "age [years]",                              
-                                "distance to nest [m]",
-                                "building present [y/n]",
-                                "attendance duration [hrs]",
-                                "attendance pattern [visits/day]",
-                                "time span of visitation [days]",
-                                "frequency of visits",
-                                "N of days",
-                                "N of repeat visits"))  +
-    ggplot2::annotate("text",x=2,y=80,label=paste("Accuracy = ",round(testmat$byClass[11],3)),size=8) +
-    ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
-                   axis.text.x=ggplot2::element_text(size=18, color="black"),
-                   axis.text.y=ggplot2::element_text(size=16, color="black"), 
-                   axis.title=ggplot2::element_text(size=20), 
-                   panel.grid.major = ggplot2::element_blank(), 
-                   panel.grid.minor = ggplot2::element_blank(), 
-                   panel.border = ggplot2::element_blank())
-  print(impplot)
-
-ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
-  
+# #### CREATE PLOT FOR VARIABLE IMPORTANCE
+#   mylevels<-IMP$variable[10:1]
+#   impplot<-IMP[10:1,] %>%
+#     dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels)) %>%
+#     ggplot2::ggplot(ggplot2::aes(x=variable, y=rel.imp)) +
+#     ggplot2::geom_bar(stat='identity', fill='lightblue') +
+#     ggplot2::coord_flip()+
+#     ggplot2::ylab("Variable importance (%)") +
+#     ggplot2::xlab("Explanatory variable") +
+#     ggplot2::scale_y_continuous(limits=c(-5,105), breaks=seq(0,100,20), labels=seq(0,100,20))+
+#     ggplot2::scale_x_discrete(name="",limit = mylevels,
+#                      labels = c("speed [m/s]",
+#                                 "age [years]",                              
+#                                 "distance to nest [m]",
+#                                 "building present [y/n]",
+#                                 "attendance duration [hrs]",
+#                                 "attendance pattern [visits/day]",
+#                                 "time span of visitation [days]",
+#                                 "frequency of visits",
+#                                 "N of days",
+#                                 "N of repeat visits"))  +
+#     ggplot2::annotate("text",x=2,y=80,label=paste("Accuracy = ",round(testmat$byClass[11],3)),size=8) +
+#     ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
+#                    axis.text.x=ggplot2::element_text(size=18, color="black"),
+#                    axis.text.y=ggplot2::element_text(size=16, color="black"), 
+#                    axis.title=ggplot2::element_text(size=20), 
+#                    panel.grid.major = ggplot2::element_blank(), 
+#                    panel.grid.minor = ggplot2::element_blank(), 
+#                    panel.border = ggplot2::element_blank())
+#   print(impplot)
+# 
+# ggsave("output/REKI_feed_ind_loc_variable_importance.jpg", height=7, width=11)
+#   
 trainmat
 testmat
 
@@ -493,8 +517,8 @@ VAL_DAT<-DATA_TEST  %>%
 str(VAL_DAT)  
 suppressWarnings({valmat<-caret::confusionMatrix(data = VAL_DAT$FEEDER_predicted, reference = VAL_DAT$FEEDER_observed, positive="YES")})
 valmat
-5827/(5827+981)
-31067/(31067+ 247014)
+5783/(5783+1026)
+31552/(31552+ 245443)
 
 
 
@@ -554,48 +578,48 @@ plot_OUT<-OUT %>%
 
 ########## CREATE A LEAFLET MAP TO SHOW APPROACH OF OVERLAYING FEEDING AND NON-FEEDING LOCATIONS ########################
 
-## need to specify color palette 
-# If you want to set your own colors manually:
-pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
-m1 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
-  setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
-  htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
-                           position: 'bottomright' }).addTo(this)}"
-  ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
-  addProviderTiles("Esri.WorldImagery", group = "Satellite",
-                   options = providerTileOptions(opacity = 0.4, attribution = F,minZoom = 5, maxZoom = 20)) %>%
-  
-  addCircleMarkers(
-    data=track_nofor_day_build,
-    radius = 2,
-    stroke = TRUE, color = "grey15", weight = 0.6,
-    fillColor = "grey15", fillOpacity = 0.6
-  ) %>%
-  addCircleMarkers(
-    data=plot_OUT,
-    radius = 5,
-    stroke = TRUE, color = ~pred.pal(feed_prob), weight = 0.8,
-    fillColor = ~pred.pal(feed_prob), fillOpacity = 0.8,
-    popup = ~ paste0("year ID: ", plot_OUT$year_id, "<br>", plot_OUT$timestamp)
-  ) %>%
-  addPolygons(
-    data=grid %>%
-      st_transform(4326),
-    stroke = TRUE, color = "black", weight = 1,
-    fillColor = NA, fillOpacity = 0
-  ) %>%
-
-  addLegend(     # legend for predicted prob of feeding
-    position = "topleft",
-    pal = pred.pal,
-    values = plot_OUT$feed_prob,
-    opacity = 1,
-    title = "Probability of </br>anthropogenic feeding"
-  ) %>%
-
-  addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
-
-m1
+# ## need to specify color palette 
+# # If you want to set your own colors manually:
+# pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
+# m1 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+#   setView(lng = mean(st_coordinates(plot_feeders)[,1]), lat = mean(st_coordinates(plot_feeders)[,2]), zoom = 11) %>%
+#   htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
+#                            position: 'bottomright' }).addTo(this)}"
+#   ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
+#   addProviderTiles("Esri.WorldImagery", group = "Satellite",
+#                    options = providerTileOptions(opacity = 0.4, attribution = F,minZoom = 5, maxZoom = 20)) %>%
+#   
+#   addCircleMarkers(
+#     data=DATA,
+#     radius = 2,
+#     stroke = TRUE, color = "grey15", weight = 0.6,
+#     fillColor = "grey15", fillOpacity = 0.6
+#   ) %>%
+#   addCircleMarkers(
+#     data=plot_OUT,
+#     radius = 5,
+#     stroke = TRUE, color = ~pred.pal(feed_prob), weight = 0.8,
+#     fillColor = ~pred.pal(feed_prob), fillOpacity = 0.8,
+#     popup = ~ paste0("year ID: ", plot_OUT$year_id, "<br>", plot_OUT$timestamp)
+#   ) %>%
+#   addPolygons(
+#     data=grid %>%
+#       st_transform(4326),
+#     stroke = TRUE, color = "black", weight = 1,
+#     fillColor = NA, fillOpacity = 0
+#   ) %>%
+# 
+#   addLegend(     # legend for predicted prob of feeding
+#     position = "topleft",
+#     pal = pred.pal,
+#     values = plot_OUT$feed_prob,
+#     opacity = 1,
+#     title = "Probability of </br>anthropogenic feeding"
+#   ) %>%
+# 
+#   addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
+# 
+# m1
 
 
 
@@ -650,7 +674,8 @@ DATA_TEST %>%
                  panel.grid.minor = ggplot2::element_blank(), 
                  panel.border = ggplot2::element_blank())
 
-ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_S1_2024.jpg", width=12, height=11, dpi=300)
+ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_S1_2024.jpg", width=14, height=11, dpi=300)
+ggsave("C:/STEFFEN/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_S1_2024.jpg", width=14, height=11, dpi=300)
 
 
 
@@ -681,13 +706,6 @@ OUT_sf<-OUT %>%
 tab2 <- st_intersects(grid, OUT_sf)
 countgrid$N_feed_points<-lengths(tab2)
 
-
-#### FIRST COUNT N INDIVIDUALS PER GRID CELL
-## this is tab and not tab 2 because it is independent of behaviour
-for(c in 1:length(tab)){
-  #countgrid$N_ind[c]<-length(unique(track_sf$year_id[tab[c][[1]]]))
-  countgrid$N_ind[c]<-length(unique(track_sf$bird_id[tab[c][[1]]]))
-}
 
 #### SECOND COUNT N INDIVIDUALS AND PREDICTED FEEDING LOCS PER GRID CELL
 
@@ -733,14 +751,14 @@ table(PRED_GRID$N_feed_points)[1]
 dim(PRED_GRID)
 summary(PRED_GRID)
 
-tmap_mode("view")
-tm_basemap(server="OpenStreetMap") +
-  tm_shape(OUT_sf)+
-  tm_symbols(col = 'feed_prob', size = 0.01) +
-  tm_shape(plot_feeders)+
-  tm_symbols(col = 'green', size = 0.05) +
-  tm_shape(PRED_GRID)  +
-  tm_polygons(col = "firebrick", fill="N_feed_points", alpha=0.2)
+# tmap_mode("view")
+# tm_basemap(server="OpenStreetMap") +
+#   tm_shape(OUT_sf)+
+#   tm_symbols(col = 'feed_prob', size = 0.01) +
+#   tm_shape(plot_feeders)+
+#   tm_symbols(col = 'green', size = 0.05) +
+#   tm_shape(PRED_GRID)  +
+#   tm_polygons(col = "firebrick", fill="N_feed_points", alpha=0.2)
 
 
 
@@ -775,35 +793,35 @@ dim(PRED_GRID)
 THRESH<-table(PRED_GRID$FEEDER)[2]/dim(PRED_GRID)[1]
 
 
-#### CREATE PLOT FOR VARIABLE IMPORTANCE
-mylevels2<-IMP2$variable[6:1]
-impplot2<-IMP2[6:1,] %>%
-  dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels2)) %>%
-  ggplot2::ggplot(ggplot2::aes(x=variable, y=rel.imp)) +
-  ggplot2::geom_bar(stat='identity', fill='lightblue') +
-  ggplot2::coord_flip()+
-  ggplot2::ylab("Variable importance (%)") +
-  ggplot2::xlab("Explanatory variable") +
-  ggplot2::scale_y_continuous(limits=c(-5,105), breaks=seq(0,100,20), labels=seq(0,100,20))+
-  ggplot2::scale_x_discrete(name="",limit = mylevels2,
-                            labels = c("Proportion of feeding locations",
-                                       "Proportion of feeding individuals",
-                                       "N feeding locations",
-                                       "Total N of GPS locations",
-                                       "N feeding individuals",
-                                       "N individuals"))  +
-  #ggplot2::annotate("text",x=2,y=80,label=paste("AUC = ",round(AUC,3)),size=8) +
-  ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
-                 axis.text.x=ggplot2::element_text(size=18, color="black"),
-                 axis.text.y=ggplot2::element_text(size=16, color="black"), 
-                 axis.title=ggplot2::element_text(size=20), 
-                 panel.grid.major = ggplot2::element_blank(), 
-                 panel.grid.minor = ggplot2::element_blank(), 
-                 panel.border = ggplot2::element_blank())
-print(impplot2)
-
-#ggsave("output/REKI_feed_congregation_variable_importance2024.jpg", height=7, width=11)
-
+# #### CREATE PLOT FOR VARIABLE IMPORTANCE
+# mylevels2<-IMP2$variable[6:1]
+# impplot2<-IMP2[6:1,] %>%
+#   dplyr::mutate(variable=forcats::fct_relevel(variable,mylevels2)) %>%
+#   ggplot2::ggplot(ggplot2::aes(x=variable, y=rel.imp)) +
+#   ggplot2::geom_bar(stat='identity', fill='lightblue') +
+#   ggplot2::coord_flip()+
+#   ggplot2::ylab("Variable importance (%)") +
+#   ggplot2::xlab("Explanatory variable") +
+#   ggplot2::scale_y_continuous(limits=c(-5,105), breaks=seq(0,100,20), labels=seq(0,100,20))+
+#   ggplot2::scale_x_discrete(name="",limit = mylevels2,
+#                             labels = c("Proportion of feeding locations",
+#                                        "Proportion of feeding individuals",
+#                                        "N feeding locations",
+#                                        "Total N of GPS locations",
+#                                        "N feeding individuals",
+#                                        "N individuals"))  +
+#   #ggplot2::annotate("text",x=2,y=80,label=paste("AUC = ",round(AUC,3)),size=8) +
+#   ggplot2::theme(panel.background=ggplot2::element_rect(fill="white", colour="black"), 
+#                  axis.text.x=ggplot2::element_text(size=18, color="black"),
+#                  axis.text.y=ggplot2::element_text(size=16, color="black"), 
+#                  axis.title=ggplot2::element_text(size=20), 
+#                  panel.grid.major = ggplot2::element_blank(), 
+#                  panel.grid.minor = ggplot2::element_blank(), 
+#                  panel.border = ggplot2::element_blank())
+# print(impplot2)
+# 
+# #ggsave("output/REKI_feed_congregation_variable_importance2024.jpg", height=7, width=11)
+# 
 
 
 #### BASIC STATISTICS OF PREDICTIONS
@@ -811,6 +829,7 @@ dim(PRED_GRID %>% filter(FEEDER_observed==1  & n>10))
 dim(PRED_GRID %>% filter(FEEDER_observed==1 & FEEDER_predicted>0.5))
 dim(PRED_GRID %>% filter(FEEDER_observed==1 & n>10 & FEEDER_predicted>mean(PRED_GRID$FEEDER_observed)))/dim(PRED_GRID %>% filter(FEEDER_observed==1  & n>10))
 hist(PRED_GRID$FEEDER_predicted)
+range(PRED_GRID$FEEDER_predicted)
 mean(PRED_GRID$FEEDER_observed)
 range(PRED_GRID$prop_feed)
 range(PRED_GRID$prop_pts)
@@ -908,7 +927,7 @@ validat<-validat %>% st_transform(4326) %>%
   st_intersection(.,STUDY_AREA) %>% filter(!is.na(Name)) ### remove all data outside of study area
 
 
-BI2<-Boyce(obs = validat$FEEDER_surveyed , pred = validat$FEEDER_predicted, n.bins=8)$Boyce
+BI2<-Boyce(obs = validat$FEEDER_surveyed , pred = validat$FEEDER_predicted, n.bins=6)$Boyce
 BI2
 
 
