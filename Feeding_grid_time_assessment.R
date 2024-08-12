@@ -195,7 +195,7 @@ FEED_DATA <- FEED_TRACK %>% #mutate(year_id = substr(season_id,3,nchar(season_id
   # mutate(HR=ifelse(home_range_id>0,"settled","not settled")) %>%
   # mutate(BR=ifelse(nest_id>0,"breeding","not breeding"))
   
-# saveRDS(FEED_DATA,"output/REKI_feed_data2024.rds")
+# saveRDS(FEED_DATA,"output/REKI_food_supplementation_index.rds")
 # 
 # 
 # ########### clean up workspace #######################
@@ -204,16 +204,25 @@ rm('FEED_TRACK')
 gc()
 
 
+SEASONSUMMARY<-FEED_DATA %>%
+  mutate(FEED_hrs=FEEDER_predicted*0.25) %>%
+  mutate(DAY=yday(date)) %>%
+  group_by(season_id, year, bird_id, season, sex, age_cy) %>%
+  summarise(FEED=sum(FEED_hrs)) %>%
+  ungroup()
+saveRDS(SEASONSUMMARY,"C:\\Users\\sop\\OneDrive - Vogelwarte\\General\\ANALYSES\\REKIpopmod/data/CH_popmodel/REKI_food_supplementation_index.rds")
+
+
 ### SUMMARISE BY SEX AGE AND BREEDING STATUS
 
 INDSUMMARY<-FEED_DATA %>%
   #select(-geometry,-n, -N_ind, -N_feed_points, -N_feed_ind, -prop_feed, -prop_pts, -gridid) %>%
   mutate(FEED_hrs=FEEDER_predicted*0.25) %>%
   mutate(DAY=yday(date)) %>%
-  group_by(season_id, season, sex, age_cy,DAY) %>%
+  group_by(season_id, year, bird_id, season, sex, age_cy,DAY) %>%
   summarise(FEED=sum(FEED_hrs)) %>%
   ungroup() %>%
-  group_by(season_id, season, sex, age_cy) %>%
+  group_by(season_id, year, bird_id, season, sex, age_cy) %>%
   summarise(FEED=mean(FEED, na.rm=T))
 INDSUMMARY %>% filter(is.na(sex))
 
