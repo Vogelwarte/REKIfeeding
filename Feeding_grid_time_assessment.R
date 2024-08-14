@@ -9,6 +9,7 @@
 library(tidyverse)
 library(dplyr, warn.conflicts = FALSE)
 options(dplyr.summarise.inform = FALSE)
+library(dtplyr)
 library(sf)
 library(lubridate)
 library(adehabitatHR)
@@ -139,7 +140,7 @@ try(setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent
 # try(setwd("C:/STEFFEN/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent=T)
 track_sf<-readRDS("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_13Jun2024_projected.rds")
 # track_sf<-readRDS("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_13Jun2024_projected.rds")
-CHgrid<-readRDS("output/REKI_feeding_grid.rds")
+CHgrid<-readRDS("output/REKI_feeding_grid2024.rds")
 range(CHgrid$FEEDER_predicted)
 
 
@@ -185,6 +186,9 @@ inddat<-read_excel("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/Individual_lif
 ### MERGE tracks with INDIVIDUAL DATA
 
 FEED_DATA <- FEED_TRACK %>% #mutate(year_id = substr(season_id,3,nchar(season_id))) %>%
+  st_transform(4326) %>%
+  dplyr::mutate(long = sf::st_coordinates(.)[,1],
+                lat = sf::st_coordinates(.)[,2]) %>%
   st_drop_geometry() %>%
   mutate(bird_id = as.integer(bird_id), year=as.integer(year)) %>%
   left_join(inddat, by='bird_id') %>%
@@ -199,7 +203,7 @@ FEED_DATA <- FEED_TRACK %>% #mutate(year_id = substr(season_id,3,nchar(season_id
 # 
 # 
 # ########### clean up workspace #######################
-# FEED_DATA <- readRDS("output/REKI_feed_data2024.rds")
+# FEED_DATA <- readRDS("output/REKI_food_supplementation_index.rds")
 rm('FEED_TRACK')
 gc()
 
