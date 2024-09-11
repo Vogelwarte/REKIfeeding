@@ -96,6 +96,7 @@ plot_feeders3<- fread("data/feeding_platforms_15_16.csv") %>%
   select(Type)
 
 plot_feeders<-rbind(plot_feeders,plot_feeders2,plot_feeders3)
+fwrite(plot_feeders,"C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/DataArchive/REKI_feeding_stations.csv")
 
 
 ########## PLOT FEEDERS AND CHECK EXTENT OF STUDY AREA   #############
@@ -158,7 +159,7 @@ DATA <- track_nofor_day_build %>%
   mutate(year=as.numeric(year), bird_id=as.factor(bird_id)) %>%
   filter(!is.na(age_cy)) ##### TEMPORARY APPROACH UNTIL I CAN GET DATA FROM 2022 onwards
 head(DATA)
-
+fwrite(DATA,"C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/DataArchive/REKI_tracking_data.csv")
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## PROVIDE SUMMARY INFO FOR MANUSCRIPT   #############
@@ -238,6 +239,7 @@ for(c in 1:length(tab)){
   countgrid$N_ind[c]<-length(unique(track_sf$bird_id[tab[c][[1]]]))
 }
 
+saveRDS(countgrid,"C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/DataArchive/REKI_countgrid.rds")
 
 # view the map
 
@@ -453,7 +455,7 @@ testmat
   ## read in survey from Fiona Pellet provided with addresses only
   ## Jerome Guelat provided R script to convert addresses to coordinates
   source("C:/Users/sop/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
-source("C:/STEFFEN/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
+#source("C:/STEFFEN/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_address_lookup.r")
 
   
   ## Feeding is the question whether they feed or not
@@ -476,6 +478,9 @@ source("C:/STEFFEN/OneDrive - Vogelwarte/General/ANALYSES/DataPrep/swisstopo_add
     bind_rows(feed_surveys) %>% distinct()
   feed_surv2_sf$FEEDER_surveyed
 
+
+  
+  
 ## REMOVE DUPLICATE LOCATIONS
 mtx_distance <- st_distance(feed_surv2_sf[feed_surv2_sf$FEEDER_surveyed==1,], feed_surv2_sf[feed_surv2_sf$FEEDER_surveyed==1,])
 mtx_distance<-as_tibble(mtx_distance)
@@ -496,6 +501,12 @@ for (l in 1:dim(eliminate)[1]) {
 		}
 }
 dim(feed_surv2_sf)
+
+export<-feed_surv2_sf %>% st_transform(4326) %>% dplyr::mutate(long = sf::st_coordinates(.)[,1],
+                                                                 lat = sf::st_coordinates(.)[,2])
+fwrite(export,"C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/DataArchive/REKI_validation_feeders.csv")
+
+
 
 ## create 50 m buffer around feeders  
 VAL_FEED_BUFF <-feed_surv2_sf %>%
