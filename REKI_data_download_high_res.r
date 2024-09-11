@@ -58,13 +58,13 @@ locs1<-movebank_retrieve(study_id=MYSTUDY[1],
                          entity_type="event",
                          sensor_type_id="gps",
                          timestamp_start=ymd_hms(paste(year(Sys.time())-10,"-02-15 12:00:00",sep="")),
-                         timestamp_end=Sys.time(),
+                         timestamp_end=ymd_hms(paste(year(Sys.time()),"-05-30 12:00:00",sep="")),
                          progress=T)
 locs2<-movebank_retrieve(study_id=MYSTUDY[2],
                          entity_type="event",
                          sensor_type_id="gps",
                          timestamp_start=ymd_hms(paste(year(Sys.time())-10,"-02-15 12:00:00",sep="")),
-                         timestamp_end=Sys.time(),
+                         timestamp_end=ymd_hms(paste(year(Sys.time()),"-05-30 12:00:00",sep="")),
                          progress=T)
 
 
