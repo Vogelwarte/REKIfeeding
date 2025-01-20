@@ -6,6 +6,8 @@
 # created by steffen.oppel@vogelwarte.ch in November 2023
 # inspired by REKI Team meeting on 14 Nov 2023 - include metrics of usage in manuscript
 
+## updated on 2 Oct 2024 to align year from 1 Sept to 31 Aug
+
 library(tidyverse)
 library(dplyr, warn.conflicts = FALSE)
 options(dplyr.summarise.inform = FALSE)
@@ -21,6 +23,10 @@ library(adehabitatLT)
 filter<-dplyr::filter
 sf_use_s2(FALSE)
 
+
+## set root folder for project
+setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
+#setwd("C:/STEFFEN/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
 
 ### read in Switzerland map
 # SUI<-st_read("S:/rasters/outline_maps/swiss_map_overview/layers.gpkg") %>% filter(country=="Switzerland")
@@ -48,13 +54,12 @@ tracks <- tracks %>%
   mutate(year=year(timestamp), 
          year_id=paste(year,bird_id,sep="_")) %>%
   filter(!is.na(year_id)) %>%
-  mutate(season1 = ifelse(yday(timestamp)>70 ,"B","NB")) %>%   ## 10 MARCH
-  mutate(season2 = ifelse(yday(timestamp)>175 ,"NB","B")) %>%  ## 20 June
-  mutate(season_id = ifelse(yday(timestamp)<70 ,
-                              paste(season1,year-1,bird_id,sep="_"),
-                              paste(season2,year,bird_id,sep="_"))
+  mutate(season = ifelse(month(timestamp) %in% c(3,4,5,6,7,8) ,"B","NB")) %>%   ## 1 SEPT AS CUT OFF
+  mutate(season_id = ifelse(month(timestamp)>8,
+                              paste(season,year+1,bird_id,sep="_"),
+                              paste(season,year,bird_id,sep="_"))
     ) %>%
-  select(-season1,-season2) %>%
+  select(-season) %>%
   arrange(season_id,timestamp)
 dim(tracks)
 head(tracks)

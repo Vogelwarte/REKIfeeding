@@ -95,8 +95,10 @@ plot_feeders3<- fread("data/feeding_platforms_15_16.csv") %>%
   mutate(Type="Experimental") %>%
   select(Type)
 
-plot_feeders<-rbind(plot_feeders,plot_feeders2,plot_feeders3)
+plot_feeders<-rbind(plot_feeders,plot_feeders2,plot_feeders3) %>% dplyr::mutate(long = sf::st_coordinates(.)[,1],
+                                                                                                       lat = sf::st_coordinates(.)[,2])
 fwrite(plot_feeders,"C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/DataArchive/REKI_feeding_stations.csv")
+#fwrite(plot_feeders,"C:/Users/sop/MAT/REKI_feeding_stations.csv")
 
 
 ########## PLOT FEEDERS AND CHECK EXTENT OF STUDY AREA   #############

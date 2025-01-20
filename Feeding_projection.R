@@ -250,6 +250,11 @@ dim(FEEDgrid)[1]/dim(CHgrid)[1]
 
 
 saveRDS(CHgrid,"output/REKI_feeding_grid2024.rds")
+CHgrid<-readRDS("output/REKI_feeding_grid2024.rds")
+
+
+export<-CHgrid %>% select(N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,n,FEEDER_predicted, gridid, geometry)
+st_write(export, "C:/Users/sop/MAT/REKI_feeding_probability.gpkg")
 
 
 

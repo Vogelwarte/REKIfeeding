@@ -17,6 +17,8 @@
 
 ## ADDED individual life history data from all birds on 3 June 2024
 
+### REVISED ON 16 Jan 2025 to include UHF DATA
+
 library(tidyverse)
 library(rnaturalearth)
 library(sf)
@@ -40,13 +42,32 @@ library(tictoc)
 
 # ###  LOADING DATA -----------------------------------------------------------------
 ## outsourced to script REKI_data_download_high_res.r
+## updated on 15 Jan 2025 with script ANALYSIS/DataPrep/REKI_move2bank_download_filter.r
 
 ### LOAD THE TRACKING DATA AND INDIVIDUAL SEASON SUMMARIES
 #trackingdata<-readRDS(file = "data/REKI_trackingdata_raw.rds")
-trackingdata<-readRDS(file = "data/REKI_trackingdata_raw2024.rds") %>%
-  dplyr::mutate(long_wgs = sf::st_coordinates(.)[,1],
-                lat_wgs = sf::st_coordinates(.)[,2])
+#trackingdata<-readRDS(file = "data/REKI_trackingdata_raw2024.rds") %>%
+trackingdata<-readRDS(file = "C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_filtered_15min_ALLData_15Jan2025.rds")
+# uhfdata<-fread("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/UHF_data/REKI_UHF_data_locations.csv") %>%
+#   filter(!is.na(Latitude)) %>%
+#   select(bird_id,timestamp,Latitude, Longitude) %>%
+#   rename(long=Longitude, lat=Latitude)
+# ## check whether uhfdata are in trackingdata - NO THEY ARE NOT
+# # trackingdata %>% filter(ymo_id=="101_2016_06") %>% filter(day(timestamp)==22) %>% filter(hour(timestamp)==7)
 
+# trackingdata<-trackingdata %>%
+#   ungroup() %>%
+#   select(-deployment_id) %>%
+#   # st_transform(4326) %>%
+#   # dplyr::mutate(long = sf::st_coordinates(.)[,1],
+#   #               lat = sf::st_coordinates(.)[,2]) %>%
+#   st_drop_geometry() %>%
+#   #rename(bird_id=id) %>%
+#   select(bird_id,timestamp,lat,long) %>%
+#   #bind_rows(uhfdata) %>%
+#   arrange(bird_id, timestamp)
+# # rm(uhfdata)
+# # gc()
 ### LOAD INDIVIDUAL LIFE HISTORIES
 #trackingdata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/02_preprocessing/03_milvus_combined.csv")
 #indseasondata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/output/01_validation/03_validation_combined.csv")
@@ -59,12 +80,38 @@ nestdata<-fread("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/NestTool/REKI/
 
 
 # DATA PREPARATION -------------------------------------------------------------
-# keeping only the information of relevant locations in Switzerland
+# # keeping only the information of relevant locations in Switzerland
+# 
+# # if("long_wgs" %in% names(trackingdata)){
+# #   trackingdata<-trackingdata %>% rename(long=long_wgs, lat=lat_wgs)
+# # }
+# trackingdata <- trackingdata %>%
+#   filter(long>5.9) %>%
+#   filter(lat>45.8) %>%
+#   filter(long<10.6) %>%
+#   filter(lat<48) %>%
+#   filter(!is.na(timestamp)) %>%
+#   filter(!is.na(long)) %>%
+#   mutate(year_id=paste(year(timestamp),bird_id, sep="_")) %>%
+#   filter(!is.na(year_id))
+# 
+# dim(trackingdata)
+# 
+# 
+# # filling in gaps in age and sex and making age uniform (in years)
+# 
+# trackingdata <- trackingdata %>%
+#   left_join(indseasondata, by=c("bird_id")) %>%
+#   mutate(age_cy=year(timestamp)-hatch_year) %>%
+#   rename(sex=sex_compiled)
+# 
+# dim(trackingdata)
+# summary(trackingdata$age_cy)
+# head(trackingdata)
 
-if("long_wgs" %in% names(trackingdata)){
-  trackingdata<-trackingdata %>% rename(long=long_wgs, lat=lat_wgs)
-}
-trackingdata <- trackingdata %>%
+# converting to metric CRS prior to estimating distances
+track_sf <- trackingdata %>%
+  select(-deployment_id) %>%
   filter(long>5.9) %>%
   filter(lat>45.8) %>%
   filter(long<10.6) %>%
@@ -72,29 +119,11 @@ trackingdata <- trackingdata %>%
   filter(!is.na(timestamp)) %>%
   filter(!is.na(long)) %>%
   mutate(year_id=paste(year(timestamp),bird_id, sep="_")) %>%
-  filter(!is.na(year_id))
-
-dim(trackingdata)
-
-
-# filling in gaps in age and sex and making age uniform (in years)
-
-trackingdata <- trackingdata %>%
-  left_join(indseasondata, by=c("bird_id","ring_id")) %>%
-  mutate(age_cy=year(timestamp)-hatch_year) %>%
-  mutate(sex=if_else(is.na(sex),sex_compiled,sex))
-
-dim(trackingdata)
-summary(trackingdata$age_cy)
-head(trackingdata)
-
-# converting to metric CRS prior to estimating distances
-# track_sf <- trackingdata %>% 
-#   st_as_sf(coords = c("long", "lat"))  ### not needed anymore in 2024 because data are read in as sf object
-# st_crs(track_sf) <- 4326
-
-track_sf <- trackingdata %>%
-  dplyr::select(year_id,sex,age_cy,timestamp,geometry,long,lat) %>%
+  filter(!is.na(year_id)) %>%
+  # left_join(indseasondata, by=c("bird_id")) %>%
+  # mutate(age_cy=year(timestamp)-hatch_year) %>%
+  # rename(sex=sex_compiled) %>%
+  dplyr::select(year_id,sex,age_cy,timestamp,geometry) %>%
   st_transform(crs = 3035) %>%
   ungroup() %>%
   dplyr::mutate(long_eea = sf::st_coordinates(.)[,1],
@@ -123,6 +152,16 @@ track_amt <- track_sf %>%
 rm(trackingdata,track_sf)
 gc()
 
+
+### FILTER OUT DUPLICATE LOCATIONS WITHIN 60 seconds
+## this step did not complete in 24 hours on 8 Jan 2025 - commented out because the input data are already filter to 15 min
+# track_amt<-track_amt %>%
+# 	mutate(DOP=1) %>%
+# 	flag_duplicates(.,gamma=seconds(60),time_unit="sec",DOP="DOP")
+
+
+
+
 ### CALCULATE OTHER METRICS
 track_amt$step_length<-amt::step_lengths(track_amt)       # include step lengths
 track_amt$turning_angle<-abs(amt::direction_rel(track_amt,append_last=T, full_circle = FALSE,lonlat = FALSE))      # include RELATIVE turning angles - changed from absolute
@@ -146,60 +185,64 @@ track_amt$turning_angle[track_amt$locid %in% lastlocs$lastloc]<-NA
 head(track_amt)
 hist(track_amt$turning_angle*(180/pi))
 range(track_amt$speed, na.rm=T)
-track_amt %>% filter(speed<0)
-track_amt %>% filter(id=="2015_139") %>% filter(yday(t_) > yday(ymd("2015-10-27"))) %>% st_drop_geometry() %>% print(n=30)
-track_amt %>% filter(speed>50)
-track_amt %>% filter(locid %in% seq(21245,21258,1))
 
 
-### FILTER OUT CRAZY SPEED LOCATIONS
-dim(track_amt) 
-crazyspeedlocs<- track_amt %>% filter(speed>50) %>% st_drop_geometry()
+########### THIS SECTION COMMENTED OUT ON 16 JAN 2025 because data were already speed filtered before ############################
 
-#l=21248
-#l=1067771
-#l=226069
-#l=6473339
-for (l in crazyspeedlocs$locid) {
-	chunk<-track_amt %>% filter(locid %in% seq(l-5,l+5,1)) %>% st_drop_geometry() %>% select(-age_cy,-sex,-tod_) %>%
-	mutate(prev_t=dplyr::lag(t_), post_t=dplyr::lead(t_), prev_dist=dplyr::lag(step_length),post_dist=dplyr::lead(step_length)) %>%
-	mutate(pre_dt=as.numeric(difftime(t_,prev_t, units="sec")),post_dt=as.numeric(difftime(post_t,t_, units="sec"))) %>%
-	rowwise() %>%
-	mutate(dt=min(pre_dt,post_dt, na.rm=T)) %>%
-	ungroup()
-
-	## filter the location that is (1) among the top 2 step_lengths, (2) among the top 2 turning angles, (3) min of (pre_dt and post_dt) among the bottom 2 dts
-	sel1a<-slice_max(chunk,step_length,n=2)
-	sel1b<-slice_max(chunk,speed,n=2)
-	sel2<-slice_max(chunk,turning_angle,n=2)
-	sel3<-slice_min(chunk,dt,n=2)
-	sel3b<-slice_min(chunk,post_dt,n=1)
-	badid<-Reduce(intersect, list(unique(sel1a$locid,sel1b$locid),sel2$locid,sel3$locid))
-	if(length(badid)<1){badid<-Reduce(intersect, list(sel1b$locid,sel3b$locid))}
-	if(length(badid)<1){badid<-Reduce(intersect, list(unique(sel1a$locid,sel1b$locid),sel2$locid))}
-	if(length(badid)==1){track_amt<-track_amt %>% filter(locid!=badid)
-	rm(sel1,sel2,sel3,chunk,badid)}
-}
-dim(track_amt)
-
-### RECALCULATE METRICS AFTER HAVING ELIMINATED CRAZY SPEED LOCS
-track_amt$locid<-seq_along(track_amt$t_)
-track_amt$step_length<-amt::step_lengths(track_amt)       # include step lengths
-track_amt$turning_angle<-abs(amt::direction_rel(track_amt,append_last=T, full_circle = FALSE,lonlat = FALSE))      # include RELATIVE turning angles - changed from absolute
-track_amt$turning_angle<-ifelse(is.na(track_amt$turning_angle),0,track_amt$turning_angle)  ## replace NA turning angles (caused by 0 distance) with 0
-track_amt$speed<-amt::speed(track_amt)      # include speed
-lastlocs<- track_amt %>% st_drop_geometry() %>%
-	arrange(id,t_) %>%
-	group_by(id) %>%
-	summarise(last=max(t_), lastloc=max(locid))
-track_amt$speed[track_amt$locid %in% lastlocs$lastloc]<-NA
-track_amt$step_length[track_amt$locid %in% lastlocs$lastloc]<-NA
-track_amt$turning_angle[track_amt$locid %in% lastlocs$lastloc]<-NA
-dim(track_amt)
-
-## check whether the speeds are now better
-crazyspeedlocs<- track_amt %>% filter(speed>50) %>% st_drop_geometry()
-crazyspeedlocs
+# track_amt %>% filter(speed<0)
+# track_amt %>% filter(id=="2015_139") %>% filter(yday(t_) > yday(ymd("2015-10-27"))) %>% st_drop_geometry() %>% print(n=30)
+# track_amt %>% filter(speed>50)
+# track_amt %>% filter(locid %in% seq(21245,21258,1))
+# 
+# 
+# ### FILTER OUT CRAZY SPEED LOCATIONS
+# dim(track_amt) 
+# crazyspeedlocs<- track_amt %>% filter(speed>50) %>% st_drop_geometry()
+# 
+# #l=21248
+# #l=1067771
+# #l=226069
+# #l=6473339
+# for (l in crazyspeedlocs$locid) {
+# 	chunk<-track_amt %>% filter(locid %in% seq(l-5,l+5,1)) %>% st_drop_geometry() %>% select(-age_cy,-sex,-tod_) %>%
+# 	mutate(prev_t=dplyr::lag(t_), post_t=dplyr::lead(t_), prev_dist=dplyr::lag(step_length),post_dist=dplyr::lead(step_length)) %>%
+# 	mutate(pre_dt=as.numeric(difftime(t_,prev_t, units="sec")),post_dt=as.numeric(difftime(post_t,t_, units="sec"))) %>%
+# 	rowwise() %>%
+# 	mutate(dt=min(pre_dt,post_dt, na.rm=T)) %>%
+# 	ungroup()
+# 
+# 	## filter the location that is (1) among the top 2 step_lengths, (2) among the top 2 turning angles, (3) min of (pre_dt and post_dt) among the bottom 2 dts
+# 	sel1a<-slice_max(chunk,step_length,n=2)
+# 	sel1b<-slice_max(chunk,speed,n=2)
+# 	sel2<-slice_max(chunk,turning_angle,n=2)
+# 	sel3<-slice_min(chunk,dt,n=2)
+# 	sel3b<-slice_min(chunk,post_dt,n=1)
+# 	badid<-Reduce(intersect, list(unique(sel1a$locid,sel1b$locid),sel2$locid,sel3$locid))
+# 	if(length(badid)<1){badid<-Reduce(intersect, list(sel1b$locid,sel3b$locid))}
+# 	if(length(badid)<1){badid<-Reduce(intersect, list(unique(sel1a$locid,sel1b$locid),sel2$locid))}
+# 	if(length(badid)==1){track_amt<-track_amt %>% filter(locid!=badid)
+# 	rm(sel1,sel2,sel3,chunk,badid)}
+# }
+# dim(track_amt)
+# 
+# ### RECALCULATE METRICS AFTER HAVING ELIMINATED CRAZY SPEED LOCS
+# track_amt$locid<-seq_along(track_amt$t_)
+# track_amt$step_length<-amt::step_lengths(track_amt)       # include step lengths
+# track_amt$turning_angle<-abs(amt::direction_rel(track_amt,append_last=T, full_circle = FALSE,lonlat = FALSE))      # include RELATIVE turning angles - changed from absolute
+# track_amt$turning_angle<-ifelse(is.na(track_amt$turning_angle),0,track_amt$turning_angle)  ## replace NA turning angles (caused by 0 distance) with 0
+# track_amt$speed<-amt::speed(track_amt)      # include speed
+# lastlocs<- track_amt %>% st_drop_geometry() %>%
+# 	arrange(id,t_) %>%
+# 	group_by(id) %>%
+# 	summarise(last=max(t_), lastloc=max(locid))
+# track_amt$speed[track_amt$locid %in% lastlocs$lastloc]<-NA
+# track_amt$step_length[track_amt$locid %in% lastlocs$lastloc]<-NA
+# track_amt$turning_angle[track_amt$locid %in% lastlocs$lastloc]<-NA
+# dim(track_amt)
+# 
+# ## check whether the speeds are now better
+# crazyspeedlocs<- track_amt %>% filter(speed>50) %>% st_drop_geometry()
+# crazyspeedlocs
 
 
 
@@ -466,8 +509,8 @@ track_out <- track_sf %>%
   #left_join(indseasondata, by="year_id")
 
 dim(track_sf)
-fwrite(as.data.frame(track_out),"data/REKI_annotated_feeding2024_CH.csv")
-saveRDS(track_sf, file = "data/REKI_trackingdata_annotated2024_CH.rds")
+fwrite(as.data.frame(track_out),"data/REKI_annotated_feeding2025_CH.csv")
+saveRDS(track_sf, file = "data/REKI_trackingdata_annotated2025_CH.rds")
 
 #### SIMPLE SUMMARY FOR MANUSCRIPT
 track_out %>%  mutate(extra=year_id) %>%
@@ -487,8 +530,8 @@ track_out <- track_sf %>%
   st_drop_geometry() %>%
   rename(year_id=id)
 
-fwrite(as.data.frame(track_out),"data/REKI_annotated_feeding2024_study_area.csv")
-saveRDS(track_sf, file = "data/REKI_trackingdata_annotated2024_study_area.rds")
+fwrite(as.data.frame(track_out),"data/REKI_annotated_feeding2025_study_area.csv")
+saveRDS(track_sf, file = "data/REKI_trackingdata_annotated2025_study_area.rds")
 
 head(track_sf)
 dim(track_sf)
