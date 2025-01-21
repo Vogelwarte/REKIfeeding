@@ -17,9 +17,12 @@
 
 ## ADDED individual life history data from all birds on 3 June 2024
 
-### REVISED ON 16 Jan 2025 to include UHF DATA
+### REVISED ON 16 Jan 2025 to include UHF DATA 
 ## saved as new file to include survey feeders as well
 
+## CHANGED ON 20 JANUARY 2025 to read in building and forest layer across ALL of Switzerland (used to be just study area)
+
+rm(list=ls())
 library(tidyverse)
 library(rnaturalearth)
 library(sf)
@@ -213,10 +216,10 @@ CH_LV03_coords ="+init=epsg:21781"
 
 
 
-### READ IN SHAPEFILES OF FOREST AND BUILDINGS
-buildings <- st_read("data/Buildings/tlm_buildings_studyareaExtra_size65_buff_50m_sf_singlepoly.shp", stringsAsFactors=FALSE) %>%
+### READ IN SHAPEFILES OF FOREST AND BUILDINGS - INCLUDE ALL OF SWITZERLAND OUTSIDE OF STUDY AREA
+buildings <- st_read("data/Buildings/tlm_buildings_size65_buff_50m_dissolved.shp", stringsAsFactors=FALSE) %>%
   st_transform(crs = 3035) 
-forest <- st_read("data/Forest/vec25_forest_buff_20m_studyarea.shp", stringsAsFactors=FALSE) %>%
+forest <- st_read("data/Forest/vec25_forest_buff_20m_CH.shp", stringsAsFactors=FALSE) %>%
   st_transform(crs = 3035) %>%
   select(AREA)
 
@@ -225,11 +228,26 @@ forest <- st_read("data/Forest/vec25_forest_buff_20m_studyarea.shp", stringsAsFa
 FEEDERS<- fread("data/Private_Feeders/private_feeders_upd2022.csv") %>% 
   filter(!is.na(coordX)) %>%
   st_as_sf(coords = c("coordX", "coordY"))
+
+### ADD SURVEY DATA FROM EVA CEREGHETTI AND FIONA PELLET  #############
+SURVEYS<- fread("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/DataArchive/REKI_validation_feeders.csv") %>%
+  select(-geometry) %>%
+  st_as_sf(coords = c("long", "lat"), crs=4326) %>%
+  filter(FEEDER_surveyed==1) %>%
+  mutate(Type="surveys") %>%
+  select(ID,Type,geometry)
+SURVEYS_buff<- SURVEYS %>% st_transform(crs = 3035) %>%
+  st_buffer(dist=50) %>%
+  select(ID,Type,geometry) %>%
+  mutate(frequency="unknown") %>%
+  rename(feeder_id=ID,type_of_food=Type)
+
 st_crs(FEEDERS) <- 21781
 FEEDER_buff<- FEEDERS %>% st_transform(crs = 3035) %>%
   st_buffer(dist=50) %>%
   select(ID,type_of_food,frequency) %>%
-  rename(feeder_id=ID)
+  rename(feeder_id=ID) %>%
+  bind_rows(SURVEYS_buff)
 
 
 ### EXPERIMENTAL FEEDING STATIONS
@@ -261,22 +279,6 @@ PLATFORMS_buff<- PLATFORMS %>% st_transform(crs = 3035) %>%
   select(Name,year,n_event,start_date,end_date) %>%
   rename(feeder_id=Name)
 PLATFORMS_buff
-
-
-
-### ADD SURVEY DATA FROM EVA CEREGHETTI AND FIONA PELLET  #############
-## read in survey data from Eva Cereghetti
-SURVEYS<- fread("C:/STEFFEN/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/DataArchive/REKI_validation_feeders.csv") %>%
-  select(-geometry) %>%
-  st_as_sf(coords = c("long", "lat"), crs=4326) %>%
-  filter(FEEDER_surveyed==1) %>%
-  mutate(Type="surveys") %>%
-  select(ID,Type,geometry)
-SURVEYS_buff<- SURVEYS %>% st_transform(crs = 3035) %>%
-  st_buffer(dist=50) %>%
-  select(ID,Type,geometry) %>%
-  rename(feeder_id=ID)
-SURVEYS_buff
 
 ### SUMMARY OF NUMBER OF FEEDERS
 ## this makes only sense if the experimental feeders have been grouped
@@ -329,11 +331,11 @@ track_sf <- track_sf %>%
          FEEDER=ifelse(is.na(feeder_id),"NO","YES")) %>%   ### FOR PUBLIC FEEDERS SPATIAL OVERLAP IS YES OR NO
   mutate(FEED_ID=feeder_id) %>%
   select(-feeder_id) %>%
-  st_join(st_difference(SURVEYS_buff),
-          join = st_intersects,
-          left = TRUE) %>%
-  mutate(FEEDER=ifelse(is.na(feeder_id),FEEDER,"YES")) %>%   
-  select(-feeder_id) %>%
+  # st_join(st_difference(SURVEYS_buff),
+  #         join = st_intersects,
+  #         left = TRUE) %>%
+  # mutate(FEEDER=ifelse(is.na(feeder_id),FEEDER,"YES")) %>%   
+  # select(-feeder_id) %>%
   st_join(st_difference(EXPFEEDERS_buff),
           join = st_intersects, 
           left = TRUE) %>%

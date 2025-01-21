@@ -102,8 +102,9 @@ st_area(STUDY_AREA)/1000000
  
  ### ADD SURVEY DATA FROM EVA CEREGHETTI AND FIONA PELLET  #############
  ## read in survey data from Eva Cereghetti
- plot_feeders4<- fread("C:/STEFFEN/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/DataArchive/REKI_validation_feeders.csv") %>%
+ plot_feeders4<- fread("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/DataArchive/REKI_validation_feeders.csv") %>%
    select(-geometry) %>%
+   filter(FEEDER_surveyed==1) %>%
    st_as_sf(coords = c("long", "lat"), crs=4326) %>%
    mutate(Type="Private") %>%
    select(Type)
@@ -149,7 +150,7 @@ track_nofor_day_build<-track_sf %>%
   st_transform(2056) %>%
   st_intersection(.,SUI) %>% filter(!is.na(country)) %>% ### remove all data outside of Switzerland
   st_transform(4326) %>%
-  st_intersection(.,STUDY_AREA) %>% filter(!is.na(Name)) %>% ### remove all data outside of study area
+  #st_intersection(.,STUDY_AREA) %>% filter(!is.na(Name)) %>% ### remove all data outside of study area   --------- BIG DECISION WHETHER TO BUILD MODEL FOR STUDY AREA ONLY OR ALL OF SUI
   dplyr::mutate(long = sf::st_coordinates(.)[,1],
                 lat = sf::st_coordinates(.)[,2]) %>%
   st_drop_geometry()
@@ -202,122 +203,79 @@ for(c in 1:length(tab)){
   countgrid$N_ind[c]<-length(unique(track_sf$bird_id[tab[c][[1]]]))
 }
 
-# view the map
 
+
+
+# view the map
 tmap_mode("view")
 tm_basemap(server="OpenStreetMap") +
-  tm_shape(countgrid)  +
-  tm_polygons(col = 'N_ind', fill='N_ind', alpha=0.4)
+  #tm_shape(countgrid)  +
+  #tm_polygons(col = 'N_ind', fill='N_ind', alpha=0.4) +
+  tm_shape(track_nofor_day_build)  +
+  tm_dots(col = 'FEEDER')
+
 
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## REDUCE WORKSPACE TO MAKE SAVING OUTPUT EASIER  #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-
-rm(forest,buildings,track_sf,track_nofor_day_build)
+ls()
+rm(forest,buildings,track_sf,track_nofor_day_build,plot_feeders2,plot_feeders3,plot_feeders4,tab,grid)
 gc()
 
-
-# 
-# 
-# ## create 50 m buffer around feeders  
-# VAL_FEED_BUFF <-feed_surv2_sf %>%
-#   st_buffer(dist=50) %>%
-#   select(FEEDER_surveyed)
-# 
-# ## ADD PRESENCE OF THESE FEEDERS TO MODEL DATA
-# DATA<-DATA  %>%
-#   st_as_sf(coords = c("long", "lat"), crs=4326) %>%
-#   st_transform(crs = 3035) %>%
-#   st_join(VAL_FEED_BUFF,
-#           join = st_intersects, 
-#           left = TRUE) %>%
-#   dplyr::mutate(FEEDER_surveyed = as.factor(dplyr::case_when(FEEDER_surveyed == 1 ~ "YES",
-#                                                              FEEDER_surveyed == 0 ~ "NO"))) %>%
-#   mutate(FEEDER_surveyed=ifelse(is.na(FEEDER_surveyed),FEEDER,FEEDER_surveyed)) %>%
-#   mutate(FEEDER=ifelse((FEEDER=="NO" & FEEDER_surveyed=="YES"),"YES",FEEDER))
 
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## ANALYSING DATA IN RANDOM FOREST  #############
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ### completely random subsetting for model evaluation - removed to use maximum of information for country-wide projection
-# DATA_TRAIN<- DATA %>% slice_sample(prop=0.67, by = FEEDER, replace = FALSE)
-# DATA_TEST<- DATA %>% filter(!(point_id %in% DATA_TRAIN$point_id))
-# dim(DATA_TRAIN)
-# dim(DATA_TEST)
-# 
-# table(DATA_TRAIN$FEEDER)
-# table(DATA_TEST$FEEDER)
-# 
-# table(DATA_TRAIN$NEST)
-# table(DATA_TEST$NEST)
 
 ##### RUN MODEL ##########
 ## takes about 45 minutes with 2024 dataset
-DATA<-DATA %>% 
+#DATA<-DATA %>% 
   #dplyr::mutate(long = sf::st_coordinates(.)[,1],
   #              lat = sf::st_coordinates(.)[,2]) %>%
   #st_drop_geometry() %>%
-  dplyr::select(-Description)
+#  dplyr::select(-Description)
 RF2 <- ranger::ranger(as.factor(FEEDER) ~ sex + age_cy + YDAY + hour + month +                            ## basic variables such as age, sex, and time
                         revisits + residence_time + meanFreqVisit + n_days + TimeSpan + TempEven +        ## several variables dealing with the temporal revisitation pattern
                         step_length + turning_angle + speed +                                             ## several variables dealing with the current movement characteristics
                         mean_speed + mean_angle +                                                         ## variables dealing with the average movement characteristics
                         BUILD + NEST + dist_nest,     #                                                      ## variables dealing with distance to structures and nests
                       data=DATA, mtry=2, num.trees=2500, replace=F, importance="none", oob.error=T, write.forest=T, probability=T)
-saveRDS(RF2, "output/feed_site_RF_model2025.rds")
+saveRDS(RF2, "output/feed_site_RF_model2025_CH.rds")
 
 #### classification success of training data
 
 PRED<-stats::predict(RF2,data=DATA, type = "response")
 prevalence<-table(DATA$FEEDER)[2]/sum(table(DATA$FEEDER))
+hist(PRED$predictions)
 OUT <- DATA %>%
   dplyr::mutate(FEEDER_observed = factor(FEEDER,levels=c("NO","YES"))) %>%
   dplyr::bind_cols(PRED$predictions) %>%
   dplyr::rename(no_feed_prob = NO, feed_prob = YES) %>%
-  dplyr::mutate(FEEDER_predicted = as.factor(dplyr::case_when(feed_prob > prevalence ~ "YES",
-                                                              feed_prob < prevalence ~ "NO"))) %>%
   dplyr::mutate(feed_obs_num = ifelse(FEEDER=="NO",0,1))
   
 
 suppressWarnings({testmat<-caret::confusionMatrix(data = OUT$FEEDER_predicted, reference = OUT$FEEDER_observed, positive="YES")})
 
 
+### DEFINE PREDICTION THRESHOLD FOR FEEDING LOCATIONS AND CONVERT TO BINARY OUTCOME###
 ## we cannot predict correct ABSENCE of feeding locations - even if one household does not feed their neighbours may and the prediction is therefore useless (and falsifying accuracy)
 ## but we use ROC curve to identify threshold
 ROC_val<-pROC::roc(data=OUT,
                    response=feed_obs_num,
                    predictor=feed_prob)
 AUC_VAL<-pROC::auc(ROC_val)
-
-
-
-### DEFINE PREDICTION THRESHOLD FOR FEEDING LOCATIONS ###
 THRESH_pts<-pROC::coords(ROC_val, "best", "threshold")$threshold
+OUT <- OUT %>%
+  dplyr::mutate(FEEDER_predicted = ifelse(feed_prob < THRESH_pts, "NO","YES")) 
+
 
 ### CALCULATE BOYCE INDEX FOR VALIDATION DATA ###
 BI<-Boyce(obs = OUT$feed_obs_num, pred = OUT$feed_prob)$Boyce
 BI
-
-
-
-
-# ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-# ########## PLOT THE MAP FOR KNOWN AND OBSERVED FEEDING STATIONS   #############
-# ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-#   
-#  
-# head(OUT)    
-#   
-# # create plotting frame
-#   
-plot_OUT<-OUT %>%
-  filter(feed_prob>THRESH_pts) %>%
-  #filter(FEEDER_predicted=="YES") %>%
-  st_as_sf(coords = c("long", "lat"), crs = 4326)
-
 
 
 
@@ -337,7 +295,7 @@ OUT_sf<-OUT %>%
   filter(FEEDER_predicted=="YES") %>%
   st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
   st_transform(3035)
-tab2 <- st_intersects(grid, OUT_sf)
+tab2 <- st_intersects(countgrid, OUT_sf)
 countgrid$N_feed_points<-lengths(tab2)
 
 
@@ -378,10 +336,10 @@ PRED_GRID<-countgrid %>%
   mutate(gridid=seq_along(n)) %>%
   filter(n>10) %>%
   st_transform(4326) %>%
-  st_intersection(.,STUDY_AREA) %>% filter(!is.na(Name)) %>% ### remove all data outside of study area
+  #st_intersection(.,STUDY_AREA) %>% filter(!is.na(Name)) %>% ### remove all data outside of study area   --------- BIG DECISION WHETHER TO BUILD MODEL FOR STUDY AREA ONLY OR ALL OF SUI
   st_drop_geometry() %>%
   mutate(FEEDER=ifelse(FEEDER==0,0,1))
-
+dim(PRED_GRID)
 
 ##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
 ########## FIT SECOND RANDOM FOREST MODEL TO PREDICT FEEDING SITE AT GRID CELL LEVEL   #############
@@ -389,7 +347,7 @@ PRED_GRID<-countgrid %>%
 
 RF3 <- ranger::ranger(FEEDER ~ n+N_ind+N_feed_points+N_feed_ind+prop_feed+prop_pts,     
                       data=PRED_GRID, mtry=2, num.trees=2500, replace=F, importance="none", oob.error=T, write.forest=T, probability=T)
-saveRDS(RF3, "output/feed_grid_RF_model2025.rds")
+saveRDS(RF3, "output/feed_grid_RF_model2025_CH.rds")
 
 
 #### classification success of training data
@@ -397,24 +355,20 @@ saveRDS(RF3, "output/feed_grid_RF_model2025.rds")
 PRED<-stats::predict(RF3,data=PRED_GRID, type = "response")
 PRED_GRID <- PRED_GRID %>%
   dplyr::mutate(FEEDER_observed = FEEDER) %>%
-  dplyr::mutate(FEEDER_predicted=PRED$predictions[,2])
-dim(PRED$predictions)
+  dplyr::mutate(FEEDER_predicted=PRED$predictions[,2]) %>%
+  dplyr::mutate(feed_obs_num = ifelse(FEEDER=="NO",0,1))
+hist(PRED$predictions[,2])
 dim(PRED_GRID)
 
-# ROC_train<-pROC::roc(data=PRED_GRID,response=FEEDER_observed,predictor=FEEDER_predicted)
-# AUC<-pROC::auc(ROC_train)
-# AUC
-# THRESH<-pROC::coords(ROC_train, "best", "threshold")$threshold
+ROC_grid<-pROC::roc(data=PRED_GRID,response=FEEDER_observed,predictor=FEEDER_predicted)
+AUC<-pROC::auc(ROC_grid)
+THRESH_grd<-pROC::coords(ROC_grid, "best", "threshold")$threshold
 THRESH<-table(PRED_GRID$FEEDER)[2]/dim(PRED_GRID)[1]
 
 
 #### BASIC STATISTICS OF PREDICTIONS
-dim(PRED_GRID %>% filter(FEEDER_observed==1  & n>10))
-dim(PRED_GRID %>% filter(FEEDER_observed==1 & FEEDER_predicted>0.5))
-dim(PRED_GRID %>% filter(FEEDER_observed==1 & n>10 & FEEDER_predicted>mean(PRED_GRID$FEEDER_observed)))/dim(PRED_GRID %>% filter(FEEDER_observed==1  & n>10))
 hist(PRED_GRID$FEEDER_predicted)
 range(PRED_GRID$FEEDER_predicted)
-mean(PRED_GRID$FEEDER_observed)
 range(PRED_GRID$prop_feed)
 range(PRED_GRID$prop_pts)
 names(PRED_GRID)
@@ -430,36 +384,87 @@ OUTgrid<-countgrid %>% select(-FEEDER) %>%
   
 
 
-
-##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-########## VALIDATE PREDICTIONS WITH SURVEY DATA FROM EVA CEREGHETTI AND FIONA PELLET  #############
-##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-### validation data already read in above
-feed_surv2_sf$FEEDER_surveyed
-
-#validat <- st_intersection(OUTgrid, feed_surv2_sf) %>%
-validat <- st_intersection(feed_surv2_sf,OUTgrid) %>%
-  filter(!is.na(n))  %>% ## excludes bullshit addresses outside of study area
-  st_transform(4326) %>%
-  st_intersection(.,STUDY_AREA) %>% filter(!is.na(Name))### remove all data outside of study area
-validat$FEEDER_surveyed
-summary(validat$FEEDER_predicted)
-
-
-
-
-##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-########## SUMMARISE VALIDATION DATA  #############
-##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
-validat
-
-BI2<-Boyce(obs = validat$FEEDER_surveyed , pred = validat$FEEDER_predicted, n.bins=6)$Boyce
+BI2<-Boyce(obs = PRED_GRID$FEEDER_observed , pred = PRED_GRID$FEEDER_predicted, n.bins=10)$Boyce
 BI2
 
 
 
+#### SHOW FINAL OUTPUT OF PREDICTIONS
 
+tmap_mode("view")
+tm_basemap(server="OpenStreetMap") +
+  tm_shape(OUTgrid)  +
+  tm_polygons(col = 'FEEDER_predicted', fill='FEEDER_predicted', alpha=0.4)
 
 
 save.image("output/Feeding_analysis2025.RData")  
+
+
+
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+########## PLOT THE MAP FOR KNOWN AND OBSERVED FEEDING STATIONS   #############
+##########~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######################################
+
+########## CREATE A LEAFLET MAP OF PREDICTED FEEDING LOCATIONS #####################
+
+icons <- awesomeIcons(
+  icon = "fast-food-outline",
+  iconColor = 'black',
+  library = 'ion',
+  markerColor = 'red'
+)
+ 
+# If you want to set your own colors manually:
+pred.pal <- colorNumeric(c("cornflowerblue","firebrick"), seq(0,1))
+
+m4 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position of zoom symbol
+  setView(lng = mean(st_coordinates(OUT_sf %>%  st_transform(4326))[,1]),
+          lat = mean(st_coordinates(OUT_sf %>%  st_transform(4326))[,2]),
+          zoom = 8) %>%
+  htmlwidgets::onRender("function(el, x) {L.control.zoom({ 
+                           position: 'bottomright' }).addTo(this)}"
+  ) %>% #Esri.WorldTopoMap #Stamen.Terrain #OpenTopoMap #Esri.WorldImagery
+  addProviderTiles("Esri.WorldImagery", group = "Satellite",
+                   options = providerTileOptions(opacity = 0.3, attribution = F,minZoom = 5, maxZoom = 14)) %>%
+  addProviderTiles("OpenTopoMap", group = "Roadmap", options = providerTileOptions(attribution = F,minZoom = 5, maxZoom = 14)) %>%
+  addLayersControl(baseGroups = c("Satellite", "Roadmap")) %>%
+
+  addPolygons(
+    data=SUI %>%
+      st_transform(4326),
+    stroke = TRUE, color = "black", weight = 3,
+    fillColor = NULL, fillOpacity = 0
+  ) %>%
+
+  addAwesomeMarkers(data=plot_feeders %>%
+      st_transform(4326),icon=icons, label=~as.character(Type), size=0.5, opacity = 0.5) %>%
+
+  addPolygons(
+    data=OUTgrid %>%
+      st_transform(4326),
+    stroke = TRUE,
+	color = ~pred.pal(FEEDER_predicted), weight = 1.5,
+    fillColor = ~pred.pal(FEEDER_predicted), fillOpacity = 0.5,
+    popup = ~as.character(paste(round(FEEDER_predicted,3),"/ N_ind=",N_ind,"/ Prop feed pts=",round(prop_feed,3), sep=" ")),
+    label = ~as.character(round(FEEDER_predicted,3))
+  ) %>%
+  
+  addLegend(     # legend for predicted prob of feeding
+    position = "topleft",
+    pal = pred.pal,
+    values = OUTgrid$FEEDER_predicted,
+    opacity = 1,
+    title = "Predicted probability of </br>anthropogenic feeding"
+  ) %>%
+  
+  addScaleBar(position = "bottomright", options = scaleBarOptions(imperial = F))
+
+m4
+
+htmltools::save_html(html = m4, file = "C:/Users/sop/MAT/SUI_REKI_feed_projection2025.html")
+mapview::mapshot(m4, url = "C:/Users/sop/MAT/SUI_REKI_feed_projection.html")
+htmlwidgets::saveWidget(m4,"C:/Users/sop/MAT/SUI_REKI_feed_projection.html", selfcontained = T)
+
+
+save.image("output/Feeding_grid_CH_2025.RData")
 

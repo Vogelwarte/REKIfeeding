@@ -271,6 +271,10 @@ m4 <- leaflet(options = leafletOptions(zoomControl = F)) %>% #changes position o
     fillColor = NULL, fillOpacity = 0
   ) %>%
   
+  addMarkers(
+    clusterOptions = markerClusterOptions()
+  )
+  
   addLegend(     # legend for predicted prob of feeding
     position = "topleft",
     pal = pred.pal,
