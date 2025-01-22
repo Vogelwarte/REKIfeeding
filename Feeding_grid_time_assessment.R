@@ -9,7 +9,7 @@
 ## updated on 2 Oct 2024 to align year from 1 Sept to 31 Aug
 
 ## completely revised in January 2025 to use more recent tracking data
-
+rm(list=ls())
 library(tidyverse)
 library(dplyr, warn.conflicts = FALSE)
 options(dplyr.summarise.inform = FALSE)
@@ -33,15 +33,14 @@ setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding")
 ### read in Switzerland map
 # SUI<-st_read("S:/rasters/outline_maps/swiss_map_overview/layers.gpkg") %>% filter(country=="Switzerland")
 # saveRDS(SUI,"data/Swiss_border.rds")
-SUI<-readRDS("data/Swiss_border.rds")
+SUI<-readRDS("data/Swiss_border.rds") %>%
+  st_transform(3035)
 plot(SUI)
 
 
 ########## READ IN RAW TRACKING DATA ########################
 tracks<-readRDS(file = "C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_filtered_15min_ALLData_15Jan2025.rds") %>%
 #tracks<-readRDS(file = "data/REKI_trackingdata_raw2024.rds") %>%
-  st_transform(2056) %>%
-  st_intersection(.,SUI) %>% filter(!is.na(country)) %>% ### remove all data outside of Switzerland
   st_transform(4326) %>%
   dplyr::mutate(long = sf::st_coordinates(.)[,1],
                 lat = sf::st_coordinates(.)[,2]) %>% st_drop_geometry()
@@ -124,14 +123,13 @@ gc()
 track_sf <- all_dat15min %>% 
   select(x,y,date,season_id) %>%
   st_as_sf(coords = c("x", "y"), crs = 4326) %>%
-  st_transform(crs = 3035)
+  st_transform(crs = 3035) %>%
+  st_intersection(.,SUI) %>% filter(!is.na(country)) ### remove all data outside of Switzerland
 head(track_sf)
 dim(track_sf)
 
 setwd("C:/Users/sop/OneDrive - Vogelwarte/General/DATA")
 saveRDS(track_sf,"REKI_regular_15min_tracking_data_January2025_projected.rds")
-
-
 
 
 
@@ -147,28 +145,31 @@ try(setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent
 # try(setwd("C:/STEFFEN/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent=T)
 track_sf<-readRDS("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_January2025_projected.rds")
 # track_sf<-readRDS("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_January2025_projected.rds")
-CHgrid<-readRDS("output/REKI_feeding_grid2025.rds")
+CHgrid<-readRDS("output/REKI_feeding_grid2024.rds")
 range(CHgrid$FEEDER_predicted)
+dim(track_sf)
 
 
-FEED_TRACK<-track_sf %>% st_join(CHgrid) %>%
+FEED_TRACK<-track_sf %>%
+  #st_crop(SUI) %>%  ## remove all locations outside - should not be needed because raw data are already 
+  st_join(CHgrid) %>%
   mutate(FEEDER_predicted=ifelse(is.na(FEEDER_predicted),0,FEEDER_predicted)) %>%
   separate(season_id, into=c("year","bird_id"), sep="_")
 
-rm('track_sf')
-gc()
-
-SUMMARY<-FEED_TRACK  %>%
-  st_drop_geometry() %>%
-  #mutate(season=ifelse(substr(season_id,1,1)=="B","breeding","non-breeding")) %>%
-  mutate(season_id = ifelse(yday(date)<70 ,
-                            paste(season,year(date)-1,bird_id,sep="_"),
-                            paste(season,year(date),bird_id,sep="_"))) %>%
-  group_by(season_id, season) %>%
-  summarise(FEED=mean(FEEDER_predicted))
-
-
-ggplot(SUMMARY, aes(x=season,y=FEED)) + geom_boxplot()
+# rm('track_sf')
+# gc()
+# 
+# SUMMARY<-FEED_TRACK  %>%
+#   st_drop_geometry() %>%
+#   #mutate(season=ifelse(substr(season_id,1,1)=="B","breeding","non-breeding")) %>%
+#   mutate(season_id = ifelse(yday(date)<70 ,
+#                             paste(season,year(date)-1,bird_id,sep="_"),
+#                             paste(season,year(date),bird_id,sep="_"))) %>%
+#   group_by(season_id, season) %>%
+#   summarise(FEED=mean(FEEDER_predicted))
+# 
+# 
+# ggplot(SUMMARY, aes(x=season,y=FEED)) + geom_boxplot()
 
 
 
@@ -184,11 +185,11 @@ inddat<-read_excel("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/Individual_l
   rename(sex=sex_compiled) %>%
   mutate(hatch_year=if_else(is.na(as.numeric(hatch_year)),tag_year-3,as.numeric(hatch_year)))
 
-inddat<-read_excel("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/Individual_life_history_2015-2023.xlsx", sheet="Individual_life_history_2015-20") %>% # updated on 3 June 2024 to include birds from 2022
-  dplyr::select(bird_id,ring_number,tag_year,sex_compiled, age, hatch_year) %>%
-  rename(ring_id=ring_number) %>%
-  rename(sex=sex_compiled) %>%
-  mutate(hatch_year=if_else(is.na(as.numeric(hatch_year)),tag_year-3,as.numeric(hatch_year)))
+# inddat<-read_excel("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/Individual_life_history_2015-2023.xlsx", sheet="Individual_life_history_2015-20") %>% # updated on 3 June 2024 to include birds from 2022
+#   dplyr::select(bird_id,ring_number,tag_year,sex_compiled, age, hatch_year) %>%
+#   rename(ring_id=ring_number) %>%
+#   rename(sex=sex_compiled) %>%
+#   mutate(hatch_year=if_else(is.na(as.numeric(hatch_year)),tag_year-3,as.numeric(hatch_year)))
 
 ### MERGE tracks with INDIVIDUAL DATA
 
@@ -209,81 +210,81 @@ FEED_DATA <- FEED_TRACK %>%
   # mutate(HR=ifelse(home_range_id>0,"settled","not settled")) %>%
   # mutate(BR=ifelse(nest_id>0,"breeding","not breeding"))
   
-# saveRDS(FEED_DATA,"output/REKI_food_supplementation_index2025.rds")
+saveRDS(FEED_DATA,"output/REKI_food_supplementation_index2025.rds")
+# # 
+# # 
+# # ########### clean up workspace #######################
+# # FEED_DATA <- readRDS("output/REKI_food_supplementation_index.rds")
+# rm('FEED_TRACK')
+# gc()
 # 
 # 
-# ########### clean up workspace #######################
-# FEED_DATA <- readRDS("output/REKI_food_supplementation_index.rds")
-rm('FEED_TRACK')
-gc()
-
-
-SEASONSUMMARY<-FEED_DATA %>%
-  mutate(FEED_hrs=FEEDER_predicted*0.25) %>%
-  mutate(DAY=yday(date)) %>%
-  group_by(season_id, year, bird_id, season, sex, age_cy) %>%
-  summarise(FEED=sum(FEED_hrs)) %>%
-  ungroup()
-saveRDS(SEASONSUMMARY,"C:\\Users\\sop\\OneDrive - Vogelwarte\\General\\ANALYSES\\REKIpopmod/data/CH_popmodel/REKI_food_supplementation_index.rds")
-
-
-### SUMMARISE BY SEX AGE AND BREEDING STATUS
-
-INDSUMMARY<-FEED_DATA %>%
-  #select(-geometry,-n, -N_ind, -N_feed_points, -N_feed_ind, -prop_feed, -prop_pts, -gridid) %>%
-  mutate(FEED_hrs=FEEDER_predicted*0.25) %>%
-  mutate(DAY=yday(date)) %>%
-  group_by(season_id, year, bird_id, season, sex, age_cy,DAY) %>%
-  summarise(FEED=sum(FEED_hrs)) %>%
-  ungroup() %>%
-  group_by(season_id, year, bird_id, season, sex, age_cy) %>%
-  summarise(FEED=mean(FEED, na.rm=T))
-INDSUMMARY %>% filter(is.na(sex))
-
-PLOTDAT<- INDSUMMARY %>%
-  filter(sex %in% c("m","f")) %>% ### remove the unassigned and unknown sexes (3 birds)
-  ungroup() %>%
-  group_by(season, sex, age_cy) %>%
-  summarise(n=length(unique(season_id)), median=quantile(FEED,0.5),lcl=quantile(FEED,0.025),ucl=quantile(FEED,0.975))
-
-
-### CREATE A GRAPH OF USAGE BY AGE, SEX, and BREEDING SEASON
-range(PLOTDAT$ucl)
-PLOTDAT %>%  
-  mutate(age_cy=ifelse(sex=="m", age_cy-0.2, age_cy+0.2)) %>%
-  mutate(season=ifelse(season=="B", "breeding season", "non-breeding season")) %>%
-  
-  ggplot() +
-  geom_point(aes(y=median, x=age_cy, colour=sex),size=2)+
-  geom_errorbar(aes(x=age_cy, ymin=lcl, ymax=ucl, colour=sex), width=0.2)+
-  scale_y_continuous(name="Mean daily usage (hrs) of anthropogenic feeding", limits=c(0,20), breaks=seq(0,20,4)) +
-  scale_x_continuous(name="Age (in years)", limits=c(0.5,8.5), breaks=seq(1,8,1)) +
-  facet_wrap(~season, ncol=1, scales="free_y", dir="v") +
-  theme(panel.background=element_rect(fill="white", colour="black"), 
-        axis.text=element_text(size=16, color="black"), 
-        axis.title=element_text(size=18), 
-        strip.text=element_text(size=18, color="black"),
-        legend.text=element_text(size=16, color="black"),
-        legend.title=element_text(size=18, color="black"),
-        legend.key=element_blank(),
-        legend.position=c(0.08,0.39),
-        legend.background=element_blank(), 
-        strip.background=element_rect(fill="white", colour="black"), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(), 
-        panel.border = element_blank())
-
-ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_3.jpg", width=11, height=9, dpi=300)
-
-
-
-### REPORT OUTPUT NUMBERS ####
-
-INDSUMMARY %>%
-  filter(sex %in% c("m","f")) %>% arrange(desc(FEED))
-
-
-
+# SEASONSUMMARY<-FEED_DATA %>%
+#   mutate(FEED_hrs=FEEDER_predicted*0.25) %>%
+#   mutate(DAY=yday(date)) %>%
+#   group_by(season_id, year, bird_id, season, sex, age_cy) %>%
+#   summarise(FEED=sum(FEED_hrs)) %>%
+#   ungroup()
+# saveRDS(SEASONSUMMARY,"C:\\Users\\sop\\OneDrive - Vogelwarte\\General\\ANALYSES\\REKIpopmod/data/CH_popmodel/REKI_food_supplementation_index.rds")
+# 
+# 
+# ### SUMMARISE BY SEX AGE AND BREEDING STATUS
+# 
+# INDSUMMARY<-FEED_DATA %>%
+#   #select(-geometry,-n, -N_ind, -N_feed_points, -N_feed_ind, -prop_feed, -prop_pts, -gridid) %>%
+#   mutate(FEED_hrs=FEEDER_predicted*0.25) %>%
+#   mutate(DAY=yday(date)) %>%
+#   group_by(season_id, year, bird_id, season, sex, age_cy,DAY) %>%
+#   summarise(FEED=sum(FEED_hrs)) %>%
+#   ungroup() %>%
+#   group_by(season_id, year, bird_id, season, sex, age_cy) %>%
+#   summarise(FEED=mean(FEED, na.rm=T))
+# INDSUMMARY %>% filter(is.na(sex))
+# 
+# PLOTDAT<- INDSUMMARY %>%
+#   filter(sex %in% c("m","f")) %>% ### remove the unassigned and unknown sexes (3 birds)
+#   ungroup() %>%
+#   group_by(season, sex, age_cy) %>%
+#   summarise(n=length(unique(season_id)), median=quantile(FEED,0.5),lcl=quantile(FEED,0.025),ucl=quantile(FEED,0.975))
+# 
+# 
+# ### CREATE A GRAPH OF USAGE BY AGE, SEX, and BREEDING SEASON
+# range(PLOTDAT$ucl)
+# PLOTDAT %>%  
+#   mutate(age_cy=ifelse(sex=="m", age_cy-0.2, age_cy+0.2)) %>%
+#   mutate(season=ifelse(season=="B", "breeding season", "non-breeding season")) %>%
+#   
+#   ggplot() +
+#   geom_point(aes(y=median, x=age_cy, colour=sex),size=2)+
+#   geom_errorbar(aes(x=age_cy, ymin=lcl, ymax=ucl, colour=sex), width=0.2)+
+#   scale_y_continuous(name="Mean daily usage (hrs) of anthropogenic feeding", limits=c(0,20), breaks=seq(0,20,4)) +
+#   scale_x_continuous(name="Age (in years)", limits=c(0.5,8.5), breaks=seq(1,8,1)) +
+#   facet_wrap(~season, ncol=1, scales="free_y", dir="v") +
+#   theme(panel.background=element_rect(fill="white", colour="black"), 
+#         axis.text=element_text(size=16, color="black"), 
+#         axis.title=element_text(size=18), 
+#         strip.text=element_text(size=18, color="black"),
+#         legend.text=element_text(size=16, color="black"),
+#         legend.title=element_text(size=18, color="black"),
+#         legend.key=element_blank(),
+#         legend.position=c(0.08,0.39),
+#         legend.background=element_blank(), 
+#         strip.background=element_rect(fill="white", colour="black"), 
+#         panel.grid.major = element_blank(), 
+#         panel.grid.minor = element_blank(), 
+#         panel.border = element_blank())
+# 
+# ggsave("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/Figure_3.jpg", width=11, height=9, dpi=300)
+# 
+# 
+# 
+# ### REPORT OUTPUT NUMBERS ####
+# 
+# INDSUMMARY %>%
+#   filter(sex %in% c("m","f")) %>% arrange(desc(FEED))
+# 
+# 
+# 
 
 
 
