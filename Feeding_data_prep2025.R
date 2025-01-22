@@ -21,6 +21,8 @@
 ## saved as new file to include survey feeders as well
 
 ## CHANGED ON 20 JANUARY 2025 to read in building and forest layer across ALL of Switzerland (used to be just study area)
+## spatial overlay failed after 48 hrs - script never completed running
+## tried new strategy on 22 Jan 2025 to reduce tracking data
 
 rm(list=ls())
 library(tidyverse)
@@ -204,7 +206,9 @@ track_amt <- track_amt %>%
 head(track_amt)
 dim(track_amt)
 
-
+# INTERMEDIATE SAVE TO NOT RERUN RECURSIONS UPON RESTART -----------------------------------------------------------------
+saveRDS(track_amt,"data/track_amt2025.rds")
+#track_amt<-readRDS("data/track_amt2025.rds")
 
 # COMBINING DATA WITH FORESTS AND BUILDINGS -----------------------------------------------------------------
 
@@ -247,6 +251,7 @@ FEEDER_buff<- FEEDERS %>% st_transform(crs = 3035) %>%
   st_buffer(dist=50) %>%
   select(ID,type_of_food,frequency) %>%
   rename(feeder_id=ID) %>%
+  mutate(feeder_id=as.character(feeder_id)) %>%
   bind_rows(SURVEYS_buff)
 
 

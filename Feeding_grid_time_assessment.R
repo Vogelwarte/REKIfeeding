@@ -8,6 +8,8 @@
 
 ## updated on 2 Oct 2024 to align year from 1 Sept to 31 Aug
 
+## completely revised in January 2025 to use more recent tracking data
+
 library(tidyverse)
 library(dplyr, warn.conflicts = FALSE)
 options(dplyr.summarise.inform = FALSE)
@@ -36,8 +38,8 @@ plot(SUI)
 
 
 ########## READ IN RAW TRACKING DATA ########################
-#tracks<-readRDS(file = "C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_raw_tracking_data_30Nov2023.rds")
-tracks<-readRDS(file = "data/REKI_trackingdata_raw2024.rds") %>%
+tracks<-readRDS(file = "C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_filtered_15min_ALLData_15Jan2025.rds") %>%
+#tracks<-readRDS(file = "data/REKI_trackingdata_raw2024.rds") %>%
   st_transform(2056) %>%
   st_intersection(.,SUI) %>% filter(!is.na(country)) %>% ### remove all data outside of Switzerland
   st_transform(4326) %>%
@@ -110,7 +112,7 @@ for (l in 1:length(unique(tracks$season_id))){
 }
 
 setwd("C:/Users/sop/OneDrive - Vogelwarte/General/DATA")
-saveRDS(all_dat15min,"REKI_regular_15min_tracking_data_June2024.rds")
+saveRDS(all_dat15min,"REKI_regular_15min_tracking_data_January2025.rds")
 
 ### remove unnecessary data
 rm('tracks','tr','traj','out','trajtracks')
@@ -127,7 +129,7 @@ head(track_sf)
 dim(track_sf)
 
 setwd("C:/Users/sop/OneDrive - Vogelwarte/General/DATA")
-saveRDS(track_sf,"REKI_regular_15min_tracking_data_June2024_projected.rds")
+saveRDS(track_sf,"REKI_regular_15min_tracking_data_January2025_projected.rds")
 
 
 
@@ -143,15 +145,15 @@ gc()
 ## set root folder for project
 try(setwd("C:/Users/sop/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent=T)
 # try(setwd("C:/STEFFEN/OneDrive - Vogelwarte/REKI/Analysis/REKIfeeding"),silent=T)
-track_sf<-readRDS("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_13Jun2024_projected.rds")
-# track_sf<-readRDS("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_13Jun2024_projected.rds")
-CHgrid<-readRDS("output/REKI_feeding_grid2024.rds")
+track_sf<-readRDS("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_January2025_projected.rds")
+# track_sf<-readRDS("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/REKI_regular_15min_tracking_data_January2025_projected.rds")
+CHgrid<-readRDS("output/REKI_feeding_grid2025.rds")
 range(CHgrid$FEEDER_predicted)
 
 
 FEED_TRACK<-track_sf %>% st_join(CHgrid) %>%
   mutate(FEEDER_predicted=ifelse(is.na(FEEDER_predicted),0,FEEDER_predicted)) %>%
-  separate(season_id, into=c("season","year","bird_id"), sep="_")
+  separate(season_id, into=c("year","bird_id"), sep="_")
 
 rm('track_sf')
 gc()
@@ -190,12 +192,15 @@ inddat<-read_excel("C:/STEFFEN/OneDrive - Vogelwarte/General/DATA/Individual_lif
 
 ### MERGE tracks with INDIVIDUAL DATA
 
-FEED_DATA <- FEED_TRACK %>% #mutate(year_id = substr(season_id,3,nchar(season_id))) %>%
+FEED_DATA <- FEED_TRACK %>%
+  select(-bird_id) %>%
+  rename(bird_id=year, year=season) %>%
+  mutate(bird_id = as.integer(bird_id), year=as.integer(year)) %>%
+  mutate(season = ifelse(month(date) %in% c(3,4,5,6,7,8) ,"B","NB")) %>%   ## 1 SEPT AS CUT OFF
   st_transform(4326) %>%
   dplyr::mutate(long = sf::st_coordinates(.)[,1],
                 lat = sf::st_coordinates(.)[,2]) %>%
   st_drop_geometry() %>%
-  mutate(bird_id = as.integer(bird_id), year=as.integer(year)) %>%
   left_join(inddat, by='bird_id') %>%
   select(-n, -N_ind, -N_feed_points, -N_feed_ind, -prop_feed, -prop_pts, -gridid) %>%
   mutate(season_id = paste(season,year,bird_id,sep="_")) %>%
@@ -204,7 +209,7 @@ FEED_DATA <- FEED_TRACK %>% #mutate(year_id = substr(season_id,3,nchar(season_id
   # mutate(HR=ifelse(home_range_id>0,"settled","not settled")) %>%
   # mutate(BR=ifelse(nest_id>0,"breeding","not breeding"))
   
-# saveRDS(FEED_DATA,"output/REKI_food_supplementation_index.rds")
+# saveRDS(FEED_DATA,"output/REKI_food_supplementation_index2025.rds")
 # 
 # 
 # ########### clean up workspace #######################
