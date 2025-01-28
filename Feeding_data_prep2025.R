@@ -23,6 +23,9 @@
 ## CHANGED ON 20 JANUARY 2025 to read in building and forest layer across ALL of Switzerland (used to be just study area)
 ## spatial overlay failed after 48 hrs - script never completed running
 ## tried new strategy on 22 Jan 2025 to reduce tracking data
+## reverted to model building in study area - did not work across all of Switzerland
+
+## ADDED NEW FEEDERS REPORTED AT MAT on 25/26 Jan 2025
 
 rm(list=ls())
 library(tidyverse)
@@ -220,10 +223,10 @@ CH_LV03_coords ="+init=epsg:21781"
 
 
 
-### READ IN SHAPEFILES OF FOREST AND BUILDINGS - INCLUDE ALL OF SWITZERLAND OUTSIDE OF STUDY AREA
-buildings <- st_read("data/Buildings/tlm_buildings_size65_buff_50m_dissolved.shp", stringsAsFactors=FALSE) %>%
+### READ IN SHAPEFILES OF FOREST AND BUILDINGS - DID NOT INCLUDE ALL OF SWITZERLAND OUTSIDE OF STUDY AREA
+buildings <- st_read("data/Buildings/tlm_buildings_studyareaExtra_size65_buff_50m_sf_singlepoly.shp", stringsAsFactors=FALSE) %>%
   st_transform(crs = 3035) 
-forest <- st_read("data/Forest/vec25_forest_buff_20m_CH.shp", stringsAsFactors=FALSE) %>%
+forest <- st_read("data/Forest/vec25_forest_buff_20m_studyarea.shp", stringsAsFactors=FALSE) %>%
   st_transform(crs = 3035) %>%
   select(AREA)
 
@@ -232,6 +235,12 @@ forest <- st_read("data/Forest/vec25_forest_buff_20m_CH.shp", stringsAsFactors=F
 FEEDERS<- fread("data/Private_Feeders/private_feeders_upd2022.csv") %>% 
   filter(!is.na(coordX)) %>%
   st_as_sf(coords = c("coordX", "coordY"))
+
+FEEDERS<-fread("data/Private_Feeders/reki_feeding_stations_MATadditions2025.csv") %>% 
+  st_as_sf(coords = c("long", "lat")) %>%
+  bind_rows(FEEDERS)
+  
+
 
 ### ADD SURVEY DATA FROM EVA CEREGHETTI AND FIONA PELLET  #############
 SURVEYS<- fread("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/DataArchive/REKI_validation_feeders.csv") %>%
@@ -309,7 +318,7 @@ track_sf <- track_amt %>%
   st_as_sf(coords = c("x_", "y_"))  #
 st_crs(track_sf) <- 3035
 head(track_sf)
-#track_sf <- track_sf %>% st_crop(x=track_sf, y=st_bbox(forest)) ## this reduces n locs from 10 mio to 8 mio
+track_sf <- track_sf %>% st_crop(x=track_sf, y=st_bbox(forest)) ## this reduces n locs from 8 mio to 5.5 mio
 dim(track_sf)
 st_difference(FEEDER_buff)
 
