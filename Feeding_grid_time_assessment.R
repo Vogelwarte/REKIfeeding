@@ -51,40 +51,78 @@ plot(SUI)
 CHgrid<-readRDS("output/REKI_feeding_grid2024.rds")
 range(CHgrid$FEEDER_predicted)
 dim(track_sf)
+plot(CHgrid)
+
+### READ IN FEEDERS
+feeders<-fread("data/Private_Feeders/private_feeders_upd2022.csv") %>% 
+  filter(!is.na(coordX)) %>%
+  st_as_sf(coords = c("coordX", "coordY"), crs=21781) %>%
+  st_transform(crs = 4326) %>%
+  mutate(Type="Private") %>%
+  select(Type)
+
+feeders<-fread("data/Private_Feeders/reki_feeding_stations_MATadditions2025.csv") %>% 
+  st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
+  mutate(Type="Private") %>%
+  select(Type) %>%
+  bind_rows(feeders)
+
+### EXPERIMENTAL FEEDING STATIONS
+feeders2<- fread("data/experimental_feeding.csv") %>%
+  filter(!is.na(lon)) %>%
+  filter(!is.na(lat)) %>%
+  st_as_sf(coords = c("lon", "lat"), crs=4326)%>%
+  mutate(Type="Experimental") %>%
+  select(Type)
+
+### FEEDING PLATFORMS - are also experimental
+feeders3<- fread("data/feeding_platforms_15_16.csv") %>%
+  filter(!is.na(x)) %>%
+  mutate(start_date=dmy(start_date), end_date=dmy(end_date)) %>%
+  st_as_sf(coords = c("x", "y"), crs=21781) %>%
+  st_transform(crs = 4326) %>%
+  mutate(Type="Platforms") %>%
+  select(Type)
+
+### ADD SURVEY DATA FROM EVA CEREGHETTI AND FIONA PELLET  #############
+## read in survey data from Eva Cereghetti
+feeders4<- fread("C:/Users/sop/OneDrive - Vogelwarte/General/MANUSCRIPTS/AnthropFeeding/DataArchive/REKI_validation_feeders.csv") %>%
+  select(-geometry) %>%
+  filter(FEEDER_surveyed==1) %>%
+  st_as_sf(coords = c("long", "lat"), crs=4326) %>%
+  mutate(Type="Private") %>%
+  select(Type)
+
+feeders<-rbind(feeders,feeders2,feeders3, feeders4) %>%
+  st_transform(3035)
 
 
 
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# JOIN FEEDERS WITH GRID TO UPDATE PRED_FEED TO 1 where we know that there are feeders
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+CHgrid<-CHgrid %>%
+  sf::st_join(.,feeders) %>%
+  mutate(Type=ifelse(is.na(Type),"None",Type)) %>%
+  mutate(FEEDER_predicted=ifelse(Type=="Private",0.8,FEEDER_predicted))
+
+unique(CHgrid$Type)
 
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # JOIN TRACKING DATA WITH PREDICTION GRID AND SUMMARISE HOURS
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-rm('all_dat15min')
-gc()
 
 FEED_TRACK<-track_sf %>%
-  #st_crop(SUI) %>%  ## remove all locations outside - should not be needed because raw data are already 
-  st_join(CHgrid) %>%
+  #st_crop(SUI) %>%  ## remove all locations outside - should not be needed because raw data are already cropped to Switzerland
+  sf::st_join(.,CHgrid) %>%
   mutate(FEEDER_predicted=ifelse(is.na(FEEDER_predicted),0,FEEDER_predicted)) %>%
-  separate(season_id, into=c("year","bird_id"), sep="_")
-
-# rm('track_sf')
-# gc()
-# 
-# SUMMARY<-FEED_TRACK  %>%
-#   st_drop_geometry() %>%
-#   #mutate(season=ifelse(substr(season_id,1,1)=="B","breeding","non-breeding")) %>%
-#   mutate(season_id = ifelse(yday(date)<70 ,
-#                             paste(season,year(date)-1,bird_id,sep="_"),
-#                             paste(season,year(date),bird_id,sep="_"))) %>%
-#   group_by(season_id, season) %>%
-#   summarise(FEED=mean(FEEDER_predicted))
-# 
-# 
-# ggplot(SUMMARY, aes(x=season,y=FEED)) + geom_boxplot()
-
-
+  mutate(FEEDER_predicted=ifelse(Type=="Experimental" & startsWith(season_id,"B_2020"),0.5,FEEDER_predicted)) %>%
+  mutate(FEEDER_predicted=ifelse(Type=="Platforms" & startsWith(season_id,"B_2016"),0.5,FEEDER_predicted)) %>%
+  separate(season_id, into=c("season","year","bird_id"), sep="_")
 
 
 
@@ -103,7 +141,6 @@ inddat<-read_excel("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/Individual_l
 
 FEED_DATA <- FEED_TRACK %>%
   select(-bird_id) %>%
-  rename(bird_id=year, year=season) %>%
   mutate(bird_id = as.integer(bird_id), year=as.integer(year)) %>%
   mutate(season = ifelse(month(date) %in% c(3,4,5,6,7,8) ,"B","NB")) %>%   ## 1 SEPT AS CUT OFF
   st_transform(4326) %>%
