@@ -220,7 +220,7 @@ CHgrid<-readRDS("output/REKI_feeding_grid2025.rds")
 
 
 export<-CHgrid %>% select(N_ind,N_feed_points,N_feed_ind,prop_feed,prop_pts,n,FEEDER_predicted, gridid, geometry)
-st_write(export, "C:/Users/sop/MAT/REKI_feeding_probability_2025.gpkg")
+st_write(export, "C:/Users/sop/MAT/REKI_feeding_probability_2025.gpkg", append=FALSE)
 
 
 

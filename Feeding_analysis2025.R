@@ -82,6 +82,12 @@ st_area(STUDY_AREA)/1000000
    st_transform(crs = 4326) %>%
    mutate(Type="Private") %>%
    select(Type)
+
+plot_feeders<-fread("data/Private_Feeders/reki_feeding_stations_MATadditions2025.csv") %>% 
+  st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
+  mutate(Type="Private") %>%
+  select(Type) %>%
+  bind_rows(plot_feeders)
  
  ### EXPERIMENTAL FEEDING STATIONS
  plot_feeders2<- fread("data/experimental_feeding.csv") %>%
