@@ -16,14 +16,11 @@ options(dplyr.summarise.inform = FALSE)
 library(dtplyr)
 library(sf)
 library(lubridate)
-library(adehabitatHR)
 library(stars)
-library(trip)
 library(sqldf)
-library(amt)
 library(readxl)
-library(adehabitatLT)
 filter<-dplyr::filter
+select<-dplyr::select
 sf_use_s2(FALSE)
 
 
@@ -97,6 +94,16 @@ feeders<-rbind(feeders,feeders2,feeders3, feeders4) %>%
   st_transform(3035)
 
 
+###### LOADING INDIVIDUAL DATA THAT PREDICTED FEEDING PROBABILITY ------------------------------------------------------------
+
+inddat<-read_excel("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/Individual_life_history_2015-2023.xlsx", sheet="Individual_life_history_2015-20") %>% # updated on 3 June 2024 to include birds from 2022
+  dplyr::select(bird_id,ring_number,tag_year,sex_compiled, age, hatch_year) %>%
+  rename(ring_id=ring_number,sex=sex_compiled) %>%
+  mutate(bird_id=as.character(bird_id)) %>%
+  mutate(hatch_year=if_else(is.na(as.numeric(hatch_year)),tag_year-3,as.numeric(hatch_year)))
+
+rm(feeders2,feeders3,feeders4,SUI)
+gc()
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,34 +122,31 @@ unique(CHgrid$Type)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # JOIN TRACKING DATA WITH PREDICTION GRID AND SUMMARISE HOURS
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+allids<-unique(track_sf$season_id)
+length(allids)
 
+## check what has been done already
+done<-list.files("./output/ind")
+doneids<-as.character()
+for(f in 1:length(done)){
+	doneids[f]<-substr(done[f],17,nchar(done[f])-4)
+}
+length(doneids)
+
+## complete the remaining ids
+allids<-allids[!(allids %in% doneids)]
+length(allids)
+
+for(i in allids) {
 FEED_TRACK<-track_sf %>%
+  filter(season_id==i) %>%
   #st_crop(SUI) %>%  ## remove all locations outside - should not be needed because raw data are already cropped to Switzerland
   sf::st_join(.,CHgrid) %>%
   mutate(FEEDER_predicted=ifelse(is.na(FEEDER_predicted),0,FEEDER_predicted)) %>%
   mutate(FEEDER_predicted=ifelse(Type=="Experimental" & startsWith(season_id,"B_2020"),0.5,FEEDER_predicted)) %>%
   mutate(FEEDER_predicted=ifelse(Type=="Platforms" & startsWith(season_id,"B_2016"),0.5,FEEDER_predicted)) %>%
-  separate(season_id, into=c("season","year","bird_id"), sep="_")
-
-
-
-###### LOADING INDIVIDUAL DATA THAT PREDICTED FEEDING PROBABILITY ------------------------------------------------------------
-
-
-
-inddat<-read_excel("C:/Users/sop/OneDrive - Vogelwarte/General/DATA/Individual_life_history_2015-2023.xlsx", sheet="Individual_life_history_2015-20") %>% # updated on 3 June 2024 to include birds from 2022
-  dplyr::select(bird_id,ring_number,tag_year,sex_compiled, age, hatch_year) %>%
-  rename(ring_id=ring_number) %>%
-  rename(sex=sex_compiled) %>%
-  mutate(hatch_year=if_else(is.na(as.numeric(hatch_year)),tag_year-3,as.numeric(hatch_year)))
-
-
-### MERGE tracks with INDIVIDUAL DATA
-
-FEED_DATA <- FEED_TRACK %>%
-  select(-bird_id) %>%
-  mutate(bird_id = as.integer(bird_id), year=as.integer(year)) %>%
-  mutate(season = ifelse(month(date) %in% c(3,4,5,6,7,8) ,"B","NB")) %>%   ## 1 SEPT AS CUT OFF
+  separate(season_id, into=c("season","year","bird_id"), sep="_") %>%
+  #mutate(season = ifelse(month(date) %in% c(3,4,5,6,7,8) ,"B","NB")) %>%   ## 1 SEPT AS CUT OFF
   st_transform(4326) %>%
   dplyr::mutate(long = sf::st_coordinates(.)[,1],
                 lat = sf::st_coordinates(.)[,2]) %>%
@@ -150,9 +154,24 @@ FEED_DATA <- FEED_TRACK %>%
   left_join(inddat, by='bird_id') %>%
   select(-n, -N_ind, -N_feed_points, -N_feed_ind, -prop_feed, -prop_pts, -gridid) %>%
   mutate(season_id = paste(season,year,bird_id,sep="_")) %>%
-  #mutate(year=year(date)) %>%
-  mutate(age_cy=(year-tag_year)+1)
-  # mutate(HR=ifelse(home_range_id>0,"settled","not settled")) %>%
-  # mutate(BR=ifelse(nest_id>0,"breeding","not breeding"))
+  mutate(age_cy=(year(date)-tag_year)+1)
+saveRDS(FEED_TRACK,sprintf("output/ind/REKI_feed_index_%s.rds",i))
+}
+
+
+### MERGE ALL DATA INTO SINGLE FILE OF SEASONAL PROPORTIONAL TIME SPENT FEEDING
+
+FEED_DATA <- data.frame()
+done<-list.files("./output/ind")
+for(f in 1:length(done)){
+ FEED_DATA <- readRDS(paste0("./output/ind/",done[f])) %>%
+  mutate(hrs=0.25) %>%
+  mutate(FEED_hrs=FEEDER_predicted*hrs) %>%
+  group_by(season_id) %>%
+  summarise(FEEDsum=sum(FEED_hrs, na.rm=T),trackhrs=sum(hrs)) %>%
+  mutate(FEED=FEEDsum/trackhrs) %>%
+  bind_rows(FEED_DATA)
+saveRDS(FEED_DATA,"output/REKI_seasonal_feed_index2025.rds")
+}
   
-saveRDS(FEED_DATA,"output/REKI_food_supplementation_index2025.rds")
+
