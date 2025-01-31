@@ -159,11 +159,35 @@ saveRDS(FEED_TRACK,sprintf("output/ind/REKI_feed_index_%s.rds",i))
 }
 
 
+
+
+### FIX WRONG YEAR IN NB SEASON FILES
+# year is accidentally year+1 and not year-1 for all NB season files
+# read in - relabel, and re-save
+# completed once and then moved files into 'old' folder
+# 
+# done<-list.files("./output/ind")
+# wrong<-done[which(startsWith(done,"REKI_feed_index_NB"))]
+# for(f in 1:length(wrong)){
+#   X <- readRDS(paste0("./output/ind/",wrong[f])) %>%
+#     separate(season_id, into=c("season","year","bird_id"), sep="_") %>%
+#     mutate(year=as.numeric(year), bird_id=as.numeric(bird_id)) %>%
+#     mutate(year=year-1) %>%
+#     mutate(season_id = paste(season,year,bird_id,sep="_"))
+#   new_seas<-unique(X$season_id)
+#   saveRDS(X,sprintf("output/ind/new/REKI_feed_index_%s.rds",new_seas))
+# }
+# 
+
+
+
+
 ### MERGE ALL DATA INTO SINGLE FILE OF SEASONAL PROPORTIONAL TIME SPENT FEEDING
 
 FEED_DATA <- data.frame()
 done<-list.files("./output/ind")
-for(f in 1:length(done)){
+done<-done[-1]  ## remove the folder for old wrong files
+for(f in 2544:length(done)){
  FEED_DATA <- readRDS(paste0("./output/ind/",done[f])) %>%
   mutate(hrs=0.25) %>%
   mutate(FEED_hrs=FEEDER_predicted*hrs) %>%
